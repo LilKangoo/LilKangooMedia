@@ -5903,6 +5903,44 @@ a {
     margin-bottom: 2rem;
   }
 }
+.cid-thrLFxsiyj {
+  padding-top: 1rem;
+  padding-bottom: 0rem;
+  background-color: #ffffff;
+}
+.cid-thrLFxsiyj .card-box {
+  z-index: 10;
+  position: relative;
+}
+@media (min-width: 1500px) {
+  .cid-thrLFxsiyj .container {
+    max-width: 1400px;
+  }
+}
+.cid-thrLFxsiyj .card {
+  margin: auto;
+}
+.cid-thrLFxsiyj .mbr-iconfont {
+  display: block;
+  font-size: 5rem;
+  color: #6592e6;
+  margin-bottom: 2rem;
+}
+.cid-thrLFxsiyj .card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cid-thrLFxsiyj .row {
+  justify-content: center;
+}
+.cid-thrLFxsiyj H3 {
+  color: #4479d9;
+}
+.cid-thrLFxsiyj .card-title,
+.cid-thrLFxsiyj .card-box {
+  color: #111111;
+}
 .cid-thqdHoanjX {
   padding-top: 1rem;
   padding-bottom: 0rem;
