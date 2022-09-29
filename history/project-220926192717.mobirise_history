@@ -56,7 +56,7 @@
     "siteUrl": "https://lilkangoomedia.com",
     "gdpr": false,
     "uniqCompNum": 138,
-    "versionPublish": "5.6.13",
+    "versionPublish": "5.6.8",
     "screenshot": "screenshot.png",
     "mcSmartCart": {
       "currency": "EUR",
@@ -73,7 +73,7 @@
       "icon": "@PROJECT_PATH@/assets/images/lilkangoo-logo2-512x512.png",
       "themeColor": "#ffe161"
     },
-    "mbrsiteDomain": "qcdqfw3cur",
+    "mbrsiteDomain": "radrrkzscz",
     "pwa-switcher": true,
     "mcShopcart": {
       "checkoutLabelButton": "Add to Cart              "
