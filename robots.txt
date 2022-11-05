@@ -1,4 +1,7 @@
 User-agent: *
 Disallow: /cgi-bin
 
-Sitemap: https://lilkangoomedia.com/robots.txt
+Sitemap: https://lilkangoomedia.com/sitemap.xml
+
+
+
