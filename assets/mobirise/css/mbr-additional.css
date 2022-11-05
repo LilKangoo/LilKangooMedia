@@ -8297,6 +8297,7 @@ a {
 }
 .cid-tmfR0Ggatq .item-name {
   color: #ffffff;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .cid-tmfR0Ggatq .item-name {
@@ -8662,6 +8663,7 @@ a {
 }
 .cid-tmfZETpXYC .item-name {
   color: #ffffff;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .cid-tmfZETpXYC .item-name {
@@ -8738,8 +8740,8 @@ a {
   margin: 0 auto;
 }
 .cid-sFBfOhTQgz {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   background-color: #ffffff;
 }
 .cid-sFBfOhTQgz ul {
