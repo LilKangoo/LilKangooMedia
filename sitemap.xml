@@ -1,38 +1,82 @@
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url>
-		<loc>https://lilkangoomedia.com/ContactUs.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/Media.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/Portraits.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/Nature.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/Products.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/Videography.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/GraphicDesign.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/About Us.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/home.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/Photography.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/Reviews.html</loc>
-	</url>
-	<url>
-		<loc>https://lilkangoomedia.com/FAQ.html</loc>
-	</url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://lilkangoomedia.com/</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/home.html</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/home</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/media</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/contactus</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/reviews</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/faq</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/about%20us</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/photography</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/videography</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/graphicdesign</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/portraits</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/nature</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://lilkangoomedia.com/products</loc>
+  <lastmod>2022-11-05T04:48:26+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
 </urlset>
