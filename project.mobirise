@@ -91,7 +91,7 @@
       "currency": "EUR",
       "popupProduct": true
     },
-    "google-analytics": "<!-- Google tag (gtag.js) -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-200005173-1\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'UA-200005173-1');\n</script>\n<meta name=\"google-site-verification\" content=\"Sb0iYwUcm_3WZ2sUHmEVQB9uaUNb-jFt0HPkIq7aUSE\" />",
+    "google-analytics": "<!-- Google tag (gtag.js) -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-200005173-1\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'UA-200005173-1');\n</script>",
     "site_lang": "en",
     "cookiesAlert": false,
     "gdpr": false,
@@ -6821,7 +6821,7 @@
         "main": true,
         "title": "Wedding & Christening photographer and videographer in Cyprus | Corporate | Nicosia Limassol Larnaca Paphos Ayia Napa and all Cyprus",
         "meta_descr": "Wedding photography to corporate, christening events and studio portrait, Lily & Kangoo encapsulates every charming instant and presents it through breathtaking storytelling with highly customised albums. Covering all over Cyprus and worldwide.",
-        "header_custom": "",
+        "header_custom": "<meta name=\"google-site-verification\" content=\"Sb0iYwUcm_3WZ2sUHmEVQB9uaUNb-jFt0HPkIq7aUSE\" />",
         "footer_custom": "",
         "html_before": "",
         "socialSharingUrl": "",
