@@ -1,118 +1,77 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <url>
-  <loc>http://lilkangoomedia.com/home</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>1.00</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/About Us.html</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/home</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/media</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/about%20us</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/photography</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/media</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/portraits</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/photography</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/nature</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/portraits</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/products</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/nature</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/shop#features9-5v</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/products</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/videography</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/shop</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/graphicdesign</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/videography</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/shop</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/graphicdesign</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/cyprus</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/cyprus</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/contactus</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/contactus</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/faq#apricing1-49</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/faq</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>http://lilkangoomedia.com/faq#apricing1-4a</loc>
-  <priority>1.0</priority>
+<loc>https://lilkangoomedia.com/reviews</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
-<url>
-  <loc>http://lilkangoomedia.com/faq#apricing1-4b</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/faq#content14-2s</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/reviews</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/faq</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/shop#apricing1-60</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/shop#apricing1-61</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/shop#apricing1-62</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc></loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/mbrext://smart-cart?cmdsm=_cart&amount=249&item_name=Black%20Friday%20249DEAL¤cy_code=EUR&dataShop=smartCart&nopayment_whatsapp=+48534073861</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/mbrext://smart-cart?cmdsm=_cart&amount=699&item_name=Video%20Combo%2B3¤cy_code=EUR&dataShop=smartCart&nopayment_whatsapp=+48534073861</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/mbrext://smart-cart?cmdsm=_cart&amount=1499&item_name=Video%2BPhoto%20All%20Day¤cy_code=EUR&dataShop=smartCart&nopayment_whatsapp=+48534073861</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/cyprus#content05-6s</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/cyprus#content05-6w</loc>
-  <priority>1.0</priority>
-</url>
-<url>
-  <loc>http://lilkangoomedia.com/cyprus#content05-73</loc>
-  <priority>1.0</priority>
-</url>
+</urlset>
