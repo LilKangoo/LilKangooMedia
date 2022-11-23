@@ -1,85 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>https://lilkangoomedia.com/</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>1.00</priority>
+<loc>https://lilkangoomedia.com/</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>1.00</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/home.html</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/home</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/about%20us</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/about%20us</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/media</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/media</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/contactus</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/photography</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/shop.html</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/portraits</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/faq</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/nature</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/reviews</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/products</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/photography</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/shop</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/videography</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/videography</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/graphicdesign</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/graphicdesign</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/portraits</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://lilkangoomedia.com/cyprus</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/nature</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://lilkangoomedia.com/contactus</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/products</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.64</priority>
+<loc>https://lilkangoomedia.com/faq</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
 <url>
-  <loc>https://lilkangoomedia.com/Cyprus.html</loc>
-  <lastmod>2022-11-14T16:10:57+00:00</lastmod>
-  <priority>0.80</priority>
+<loc>https://lilkangoomedia.com/reviews</loc>
+<lastmod>2022-11-23T10:39:37+00:00</lastmod>
+<priority>0.80</priority>
 </url>
-
-
 </urlset>
