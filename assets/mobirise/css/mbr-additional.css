@@ -6537,13 +6537,92 @@ a {
     left: -1rem;
   }
 }
-.cid-tmPjIVm0kG {
+.cid-tpkUVJJ7G6 {
   background-image: url("../../../assets/images/boat-small-moon-2000x2000.jpeg");
 }
-.cid-tmPjIVm0kG .mbr-fallback-image.disabled {
+.cid-tpkUVJJ7G6 .image-1 {
+  position: relative;
+}
+@media (max-width: 992px) {
+  .cid-tpkUVJJ7G6 .image-1 {
+    margin-bottom: 2rem;
+  }
+}
+.cid-tpkUVJJ7G6 .image-1 img {
+  width: 220px;
+  height: 310px;
+  object-fit: cover;
+}
+.cid-tpkUVJJ7G6 .image-1 .image-absolute {
+  width: 235px;
+  height: 290px;
+  object-fit: cover;
+  position: absolute;
+  left: 20%;
+  top: 33%;
+}
+@media (max-width: 1050px) {
+  .cid-tpkUVJJ7G6 .image-1 .image-absolute {
+    display: none;
+  }
+}
+.cid-tpkUVJJ7G6 .image-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+@media (max-width: 992px) {
+  .cid-tpkUVJJ7G6 .image-2 {
+    margin-top: 2rem;
+  }
+}
+.cid-tpkUVJJ7G6 .image-2 img {
+  width: 245px;
+  height: 320px;
+  object-fit: cover;
+  z-index: 2;
+}
+.cid-tpkUVJJ7G6 .image-2 .image-absolute {
+  width: 190px;
+  height: 260px;
+  object-fit: cover;
+  margin-top: -45%;
+  margin-right: 35%;
+  z-index: 1;
+}
+@media (max-width: 1050px) {
+  .cid-tpkUVJJ7G6 .image-2 .image-absolute {
+    display: none;
+  }
+}
+.cid-tpkUVJJ7G6 .text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cid-tpkUVJJ7G6 .text-wrapper {
+  width: 80%;
+}
+.cid-tpkUVJJ7G6 .mbr-section-title {
+  margin-bottom: 46px;
+  color: #ffffff;
+  text-align: center;
+}
+@media (max-width: 992px) {
+  .cid-tpkUVJJ7G6 .mbr-section-title {
+    margin-bottom: 2rem;
+  }
+}
+.cid-tpkUVJJ7G6 .mbr-text {
+  margin-bottom: 0;
+  opacity: .7;
+  color: #EAEAEA;
+  text-align: center;
+}
+.cid-tpkUVJJ7G6 .mbr-fallback-image.disabled {
   display: none;
 }
-.cid-tmPjIVm0kG .mbr-fallback-image {
+.cid-tpkUVJJ7G6 .mbr-fallback-image {
   display: block;
   background-size: cover;
   background-position: center center;
@@ -6552,53 +6631,60 @@ a {
   position: absolute;
   top: 0;
 }
-.cid-tmPjIVm0kG .icons-media-container {
-  display: flex;
-  -webkit-justify-content: center;
+.cid-tpkX9j2fq6 {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  background-color: #f9f9fc;
+}
+.cid-tpkX9j2fq6 .row {
   justify-content: center;
-  -webkit-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
-  padding-top: 4rem;
 }
-.cid-tmPjIVm0kG .icons-media-container .mbr-iconfont {
-  font-size: 96px;
-  color: #ffffff;
+.cid-tpkX9j2fq6 .mbr-section-subtitle {
+  margin-bottom: 27px;
+  letter-spacing: .13em;
+  color: #FF4712;
+  text-align: center;
 }
-.cid-tmPjIVm0kG .icons-media-container .icon-block {
-  padding-bottom: 1rem;
+.cid-tpkX9j2fq6 .mbr-section-title {
+  margin-bottom: 0;
+  color: #080808;
+  text-align: center;
 }
-.cid-tmPjIVm0kG .mbr-text {
-  color: #ffffff;
+.cid-tpkX9j2fq6 .content-card {
+  margin-top: 40px;
 }
-.cid-tmPjIVm0kG .card {
-  padding-bottom: 1.5rem;
-}
-.cid-tmPjIVm0kG .card-wrapper {
-  min-height: 220px;
-  transition: all 0.3s;
-  border-radius: 4px;
-  padding: 1rem;
+.cid-tpkX9j2fq6 .content-card .content-card-icon {
+  width: 76px;
+  height: 76px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #fafafa;
+  margin: 0 auto 38px;
 }
-.cid-tmPjIVm0kG .card-wrapper .mbr-iconfont {
-  display: block;
-  font-size: 4rem;
-  color: #ffffff;
-  margin-bottom: 2rem;
+.cid-tpkX9j2fq6 .content-card .content-card-icon span {
+  width: 42px;
+  height: 42px;
+  color: #ddc499;
+  font-size: 42px;
 }
-.cid-tmPjIVm0kG .card-wrapper .card-title {
-  color: #ffffff;
+.cid-tpkX9j2fq6 .content-card .content-card-text .mbr-card-title {
+  margin-bottom: 15px;
 }
-.cid-tmPjIVm0kG .card-wrapper .card-title,
-.cid-tmPjIVm0kG .card-box {
-  color: #ffffff;
+.cid-tpkX9j2fq6 .content-card .content-card-text .mbr-card-text {
+  margin-bottom: 0;
 }
-.cid-tmPjIVm0kG H1 {
-  color: #ffffff;
+.cid-tpkX9j2fq6 .mbr-card-title {
+  color: #080808;
+  text-align: center;
+}
+.cid-tpkX9j2fq6 .mbr-card-text {
+  color: #65676c;
+  text-align: center;
+}
+.cid-tpkX9j2fq6 .mbr-section-title,
+.cid-tpkX9j2fq6 .mbr-section-btn {
+  color: #ff4712;
 }
 .cid-tp5Kg2Dajy {
   padding-top: 0rem;
@@ -12851,6 +12937,70 @@ a {
     left: -1rem;
   }
 }
+.cid-tphyweA4Ix {
+  padding-top: 5rem;
+  padding-bottom: 0rem;
+  background-color: #a7a7a7;
+}
+.cid-tphyweA4Ix .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-tphyweA4Ix .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-tphyweA4Ix .mbr-section-title {
+  color: #181817;
+  margin-bottom: 2.5rem;
+}
+.cid-tphyweA4Ix .mbr-section-subtitle {
+  color: #ddc499;
+  margin-bottom: 2.5rem;
+}
+@media (min-width: 992px) {
+  .cid-tphyweA4Ix .mbr-section-subtitle.display-1 {
+    font-size: 14rem !important;
+  }
+}
+.cid-tphyweA4Ix .mbr-text {
+  color: #ffffff;
+  margin-bottom: 0;
+}
+.cid-tphyLjVRff {
+  padding-top: 0rem;
+  padding-bottom: 1rem;
+  background-color: #a7a7a7;
+}
+.cid-tphyLjVRff .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-tphyLjVRff .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-tphyLjVRff .mbr-section-title {
+  color: #ffffff;
+}
+.cid-tphyLjVRff .mbr-section-subtitle {
+  color: #bbbbbb;
+}
+.cid-tphyLjVRff .mbr-section-date {
+  color: #ddc499;
+}
+.cid-tphyLjVRff .mbr-section-text {
+  text-align: left;
+  color: #ffffff;
+}
 .cid-tnODaW0nff {
   padding-top: 3rem;
   padding-bottom: 1rem;
@@ -13925,4 +14075,43 @@ a {
 }
 .cid-tju1pIjIJc .copyright > p {
   text-align: center;
+}
+.cid-tphF3oiunz {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  background-color: #fbfbfb;
+}
+.cid-tphF3oiunz .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-tphF3oiunz .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-tphF3oiunz .row {
+  justify-content: flex-start;
+}
+.cid-tphF3oiunz .mbr-section-title {
+  color: #000000;
+  width: 100%;
+  margin-bottom: 4rem;
+}
+.cid-tphF3oiunz .item-wrap {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+.cid-tphF3oiunz .mbr-section-subtitle {
+  color: #000000;
+  width: 100%;
+}
+.cid-tphF3oiunz .mbr-text {
+  color: #000000;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
