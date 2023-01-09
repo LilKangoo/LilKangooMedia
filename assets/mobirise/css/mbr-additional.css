@@ -8570,100 +8570,6 @@ a {
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
 }
-.cid-tpkUVJJ7G6 {
-  background-image: url("../../../assets/images/boat-small-moon-2000x2000.jpeg");
-}
-.cid-tpkUVJJ7G6 .image-1 {
-  position: relative;
-}
-@media (max-width: 992px) {
-  .cid-tpkUVJJ7G6 .image-1 {
-    margin-bottom: 2rem;
-  }
-}
-.cid-tpkUVJJ7G6 .image-1 img {
-  width: 220px;
-  height: 310px;
-  object-fit: cover;
-}
-.cid-tpkUVJJ7G6 .image-1 .image-absolute {
-  width: 235px;
-  height: 290px;
-  object-fit: cover;
-  position: absolute;
-  left: 20%;
-  top: 33%;
-}
-@media (max-width: 1050px) {
-  .cid-tpkUVJJ7G6 .image-1 .image-absolute {
-    display: none;
-  }
-}
-.cid-tpkUVJJ7G6 .image-2 {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-@media (max-width: 992px) {
-  .cid-tpkUVJJ7G6 .image-2 {
-    margin-top: 2rem;
-  }
-}
-.cid-tpkUVJJ7G6 .image-2 img {
-  width: 245px;
-  height: 320px;
-  object-fit: cover;
-  z-index: 2;
-}
-.cid-tpkUVJJ7G6 .image-2 .image-absolute {
-  width: 190px;
-  height: 260px;
-  object-fit: cover;
-  margin-top: -45%;
-  margin-right: 35%;
-  z-index: 1;
-}
-@media (max-width: 1050px) {
-  .cid-tpkUVJJ7G6 .image-2 .image-absolute {
-    display: none;
-  }
-}
-.cid-tpkUVJJ7G6 .text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cid-tpkUVJJ7G6 .text-wrapper {
-  width: 80%;
-}
-.cid-tpkUVJJ7G6 .mbr-section-title {
-  margin-bottom: 46px;
-  color: #ffffff;
-  text-align: center;
-}
-@media (max-width: 992px) {
-  .cid-tpkUVJJ7G6 .mbr-section-title {
-    margin-bottom: 2rem;
-  }
-}
-.cid-tpkUVJJ7G6 .mbr-text {
-  margin-bottom: 0;
-  opacity: .7;
-  color: #EAEAEA;
-  text-align: center;
-}
-.cid-tpkUVJJ7G6 .mbr-fallback-image.disabled {
-  display: none;
-}
-.cid-tpkUVJJ7G6 .mbr-fallback-image {
-  display: block;
-  background-size: cover;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-}
 .cid-trPMMgUhzZ {
   z-index: 1000;
   width: 100%;
@@ -9291,6 +9197,57 @@ a {
 }
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
+}
+.cid-tsrugZixPC {
+  background-image: url("../../../assets/images/boat-small-moon-2000x2000.jpeg");
+}
+.cid-tsrugZixPC .mbr-text,
+.cid-tsrugZixPC .mbr-section-btn {
+  color: #bbbbbb;
+  text-align: center;
+}
+.cid-tsrugZixPC .mbr-section-btn {
+  padding-bottom: 8rem;
+}
+.cid-tsrugZixPC .mbr-section-subtitle {
+  color: #ffffff;
+  text-align: center;
+}
+.cid-tsrugZixPC .mbr-iconfont {
+  color: #ffffff;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+.cid-tsrugZixPC .icons-wrapper {
+  position: absolute;
+  display: flex;
+  bottom: 4rem;
+  width: fit-content;
+  left: 4rem;
+}
+@media (max-width: 767px) {
+  .cid-tsrugZixPC .icons-wrapper {
+    right: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+.cid-tsrugZixPC .icon-wrapper {
+  position: relative;
+  width: 35px;
+  cursor: pointer;
+  margin: 0 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+}
+.cid-tsrugZixPC .icon-wrapper:hover .mbr-iconfont {
+  color: #ddc499;
+}
+.cid-tsrugZixPC .mbr-section-title {
+  color: #ffffff;
+  text-align: center;
 }
 .cid-tpkX9j2fq6 {
   padding-top: 0rem;
