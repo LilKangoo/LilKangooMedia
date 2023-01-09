@@ -11581,7 +11581,7 @@
         {
           "_customTemplate": true,
           "_afterNavbarItem": false,
-          "_customHTML": "<div data-vi-partner-id=\"U00255278\" data-vi-language=\"en\" data-vi-currency=\"EUR\" data-vi-partner-type=\"AGENT\" data-vi-url=\"https://www.viator.com/Cyprus/d47-ttd\" data-vi-total-products=\"10\" data-vi-campaign=\"Trip-advisor\"></div>\n[JS_CODE_0]",
+          "_customHTML": "<div data-vi-partner-id=\"U00255278\" data-vi-language=\"en\" data-vi-currency=\"EUR\" data-vi-partner-type=\"AGENT\" data-vi-url=\"34981P1,335382P1,144975P4\" data-vi-campaign=\"Trip-advisor\"></div>\n[JS_CODE_0]",
           "_customCSS": "/* Type valid CSS here */\n\ndiv {\n  padding: 80px 0;\n  color: #777;\n  text-align: center;\n}\np {\n  font-size: 60px;\n  color: #777;\n}",
           "alias": "code-editor",
           "_tags": [
