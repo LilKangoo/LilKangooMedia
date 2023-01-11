@@ -13478,6 +13478,26 @@ a {
   font-size: 2rem;
   width: 1.6rem;
 }
+.cid-tsDP6tOpDA {
+  padding-top: 1rem;
+  padding-bottom: 0rem;
+  background-color: #ffffff;
+}
+.cid-tsDP6tOpDA .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-tsDP6tOpDA .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-tsDP6tOpDA .mbr-section-subtitle DIV {
+  text-align: left;
+}
 .cid-tpmm7NTzNr {
   padding-top: 15px;
   padding-bottom: 60px;

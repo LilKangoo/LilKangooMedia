@@ -54,7 +54,7 @@
     "sitemapSwitcher": true,
     "sitemapSwitcherAuto": false,
     "siteUrl": "http://lilkangoomedia.com",
-    "uniqCompNum": 415,
+    "uniqCompNum": 416,
     "versionPublish": "5.6.8",
     "screenshot": "screenshot.png",
     "mcSmartCart": {
@@ -94,7 +94,12 @@
     "google-analytics": "<!-- Google tag (gtag.js) -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-200005173-1\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'UA-200005173-1');\n</script>\n<!-- Google tag (gtag.js) -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-VB93M2KSMX\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'G-VB93M2KSMX');\n</script>",
     "site_lang": "en",
     "cookiesAlert": false,
-    "gdpr": false,
+    "gdpr": {
+      "colorText": "#a7a7a7",
+      "colorLink": "#ddc499",
+      "underlineLink": false,
+      "text": "By continuing you agree to our <a href='faq.html'>Terms of Service</a> and <a href='faq.html'>Privacy Policy</a>."
+    },
     "chatbutton": {
       "phone": "+48534073861",
       "message": "",
@@ -15125,6 +15130,48 @@
           "_global": false,
           "_once": false,
           "_params": {}
+        },
+        {
+          "alias": false,
+          "_styles": {
+            "& when not (@fullScreen)": {
+              "padding-top": "(@paddingTop * 1rem)",
+              "padding-bottom": "(@paddingBottom * 1rem)"
+            },
+            "& when (@bg-type = 'color')": {
+              "background-color": "@bg-value"
+            },
+            "& when (@bg-type = 'image')": {
+              "background-image": "url(@bg-value)"
+            },
+            ".mbr-fallback-image.disabled": {
+              "display": "none"
+            },
+            ".mbr-fallback-image": {
+              "display": "block",
+              "background-size": "cover",
+              "background-position": "center center",
+              "width": "100%",
+              "height": "100%",
+              "position": "absolute",
+              "top": "0",
+              "& when (@bg-type = 'video')": {
+                "background-image": "url(@fallBackImage)"
+              }
+            },
+            ".mbr-section-subtitle DIV": {
+              "text-align": "left"
+            }
+          },
+          "_name": "content4",
+          "_sourceTheme": "mobirise5",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content4\" group=\"Content\" data-bg-video=\"{{bg.type == 'video'&&bg.value.url}}\" mbr-class=\"{\n    'mbr-fullscreen': fullScreen,\n    'mbr-parallax-background': bg.parallax}\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Screen\" name=\"fullScreen\">\n        <input type=\"checkbox\" title=\"Full Width\" name=\"fullWidth\">\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"1\" condition=\"fullScreen == false\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"0\" condition=\"fullScreen == false\">\n        <input type=\"range\" name=\"textWidth\" title=\"Width\" min=\"4\" max=\"12\" step=\"1\" value=\"10\">\n        <header>Show/Hide</header>\n        <input type=\"checkbox\" title=\"Title\" name=\"showTitle\" checked>\n        <input type=\"checkbox\" title=\"Subtitle\" name=\"showSubtitle\" checked>\n        <input type=\"checkbox\" title=\"Buttons\" name=\"showButtons\">\n        <header>Background</header>\n        <fieldset type=\"background\" name=\"bg\" parallax>\n            <input type=\"image\" title=\"Image\" value=\"../_images/background1.jpg\">\n            <input type=\"color\" title=\"Color\" value=\"#ffffff\" selected>\n            <input type=\"video\" title=\"Video\" value=\"https://vimeo.com/428046504\">\n        </fieldset>\n        <header condition=\"bg.type === 'video'\">Fallback Image</header>\n        <input type=\"image\" title=\"Fallback Image\" value=\"../_images/background13.jpg\" name=\"fallBackImage\" condition=\"bg.type === 'video'\">\n        <input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n        <input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#ffffff\" condition=\"overlay && bg.type !== 'color'\">\n        <input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.7\" condition=\"overlay && bg.type !== 'color'\">\n    </mbr-parameters>\n\n    <div class=\"mbr-fallback-image disabled\" mbr-if=\"bg.type == 'video'\"></div>\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type!== 'color'\" mbr-style=\"{'opacity': overlayOpacity, 'background-color': overlayColor}\">\n    </div>\n    <div mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n        <div class=\"row justify-content-center\">\n            <div class=\"title col-md-12 col-lg-{{textWidth}}\">\n                <h3 class=\"mbr-section-title mbr-fonts-style align-center mb-4\" mbr-if=\"showTitle\" data-app-selector=\".mbr-section-title\" mbr-theme-style=\"display-2\"><b>PRIVACY POLICY</b></h3>\n                <h4 class=\"mbr-section-subtitle align-center mbr-fonts-style mb-4\" mbr-if=\"showSubtitle\" data-app-selector=\".mbr-section-subtitle\" mbr-theme-style=\"display-4\"><div><span style=\"font-size: 1rem;\">Lil Kangoo Media (\"Company,\" \"we,\" or \"us\") respects the privacy of our users and is committed to protecting it. This Privacy Policy applies to information that we collect through our website, www.lilkangoomedia.com (the \"Website\"). This policy explains our practices for collection, use, and disclosure of information that you may provide through the Website.</span><br></div><div><br></div><div><b>1. Information We Collect</b></div><div><br></div><div>We may collect the following types of information from you when you use the Website:</div><div><br></div><div>Personal information, such as your name, email address, and phone number, when you choose to provide it to us through the Website, such as when you fill out a contact form or sign up for a newsletter.</div><div>Log information, such as your IP address, browser type, and access times, when you use the Website.</div><div>Usage information, such as information about the pages you view and how you navigate the Website.</div><div>We may use third-party service providers, such as Google Adsense, to serve ads on our website and they may use cookies or other similar technologies to collect the above types of information. We and our third-party service providers may use this information to target ads to you on other websites, based on your browsing behaviour on our website.</div><div><br></div><div>You can control the use of cookies at the individual browser level, but if you choose to disable cookies, it may limit your use of certain features or functions on our website or service.</div><div><br></div><div><b>2. Information Use and Sharing</b></div><div><b><br></b></div><div>We may use the information we collect from you to:</div><br><div>-provide, maintain, and improve the Website,</div><div>-respond to your comments and questions,</div><div>-send you information about our services,</div><div>-personalise your experience on the Website,</div><div>-improve the quality of experience when you interact with our advertising and applications,&nbsp;</div><div>-and provide support to you.</div><br><div><span style=\"font-size: 1rem;\">We may also share your information with third-party service providers to assist us in these tasks.</span><br></div><div><br></div><div>We will only share your personal information with third parties in the following cases:</div><div><br></div><div>-to comply with the law,</div><div>-to protect the rights, property, or safety of Lil Kangoo Media, our users, or the public,</div><div>-with your consent.</div><br><div><b>3. User Rights</b></div><div><br></div><div>You have the right to access, rectify, and delete your personal data. You also have the right to opt-out of the collection and processing of your personal data. To exercise these rights, please contact us at <a href=\"mailto:photo@lilkangoomedia.com\" class=\"text-primary\">photo@lilkangoomedia.com</a></div><div><br></div><div><b>4. Data Retention and Security</b></div><div><b><br></b></div><div>We retain personal data for as long as is necessary for the purposes for which it was collected and to comply with legal obligations. We have implemented appropriate technical and organisational measures to protect personal data from unauthorised access, alteration, disclosure or destruction.</div><div><br></div><div><b>5. Contact Us</b></div><div><b><br></b></div><div>If you have any questions about this Privacy Policy or our data collection and use practices, please contact us at <a href=\"mailto:photo@lilkangoomedia.com\" class=\"text-primary\">photo@lilkangoomedia.com</a></div><div><br></div><div><b>6. Changes to this Policy</b></div><div>We may revise this policy from time to time. We will post any updates to this policy on this page. You should consult this policy regularly for any changes.</div><div><br></div><div>This Privacy Policy is effective as of 01.01.2023</div></h4>\n                <div class=\"mbr-section-btn align-center\" mbr-if=\"showButtons\" mbr-buttons mbr-theme-style=\"display-4\">\n                    <a class=\"btn btn-primary\" href=\"https://mobiri.se\">LEARN MORE</a>\n                    <a class=\"btn btn-primary-outline\" href=\"https://mobiri.se\">LIVE DEMO</a>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>",
+          "_cid": "tsDP6tOpDA",
+          "_protectedParams": [],
+          "_global": false,
+          "_once": false,
+          "_params": {},
+          "_anchor": "content4-bj"
         },
         {
           "_name": "footer01",
