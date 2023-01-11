@@ -716,6 +716,18 @@ a {
   font-size: 60px;
   color: #777;
 }
+#custom-html-b7 {
+  /* Type valid CSS here */
+}
+#custom-html-b7 div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-b7 p {
+  font-size: 60px;
+  color: #777;
+}
 .cid-tps2zxVA36 {
   padding-top: 5rem;
   padding-bottom: 4rem;
@@ -1528,6 +1540,18 @@ a {
   text-align: center;
 }
 #custom-html-a3 p {
+  font-size: 60px;
+  color: #777;
+}
+#custom-html-ba {
+  /* Type valid CSS here */
+}
+#custom-html-ba div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-ba p {
   font-size: 60px;
   color: #777;
 }
@@ -2354,6 +2378,18 @@ a {
   text-align: center;
 }
 #custom-html-a6 p {
+  font-size: 60px;
+  color: #777;
+}
+#custom-html-be {
+  /* Type valid CSS here */
+}
+#custom-html-be div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-be p {
   font-size: 60px;
   color: #777;
 }
@@ -3545,6 +3581,18 @@ a {
   font-size: 60px;
   color: #777;
 }
+#custom-html-bf {
+  /* Type valid CSS here */
+}
+#custom-html-bf div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bf p {
+  font-size: 60px;
+  color: #777;
+}
 .cid-sosNLVg98j {
   padding-top: 4rem;
   padding-bottom: 0rem;
@@ -4547,6 +4595,18 @@ a {
   text-align: center;
 }
 #custom-html-ab p {
+  font-size: 60px;
+  color: #777;
+}
+#custom-html-bg {
+  /* Type valid CSS here */
+}
+#custom-html-bg div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bg p {
   font-size: 60px;
   color: #777;
 }
@@ -5555,6 +5615,18 @@ a {
   font-size: 60px;
   color: #777;
 }
+#custom-html-bc {
+  /* Type valid CSS here */
+}
+#custom-html-bc div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bc p {
+  font-size: 60px;
+  color: #777;
+}
 .cid-tmjYxq3Yb1 {
   padding-top: 1rem;
   padding-bottom: 0rem;
@@ -6481,6 +6553,18 @@ a {
   text-align: center;
 }
 #custom-html-ae p {
+  font-size: 60px;
+  color: #777;
+}
+#custom-html-bb {
+  /* Type valid CSS here */
+}
+#custom-html-bb div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bb p {
   font-size: 60px;
   color: #777;
 }
@@ -7598,6 +7682,18 @@ a {
   font-size: 60px;
   color: #777;
 }
+#custom-html-b9 {
+  /* Type valid CSS here */
+}
+#custom-html-b9 div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-b9 p {
+  font-size: 60px;
+  color: #777;
+}
 .cid-soWrJ1fHkh {
   padding-top: 6rem;
   padding-bottom: 0rem;
@@ -8570,6 +8666,57 @@ a {
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
 }
+.cid-tsrugZixPC {
+  background-image: url("../../../assets/images/boat-www-2000x1125.jpg");
+}
+.cid-tsrugZixPC .mbr-text,
+.cid-tsrugZixPC .mbr-section-btn {
+  color: #bbbbbb;
+  text-align: center;
+}
+.cid-tsrugZixPC .mbr-section-btn {
+  padding-bottom: 8rem;
+}
+.cid-tsrugZixPC .mbr-section-subtitle {
+  color: #ffffff;
+  text-align: center;
+}
+.cid-tsrugZixPC .mbr-iconfont {
+  color: #ffffff;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+.cid-tsrugZixPC .icons-wrapper {
+  position: absolute;
+  display: flex;
+  bottom: 4rem;
+  width: fit-content;
+  left: 4rem;
+}
+@media (max-width: 767px) {
+  .cid-tsrugZixPC .icons-wrapper {
+    right: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+.cid-tsrugZixPC .icon-wrapper {
+  position: relative;
+  width: 35px;
+  cursor: pointer;
+  margin: 0 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+}
+.cid-tsrugZixPC .icon-wrapper:hover .mbr-iconfont {
+  color: #ddc499;
+}
+.cid-tsrugZixPC .mbr-section-title {
+  color: #ffffff;
+  text-align: center;
+}
 .cid-trPMMgUhzZ {
   z-index: 1000;
   width: 100%;
@@ -9197,57 +9344,6 @@ a {
 }
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
-}
-.cid-tsrugZixPC {
-  background-image: url("../../../assets/images/boat-www-2000x1125.jpg");
-}
-.cid-tsrugZixPC .mbr-text,
-.cid-tsrugZixPC .mbr-section-btn {
-  color: #bbbbbb;
-  text-align: center;
-}
-.cid-tsrugZixPC .mbr-section-btn {
-  padding-bottom: 8rem;
-}
-.cid-tsrugZixPC .mbr-section-subtitle {
-  color: #ffffff;
-  text-align: center;
-}
-.cid-tsrugZixPC .mbr-iconfont {
-  color: #ffffff;
-  font-size: 1.2rem;
-  transition: all 0.3s;
-}
-.cid-tsrugZixPC .icons-wrapper {
-  position: absolute;
-  display: flex;
-  bottom: 4rem;
-  width: fit-content;
-  left: 4rem;
-}
-@media (max-width: 767px) {
-  .cid-tsrugZixPC .icons-wrapper {
-    right: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-.cid-tsrugZixPC .icon-wrapper {
-  position: relative;
-  width: 35px;
-  cursor: pointer;
-  margin: 0 0.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 35px;
-}
-.cid-tsrugZixPC .icon-wrapper:hover .mbr-iconfont {
-  color: #ddc499;
-}
-.cid-tsrugZixPC .mbr-section-title {
-  color: #ffffff;
-  text-align: center;
 }
 .cid-tpkX9j2fq6 {
   padding-top: 0rem;
@@ -10536,6 +10632,18 @@ a {
   font-size: 60px;
   color: #777;
 }
+#custom-html-bd {
+  /* Type valid CSS here */
+}
+#custom-html-bd div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bd p {
+  font-size: 60px;
+  color: #777;
+}
 .cid-sol6qOwtKS {
   padding-top: 0rem;
   padding-bottom: 0rem;
@@ -11339,6 +11447,18 @@ a {
   text-align: center;
 }
 #custom-html-9w p {
+  font-size: 60px;
+  color: #777;
+}
+#custom-html-bi {
+  /* Type valid CSS here */
+}
+#custom-html-bi div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bi p {
   font-size: 60px;
   color: #777;
 }
@@ -12760,6 +12880,18 @@ a {
   text-align: center;
 }
 #custom-html-ag p {
+  font-size: 60px;
+  color: #777;
+}
+#custom-html-bh {
+  /* Type valid CSS here */
+}
+#custom-html-bh div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bh p {
   font-size: 60px;
   color: #777;
 }
@@ -18752,6 +18884,18 @@ a {
 }
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
+}
+#custom-html-b8 {
+  /* Type valid CSS here */
+}
+#custom-html-b8 div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-b8 p {
+  font-size: 60px;
+  color: #777;
 }
 .cid-tsihRjnHaW .mbr-iconfont {
   display: block;
