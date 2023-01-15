@@ -8666,6 +8666,18 @@ a {
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
 }
+#custom-html-bo {
+  /* Type valid CSS here */
+}
+#custom-html-bo div {
+  padding: 80px 0;
+  color: #777;
+  text-align: center;
+}
+#custom-html-bo p {
+  font-size: 60px;
+  color: #777;
+}
 .cid-tsrugZixPC {
   background-image: url("../../../assets/images/boat-www-2000x1125.jpg");
 }
@@ -18277,6 +18289,181 @@ a {
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
 }
+.cid-tsihRjnHaW .mbr-iconfont {
+  display: block;
+  font-size: 3rem;
+  color: #ddc499;
+}
+.cid-tsihRjnHaW .card-wrapper {
+  min-height: 300px;
+  transition: all 0.3s;
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+@media (max-width: 992px) {
+  .cid-tsihRjnHaW .card-wrapper {
+    padding: 3rem 2rem;
+  }
+}
+.cid-tsihRjnHaW .icon1 {
+  color: #ffffff;
+}
+.cid-tsihRjnHaW .icon2 {
+  color: #ffffff;
+}
+.cid-tsihRjnHaW .icon3 {
+  color: #272727;
+}
+.cid-tsihRjnHaW .icon4 {
+  color: #272727;
+}
+.cid-tsihRjnHaW .big {
+  min-height: 100%;
+}
+.cid-tsihRjnHaW .mbr-section-btn {
+  max-width: 200px;
+}
+.cid-tsihRjnHaW .mbr-section-btn .btn {
+  margin: 2px;
+}
+@media (max-width: 992px) {
+  .cid-tsihRjnHaW .mbr-section-btn {
+    text-align: center;
+    max-width: 100%;
+    margin: auto;
+  }
+}
+.cid-tsihRjnHaW .card1 {
+  background-image: url("../../../assets/images/mbr-1920x1289.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 6rem;
+}
+.cid-tsihRjnHaW .card1 .mbr-iconfont {
+  font-size: 16.5rem;
+}
+@media (max-width: 767px) {
+  .cid-tsihRjnHaW .card1 {
+    padding: 3rem 1rem;
+  }
+}
+.cid-tsihRjnHaW .card-box {
+  z-index: 2;
+}
+.cid-tsihRjnHaW .card2 {
+  background-image: url("../../../assets/images/mbr-1920x1272.jpg");
+  background-size: auto 110%;
+  position: relative;
+  background-position: center;
+}
+.cid-tsihRjnHaW .card2 .mbr-iconfont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  margin: auto;
+  margin-bottom: 0rem;
+}
+.cid-tsihRjnHaW .card2:before {
+  content: '';
+  position: absolute;
+  transition: all 0.3s;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ddc499;
+  z-index: 1;
+  opacity: 1;
+}
+.cid-tsihRjnHaW .card2:hover {
+  background-size: auto 115%;
+}
+.cid-tsihRjnHaW .card2:hover:before {
+  opacity: 0.3;
+}
+.cid-tsihRjnHaW .card3 {
+  background-image: url("../../../assets/images/office-mockup-2000x1334.jpg");
+  background-size: auto 110%;
+  position: relative;
+  background-position: center;
+}
+.cid-tsihRjnHaW .card3 .mbr-iconfont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  margin: auto;
+  margin-bottom: 0rem;
+}
+.cid-tsihRjnHaW .card3:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f7df67;
+  transition: all 0.3s;
+  z-index: 1;
+  opacity: 1;
+}
+.cid-tsihRjnHaW .card3:hover {
+  background-size: auto 115%;
+}
+.cid-tsihRjnHaW .card3:hover:before {
+  opacity: 0.3;
+}
+.cid-tsihRjnHaW .card4 {
+  background-image: url("../../../assets/images/square-box-design-mockup-rgb-1000x1000.jpeg");
+  background-size: auto 110%;
+  position: relative;
+  background-position: center;
+}
+.cid-tsihRjnHaW .card4:hover {
+  background-size: auto 115%;
+}
+.cid-tsihRjnHaW .card4:hover:before {
+  opacity: 0;
+}
+.cid-tsihRjnHaW .card4 .mbr-iconfont {
+  background: #f7df67;
+  border-radius: 50%;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+.cid-tsihRjnHaW .card-title,
+.cid-tsihRjnHaW .card-box {
+  color: #ffffff;
+}
+.cid-tsihRjnHaW .card2-title {
+  color: #ffffff;
+}
+.cid-tsihRjnHaW .card3-title {
+  color: #272727;
+}
+.cid-tsihRjnHaW .card4-title {
+  color: #ffffff;
+}
+.cid-tsihRjnHaW .card1-title {
+  color: #ffffff;
+}
+.cid-tsihRjnHaW .card2-text {
+  color: #ffffff;
+}
+.cid-tsihRjnHaW .card4-text {
+  color: #ffffff;
+}
 .cid-trPMMgUhzZ {
   z-index: 1000;
   width: 100%;
@@ -18904,193 +19091,6 @@ a {
 }
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
-}
-#custom-html-b8 {
-  /* Type valid CSS here */
-}
-#custom-html-b8 div {
-  padding: 80px 0;
-  color: #777;
-  text-align: center;
-}
-#custom-html-b8 p {
-  font-size: 60px;
-  color: #777;
-}
-.cid-tsihRjnHaW .mbr-iconfont {
-  display: block;
-  font-size: 3rem;
-  color: #ddc499;
-}
-.cid-tsihRjnHaW .card-wrapper {
-  min-height: 300px;
-  transition: all 0.3s;
-  padding: 3rem;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-@media (max-width: 992px) {
-  .cid-tsihRjnHaW .card-wrapper {
-    padding: 3rem 2rem;
-  }
-}
-.cid-tsihRjnHaW .icon1 {
-  color: #ffffff;
-}
-.cid-tsihRjnHaW .icon2 {
-  color: #ffffff;
-}
-.cid-tsihRjnHaW .icon3 {
-  color: #272727;
-}
-.cid-tsihRjnHaW .icon4 {
-  color: #272727;
-}
-.cid-tsihRjnHaW .big {
-  min-height: 100%;
-}
-.cid-tsihRjnHaW .mbr-section-btn {
-  max-width: 200px;
-}
-.cid-tsihRjnHaW .mbr-section-btn .btn {
-  margin: 2px;
-}
-@media (max-width: 992px) {
-  .cid-tsihRjnHaW .mbr-section-btn {
-    text-align: center;
-    max-width: 100%;
-    margin: auto;
-  }
-}
-.cid-tsihRjnHaW .card1 {
-  background-image: url("../../../assets/images/mbr-1920x1289.jpg");
-  background-size: cover;
-  background-position: center;
-  padding: 6rem;
-}
-.cid-tsihRjnHaW .card1 .mbr-iconfont {
-  font-size: 16.5rem;
-}
-@media (max-width: 767px) {
-  .cid-tsihRjnHaW .card1 {
-    padding: 3rem 1rem;
-  }
-}
-.cid-tsihRjnHaW .card-box {
-  z-index: 2;
-}
-.cid-tsihRjnHaW .card2 {
-  background-image: url("../../../assets/images/mbr-1920x1272.jpg");
-  background-size: auto 110%;
-  position: relative;
-  background-position: center;
-}
-.cid-tsihRjnHaW .card2 .mbr-iconfont {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 90px;
-  height: 90px;
-  margin: auto;
-  margin-bottom: 0rem;
-}
-.cid-tsihRjnHaW .card2:before {
-  content: '';
-  position: absolute;
-  transition: all 0.3s;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #ddc499;
-  z-index: 1;
-  opacity: 1;
-}
-.cid-tsihRjnHaW .card2:hover {
-  background-size: auto 115%;
-}
-.cid-tsihRjnHaW .card2:hover:before {
-  opacity: 0.3;
-}
-.cid-tsihRjnHaW .card3 {
-  background-image: url("../../../assets/images/office-mockup-2000x1334.jpg");
-  background-size: auto 110%;
-  position: relative;
-  background-position: center;
-}
-.cid-tsihRjnHaW .card3 .mbr-iconfont {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 90px;
-  height: 90px;
-  margin: auto;
-  margin-bottom: 0rem;
-}
-.cid-tsihRjnHaW .card3:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #f7df67;
-  transition: all 0.3s;
-  z-index: 1;
-  opacity: 1;
-}
-.cid-tsihRjnHaW .card3:hover {
-  background-size: auto 115%;
-}
-.cid-tsihRjnHaW .card3:hover:before {
-  opacity: 0.3;
-}
-.cid-tsihRjnHaW .card4 {
-  background-image: url("../../../assets/images/square-box-design-mockup-rgb-1000x1000.jpeg");
-  background-size: auto 110%;
-  position: relative;
-  background-position: center;
-}
-.cid-tsihRjnHaW .card4:hover {
-  background-size: auto 115%;
-}
-.cid-tsihRjnHaW .card4:hover:before {
-  opacity: 0;
-}
-.cid-tsihRjnHaW .card4 .mbr-iconfont {
-  background: #f7df67;
-  border-radius: 50%;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  margin: auto;
-  margin-bottom: 1rem;
-}
-.cid-tsihRjnHaW .card-title,
-.cid-tsihRjnHaW .card-box {
-  color: #ffffff;
-}
-.cid-tsihRjnHaW .card2-title {
-  color: #ffffff;
-}
-.cid-tsihRjnHaW .card3-title {
-  color: #272727;
-}
-.cid-tsihRjnHaW .card4-title {
-  color: #ffffff;
-}
-.cid-tsihRjnHaW .card1-title {
-  color: #ffffff;
-}
-.cid-tsihRjnHaW .card2-text {
-  color: #ffffff;
-}
-.cid-tsihRjnHaW .card4-text {
-  color: #ffffff;
 }
 .cid-tsimEkWB8V {
   padding-top: 9rem;
