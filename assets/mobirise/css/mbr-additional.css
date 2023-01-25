@@ -10194,9 +10194,32 @@ a {
   color: #bbbbbb;
 }
 .cid-tp0hcd2zb1 {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
   background-color: #fafafa;
+}
+.cid-tp0hcd2zb1 .shuffle-animation {
+  animation: shuffle 10s infinite;
+}
+@keyframes shuffle {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(50px, -25px);
+  }
+  50% {
+    transform: translate(-50px, 25px);
+  }
+  75% {
+    transform: translate(25px, -50px);
+  }
+  100% {
+    transform: translate(-25px, 50px);
+  }
+  110% {
+    transform: translate(0px, 0px);
+  }
 }
 .cid-tp0hcd2zb1 img {
   display: inline;

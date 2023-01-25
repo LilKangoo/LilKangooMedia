@@ -1,7 +1,7 @@
 {
   "settings": {
     "name": "KangooMedia",
-    "currentPage": "home.html",
+    "currentPage": "ContactUs.html",
     "theme": {
       "name": "mobirise5",
       "title": "Mobirise 5",
@@ -54,7 +54,7 @@
     "sitemapSwitcher": true,
     "sitemapSwitcherAuto": false,
     "siteUrl": "http://lilkangoomedia.com",
-    "uniqCompNum": 428,
+    "uniqCompNum": 429,
     "versionPublish": "5.6.8",
     "screenshot": "screenshot.png",
     "mcSmartCart": {
@@ -11088,6 +11088,29 @@
         {
           "alias": false,
           "_styles": {
+            ".shuffle-animation": {
+              "animation": "shuffle 10s infinite"
+            },
+            "@keyframes shuffle": {
+              "0%": {
+                "transform": "translate(0px, 0px)"
+              },
+              "25%": {
+                "transform": "translate(50px, -25px)"
+              },
+              "50%": {
+                "transform": "translate(-50px, 25px)"
+              },
+              "75%": {
+                "transform": "translate(25px, -50px)"
+              },
+              "100%": {
+                "transform": "translate(-25px, 50px)"
+              },
+              "110%": {
+                "transform": "translate(0px, 0px)"
+              }
+            },
             "& when not (@fullScreen)": {
               "padding-top": "(@paddingTop * 1rem)",
               "padding-bottom": "(@paddingBottom * 1rem)"
@@ -11225,9 +11248,11 @@
           },
           "_name": "image2",
           "_sourceTheme": "yogam5",
-          "_customHTML": "<section data-bs-version=\"5.1\" class=\"image2\" group=\"Image & Video\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Screen\" name=\"fullScreen\">\n\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"5\" condition=\"fullScreen == false\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"5\" condition=\"fullScreen == false\">\n        <header>Background</header>\n        <fieldset type=\"background\" name=\"bg\">\n            <input type=\"image\" title=\"Image\" value=\"@ADDONS_PATH@/yogam5/components/_images/3.jpg\">\n            <input type=\"color\" title=\"Color\" value=\"#fafafa\" selected>\n        </fieldset>\n        <input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n        <input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#ffffff\" condition=\"overlay && bg.type !== 'color'\">\n        <input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.3\" condition=\"overlay && bg.type !== 'color'\">\n    </mbr-parameters>\n\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type !== 'color'\" opacity=\"{{overlayOpacity}}\" bg-color=\"{{overlayColor}}\"></div>\n\n    <div mbr-class=\"{\n            'mbr-fullscreen': fullScreen}\">\n        <div mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n            <div class=\"row justify-content-center\">\n                <div class=\"col-12\">\n                    <img class=\"first\" src=\"@PROJECT_PATH@/assets/images/katvideoclip.jpg\" alt=\"Cyprus Wedding\">\n                    <img class=\"second\" src=\"@PROJECT_PATH@/assets/images/wedding-6.jpg\" alt=\"Wedding photography cyprus\">\n                    <img class=\"third\" src=\"@PROJECT_PATH@/assets/images/1-10-3899x4874.jpg\" alt=\"Photographer in cyprus\">\n                    <img class=\"fourth\" src=\"@PROJECT_PATH@/assets/images/portrait-14.jpg\" alt=\"Videographer in cyprus\">\n                    <img class=\"fifth\" src=\"@PROJECT_PATH@/assets/images/portrait-13.jpg\" alt=\"Travel Cyprus\">\n                </div>\n            </div>\n        </div>\n    </div>\n</section>",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"image2\" group=\"Image & Video\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Screen\" name=\"fullScreen\">\n\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"2\" condition=\"fullScreen == false\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"4\" condition=\"fullScreen == false\">\n        <header>Background</header>\n        <fieldset type=\"background\" name=\"bg\">\n            <input type=\"image\" title=\"Image\" value=\"@ADDONS_PATH@/yogam5/components/_images/3.jpg\">\n            <input type=\"color\" title=\"Color\" value=\"#fafafa\" selected>\n        </fieldset>\n        <input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n        <input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#ffffff\" condition=\"overlay && bg.type !== 'color'\">\n        <input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.3\" condition=\"overlay && bg.type !== 'color'\">\n    </mbr-parameters>\n\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type !== 'color'\" opacity=\"{{overlayOpacity}}\" bg-color=\"{{overlayColor}}\"></div>\n<div class=\"card shuffle-animation\">\n    <!-- card content here -->\n    <div mbr-class=\"{\n            'mbr-fullscreen': fullScreen}\">\n        <div mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n            <div class=\"row justify-content-center\">\n                <div class=\"col-12\">\n                    <img class=\"first animated-image\" src=\"@PROJECT_PATH@/assets/images/katvideoclip.jpg\" alt=\"Cyprus Wedding\">\n                    <img class=\"second animated-image\" src=\"@PROJECT_PATH@/assets/images/wedding-6.jpg\" alt=\"Wedding photography cyprus\">\n                    <img class=\"third animated-image\" src=\"@PROJECT_PATH@/assets/images/1-10-3899x4874.jpg\" alt=\"Photographer in cyprus\">\n                    <img class=\"fourth animated-image\" src=\"@PROJECT_PATH@/assets/images/portrait-14.jpg\" alt=\"Videographer in cyprus\">\n                    <img class=\"fifth animated-image\" src=\"@PROJECT_PATH@/assets/images/portrait-13.jpg\" alt=\"Travel Cyprus\">\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n</section>",
           "_cid": "tp0hcd2zb1",
           "_anchor": "image2-7y",
+          "_PHPplaceholders": [],
+          "_JSplaceholders": [],
           "_protectedParams": [],
           "_global": false,
           "_once": false,
