@@ -18746,7 +18746,7 @@ a {
   content: "";
 }
 .cid-tuVLpEcMpm .modal-content {
-  background: #ffffff;
+  background: #fafafa;
   position: relative;
   display: flex;
   -ms-flex-direction: column;
@@ -18805,7 +18805,7 @@ a {
   opacity: .75;
 }
 .cid-tuVLpEcMpm .modal-header .close svg {
-  fill: #353535;
+  fill: #000000;
 }
 .cid-tuVLpEcMpm .modal-header .close:hover {
   opacity: 1;
