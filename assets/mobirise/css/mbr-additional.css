@@ -21654,7 +21654,7 @@ a {
   flex-wrap: wrap;
   padding: 40px;
   border-radius: 1rem;
-  background-color: #ddc499;
+  background-color: #353535;
 }
 @media (max-width: 767px) {
   .cid-tuCBmPzQyu .content-container {
@@ -21719,7 +21719,7 @@ a {
   color: #ffffff;
 }
 .cid-tuCBmPzQyu .price-number {
-  color: #353535;
+  color: #ddc499;
   margin-left: 6px;
 }
 .cid-tuCBmPzQyu .card-text {
@@ -21837,7 +21837,7 @@ a {
   flex-wrap: wrap;
   padding: 40px;
   border-radius: 1rem;
-  background-color: #bbbbbb;
+  background-color: #353535;
 }
 @media (max-width: 767px) {
   .cid-tuCFwsSm70 .content-container {
@@ -21902,7 +21902,7 @@ a {
   color: #ffffff;
 }
 .cid-tuCFwsSm70 .price-number {
-  color: #353535;
+  color: #ddc499;
   margin-left: 6px;
 }
 .cid-tuCFwsSm70 .card-text {
@@ -21984,19 +21984,19 @@ a {
 .cid-tuCEhIGNdn {
   padding-top: 0rem;
   padding-bottom: 0rem;
-  background-color: #bbbbbb;
+  background-color: #ffffff;
 }
 .cid-tuCEhIGNdn .title {
   min-height: 44px;
 }
 .cid-tuCEhIGNdn .mbr-section-subtitle {
-  color: #ffffff;
+  color: #ddc499;
 }
 .cid-tuCGRRigNc {
   padding-top: 2rem;
   padding-bottom: 5rem;
   overflow: hidden;
-  background-color: #bbbbbb;
+  background-color: #ffffff;
 }
 .cid-tuCGRRigNc .mbr-overlay {
   background-color: #212428;
@@ -22034,7 +22034,7 @@ a {
   }
 }
 .cid-tuCGRRigNc .mbr-section-subtitle {
-  color: #ffffff;
+  color: #ddc499;
   margin-top: 15px;
 }
 @media (max-width: 767px) {
@@ -22054,7 +22054,7 @@ a {
   border-radius: 10px;
   overflow: hidden;
   background: #ffffff;
-  box-shadow: 10px 10px 19px #ddc499, -10px -10px 19px #ddc499;
+  box-shadow: 10px 10px 19px #ddc499, -10px -10px 19px #ffffff;
 }
 @media (max-width: 767px) {
   .cid-tuCGRRigNc .item-wrap {
@@ -22189,7 +22189,7 @@ a {
   padding: 30px;
   border-radius: 10px;
   background: #ffffff;
-  box-shadow: 10px 10px 19px #ffffff, -10px -10px 19px #ffffff;
+  box-shadow: 10px 10px 19px #ddc499, -10px -10px 19px #ffffff;
 }
 @media (max-width: 575px) {
   .cid-tuCGRRigNc .form-wrap {
