@@ -22452,7 +22452,7 @@
         {
           "_name": "header01",
           "_sourceTheme": "laborm5",
-          "_customHTML": "<section data-bs-version=\"5.1\" class=\"header1\" group=\"Header\" data-bg-video=\"{{bg.type == 'video' && bg.value.url}}\" mbr-class=\"{'mbr-parallax-background': bg.parallax}\">\n    <mbr-parameters>\n        <header>Show/Hide</header>\n        <input type=\"checkbox\" title=\"Buttons\" name=\"showButtons\">\n        <input type=\"checkbox\" title=\"Main Icon\" name=\"showIcon\">\n        <input type=\"checkbox\" title=\"Card Link\" name=\"showLink\" checked>\n        <header>Card 1</header>\n        <input type=\"image\" title=\"Image\" name=\"card1\" value=\"@PROJECT_PATH@/assets/images/mbr-1920x1289.jpg\">\n        <input type=\"color\" title=\"Icon\" name=\"icon1\" value=\"#ffffff\" selected condition=\"showIcon\">\n\n        <header>Card 2</header>\n        <input type=\"image\" title=\"Image\" name=\"card2\" value=\"@PROJECT_PATH@/assets/images/mbr-1920x1272.jpg\">\n        <input type=\"color\" title=\"Color\" name=\"card2color\" value=\"#ddc499\" selected>\n        <input type=\"color\" title=\"Icon\" name=\"icon2\" value=\"#ffffff\" selected>\n        <header>Card 3</header>\n        <input type=\"image\" title=\"Image\" name=\"card3\" value=\"@PROJECT_PATH@/assets/images/office-mockup-2000x1334.jpg\">\n        <input type=\"color\" title=\"Color\" name=\"card3color\" value=\"#f7df67\" selected>\n        <input type=\"color\" title=\"Icon\" name=\"icon3\" value=\"#272727\" selected>\n        <header>Card 4</header>\n        <input type=\"image\" title=\"Image\" name=\"card4\" value=\"@PROJECT_PATH@/assets/images/square-box-design-mockup-rgb-1000x1000.jpeg\">\n        <input type=\"color\" title=\"Color\" name=\"card4color\" value=\"#f7df67\" selected>\n        <input type=\"color\" title=\"Icon\" name=\"icon4\" value=\"#272727\" selected>\n    </mbr-parameters>\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type!== 'color'\" mbr-style=\"{'opacity': overlayOpacity, 'background-color': overlayColor}\">\n    </div>\n    <div class=\"container-fluid p-0\" video-to-image-on-mobile=\"{{videoToImageOnMobile}}\">\n        <div class=\"row m-0 justify-content-center\">\n\n            <div class=\"col-lg-9 p-0\">\n                <div class=\"row m-0 big\">\n                    <div class=\"col-12 col-md-12 p-0 col-lg-12\">\n                        <div class=\"card-wrapper big card1\">\n                            <div class=\"card-box\">\n                                <span mbr-icon class=\"mbr-iconfont icon1 align-center fa-camera fa\" mbr-if=\"showIcon\"></span>\n                                <h4 class=\"card1-title align-center align-center pt-3 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-5\" data-app-selector=\".card1-title\"><b><br></b>40 Photography Topics for Beginners and Pros:<div><b>A Comprehensive Guide to Elevating Your Skills</b></div></h4>\n                            </div>\n\n                            <div mbr-buttons mbr-theme-style=\"display-4\" class=\"mbr-section-btn align-left mt-3\" mbr-if=\"showButtons\"><a class=\"btn btn-warning\" href=\"https://mobiri.se\" data-app-placeholder=\"Type Text\">About Company</a> <a class=\"btn btn-black\" href=\"https://mobiri.se\" data-app-placeholder=\"Type Text\">Read More</a> <a class=\"btn btn-black\" href=\"https://mobiri.se\" data-app-placeholder=\"Type Text\">Get\n                                    Started Now</a></div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-lg-3 p-0\">\n                <div class=\"row m-0\">\n                    <div class=\"col-12 col-md-4 p-0 col-lg-12\">\n                        <div class=\"card-wrapper card2\">\n                            <div class=\"card-box align-center\">\n                                <span mbr-icon class=\"mbr-iconfont icon2 mbrib-question\"></span>\n                                <h4 class=\"card2-title align-center m-0 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".card2-title\"><b>Photo Education</b></h4>\n                                <p class=\"card2-text align-center mbr-black mbr-fonts-style\" mbr-if=\"showLink\" mbr-theme-style=\"display-4\" data-app-selector=\".card2-text\"><a href=\"Education.html#content2-c9\" class=\"text-primary\">Articles</a></p>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-12 col-md-4 p-0 col-lg-12\">\n                        <div class=\"card-wrapper card3\">\n                            <div class=\"card-box align-center\">\n                                <span mbr-icon class=\"mbr-iconfont icon3 mobi-mbri-responsive-2 mobi-mbri\"></span>\n                                <h4 class=\"card3-title align-center m-0 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".card3-title\"><b>Photo Courses</b></h4>\n                                <p class=\"card3-text align-center mbr-black mbr-fonts-style\" mbr-if=\"showLink\" mbr-theme-style=\"display-4\" data-app-selector=\".card3-text\"><a href=\"https://wa.me/48534073861\" class=\"text-secondary text-primary\">Contact Now</a></p>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-12 col-md-4 p-0 col-lg-12\">\n                        <div class=\"card-wrapper card4\">\n                            <div class=\"card-box align-center\">\n                                <span mbr-icon class=\"mbr-iconfont icon4 mbrib-shopping-cart\"></span>\n                                <h4 class=\"card4-title align-center m-0 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".card4-title\"><b>Presets Shop</b></h4>\n                                <p class=\"card4-text align-center mbr-black mbr-fonts-style\" mbr-if=\"showLink\" mbr-theme-style=\"display-4\" data-app-selector=\".card4-text\"><a href=\"mbrext://smart-cart?cmdsm=_cart&amount=34.99&item_name=Presets&currency_code=EUR&dataShop=smartCart\" class=\"text-secondary text-primary\">Buy Now</a></p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"header1\" group=\"Header\" data-bg-video=\"{{bg.type == 'video' && bg.value.url}}\" mbr-class=\"{'mbr-parallax-background': bg.parallax}\">\n    <mbr-parameters>\n        <header>Show/Hide</header>\n        <input type=\"checkbox\" title=\"Buttons\" name=\"showButtons\">\n        <input type=\"checkbox\" title=\"Main Icon\" name=\"showIcon\" checked>\n        <input type=\"checkbox\" title=\"Card Link\" name=\"showLink\" checked>\n        <header>Card 1</header>\n        <input type=\"image\" title=\"Image\" name=\"card1\" value=\"@PROJECT_PATH@/assets/images/mbr-1920x1289.jpg\">\n        <input type=\"color\" title=\"Icon\" name=\"icon1\" value=\"#ffffff\" selected condition=\"showIcon\">\n\n        <header>Card 2</header>\n        <input type=\"image\" title=\"Image\" name=\"card2\" value=\"@PROJECT_PATH@/assets/images/mbr-1920x1272.jpg\">\n        <input type=\"color\" title=\"Color\" name=\"card2color\" value=\"#ddc499\" selected>\n        <input type=\"color\" title=\"Icon\" name=\"icon2\" value=\"#ffffff\" selected>\n        <header>Card 3</header>\n        <input type=\"image\" title=\"Image\" name=\"card3\" value=\"@PROJECT_PATH@/assets/images/office-mockup-2000x1334.jpg\">\n        <input type=\"color\" title=\"Color\" name=\"card3color\" value=\"#f7df67\" selected>\n        <input type=\"color\" title=\"Icon\" name=\"icon3\" value=\"#272727\" selected>\n        <header>Card 4</header>\n        <input type=\"image\" title=\"Image\" name=\"card4\" value=\"@PROJECT_PATH@/assets/images/square-box-design-mockup-rgb-1000x1000.jpeg\">\n        <input type=\"color\" title=\"Color\" name=\"card4color\" value=\"#f7df67\" selected>\n        <input type=\"color\" title=\"Icon\" name=\"icon4\" value=\"#272727\" selected>\n    </mbr-parameters>\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type!== 'color'\" mbr-style=\"{'opacity': overlayOpacity, 'background-color': overlayColor}\">\n    </div>\n    <div class=\"container-fluid p-0\" video-to-image-on-mobile=\"{{videoToImageOnMobile}}\">\n        <div class=\"row m-0 justify-content-center\">\n\n            <div class=\"col-lg-9 p-0\">\n                <div class=\"row m-0 big\">\n                    <div class=\"col-12 col-md-12 p-0 col-lg-12\">\n                        <div class=\"card-wrapper big card1\">\n                            <div class=\"card-box\">\n                                <span mbr-icon class=\"mbr-iconfont icon1 align-center fa-camera fa\" mbr-if=\"showIcon\"></span>\n                                <h4 class=\"card1-title align-center align-center pt-3 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-5\" data-app-selector=\".card1-title\"><b><br></b>40 Photography Topics for Beginners and Pros:<div><b>A Comprehensive Guide to Elevating Your Skills</b></div></h4>\n                            </div>\n\n                            <div mbr-buttons mbr-theme-style=\"display-4\" class=\"mbr-section-btn align-left mt-3\" mbr-if=\"showButtons\"><a class=\"btn btn-warning\" href=\"https://mobiri.se\" data-app-placeholder=\"Type Text\">About Company</a> <a class=\"btn btn-black\" href=\"https://mobiri.se\" data-app-placeholder=\"Type Text\">Read More</a> <a class=\"btn btn-black\" href=\"https://mobiri.se\" data-app-placeholder=\"Type Text\">Get\n                                    Started Now</a></div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-lg-3 p-0\">\n                <div class=\"row m-0\">\n                    <div class=\"col-12 col-md-4 p-0 col-lg-12\">\n                        <div class=\"card-wrapper card2\">\n                            <div class=\"card-box align-center\">\n                                <span mbr-icon class=\"mbr-iconfont icon2 mbrib-question\"></span>\n                                <h4 class=\"card2-title align-center m-0 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".card2-title\"><b>Photo Education</b></h4>\n                                <p class=\"card2-text align-center mbr-black mbr-fonts-style\" mbr-if=\"showLink\" mbr-theme-style=\"display-4\" data-app-selector=\".card2-text\"><a href=\"Education.html#content2-c9\" class=\"text-primary\">Articles</a></p>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-12 col-md-4 p-0 col-lg-12\">\n                        <div class=\"card-wrapper card3\">\n                            <div class=\"card-box align-center\">\n                                <span mbr-icon class=\"mbr-iconfont icon3 mobi-mbri-responsive-2 mobi-mbri\"></span>\n                                <h4 class=\"card3-title align-center m-0 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".card3-title\"><b>Photo Courses</b></h4>\n                                <p class=\"card3-text align-center mbr-black mbr-fonts-style\" mbr-if=\"showLink\" mbr-theme-style=\"display-4\" data-app-selector=\".card3-text\"><a href=\"https://wa.me/48534073861\" class=\"text-secondary text-primary\">Contact Now</a></p>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-12 col-md-4 p-0 col-lg-12\">\n                        <div class=\"card-wrapper card4\">\n                            <div class=\"card-box align-center\">\n                                <span mbr-icon class=\"mbr-iconfont icon4 mbrib-shopping-cart\"></span>\n                                <h4 class=\"card4-title align-center m-0 mbr-black mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".card4-title\"><b>Presets Shop</b></h4>\n                                <p class=\"card4-text align-center mbr-black mbr-fonts-style\" mbr-if=\"showLink\" mbr-theme-style=\"display-4\" data-app-selector=\".card4-text\"><a href=\"mbrext://smart-cart?cmdsm=_cart&amount=34.99&item_name=Presets&currency_code=EUR&dataShop=smartCart\" class=\"text-secondary text-primary\">Buy Now</a></p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</section>",
           "_styles": {
             ".mbr-iconfont": {
               "display": "block",
@@ -25526,7 +25526,7 @@
       "settings": {
         "title": "\"How to Edit Your Photos Like a Pro: Tips and Tricks\"",
         "order": 21,
-        "meta_descr": "How to Edit Your Photos Like a Pro: Tips and Tricks",
+        "meta_descr": "Transform your photos into masterpieces with our guide on how to edit like a pro! Learn tips and tricks to enhance your images and make them stand out. Start editing now!",
         "meta_image": "@PROJECT_PATH@/assets/images/background18.jpg"
       },
       "components": [
@@ -26422,7 +26422,7 @@
       "settings": {
         "title": "\"The Top 5 Photography Destinations in the World\"",
         "order": 22,
-        "meta_descr": "The Top 5 Photography Destinations in the World",
+        "meta_descr": "Explore the world through your lens and discover the top 5 photography destinations! Visit breathtaking locations and capture stunning photos. Start your journey now!",
         "meta_image": "@PROJECT_PATH@/assets/images/aya-napa-5-2000x2500.jpeg"
       },
       "components": [
@@ -27318,7 +27318,7 @@
       "settings": {
         "title": "\"The Ultimate Guide to Landscape Photography: Tips and Techniques\"",
         "order": 18,
-        "meta_descr": "The Ultimate Guide to Landscape Photography: Tips and Techniques",
+        "meta_descr": "Discover the secrets of stunning landscape photography with our ultimate guide! Learn tips & techniques to elevate your shots and capture breathtaking views like a pro. Start now!",
         "meta_image": "@PROJECT_PATH@/assets/images/mbr-1-1920x1280.jpg"
       },
       "components": [
@@ -28213,7 +28213,7 @@
       "settings": {
         "title": "\"How to Take Stunning Portrait Photos: A Beginner's Guide\"",
         "order": 19,
-        "meta_descr": "How to Take Stunning Portrait Photos: A Beginner's Guide",
+        "meta_descr": "Unlock the key to stunning portrait photography with our beginner's guide! Learn how to take amazing shots and make your subjects shine. Start your journey now!",
         "meta_image": "@PROJECT_PATH@/assets/images/mbr-1920x1293.jpg"
       },
       "components": [
@@ -29162,7 +29162,7 @@
       "settings": {
         "title": "\"The Best Camera Settings for Low Light Photography\"",
         "order": 20,
-        "meta_descr": "The Best Camera Settings for Low Light Photography",
+        "meta_descr": "Take your low light photography to the next level with our guide to the best camera settings! Learn how to shoot stunning photos in challenging lighting conditions. Get started now!",
         "meta_image": "@PROJECT_PATH@/assets/images/woodstock-5-2048x1688.jpg"
       },
       "components": [
@@ -30058,7 +30058,7 @@
       "settings": {
         "title": "\"The Art of Street Photography: How to Capture the Perfect Shot\"",
         "order": 23,
-        "meta_descr": "The Art of Street Photography: How to Capture the Perfect Shot",
+        "meta_descr": "Unleash your inner artist and master the art of street photography! Learn how to capture the perfect shot and tell compelling stories through your lens. Start now!",
         "meta_image": "@PROJECT_PATH@/assets/images/1.jpg"
       },
       "components": [
@@ -30954,7 +30954,7 @@
       "settings": {
         "title": "\"How to Use Natural Light to Enhance Your Photos\"",
         "order": 24,
-        "meta_descr": "How to Use Natural Light to Enhance Your Photos",
+        "meta_descr": "Bring your photos to life with natural light! Learn how to harness its power and enhance your shots with our guide on using natural light in photography. Get started now!",
         "meta_image": "@PROJECT_PATH@/assets/images/3.jpg"
       },
       "components": [
@@ -31850,7 +31850,7 @@
       "settings": {
         "title": "\"The Best Lenses for Wildlife Photography\"",
         "order": 25,
-        "meta_descr": "The Best Lenses for Wildlife Photography",
+        "meta_descr": "Capture the beauty of the wild like a pro with our guide to the best lenses for wildlife photography! Learn which lenses to choose for stunning shots of animals in their natural habitat. Get started now!",
         "meta_image": "@PROJECT_PATH@/assets/images/flamingo-4-2048x1171.jpg"
       },
       "components": [
@@ -32811,8 +32811,8 @@
       "settings": {
         "title": "\"The Secret to Capturing Emotion in Your Photos\"",
         "order": 26,
-        "meta_descr": "The Secret to Capturing Emotion in Your Photos",
-        "meta_image": "@PROJECT_PATH@/assets/images/lilly-1-of-1-1625x1300.jpg"
+        "meta_descr": "Discover the secret to capturing raw emotion in your photos! Learn how to tell powerful stories and evoke feeling with our guide on capturing emotion through photography. Start now!",
+        "meta_image": "@PROJECT_PATH@/assets/images/lil-red-orange-hat-10-558x558.jpeg"
       },
       "components": [
         {
@@ -33707,8 +33707,8 @@
       "settings": {
         "title": "\"How to Create Stunning Panoramic Photos: A Step-by-Step Guide\"",
         "order": 27,
-        "meta_descr": "How to Create Stunning Panoramic Photos: A Step-by-Step Guide",
-        "meta_image": "@PROJECT_PATH@/assets/images/lilly-1-of-1-1625x1300.jpg"
+        "meta_descr": "Take your photography to new heights with our step-by-step guide to creating stunning panoramic photos! Learn how to capture breathtaking landscapes and cityscapes. Get started now!",
+        "meta_image": "@PROJECT_PATH@/assets/images/flamingo-1-2048x976.jpg"
       },
       "components": [
         {
@@ -34603,8 +34603,8 @@
       "settings": {
         "title": "\"The Best Camera Accessories for Professional Photographers\"",
         "order": 28,
-        "meta_descr": "The Best Camera Accessories for Professional Photographers",
-        "meta_image": "@PROJECT_PATH@/assets/images/lilly-1-of-1-1625x1300.jpg"
+        "meta_descr": "Elevate your photography game with the best camera accessories for professionals! Learn what gear to add to your kit for stunning shots and a seamless shooting experience. Get started now!",
+        "meta_image": "@PROJECT_PATH@/assets/images/mbr-1920x1440.jpg"
       },
       "components": [
         {
@@ -35499,8 +35499,8 @@
       "settings": {
         "title": "\"How to Take Amazing Macro Photos: A Guide to Close-Up Photography\"",
         "order": 29,
-        "meta_descr": "How to Take Amazing Macro Photos: A Guide to Close-Up Photography",
-        "meta_image": "@PROJECT_PATH@/assets/images/lilly-1-of-1-1625x1300.jpg"
+        "meta_descr": "Explore the tiny world in detail with our guide to taking amazing macro photos! Learn the tips and techniques for close-up photography and capture the beauty of nature up close. Start now!",
+        "meta_image": "@PROJECT_PATH@/assets/images/jewel-15.jpeg"
       },
       "components": [
         {
@@ -36395,8 +36395,8 @@
       "settings": {
         "title": "\"The Best Tips for Action and Sports Photography\"",
         "order": 30,
-        "meta_descr": "The Best Tips for Action and Sports Photography",
-        "meta_image": "@PROJECT_PATH@/assets/images/lilly-1-of-1-1625x1300.jpg"
+        "meta_descr": "Freeze the moment and capture the action like a pro with our guide to sports and action photography! Learn the best tips for stunning shots of fast-paced sports and events. Get started now!",
+        "meta_image": "@PROJECT_PATH@/assets/images/-dani-small-www-1256x837.jpg"
       },
       "components": [
         {
