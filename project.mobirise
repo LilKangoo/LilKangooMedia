@@ -1,7 +1,7 @@
 {
   "settings": {
     "name": "KangooMedia",
-    "currentPage": "TheUltimateGuidetoCreatingaPhotographyPortfolio.html",
+    "currentPage": "Education.html",
     "theme": {
       "name": "mobirise5",
       "title": "Mobirise 5",
@@ -54,7 +54,7 @@
     "sitemapSwitcher": true,
     "sitemapSwitcherAuto": false,
     "siteUrl": "http://lilkangoomedia.com",
-    "uniqCompNum": 617,
+    "uniqCompNum": 624,
     "versionPublish": "5.6.8",
     "screenshot": "screenshot.png",
     "mcSmartCart": {
@@ -23848,7 +23848,7 @@
           },
           "_name": "content2",
           "_sourceTheme": "attorneym4",
-          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content2 attorneym4_content2\" group=\"Content\" mbr-class=\"{'mbr-reveal': reveal, 'mbr-parallax-background': bg.parallax}\">\n\n    <mbr-parameters>\n        <!-- Block parameters controls (Blue \"Gear\" panel) -->\n        <header>Size</header>\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"2\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"2\">\n        <header>Block</header>\n        <input type=\"range\" inline title=\"Block Columns\" name=\"menuColumn\" min=\"2\" max=\"4\" step=\"1\" value=\"4\">\n        <input type=\"range\" inline title=\"Block Items 1\" name=\"menuItems1\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 0\">\n        <input type=\"range\" inline title=\"Block Items 2\" name=\"menuItems2\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 1\">\n        <input type=\"range\" inline title=\"Block Items 3\" name=\"menuItems3\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 2\">\n        <input type=\"range\" inline title=\"Block Items 4\" name=\"menuItems4\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 3\">\n\n        <header>Background</header>\n        <fieldset type=\"background\" name=\"bg\" parallax>\n            <input type=\"image\" title=\"Image\" value=\"@PROJECT_PATH@/assets/images/-dani-small-www-1256x837.jpg\" parallax selected>\n            <input type=\"color\" title=\"Color\" value=\"#ffffff\">\n        </fieldset>\n        <input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n        <input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#000000\" condition=\"overlay && bg.type !== 'color'\">\n        <input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.6\" condition=\"overlay && bg.type !== 'color'\">\n        <!-- End block parameters -->\n    </mbr-parameters>\n\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type!== 'color'\" mbr-style=\"{'opacity': overlayOpacity, 'background-color': overlayColor}\">\n    </div>\n\n    <div class=\"container\">\n        <div class=\"row jc-c\" mbr-class=\"{'justify-content-center' : menuColumn == 2}\">\n            <div class=\"col-lg-3 col-md-6 menu align-center\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems1\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheUltimateGuidetoLandscapePhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Ultimate Guide to Landscape Photography: Tips and Techniques\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"HowtoTakeStunningPortraitPhotos.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Stunning Portrait Photos: A Beginner's Guide\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheBestCameraSettingsforLowLightPhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Settings for Low Light Photography\"</b></a></h6>\n                    \n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"EditYourPhotosLikeaPro.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Edit Your Photos Like a Pro: Tips and Tricks\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"5PhotographyDestinations.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Top 5 Photography Destinations in the World\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheArtofStreetPhotographyHowtoCapturethePerfectShot.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Art of Street Photography: How to Capture the Perfect Shot\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtousenaturallighttoenhanceyourphotos.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Use Natural Light to Enhance Your Photos\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebestlensesforwildlifephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Lenses for Wildlife Photography\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thesecrettocapturingemotioninyourphotos.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Secret to Capturing Emotion in Your Photos\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtocreatestunningpanoramicphotosastepbystepguide.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Create Stunning Panoramic Photos: A Step-by-Step Guide\"</b></a></h6></ul>\n            </div>\n            <div class=\"col-lg-3 col-md-6 menu align-center\" mbr-if=\"menuColumn > 1\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems2\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebestcameraaccessoriesforprofessionalphotographers.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Accessories for Professional Photographers\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtotakeamazingmacrophotosaguidetocloseupphotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Amazing Macro Photos: A Guide to Close-Up Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebesttipsforactionandsportsphotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Tips for Action and Sports Photography\"</b></a><br></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtocreatebeautifulblackandwhitephotosaguidetomonochromephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Create Beautiful Black and White Photos: A Guide to Monochrome Photography\"</b></a></h6>\n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thtop5photographerstofollowforinspiration.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Top 5 Photographers to Follow for Inspiration\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"theultimateguidetotravelphotographytipsandtricks.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Ultimate Guide to Travel Photography: Tips and Tricks\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtotakestunningnightphotosaguidetolongexposurephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Stunning Night Photos: A Guide to Long Exposure Photography\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebestcamerasettingsforwildlifephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Settings for Wildlife Photography\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheArtofCompositioninPhotographyHowtoFrameYourShots.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Art of Composition in Photography: How to Frame Your Shots\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheTop5PhotographyFestivalstoAttendintheWorld.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Top 5 Photography Festivals to Attend in the World\"</b></a></h6></ul>\n            </div>\n            <div class=\"col-lg-3 col-md-6 menu align-center\" mbr-if=\"menuColumn > 2\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems3\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"HowtoCreateStunningTimeLapseVideosAGuidetoTimeLapsePhotography.html\" class=\"text-primary\"></a><a href=\"HowtoCreateStunningTimeLapseVideosAGuidetoTimeLapsePhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Create Stunning Time-Lapse Videos: A Guide to Time-Lapse Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheBestTipsforUnderwaterPhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Tips for Underwater Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"HowtoTakeAmazingFoodPhotosAGuidetoFoodPhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Amazing Food Photos: A Guide to Food Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheBestCameraSettingsforSunsetandSunrisePhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Settings for Sunset and Sunrise Photography\"</b></a></h6>\n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheUltimateGuidetoCreatingaPhotographyPortfolio.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Ultimate Guide to Creating a Photography Portfolio\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Best Lenses for Portrait Photography\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"How to Take Stunning Architectural Photos: A Guide to Architecture Photography\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Art of Nature Photography: How to Capture the Beauty of the Outdoors\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Best Tips for Street Photography at Night\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Top 5 Photography Workshops to Attend for Improving Your Skills\"</h6></ul>\n            </div>\n            <div class=\"col-lg-3 col-md-6 menu align-center\" mbr-if=\"menuColumn > 3\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems4\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"How to Take Stunning Pet Photos: A Guide to Pet Photography\"</h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Best Camera Settings for Concert Photography\"</h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Ultimate Guide to Event Photography: Tips and Tricks\"</h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Art of Black and White Landscape Photography\"</h6>\n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Top 5 Photography Challenges to Improve Your Skills\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Best Tips for Product Photography\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"How to Take Stunning Firework Photos: A Guide to Firework Photography\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Ultimate Guide to Landscape Photography at Sunset\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Art of Sports Photography: How to Capture the Perfect Action Shot\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Top 5 Photography Books to Read for Inspiration and Improvement\"</h6></ul>\n            </div>\n        </div>\n    </div>\n</section>",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content2 attorneym4_content2\" group=\"Content\" mbr-class=\"{'mbr-reveal': reveal, 'mbr-parallax-background': bg.parallax}\">\n\n    <mbr-parameters>\n        <!-- Block parameters controls (Blue \"Gear\" panel) -->\n        <header>Size</header>\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"2\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"2\">\n        <header>Block</header>\n        <input type=\"range\" inline title=\"Block Columns\" name=\"menuColumn\" min=\"2\" max=\"4\" step=\"1\" value=\"4\">\n        <input type=\"range\" inline title=\"Block Items 1\" name=\"menuItems1\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 0\">\n        <input type=\"range\" inline title=\"Block Items 2\" name=\"menuItems2\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 1\">\n        <input type=\"range\" inline title=\"Block Items 3\" name=\"menuItems3\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 2\">\n        <input type=\"range\" inline title=\"Block Items 4\" name=\"menuItems4\" min=\"1\" max=\"10\" step=\"1\" value=\"10\" condition=\"menuColumn > 3\">\n\n        <header>Background</header>\n        <fieldset type=\"background\" name=\"bg\" parallax>\n            <input type=\"image\" title=\"Image\" value=\"@PROJECT_PATH@/assets/images/-dani-small-www-1256x837.jpg\" parallax selected>\n            <input type=\"color\" title=\"Color\" value=\"#ffffff\">\n        </fieldset>\n        <input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n        <input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#000000\" condition=\"overlay && bg.type !== 'color'\">\n        <input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.6\" condition=\"overlay && bg.type !== 'color'\">\n        <!-- End block parameters -->\n    </mbr-parameters>\n\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type!== 'color'\" mbr-style=\"{'opacity': overlayOpacity, 'background-color': overlayColor}\">\n    </div>\n\n    <div class=\"container\">\n        <div class=\"row jc-c\" mbr-class=\"{'justify-content-center' : menuColumn == 2}\">\n            <div class=\"col-lg-3 col-md-6 menu align-center\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems1\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheUltimateGuidetoLandscapePhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Ultimate Guide to Landscape Photography: Tips and Techniques\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"HowtoTakeStunningPortraitPhotos.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Stunning Portrait Photos: A Beginner's Guide\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheBestCameraSettingsforLowLightPhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Settings for Low Light Photography\"</b></a></h6>\n                    \n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"EditYourPhotosLikeaPro.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Edit Your Photos Like a Pro: Tips and Tricks\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"5PhotographyDestinations.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Top 5 Photography Destinations in the World\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheArtofStreetPhotographyHowtoCapturethePerfectShot.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Art of Street Photography: How to Capture the Perfect Shot\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtousenaturallighttoenhanceyourphotos.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Use Natural Light to Enhance Your Photos\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebestlensesforwildlifephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Lenses for Wildlife Photography\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thesecrettocapturingemotioninyourphotos.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Secret to Capturing Emotion in Your Photos\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtocreatestunningpanoramicphotosastepbystepguide.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Create Stunning Panoramic Photos: A Step-by-Step Guide\"</b></a></h6></ul>\n            </div>\n            <div class=\"col-lg-3 col-md-6 menu align-center\" mbr-if=\"menuColumn > 1\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems2\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebestcameraaccessoriesforprofessionalphotographers.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Accessories for Professional Photographers\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtotakeamazingmacrophotosaguidetocloseupphotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Amazing Macro Photos: A Guide to Close-Up Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebesttipsforactionandsportsphotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Tips for Action and Sports Photography\"</b></a><br></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtocreatebeautifulblackandwhitephotosaguidetomonochromephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Create Beautiful Black and White Photos: A Guide to Monochrome Photography\"</b></a></h6>\n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thtop5photographerstofollowforinspiration.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Top 5 Photographers to Follow for Inspiration\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"theultimateguidetotravelphotographytipsandtricks.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Ultimate Guide to Travel Photography: Tips and Tricks\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"howtotakestunningnightphotosaguidetolongexposurephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Stunning Night Photos: A Guide to Long Exposure Photography\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"thebestcamerasettingsforwildlifephotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Settings for Wildlife Photography\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheArtofCompositioninPhotographyHowtoFrameYourShots.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Art of Composition in Photography: How to Frame Your Shots\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheTop5PhotographyFestivalstoAttendintheWorld.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Top 5 Photography Festivals to Attend in the World\"</b></a></h6></ul>\n            </div>\n            <div class=\"col-lg-3 col-md-6 menu align-center\" mbr-if=\"menuColumn > 2\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems3\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"HowtoCreateStunningTimeLapseVideosAGuidetoTimeLapsePhotography.html\" class=\"text-primary\"></a><a href=\"HowtoCreateStunningTimeLapseVideosAGuidetoTimeLapsePhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Create Stunning Time-Lapse Videos: A Guide to Time-Lapse Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheBestTipsforUnderwaterPhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Tips for Underwater Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"HowtoTakeAmazingFoodPhotosAGuidetoFoodPhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"How to Take Amazing Food Photos: A Guide to Food Photography\"</b></a></h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheBestCameraSettingsforSunsetandSunrisePhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Camera Settings for Sunset and Sunrise Photography\"</b></a></h6>\n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheUltimateGuidetoCreatingaPhotographyPortfolio.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Ultimate Guide to Creating a Photography Portfolio\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\"><a href=\"TheBestLensesforPortraitPhotography.html\" class=\"text-primary\" target=\"_blank\"><b>\"The Best Lenses for Portrait Photography\"</b></a></h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"How to Take Stunning Architectural Photos: A Guide to Architecture Photography\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Art of Nature Photography: How to Capture the Beauty of the Outdoors\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Best Tips for Street Photography at Night\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Top 5 Photography Workshops to Attend for Improving Your Skills\"</h6></ul>\n            </div>\n            <div class=\"col-lg-3 col-md-6 menu align-center\" mbr-if=\"menuColumn > 3\">\n                <ul class=\"foot__menu\" mbr-list mbr-list-grow=\"menuItems4\">\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"How to Take Stunning Pet Photos: A Guide to Pet Photography\"</h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Best Camera Settings for Concert Photography\"</h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Ultimate Guide to Event Photography: Tips and Tricks\"</h6>\n                    <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Art of Black and White Landscape Photography\"</h6>\n                <h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Top 5 Photography Challenges to Improve Your Skills\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Best Tips for Product Photography\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"How to Take Stunning Firework Photos: A Guide to Firework Photography\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Ultimate Guide to Landscape Photography at Sunset\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Art of Sports Photography: How to Capture the Perfect Action Shot\"</h6><h6 mbr-text class=\"menu__items mbr-fonts-style mbr-white\" mbr-theme-style=\"display-7\" data-app-selector=\".menu__items\">\"The Top 5 Photography Books to Read for Inspiration and Improvement\"</h6></ul>\n            </div>\n        </div>\n    </div>\n</section>",
           "_cid": "tv66hgJtWS",
           "_anchor": "content2-c9",
           "_protectedParams": [],
@@ -49845,7 +49845,7 @@
           },
           "_name": "content12",
           "_sourceTheme": "mobirise5",
-          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content12\" group=\"Content\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Width\" name=\"fullWidth\">\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"0\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"1\">\n        <input type=\"range\" name=\"textWidth\" title=\"Width\" min=\"4\" max=\"12\" value=\"10\" step=\"1\">\n        <header>Background</header>\n        <input type=\"color\" title=\"Color\" name=\"bgColor\" value=\"#ffffff\">\n    </mbr-parameters>\n    <div mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n        <div class=\"row justify-content-center\">\n            <div class=\"col-md-12 col-lg-{{textWidth}}\">\n                <div class=\"mbr-section-btn align-center\" mbr-buttons mbr-theme-style=\"display-4\" data-toolbar=\"-mbrBtnMove,-mbrAddBtn\"><a class=\"btn btn-primary\" href=\"Education.html\" data-app-placeholder=\"Type Text\">All Articles</a>\n                    <a class=\"btn btn-primary\" href=\"TheUltimateGuidetoLandscapePhotography.html\" data-app-placeholder=\"Type Text\">Next Article</a></div>\n            </div>\n        </div>\n    </div>\n</section>",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content12\" group=\"Content\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Width\" name=\"fullWidth\">\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"0\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"1\">\n        <input type=\"range\" name=\"textWidth\" title=\"Width\" min=\"4\" max=\"12\" value=\"10\" step=\"1\">\n        <header>Background</header>\n        <input type=\"color\" title=\"Color\" name=\"bgColor\" value=\"#ffffff\">\n    </mbr-parameters>\n    <div mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n        <div class=\"row justify-content-center\">\n            <div class=\"col-md-12 col-lg-{{textWidth}}\">\n                <div class=\"mbr-section-btn align-center\" mbr-buttons mbr-theme-style=\"display-4\" data-toolbar=\"-mbrBtnMove,-mbrAddBtn\"><a class=\"btn btn-primary\" href=\"Education.html\" data-app-placeholder=\"Type Text\">All Articles</a>\n                    <a class=\"btn btn-primary\" href=\"TheBestLensesforPortraitPhotography.html\" data-app-placeholder=\"Type Text\">Next Article</a></div>\n            </div>\n        </div>\n    </div>\n</section>",
           "_isUserblock": true,
           "_cid": "tvLjnGil8p",
           "_protectedParams": [],
@@ -50013,6 +50013,979 @@
           "_once": "footers",
           "_params": {},
           "_anchor": "footer01-h4"
+        }
+      ]
+    },
+    "TheBestLensesforPortraitPhotography.html": {
+      "settings": {
+        "title": "\"The Best Lenses for Portrait Photography\"",
+        "order": 43,
+        "meta_descr": "Best lenses for portrait photography reviewed. Find the perfect lens for stunning portraits with our comprehensive guide. Expert recommendations included.",
+        "meta_image": "@PROJECT_PATH@/assets/images/lil-red-orange-hat-10-558x558.jpeg"
+      },
+      "components": [
+        {
+          "_name": "amenu2",
+          "_sourceTheme": "expertm5",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"menu menu2 expertm5\" group=\"Menu\" plugins=\"DropDown, TouchSwipe\" always-top global once=\"menu\" not-draggable position-absolute>\n    <mbr-parameters>\n        <header>Show/Hide</header>\n        <input type=\"checkbox\" title=\"Logo\" name=\"showLogo\" checked>\n        <input type=\"range\" title=\"Logo Size\" inline name=\"logoSize\" min=\"3\" max=\"8\" step=\"0.1\" value=\"3\" condition=\"showLogo\">\n        <input type=\"checkbox\" title=\"Brand Name\" name=\"showBrand\" checked>\n        <header>Offcanvas</header>\n        <input type=\"color\" title=\"Offcanvas Color\" name=\"offcanvasColor\" value=\"#ddc499\">\n        <input type=\"checkbox\" title=\"Links\" name=\"showContacts\" checked>\n        <input type=\"checkbox\" title=\"Logo\" name=\"showOffcanvasLogo\" checked>\n        <input type=\"checkbox\" title=\"Brand Name\" name=\"showOffcanvasBrand\" checked>\n        <input type=\"checkbox\" title=\"Text\" name=\"showText\">\n        <input type=\"checkbox\" title=\"Button\" name=\"showOffcanvasButtons\" checked>\n        <input type=\"checkbox\" title=\"Social\" name=\"showSocial\" checked>\n        <header condition=\"showSocial\">Social</header>\n        <select title=\"Icons Align\" name=\"contentAlign\" condition=\"showSocial\">\n            <option value=\"justify-content-start\">Left</option>\n            <option value=\"justify-content-center\" selected>Center</option>\n            <option value=\"justify-content-end\">Right</option>\n        </select>\n        <input type=\"checkbox\" title=\"Social Title\" name=\"showSocialTitle\" checked condition=\"showSocial\">\n        <input type=\"color\" title=\"Social Color\" name=\"socialColor\" value=\"#C4CFDE\" condition=\"showSocial\">\n        <input type=\"color\" title=\"Social BG Color 1\" name=\"socialBgColor1\" value=\"#ddc499\" condition=\"showSocial\">\n        <input type=\"color\" title=\"Social BG Color 2\" name=\"socialBgColor2\" value=\"#232323\" condition=\"showSocial\">\n        <input type=\"checkbox\" name=\"socialShadow\" title=\"Social Shadow\" condition=\"showSocial\">\n        <input type=\"color\" title=\"Shadow Color 1\" name=\"socialShadow1\" value=\"#ddc499\" condition=\"socialShadow && showSocial\">\n        <input type=\"color\" title=\"Shadow Color 2\" name=\"socialShadow2\" value=\"#f4f4f4\" condition=\"socialShadow && showSocial\">\n        <input type=\"range\" name=\"socialCount\" title=\"Social Count\" min=\"1\" max=\"6\" step=\"1\" value=\"3\" condition=\"showSocial\">\n        <header>Styles</header>\n        <input type=\"checkbox\" title=\"Sticky\" name=\"sticky\" checked>\n        <input type=\"checkbox\" title=\"Transparent\" name=\"transparent\" checked>\n        <input type=\"range\" title=\"Opacity\" name=\"opacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"1\" condition=\"transparent\">\n        <input type=\"color\" title=\"Color\" name=\"menuBgColor\" value=\"#ffffff\">\n        <input type=\"color\" title=\"Hamburger\" name=\"hamburgerColor\" value=\"#ddc499\">\n        <input type=\"color\" title=\"Hamburger BG 1\" name=\"hamburgerBg1\" value=\"#ddc499\">\n        <input type=\"color\" title=\"Hamburger BG 2\" name=\"hamburgerBg2\" value=\"#ffffff\">\n        <input type=\"checkbox\" name=\"hamburgerShadow\" title=\"Hamburger Shadow\" checked>\n        <input type=\"color\" title=\"Shadow Color 1\" name=\"hamburgerColor1\" value=\"#ddc499\" condition=\"hamburgerShadow\">\n        <input type=\"color\" title=\"Shadow Color 2\" name=\"hamburgerColor2\" value=\"#bbbbbb\" condition=\"hamburgerShadow\">\n    </mbr-parameters>\n\n    <nav class=\"navbar navbar-dropdown\" mbr-class=\"{'navbar-fixed-top':sticky,\n                     'navbar-expand-lg':!collapsed,\n                     'collapsed':collapsed}\">\n        <div class=\"container-fluid\">\n            <div class=\"navbar-brand\">\n                <span mbr-if=\"showLogo\" class=\"navbar-logo\">\n                    <a href=\"home.html\">\n                        <img src=\"@PROJECT_PATH@/assets/images/lilkangoo-logo2-512x512.png\" alt=\"Photography in Cyprus\" mbr-style=\"{'height': logoSize + 'rem'}\">\n                    </a>\n                </span>\n                <span mbr-if=\"showBrand\" mbr-buttons mbr-theme-style=\"display-4\" class=\"navbar-caption-wrap\" data-toolbar=\"-mbrBtnMove,-mbrBtnAdd,-mbrBtnRemove,-iconFont\"><a class=\"navbar-caption text-white text-primary\" data-app-selector=\".navbar-caption\" href=\"home.html\" data-app-placeholder=\"Type Text\">LilKangooMedia</a></span>\n            </div>\n            <div class=\"offcanvas_box\">\n                <button class=\"btn_offcanvas\" type=\"button\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\">\n                    <div class=\"hamburger-offcanvas\">\n                        <span></span>\n                        <span></span>\n                        <span></span>\n                        <span></span>\n                    </div>\n                </button>\n                <div class=\"offcanvas offcanvas-end\" tabindex=\"-1\" id=\"offcanvasRight\" aria-labelledby=\"offcanvasRightLabel\">\n\n                    <div class=\"offcanvas-body\">\n                        <div class=\"offcanvas_head\">\n                            <div class=\"offcanvas_head_container\">\n                                <div class=\"navbar-brand\">\n                                <span mbr-if=\"showOffcanvasLogo\" class=\"navbar-logo\">\n                                     <a href=\"home.html\">\n                                        <img src=\"@PROJECT_PATH@/assets/images/lilkangoo-logo2-128x128-1.png\" alt=\"LilKangooMedia\" mbr-style=\"{'height': logoSize + 'rem'}\">\n                                     </a>\n                                </span>\n                                    <span mbr-if=\"showOffcanvasBrand\" mbr-buttons mbr-theme-style=\"display-4\" class=\"navbar-caption-wrap\" data-toolbar=\"-mbrBtnMove,-mbrBtnAdd,-mbrBtnRemove,-iconFont\"><a class=\"navbar-caption text-white text-primary\" data-app-selector=\".navbar-caption\" href=\"home.html\" data-app-placeholder=\"Type Text\">LilKangooMedia</a></span>\n                                </div>\n                                <button type=\"button\" class=\"btn-close text-reset\" data-bs-dismiss=\"offcanvas\" aria-label=\"Close\">\n                                    <div class=\"hamburger-offcanvas\">\n                                        <span></span>\n                                        <span></span>\n                                        <span></span>\n                                        <span></span>\n                                    </div>\n                                </button>\n                            </div>\n                            <p class=\"mbr-text mbr-fonts-style mb-0\" mbr-if=\"showText\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\">\n                                Excepteur sint occaecat cupidatat non proident\n                            </p>\n                        </div>\n                        <div class=\"offcanvas_link\" mbr-if=\"showContacts\">\n                            <ul mbr-menu class=\"navbar-nav nav-dropdown\" mbr-theme-style=\"display-7\"><li class=\"nav-item\">\n                                    <a class=\"nav-link link text-white\" href=\"https://mobiri.se\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Home</a>\n                                </li>\n                                <li class=\"nav-item\">\n                                    <a class=\"nav-link link text-white text-primary\" href=\"holiday.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Holidays in Cyprus</a>\n                                </li><li class=\"nav-item\"><a class=\"nav-link link text-white text-primary\" href=\"shop.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Prices</a></li><li class=\"nav-item dropdown\">\n                                    <a class=\"nav-link link text-white dropdown-toggle\" href=\"https://mobiri.se\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\" data-toggle=\"dropdown-submenu\" data-bs-toggle=\"dropdown\" data-bs-auto-close=\"outside\" aria-expanded=\"false\">Portfolio</a><div class=\"dropdown-menu\" aria-labelledby=\"dropdown-743\"><div class=\"dropdown\"><a class=\"text-white dropdown-item dropdown-toggle\" href=\"https://mobiri.se\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\" data-toggle=\"dropdown-submenu\" data-bs-toggle=\"dropdown\" data-bs-auto-close=\"outside\" aria-expanded=\"false\">Photography</a><div class=\"dropdown-menu dropdown-submenu\" aria-labelledby=\"dropdown-667\"><a class=\"text-white dropdown-item text-primary\" href=\"Portraits.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Portrait</a><a class=\"text-white dropdown-item text-primary\" href=\"Products.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Product</a><a class=\"text-white dropdown-item text-primary\" href=\"Nature.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Nature</a></div></div><a class=\"text-white dropdown-item text-primary\" href=\"Videography.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Videography</a><a class=\"text-white dropdown-item text-primary\" href=\"GraphicDesign.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Graphic Design</a></div>\n                                </li><li class=\"nav-item\">\n                                    <a class=\"nav-link link text-white text-primary\" href=\"Education.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Photography Education</a>\n                                </li><li class=\"nav-item\"><a class=\"nav-link link text-white text-primary\" href=\"About Us.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">About Us</a></li>\n                                \n                                \n                                <li class=\"nav-item\">\n                                    <a class=\"nav-link link text-white text-primary\" href=\"ContactUs.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Contact Us</a>\n                                </li><li class=\"nav-item\"><a class=\"nav-link link text-white text-primary\" href=\"FAQ.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">FAQ</a></li><li class=\"nav-item\"><a class=\"nav-link link text-white text-primary\" href=\"Reviews.html\" data-app-selector=\".nav-link,.dropdown-item\" data-app-placeholder=\"Type Text\">Reviews</a></li></ul>\n                        </div>\n                        <div class=\"social-container\" mbr-if=\"showSocial\">\n                            <p class=\"social-title mbr-fonts-style\" mbr-theme-style=\"display-7\" mbr-if=\"showSocialTitle\" data-app-selector=\".social-title\">\n                                CHAT WITH US ON:</p>\n                            <div class=\"social-list {{contentAlign}}\">\n                                <div class=\"soc-item\" mbr-if=\"socialCount>0\">\n                                    <a href=\"https://wa.me/48534073861\"><span mbr-icon class=\"mbr-iconfont mbr-iconfont-social socicon-whatsapp socicon\"></span></a>\n                                </div>\n                                <div class=\"soc-item\" mbr-if=\"socialCount>1\">\n                                    <a href=\"https://www.facebook.com/Lilkangoomedia\" target=\"_blank\"><span mbr-icon class=\"mbr-iconfont mbr-iconfont-social socicon-facebook socicon\"></span></a>\n                                </div>\n                                <div class=\"soc-item\" mbr-if=\"socialCount>2\">\n                                    <a href=\"https://www.instagram.com/lilkangoomedia/\" target=\"_blank\"><span mbr-icon class=\"mbr-iconfont mbr-iconfont-social socicon-instagram socicon\"></span></a>\n                                </div>\n                                <div class=\"soc-item\" mbr-if=\"socialCount>3\">\n                                    <span mbr-icon class=\"socicon-youtube socicon mbr-iconfont mbr-iconfont-social\"></span>\n                                </div>\n                                <div class=\"soc-item\" mbr-if=\"socialCount>4\">\n                                    <span mbr-icon class=\"socicon-behance socicon mbr-iconfont mbr-iconfont-social\"></span>\n                                </div>\n                                <div class=\"soc-item\" mbr-if=\"socialCount>5\">\n                                    <span mbr-icon class=\"socicon-vimeo socicon mbr-iconfont mbr-iconfont-social\"></span>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"offcanvas_btn\" mbr-if=\"showOffcanvasButtons\">\n                            <div mbr-buttons mbr-theme-style=\"display-7\" class=\"navbar-buttons mbr-section-btn custom-section-btn\"><a class=\"btn btn-black\" href=\"ContactUs.html\" data-app-placeholder=\"Type Text\">Book Now</a></div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </nav>\n</section>",
+          "_styles": {
+            "& when not (@sticky)": {},
+            "& when (@sticky)": {
+              "z-index": "1000",
+              "width": "100%"
+            },
+            ".dropdown-item:before": {
+              "font-family": "Moririse2 !important",
+              "content": "\"\\e966\"",
+              "display": "inline-block",
+              "width": "0",
+              "position": "absolute",
+              "left": "1rem",
+              "top": "0.5rem",
+              "margin-right": "0.5rem",
+              "line-height": "1",
+              "font-size": "inherit",
+              "vertical-align": "middle",
+              "text-align": "center",
+              "overflow": "hidden",
+              "transform": "scale(0, 1)",
+              "transition": "all 0.25s ease-in-out"
+            },
+            ".dropdown-menu": {
+              "padding": "0"
+            },
+            ".dropdown-item": {
+              "padding": "5px 0.4em 5px  0.4em !important",
+              "width": "100%",
+              "line-height": "inherit !important",
+              "transition": "background-position 0.3s ease",
+              "@media (max-width: 991px)": {
+                "text-align": "left !important"
+              },
+              "&:hover": {
+                "background-position": "right !important",
+                "&:after": {
+                  "color": "@primaryColor"
+                }
+              }
+            },
+            ".nav-dropdown .link": {
+              "padding": "0 0.3em !important",
+              "margin": "0.667em 1em !important"
+            },
+            ".nav-dropdown .link.dropdown-toggle::after": {
+              "margin-left": "0.5rem",
+              "margin-top": "0.2rem"
+            },
+            ".nav-link": {
+              "position": "relative"
+            },
+            ".container": {
+              "display": "flex",
+              "margin": "auto",
+              "flex-wrap": "wrap"
+            },
+            ".dropdown-menu, .navbar.opened": {
+              "background": "@menuBgColor !important"
+            },
+            ".nav-item:focus, .nav-link:focus": {
+              "outline": "none"
+            },
+            ".dropdown .dropdown-menu .dropdown-item": {
+              "width": "auto",
+              "transition": "all 0.25s ease-in-out",
+              "&::after": {
+                "right": "0.5rem"
+              },
+              ".mbr-iconfont": {
+                "margin-right": "0.5rem",
+                "vertical-align": "sub",
+                "&:before": {
+                  "display": "inline-block",
+                  "transform": "scale(1, 1)",
+                  "transition": "all 0.25s ease-in-out"
+                }
+              }
+            },
+            ".navbar": {
+              "min-height": "122px",
+              "transition": "all 0.3s",
+              "&.opened": {
+                "transition": "all 0.3s"
+              },
+              ".dropdown-item": {
+                "padding": "0.5rem 1.8rem"
+              },
+              ".navbar-logo img": {
+                "width": "auto"
+              },
+              ".navbar-collapse": {
+                "justify-content": "flex-end",
+                "z-index": "1"
+              },
+              "@media (max-width: 991px)": {
+                ".nav-item .nav-link::before": {
+                  "display": "none"
+                },
+                "&.opened": {
+                  ".dropdown-menu": {
+                    "top": "0"
+                  }
+                },
+                ".dropdown-menu": {
+                  ".dropdown-submenu": {
+                    "left": "0 !important"
+                  },
+                  ".dropdown-item:after": {
+                    "right": "auto"
+                  },
+                  ".dropdown-toggle[data-toggle=\"dropdown-submenu\"]:after": {
+                    "margin-left": "0.5rem",
+                    "margin-top": "0.2rem",
+                    "border-top": "0.35em solid",
+                    "border-right": "0.35em solid transparent",
+                    "border-left": "0.35em solid transparent",
+                    "border-bottom": "0",
+                    "top": "40%"
+                  }
+                },
+                ".navbar-logo": {
+                  "img": {
+                    "height": "3rem !important"
+                  }
+                },
+                "ul.navbar-nav": {
+                  "li": {
+                    "margin": "auto"
+                  }
+                },
+                ".dropdown-menu .dropdown-item": {
+                  "padding": "0.25rem 1.5rem !important",
+                  "text-align": "center"
+                },
+                ".navbar-brand": {
+                  "flex-shrink": "initial",
+                  "flex-basis": "auto",
+                  "word-break": "break-word",
+                  "padding-right": "2rem"
+                },
+                ".navbar-toggler": {
+                  "flex-basis": "auto"
+                },
+                ".icons-menu": {
+                  "padding-left": "0",
+                  "padding-right": "0",
+                  "padding-top": "0.5rem",
+                  "padding-bottom": "0.5rem"
+                }
+              },
+              "padding": "0 !important",
+              "box-shadow": "none !important",
+              "@media (max-width: 575px)": {
+                "min-height": "80px"
+              },
+              "&:not(.navbar-short)": {
+                "border-bottom": "none"
+              },
+              "& when (@sticky)": {
+                "background": "transparent"
+              },
+              "& when not (@sticky)": {
+                "background": "@menuBgColor",
+                "& when (@transparent)": {
+                  "background": "rgba(red(@menuBgColor), green(@menuBgColor), blue(@menuBgColor), @opacity)"
+                }
+              }
+            },
+            ".navbar-brand": {
+              "min-height": "80px",
+              "flex-shrink": "0",
+              "align-items": "center",
+              "margin-right": "0",
+              "transition": "all 0.3s",
+              "word-break": "break-word",
+              "z-index": "1",
+              ".navbar-caption": {
+                "line-height": "inherit !important"
+              },
+              ".navbar-logo a": {
+                "outline": "none"
+              },
+              "padding-right": "15px",
+              "padding-left": "15px",
+              "@media (max-width: 575px)": {
+                "min-height": "69px"
+              }
+            },
+            ".dropdown-item.active, .dropdown-item:active": {
+              "background-color": "transparent"
+            },
+            ".navbar-expand-lg .navbar-nav .nav-link": {
+              "padding": "0"
+            },
+            ".nav-dropdown .link.dropdown-toggle": {
+              "margin-right": "1.667em",
+              "&[aria-expanded=\"true\"]": {
+                "margin-right": "0",
+                "padding": "0.667em 1.667em"
+              }
+            },
+            ".navbar.navbar-expand-lg .dropdown": {
+              ".dropdown-menu": {
+                "background": "@menuBgColor",
+                ".dropdown-submenu": {
+                  "margin": "0",
+                  "left": "100%"
+                }
+              }
+            },
+            ".navbar .dropdown.open > .dropdown-menu": {
+              "display": "block"
+            },
+            "ul.navbar-nav": {
+              "flex-wrap": "wrap"
+            },
+            "button.navbar-toggler": {
+              "display": "flex",
+              "align-items": "center",
+              "justify-content": "center",
+              "width": "50px",
+              "height": "50px",
+              "border-radius": "50%",
+              "margin-right": "15px",
+              "transition": "all 0.3s",
+              "background": "linear-gradient(145deg, @hamburgerBg1, @hamburgerBg2)",
+              "& when (@hamburgerShadow)": {
+                "box-shadow": "10px 10px 19px @hamburgerColor1, -10px -10px 19px @hamburgerColor2"
+              },
+              "outline": "none",
+              "cursor": "pointer",
+              "position": "relative",
+              "align-self": "center",
+              "&:hover": {
+                "transform": "scale(1.1)"
+              },
+              ".hamburger": {
+                "position": "relative",
+                "width": "23px",
+                "height": "24px",
+                "transition": "all 0.3s"
+              },
+              ".hamburger span": {
+                "position": "absolute",
+                "right": "2px",
+                "width": "20px",
+                "height": "2px",
+                "background-color": "@hamburgerColor",
+                "&:nth-child(1)": {
+                  "top": "6px",
+                  "transition": "all 0.2s"
+                },
+                "&:nth-child(2)": {
+                  "top": "11px",
+                  "transition": "all 0.15s"
+                },
+                "&:nth-child(3)": {
+                  "top": "11px",
+                  "transition": "all 0.15s"
+                },
+                "&:nth-child(4)": {
+                  "top": "16px",
+                  "transition": "all 0.2s"
+                }
+              }
+            },
+            "nav.opened .hamburger span": {
+              "&:nth-child(1)": {
+                "top": "6px",
+                "width": "0",
+                "opacity": "0",
+                "right": "50%",
+                "transition": "all 0.2s"
+              },
+              "&:nth-child(2)": {
+                "transform": "rotate(45deg)",
+                "transition": "all 0.25s"
+              },
+              "&:nth-child(3)": {
+                "transform": "rotate(-45deg)",
+                "transition": "all 0.25s"
+              },
+              "&:nth-child(4)": {
+                "top": "6px",
+                "width": "0",
+                "opacity": "0",
+                "right": "50%",
+                "transition": "all 0.2s"
+              }
+            },
+            ".navbar-dropdown": {
+              "padding": "0",
+              "& when (@sticky)": {
+                "position": "fixed"
+              }
+            },
+            "a.nav-link": {
+              "display": "flex",
+              "align-items": "center",
+              "justify-content": "center"
+            },
+            ".icons-menu": {
+              "flex-wrap": "nowrap",
+              "display": "flex",
+              "justify-content": "center",
+              "padding-left": "1rem",
+              "padding-right": "1rem",
+              "padding-top": "0.3rem",
+              "text-align": "center"
+            },
+            "@media screen and (~'-ms-high-contrast: active'), (~'-ms-high-contrast: none')": {
+              ".navbar": {
+                "height": "70px",
+                "&.opened": {
+                  "height": "auto"
+                }
+              },
+              ".nav-item .nav-link:hover::before": {
+                "width": "175%",
+                "max-width": "calc(100% ~\"+\" 2rem)",
+                "left": "-1rem"
+              }
+            },
+            ".navbar-short": {
+              "min-height": "90px",
+              "border-bottom": "1px solid rgba(255, 255, 255, 0.1) !important",
+              "background": "@menuBgColor",
+              "& when (@transparent)": {
+                "background": "rgba(red(@menuBgColor), green(@menuBgColor), blue(@menuBgColor), @opacity)"
+              },
+              "@media (max-width: 575px)": {
+                "min-height": "70px"
+              }
+            },
+            ".container-fluid": {
+              "flex-wrap": "nowrap",
+              "padding": "0 64px",
+              "@media (max-width: 1599px)": {
+                "padding": "0 30px"
+              },
+              "@media (max-width: 767px)": {
+                "padding": "0 20px"
+              },
+              "@media (max-width: 575px)": {
+                "padding": "0 3px"
+              }
+            },
+            ".navbar-collapse": {
+              "padding-left": "15px",
+              "padding-right": "15px"
+            },
+            ".navbar-nav": {
+              ".nav-item": {
+                "margin": "0 !important",
+                ".nav-link": {
+                  "margin": "0 !important",
+                  "padding": "10px 0 !important",
+                  "transition": "0.3s all",
+                  "opacity": "1",
+                  "&:hover": {
+                    "opacity": "1",
+                    "color": "#FFFFFF !important"
+                  },
+                  "justify-content": "flex-start",
+                  "&:hover, &:focus, &:active": {
+                    "opacity": "1",
+                    "color": "#FFFFFF !important"
+                  }
+                },
+                "width": "100%",
+                "text-align": "left",
+                ".dropdown-menu": {
+                  "position": "static !important",
+                  "background-color": "@offcanvasColor !important"
+                }
+              },
+              "display": "flex !important"
+            },
+            ".mbr-section-btn": {
+              ".btn": {
+                "padding": "15px 35px"
+              }
+            },
+            "@media (min-width: 992px)": {
+              ".container-fluid": {
+                "flex-wrap": "nowrap"
+              }
+            },
+            "button.btn_offcanvas": {
+              "display": "flex",
+              "align-items": "center",
+              "justify-content": "center",
+              "width": "50px",
+              "height": "50px",
+              "border-radius": "50%",
+              "margin-right": "15px",
+              "transition": "all 0.3s",
+              "background": "linear-gradient(145deg, @hamburgerBg1, @hamburgerBg2)",
+              "& when (@hamburgerShadow)": {
+                "box-shadow": "10px 10px 19px @hamburgerColor1, -10px -10px 19px @hamburgerColor1"
+              },
+              "outline": "none",
+              "border": "none",
+              "cursor": "pointer",
+              "position": "relative",
+              "align-self": "center",
+              "&:hover": {
+                "transform": "scale(1.1)"
+              },
+              ".hamburger-offcanvas": {
+                "position": "relative",
+                "width": "23px",
+                "height": "24px",
+                "transition": "all 0.3s"
+              },
+              ".hamburger-offcanvas span": {
+                "position": "absolute",
+                "right": "2px",
+                "width": "20px",
+                "height": "2px",
+                "background-color": "@hamburgerColor",
+                "&:nth-child(1)": {
+                  "top": "6px",
+                  "transition": "all 0.2s"
+                },
+                "&:nth-child(2)": {
+                  "top": "11px",
+                  "transition": "all 0.15s"
+                },
+                "&:nth-child(3)": {
+                  "top": "11px",
+                  "transition": "all 0.15s"
+                },
+                "&:nth-child(4)": {
+                  "top": "16px",
+                  "transition": "all 0.2s"
+                }
+              }
+            },
+            ".btn-close": {
+              "display": "flex",
+              "align-items": "center",
+              "justify-content": "center",
+              "width": "50px",
+              "height": "50px",
+              "border-radius": "50%",
+              "margin-left": "15px",
+              "transition": "all 0.3s",
+              "opacity": "1 !important",
+              "background": "linear-gradient(145deg, @hamburgerBg1, @hamburgerBg2)",
+              "& when (@hamburgerShadow)": {
+                "box-shadow": "10px 10px 19px @hamburgerColor1, -10px -10px 19px @hamburgerColor2"
+              },
+              "outline": "none",
+              "border": "none",
+              "cursor": "pointer",
+              "position": "relative",
+              "align-self": "center",
+              "&:hover": {
+                "transform": "scale(1.1)",
+                "opacity": "1 !important"
+              },
+              ".hamburger-offcanvas": {
+                "position": "relative",
+                "width": "23px",
+                "height": "24px",
+                "transition": "all 0.3s"
+              },
+              ".hamburger-offcanvas span": {
+                "position": "absolute",
+                "right": "2px",
+                "width": "20px",
+                "height": "2px",
+                "background-color": "@hamburgerColor",
+                "&:nth-child(1)": {
+                  "display": "none"
+                },
+                "&:nth-child(2)": {
+                  "top": "11px",
+                  "transform": "rotate(45deg)",
+                  "transition": "all 0.25s"
+                },
+                "&:nth-child(3)": {
+                  "top": "11px",
+                  "transform": "rotate(-45deg)",
+                  "transition": "all 0.25s"
+                },
+                "&:nth-child(4)": {
+                  "display": "none"
+                }
+              }
+            },
+            ".offcanvas-end": {
+              "left": "0 !important",
+              "transform": "translateX(-100%)"
+            },
+            ".offcanvas.show": {
+              "transform": "translateX(0)"
+            },
+            ".offcanvas": {
+              "padding": "0",
+              "width": "100%",
+              "border-left": "none !important",
+              "background-color": "transparent !important",
+              "transition": "transform 0.5s ease-in-out"
+            },
+            ".offcanvas_box": {
+              "display": "flex",
+              "justify-content": "center",
+              "align-items": "center"
+            },
+            ".offcanvas-body": {
+              "display": "flex",
+              "flex-direction": "column",
+              "align-items": "stretch",
+              "padding": "25px",
+              "width": "375px",
+              "margin-right": "auto",
+              "text-align": "left",
+              "background-color": "@offcanvasColor",
+              "box-shadow": "0 0 10px 0 rgba(0, 0, 0, 0.7)",
+              "@media (max-width: 575px)": {
+                "width": "260px",
+                "padding": "10px"
+              },
+              ".offcanvas_head": {
+                "width": "100%",
+                "border-bottom": "1px solid rgba(255, 255, 255, 0.1)",
+                "padding-bottom": "20px"
+              },
+              ".offcanvas_head_container": {
+                "display": "flex",
+                "align-items": "center",
+                "justify-content": "space-between"
+              },
+              ".navbar-brand": {
+                "min-height": "70px",
+                "padding": "0 !important",
+                ".navbar-logo": {
+                  "@media (max-width: 575px)": {
+                    "margin-right": "0.5rem"
+                  }
+                },
+                "img": {
+                  "height": "70px !important",
+                  "@media (max-width: 575px)": {
+                    "height": "60px !important"
+                  }
+                }
+              }
+            },
+            ".mbr-text": {
+              "color": "#878e99",
+              "margin-top": "20px",
+              "padding-right": "7%"
+            },
+            ".modal-backdrop.show": {
+              "opacity": "0.8"
+            },
+            ".offcanvas_link": {
+              "width": "100%",
+              "overflow": "auto",
+              "padding": "0",
+              "margin-top": "20px"
+            },
+            ".social-container": {
+              "width": "100%",
+              "padding-top": "90px",
+              "@media (max-width: 991px)": {
+                "padding-top": "40px"
+              }
+            },
+            ".social-title": {
+              "color": "#ffffff",
+              "border-top": "1px solid rgba(255, 255, 255, 0.1)",
+              "padding-top": "20px",
+              "margin-top": "100px !important"
+            },
+            ".social-list": {
+              "display": "flex",
+              "align-items": "center",
+              "flex-wrap": "wrap",
+              "margin": "-7px"
+            },
+            ".soc-item": {
+              "display": "flex",
+              "align-items": "center",
+              "justify-content": "center",
+              "position": "relative",
+              "margin": "7px",
+              "min-width": "53px",
+              "padding": "10px",
+              "aspect-ratio": "(1 / 1)",
+              "border-radius": "6px",
+              "background": "linear-gradient(145deg, @socialBgColor1, @socialBgColor2)",
+              "& when (@socialShadow)": {
+                "box-shadow": "10px 10px 19px @socialShadow1, -10px -10px 19px @socialShadow2"
+              },
+              "transition": "0.4s all",
+              "&:before": {
+                "content": "\"\"",
+                "position": "absolute",
+                "top": "0",
+                "left": "0",
+                "z-index": "4",
+                "transition": "0.4s all",
+                "width": "100%",
+                "height": "100%",
+                "border-radius": "5px",
+                "background": "linear-gradient(to right bottom, #212428, #16181c)",
+                "opacity": "0"
+              },
+              ".mbr-iconfont": {
+                "position": "relative",
+                "z-index": "5",
+                "transition": "0.4s all",
+                "font-size": "20px",
+                "color": "@socialColor"
+              },
+              "&:hover": {
+                "transform": "translateY(-3px)",
+                "&:before": {
+                  "opacity": "1"
+                }
+              }
+            },
+            ".offcanvas_btn": {
+              "margin-top": "auto",
+              ".mbr-section-btn": {
+                "display": "flex",
+                "flex-direction": "column",
+                "align-items": "stretch",
+                "width": "100%",
+                "margin-left": "-0.6rem",
+                "margin-right": "-0.6rem",
+                ".btn": {
+                  "flex-grow": "1"
+                }
+              }
+            }
+          },
+          "_cid": "tvLEj8K5a9",
+          "_protectedParams": [],
+          "_global": true,
+          "_once": "menu",
+          "_params": {},
+          "_anchor": "amenu2-h5"
+        },
+        {
+          "alias": false,
+          "_styles": {
+            "padding-top": "(@paddingTop * 15px)",
+            "padding-bottom": "(@paddingBottom * 15px)",
+            "background-color": "@bgColor",
+            ".mbr-text": {
+              "position": "relative"
+            },
+            ".mbr-text:before": {
+              "color": "@quotesColor",
+              "content": "'\\201C'",
+              "font-size": "3em",
+              "line-height": "0.1em",
+              "margin-right": "0.2em",
+              "vertical-align": "-0.4em",
+              "position": "absolute",
+              "top": "10px",
+              "left": "-2rem"
+            },
+            ".mbr-text:after": {
+              "color": "@quotesColor",
+              "content": "'\\201D'",
+              "font-size": "3em",
+              "line-height": "0.1em",
+              "vertical-align": "-0.45em",
+              "position": "absolute",
+              "bottom": "10px",
+              "right": "-2rem"
+            },
+            ".logo": {
+              "img": {
+                "width": "auto",
+                "display": "inline-block"
+              }
+            },
+            "@media (max-width: 767px)": {
+              ".mbr-text:after, .mbr-text:before": {
+                "display": "none"
+              }
+            }
+          },
+          "_name": "content2",
+          "_sourceTheme": "restaurantm4",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"mbr-section content2 restaurantm4_content2\" group=\"Content\">\n\n\t<mbr-parameters>\n\t\t<!-- Block parameters controls (Blue \"Gear\" panel) -->\n\t\t<header>Size</header>\n\t\t<input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"8\" step=\"1\" value=\"4\">\n\t\t<input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"8\" step=\"1\" value=\"1\">\n\t\t<header>Show / Hide</header>\n\t\t<input type=\"checkbox\" title=\"Logo\" name=\"showLogo\" checked>\n\t\t<input type=\"checkbox\" title=\"Title\" name=\"showTitle\" checked>\n\t\t<input type=\"range\" title=\"Logo Size\" inline name=\"logoSize\" min=\"3.8\" max=\"8\" step=\"0.1\" value=\"5.5\" condition=\"showLogo\">\n\t\t<input type=\"color\" title=\"Quotes Color\" name=\"quotesColor\" value=\"#333333\">\n\t\t<input type=\"color\" title=\"Background Color\" name=\"bgColor\" value=\"#ffffff\">\n\t\t<!-- End block parameters -->\n\t</mbr-parameters>\n\n\t<div class=\"container\">\n\t\t<div class=\"row justify-content-center\">\n\t\t\t<div class=\"col-md-10 col-sm-12 text-section\">\n\t\t\t\t<div class=\"logo align-center\" mbr-class=\"{'pb-5': !showTitle, 'pb-3': showTitle}\" mbr-if=\"showLogo\">\n\t\t\t\t\t<a href=\"https://mobiri.se\">\n\t\t\t\t\t\t<img src=\"@PROJECT_PATH@/assets/images/mbr-121x121.png\" alt=\"Camera\" mbr-style=\"{'height': logoSize + 'rem'}\">\n\t\t\t\t\t</a>\n\t\t\t\t</div>\n\t\t\t\t<h3 class=\"mbr-section-title mbr-fonts-style align-center pb-4\" mbr-theme-style=\"display-5\" data-app-selector=\".mbr-section-title, .logo\" mbr-if=\"showTitle\"><b>The Best Lenses for Portrait Photography</b></h3>\n\t\t\t\t<p class=\"mbr-fonts-style mbr-text align-center\" data-app-selector=\".mbr-text\" mbr-theme-style=\"display-7\">The art of portrait photography is delicate &amp; artistic requiring the ideal fusion of technical proficiency &amp; originality. As a photographer, you are aware of the critical role that the correct lens may have in the quality of your photos. In this in-depth tutorial we'll look at the top lenses for portrait photography the important things to think about when selecting a lens, and how to get the most out of your lens selections to get gorgeous attractive pictures.<br></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>",
+          "_cid": "tvLEja7ATv",
+          "_protectedParams": [],
+          "_global": false,
+          "_once": false,
+          "_params": {},
+          "_anchor": "content2-h6"
+        },
+        {
+          "alias": false,
+          "_styles": {
+            "padding-top": "(@paddingTop * 1rem)",
+            "padding-bottom": "(@paddingBottom * 1rem)",
+            "& when (@bg-type = 'color')": {
+              "background-color": "@bg-value"
+            },
+            "& when (@bg-type = 'image')": {
+              "background-image": "url(@bg-value)"
+            },
+            ".mbr-section-title": {
+              "margin-bottom": "0"
+            },
+            ".mbr-text": {
+              "margin-top": "10px",
+              "margin-bottom": "0",
+              "color": "#1e2024"
+            },
+            ".card__block": {
+              "margin-top": "45px",
+              "font-weight": "500"
+            },
+            ".card__title": {
+              "width": "100%"
+            },
+            ".mbr-fallback-image.disabled": {
+              "display": "none"
+            },
+            ".mbr-fallback-image": {
+              "display": "block",
+              "background-size": "cover",
+              "background-position": "center center",
+              "width": "100%",
+              "height": "100%",
+              "position": "absolute",
+              "top": "0",
+              "& when (@bg-type = 'video')": {
+                "background-image": "url(@fallBackImage)"
+              }
+            }
+          },
+          "_name": "content7",
+          "_sourceTheme": "marketm4",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content7 marketm4_content7\" group=\"Content\" data-bg-video=\"{{bg.type == 'video' && bg.value.url}}\" mbr-class=\"{'mbr-parallax-background': bg.parallax}\">\n\n\t<mbr-parameters>\n\t\t\n\t\t<header>Size</header>\n\t\t<input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"0\">\n\t\t<input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"1\">\n\t\t<input type=\"range\" title=\"Count Items\" name=\"CardCount\" min=\"0\" max=\"10\" value=\"7\">\n\t\t<header>Show/Hide</header>\n\t\t<input type=\"checkbox\" title=\"Title\" name=\"showTitle\">\n\t\t<input type=\"checkbox\" title=\"Card Title\" name=\"showCardTitle\" checked>\n\t\t<input type=\"checkbox\" title=\"Card Text\" name=\"showText\" checked>\n\t\t<header>Background</header>\n\t\t<fieldset type=\"background\" name=\"bg\" parallax>\n\t\t\t<input type=\"image\" title=\"Image\" value=\"@ADDONS_PATH@/marketm4/components/_images/bg1.jpg\" parallax>\n\t\t\t<input type=\"color\" title=\"Color\" value=\"#ffffff\" selected>\n\t\t\t<input type=\"video\" title=\"Video\" value=\"https://www.youtube.com/watch?v=36YgDDJ7XSc\">\n\t\t</fieldset>\n        <header condition=\"bg.type === 'video'\">Fallback Image</header>\n        <input type=\"image\" title=\"Fallback Image\" value=\"@ADDONS_PATH@/marketm4/components/_images/background1.jpg\" name=\"fallBackImage\" condition=\"bg.type === 'video'\">\n\n\t\t<input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n\t\t<input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#2f1893\" condition=\"overlay && bg.type !== 'color'\">\n\t\t<input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.9\" condition=\"overlay && bg.type !== 'color'\">\n\t\t\n\t</mbr-parameters>\n    <div class=\"mbr-fallback-image disabled\" mbr-if=\"bg.type == 'video'\"></div>\n\n\n\t<div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type!== 'color'\" mbr-style=\"{'opacity': overlayOpacity, 'background-color': overlayColor}\"></div>\n\n\t<div class=\"container\">\n\t\t<div class=\"row justify-content-center\">\n\t\t\t<div class=\"col-xl-10 col-lg-11\">\n\t\t\t\t<div class=\"text-left text-lg-center\">\n\t\t\t\t\t<h2 class=\"mbr-section-title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-5\" mbr-if=\"showTitle\" data-app-selector=\".mbr-section-title\">The Ultimate Guide to Landscape Photography: Tips and Techniques</h2>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"row justify-content-center justify-content-lg-between\" mbr-list mbr-list-grow=\"CardCount\" mbr-if=\"CardCount > 0\">\n\t\t\t\t\t<div class=\"card__block col-lg-6\">\n\t\t\t\t\t\t<h3 class=\"card__title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-2\" mbr-if=\"showCardTitle\" data-app-selector=\".card__title\">What Makes a Good Portrait Lens?</h3>\n\t\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\" mbr-if=\"showText\">When it comes to portrait photography the right lens can make a world of difference. A good portrait lens should have a fast maximum aperture, high image quality &amp; good bokeh  (the aesthetic quality of the out of focus areas in an image). Additionally, a good portrait lens should have the ability to produce sharp, detailed images with excellent colour accuracy &amp; provide adequate compression and perspective control to ensure that your subject stands out from the background.<br></p>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"card__block col-lg-6\">\n\t\t\t\t\t\t<h3 class=\"card__title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-2\" mbr-if=\"showCardTitle\" data-app-selector=\".card__title\">Key Factors to Consider When Choosing a Lens for Portrait Photography</h3>\n\t\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\" mbr-if=\"showText\">When choosing a lens for portrait photography, there are several key factors to consider including:<br><br><b>Focal Length</b>: Focal length is the distance between the lens and the camera's sensor &amp; it determines the field of view and magnification of an image. When it comes to portrait photography, a moderate focal length of around 85mm is considered ideal. This allows you to capture portraits that are not too tight and not too wide, while still providing adequate compression and perspective control.<br><br><b>Maximum Aperture</b>: Maximum aperture refers to the widest opening of a lens and is expressed in f-stops. The wider the maximum aperture, the more light the lens can let in &amp; the more shallow the depth of field. This makes a fast maximum aperture (such as f/1.4 or f/1.8) essential for capturing beautiful, soft &amp; dreamy bokeh in portrait photography.<br><br><b>Image Quality</b>: Image quality is a critical factor to consider when choosing a lens for portrait photography. Look for lenses that produce sharp, detailed images with excellent color accuracy &amp; low levels of distortion, chromatic aberration &amp; vignetting.<br></p>\n\t\t\t\t\t</div>\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t\t\n\t\t\t\t<div class=\"card__block col-lg-6\">\n\t\t\t\t\t\t<h3 class=\"card__title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-2\" mbr-if=\"showCardTitle\" data-app-selector=\".card__title\">The Best Lenses for Portrait Photography</h3>\n\t\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\" mbr-if=\"showText\">With so many lenses available, it can be difficult to choose the right one for portrait photography.  Here are some of the best lenses for portrait photography based on their focal length maximum aperture &amp; image quality:<br><br>Canon EF 85mm f/1.8 USM:  This is a classic portrait lens that provides excellent image quality &amp; bokeh while also being lightweight and affordable.<br><br>Nikon AF-S 85mm f/1.8G:  This is a fast and sharp portrait lens that provides excellent image quality &amp; bokeh making it a popular choice among Nikon photographers.<br><br>Sony 85mm f/1.4 GM: This is a top-of-the-line portrait lens for Sony photographers, offering excellent image quality and bokeh &amp; a fast maximum aperture for low-light shooting.<br><br>Sigma Art 85mm f/1.4 DG HSM: This is a versatile portrait lens that offers excellent image quality, bokeh, and fast maximum aperture, making it a great choice for Canon, Nikon &amp; Sony photographers alike.<br><br>Tamron SP 70-200mm f/2.8 Di VC USD: This is a versatile zoom lens that provides excellent image quality and fast maximum aperture, making it a great choice for portrait photography as well as other types of photography.<br></p>\n\t\t\t\t\t</div><div class=\"card__block col-lg-6\">\n\t\t\t\t\t\t<h3 class=\"card__title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-2\" mbr-if=\"showCardTitle\" data-app-selector=\".card__title\">Canon EF 85mm f/1.8 USM</h3>\n\t\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\" mbr-if=\"showText\">The Canon EF 85mm f/1.8 USM is a highly popular lens for portrait photographers due to its combination of affordability and exceptional image quality. This lens provides a bright f/1.8 maximum aperture making it an excellent choice for low light situations &amp; shallow depth of field photography. Additionally, the USM motor provides fast, silent autofocus making it easy to quickly lock onto your subject:<br><br><b>Pros</b>:<br>- Affordable<br>- Excellent image quality<br>- Bright f/1.8 aperture<br>- Fast, silent autofocus<br><br><b>Cons</b>:<br>- No image stabilisation<br>- No weather sealing<br></p>\n\t\t\t\t\t</div><div class=\"card__block col-lg-6\">\n\t\t\t\t\t\t<h3 class=\"card__title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-2\" mbr-if=\"showCardTitle\" data-app-selector=\".card__title\">Nikon AF-S DX Nikkor 35mm f/1.8G</h3>\n\t\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\" mbr-if=\"showText\">Suitable for portraiture, the Nikon AF-S DX Nikkor 35mm f/1.8G is a versatile lens. This lens which has a 35mm focal length and offers a little broader perspective than a normal portrait lens is a fantastic option for taking environmental photos. Shallow depth of field and low light performance are made possible by the  f/1.8 maximum aperture &amp; a quick and precise autofocus mechanism makes it easy to lock onto your subject.<br><br><b>Pros</b>:<br>- Versatile focal length<br>- Bright f/1.8 aperture<br>- Fast and accurate autofocus<br>- Affordable<br><br><b>Cons</b>:<br>- No image stabilisation<br>- No weather sealing</p>\n\t\t\t\t\t</div><div class=\"card__block col-lg-6\">\n\t\t\t\t\t\t<h3 class=\"card__title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-2\" mbr-if=\"showCardTitle\" data-app-selector=\".card__title\">Sony FE 85mm f/1.8</h3>\n\t\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\" mbr-if=\"showText\">The Sony FE 85mm f/1.8  is a versatile lens that is ideal for portrait photographers using Sony full-frame mirrorless cameras. This lens provides a bright f/1.8 maximum aperture making it an excellent choice for shallow depth of field photography and low light situations. Additionally the fast autofocus system &amp; lightweight design make it a great choice for handheld shooting.<br><br><b>Pros</b>:<br>- Bright f/1.8 aperture<br>- Fast autofocus<br>- Lightweight and compact design<br><br><b>Cons</b>:<br>- No image stabilisation<br>- Limited compatibility with Sony's APS-C format cameras<br></p>\n\t\t\t\t\t</div><div class=\"card__block col-lg-6\">\n\t\t\t\t\t\t<h3 class=\"card__title mbr-bold mbr-fonts-style\" mbr-theme-style=\"display-2\" mbr-if=\"showCardTitle\" data-app-selector=\".card__title\">Sigma Art 70mm f/2.8 DG Macro</h3>\n\t\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\" mbr-if=\"showText\">The Sigma Art 70mm f/2.8 DG Macro is a unique lens that provides exceptional image quality and versatility.  With a 70mm focal length this lens is perfect for portrait photography while its macro capabilities allow you to capture detailed close-up shots as well. The f/2.8 maximum aperture provides bright &amp; sharp images while the fast autofocus system helps you quickly lock onto your subject.<br><br><b>Pros</b>:<br>- Unique combination of portrait and macro capabilities<br>- Exceptional image quality<br>- Bright f/2.8 aperture<br>- Fast autofocus<br><br><b>Cons</b>:<br>- Slightly higher price point<br>- No image stabilizationization</p>\n\t\t\t\t\t</div></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>",
+          "_cid": "tvLEjapcME",
+          "_protectedParams": [],
+          "_global": false,
+          "_once": false,
+          "_params": {},
+          "_anchor": "content7-h7"
+        },
+        {
+          "alias": false,
+          "_styles": {
+            "padding-top": "(@paddingTop * 1rem)",
+            "padding-bottom": "(@paddingBottom * 1rem)",
+            "background-color": "@bgColor",
+            ".line": {
+              "background-color": "@lineColor",
+              "align": "center",
+              "height": "2px",
+              "margin": "0 auto"
+            }
+          },
+          "_name": "content6",
+          "_sourceTheme": "mobirise5",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content6\" group=\"Content\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Width\" name=\"fullWidth\">\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"0\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"0\">\n        <input type=\"range\" name=\"textWidth\" title=\"Width\" min=\"4\" max=\"12\" value=\"12\" step=\"1\">\n        \n        <input type=\"color\" name=\"lineColor\" title=\"Color\" value=\"#ddc499\">\n        <header>Background</header>\n        <input type=\"color\" title=\"Color\" name=\"bgColor\" value=\"#ffffff\">\n    </mbr-parameters>\n    <div mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n        <div class=\"row justify-content-center\">\n            <div class=\"col-md-12 col-lg-{{textWidth}}\">\n                <hr class=\"line\">\n                <p class=\"mbr-text align-center mbr-fonts-style my-4\" mbr-theme-style=\"display-7\" data-app-selector=\".mbr-text\">When it comes to portrait photography having the right lens is essential to capturing the perfect shot. Whether you're a professional photographer or just starting out, the lenses listed above are some of the best options for portrait photography. Each lens offers unique features &amp; qualities that make it ideal for capturing stunning portraits, so be sure to consider your needs and preferences before making a decision.<br><br>Remember, while the lens is an important factor, it's equally important to understand your camera settings, lighting &amp; how to pose your subjects to get the best results. Take your time to experiment with different lenses, and don't be afraid to try out different techniques to find what works best for you. With the right lens &amp; a little bit of creativity, you'll be able to take portraits that are truly amazing.<br></p>\n                <hr class=\"line\">\n            </div>\n        </div>\n    </div>\n</section>",
+          "_cid": "tvLEjbeiqg",
+          "_protectedParams": [],
+          "_global": false,
+          "_once": false,
+          "_params": {},
+          "_anchor": "content6-h8"
+        },
+        {
+          "alias": false,
+          "_styles": {
+            "padding-top": "(@paddingTop * 1rem)",
+            "padding-bottom": "(@paddingBottom * 1rem)",
+            "background-color": "@bgColor",
+            ".mbr-section-btn": {
+              "justify-content": "space-between",
+              "display": "flex",
+              "flex-wrap": "wrap"
+            }
+          },
+          "_name": "content12",
+          "_sourceTheme": "mobirise5",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"content12\" group=\"Content\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Width\" name=\"fullWidth\">\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"0\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"1\">\n        <input type=\"range\" name=\"textWidth\" title=\"Width\" min=\"4\" max=\"12\" value=\"10\" step=\"1\">\n        <header>Background</header>\n        <input type=\"color\" title=\"Color\" name=\"bgColor\" value=\"#ffffff\">\n    </mbr-parameters>\n    <div mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n        <div class=\"row justify-content-center\">\n            <div class=\"col-md-12 col-lg-{{textWidth}}\">\n                <div class=\"mbr-section-btn align-center\" mbr-buttons mbr-theme-style=\"display-4\" data-toolbar=\"-mbrBtnMove,-mbrAddBtn\"><a class=\"btn btn-primary\" href=\"Education.html\" data-app-placeholder=\"Type Text\">All Articles</a>\n                    <a class=\"btn btn-primary\" href=\"TheUltimateGuidetoLandscapePhotography.html\" data-app-placeholder=\"Type Text\">Next Article</a></div>\n            </div>\n        </div>\n    </div>\n</section>",
+          "_isUserblock": true,
+          "_cid": "tvLEjbxU4b",
+          "_protectedParams": [],
+          "_global": false,
+          "_once": false,
+          "_params": {},
+          "_anchor": "content12-h9"
+        },
+        {
+          "_name": "form01",
+          "_sourceTheme": "pizzam5",
+          "_styles": {
+            "& when not (@fullScreen)": {
+              "padding-top": "(@paddingTop * 1rem)",
+              "padding-bottom": "(@paddingBottom * 1rem)"
+            },
+            "& when (@bg-type = \"image\")": {
+              "background-image": "url(@bg-value)"
+            },
+            "& when (@bg-type = \"color\")": {
+              "background-color": "@bg-value"
+            },
+            "input, textarea, input:active, textarea:active, input:focus, textarea:focus, form": {
+              "& when (@bg-type = \"color\")": {
+                "color": "contrast(@bg-value)"
+              },
+              "& when (@bg-type = \"image\")": {
+                "color": "contrast(@overlayColor)"
+              }
+            },
+            "input, textarea": {
+              "border": "none !important",
+              "border-bottom": "1px solid #969494 !important"
+            },
+            "input:hover, textarea:hover": {
+              "border": "none !important",
+              "border-bottom": "1px solid @secondaryColor !important"
+            },
+            ".colored-text": {
+              "color": "@coloredTextColor !important"
+            },
+            ".mbr-section-title": {
+              "color": "#bbbbbb",
+              "text-align": "left"
+            },
+            ".mbr-section-subtitle": {
+              "color": "#bbbbbb",
+              "text-align": "center"
+            },
+            ".mbr-text": {
+              "color": "#ffffff"
+            }
+          },
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"form01\" group=\"Form\" mbr-class=\"{'mbr-fullscreen': fullScreen,\n'mbr-parallax-background': bg.parallax}\" plugins=\"formstyler, datepicker\">\n    <mbr-parameters>\n        <header>Size</header>\n        <input type=\"checkbox\" title=\"Full Screen\" name=\"fullScreen\">\n        <input type=\"checkbox\" title=\"Full Width\" name=\"fullWidth\">\n        <input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"10\" step=\"1\" value=\"1\" condition=\"fullScreen == false\">\n        <input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"10\" step=\"1\" value=\"0\" condition=\"fullScreen == false\">\n        <header>Show/Hide</header>\n        <input type=\"checkbox\" title=\"Title\" name=\"showTitle\" checked>\n        <input type=\"checkbox\" title=\"Subtitle\" name=\"showSubtitle\" checked>\n        <header>Text</header>\n        <input type=\"color\" title=\"Colored\" value=\"#ddc499\" name=\"coloredTextColor\">\n        <header>Background</header>\n        <fieldset type=\"background\" name=\"bg\" parallax>\n            <input type=\"image\" title=\"Image\" value=\"@PROJECT_PATH@/assets/images/image6-1.jpg\">\n            <input type=\"color\" title=\"Color\" value=\"#353535\" selected>\n        </fieldset>\n        <input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n        <input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#414142\" condition=\"overlay && bg.type !== 'color'\">\n        <input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.7\" condition=\"overlay && bg.type !== 'color'\">\n    <input type=\"hidden\" name=\"usedRecaptcha\" value=\"false\"></mbr-parameters>\n\n    <div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type !== 'color'\" opacity=\"{{overlayOpacity}}\" bg-color=\"{{overlayColor}}\"></div>\n\n    <div class=\"pb-md-3 px-0 px-sm-3\" mbr-class=\"{'container': !fullWidth, 'container-fluid': fullWidth}\">\n        <div class=\"row mx-0 mx-sm-5 mb-4\">\n            <div mbr-if=\"showTitle\" class=\"col-12 px-sm-3 mb-3\">\n                <h3 class=\"mbr-section-title mbr-fonts-style\" mbr-theme-style=\"display-5\" data-app-selector=\".mbr-section-title\" data-app-placeholder=\"Type Text\"><font color=\"#ddc499\"><i>Subscribe</i></font>&nbsp;to our newsletter.</h3>\n            </div>\n            <div mbr-if=\"showSubtitle\" class=\"col-12 px-sm-3 mb-3\">\n                <h4 class=\"mbr-section-subtitle mbr-fonts-style\" mbr-theme-style=\"display-2\" data-app-selector=\".mbr-section-subtitle\" data-app-placeholder=\"Type Text\">\n                    <i class=\"colored-text\">Exclusive knowledge</i>&nbsp;every month!\n                </h4>\n            </div>\n        </div>\n        <div mbr-form class=\"row mx-0 mx-sm-5 mbr-form\">\n<!--Formbuilder Form-->\n<form action=\"photo@lilkangoomedia.com\" name=\"Form Name\" method=\"POST\" class=\"mbr-form form-with-styler\" data-verified=\"photo@lilkangoomedia.com\">\n<div class=\"row\">\n<div hidden=\"hidden\" data-form-alert class=\"alert alert-success col-12\">Thank you for subscribing to our newsletter. We will inform you with the latest offers.</div>\n<div hidden=\"hidden\" data-form-alert-danger class=\"alert alert-danger col-12\"> Oops...! some problem! </div>\n</div>\n<div class=\"dragArea row\">\n<div class=\"col mb-4 mb-sm-0\" data-for=\"email\">\n<input type=\"email\" name=\"email\" placeholder=\"Email*\" data-form-field=\"email\" mbr-theme-style=\"display-7\" required=\"required\" class=\"form-control rounded-0 bg-transparent shadow-none\" value>\n</div>\n<div class=\"col\" mbr-buttons=\"true\" mbr-theme-style=\"display-4\" data-toolbar=\"-mbrBtnMove,-mbrLink,-mbrBtnRemove,-mbrBtnAdd\" style>\n<a data-toolbar=\"-mbrBtnMove,-mbrLink,-mbrBtnRemove,-mbrBtnAdd\" type=\"submit\" class=\"w-100 w-100 w-100 w-100 btn rounded-pill w-100 btn-white\">Subscribe</a>\n</div>\n</div>\n</form><!--Formbuilder Form-->\n</div>\n    </div>\n</section>",
+          "_isUserblock": true,
+          "_cid": "tvLEjbPqzq",
+          "_protectedParams": [],
+          "_global": false,
+          "_once": false,
+          "_params": {},
+          "_anchor": "form01-ha"
+        },
+        {
+          "_name": "footer01",
+          "_sourceTheme": "dinerm4",
+          "_customHTML": "<section data-bs-version=\"5.1\" class=\"footer01 dinerm4_footer01\" group=\"Footers\" global once=\"footers\" mbr-class=\"{'mbr-reveal': reveal, 'mbr-parallax-background': bg.parallax}\">\n\n\t<mbr-parameters>\n\t\t\n\t\t<header>Size</header>\n\t\t<input type=\"checkbox\" title=\"Full Screen\" name=\"fullScreen\">\n\t\t<input type=\"range\" inline title=\"Top\" name=\"paddingTop\" min=\"0\" max=\"8\" step=\"1\" value=\"1\" condition=\"fullScreen == false\">\n\t\t<input type=\"range\" inline title=\"Bottom\" name=\"paddingBottom\" min=\"0\" max=\"8\" step=\"1\" value=\"4\" condition=\"fullScreen == false\">\n\t\t<input type=\"range\" inline title=\"Col\" name=\"menuItems1\" min=\"1\" max=\"4\" step=\"1\" value=\"3\">\n\t\t<header>Show / Hide</header>\n\t\t<input type=\"checkbox\" title=\"Logo\" name=\"showLogo\" checked>\n\t\t<input type=\"checkbox\" title=\"Item Title\" name=\"showcardTitle\" checked>\n\t\t<input type=\"checkbox\" title=\"Item Text\" name=\"showText\" checked>\n\t\t<input type=\"checkbox\" title=\"Phone\" name=\"showPhone\" checked>\n\t\t<input type=\"color\" title=\"Border Color\" name=\"border\" value=\"#808080\" selected>\n\t\t<header>Background</header>\n\t\t<fieldset type=\"background\" name=\"bg\" parallax>\n\t\t\t<input type=\"image\" title=\"Image\" value=\"@ADDONS_PATH@/dinerm4/components/_images/background1.jpg\" parallax>\n\t\t\t<input type=\"color\" title=\"Color\" value=\"#fafafa\" selected>\n\t\t\t<input type=\"video\" title=\"Video\" value=\"https://www.youtube.com/watch?v=36YgDDJ7XSc\">\n\t\t</fieldset>\n        <header condition=\"bg.type === 'video'\">Fallback Image</header>\n        <input type=\"image\" title=\"Fallback Image\" value=\"@ADDONS_PATH@/dinerm4/components/_images/background1.jpg\" name=\"fallBackImage\" condition=\"bg.type === 'video'\">\n\n\n\t\t<input type=\"checkbox\" title=\"Gradient\" name=\"gradientBg\" condition=\"bg.type == 'color'\">\n\t\t<input type=\"color\" title=\"Color 2\" name=\"color2\" value=\"#fafafa\" condition=\"gradientBg && bg.type == 'color'\">\n\t\t<input type=\"checkbox\" title=\"Overlay\" name=\"overlay\" condition=\"bg.type !== 'color'\" checked>\n\t\t<input type=\"color\" title=\"Overlay Color\" name=\"overlayColor\" value=\"#0e0e0e\" condition=\"overlay && bg.type !== 'color'\">\n\t\t<input type=\"range\" inline title=\"Opacity\" name=\"overlayOpacity\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.8\" condition=\"overlay && bg.type !== 'color'\">\n\t\t\n\t</mbr-parameters>\n    <div class=\"mbr-fallback-image disabled\" mbr-if=\"bg.type == 'video'\"></div>\n\n\n\t<div class=\"mbr-overlay\" mbr-if=\"overlay && bg.type!== 'color'\" mbr-style=\"{'opacity': overlayOpacity, 'background-color': overlayColor}\"></div>\n\n\t<div class=\"container\">\n\t\t<div class=\"row mbr-white justify-content-center\">\n\t\t\t<div class=\"col-md-12 col-lg-12 pb-5 my-auto md-pb\" mbr-if=\"showLogo\">\n\t\t\t\t<div class=\"logo-wrap\">\n\t\t\t\t\t<img class=\"logo\" src=\"@PROJECT_PATH@/assets/images/lilkangoo-logo2-512x512.png\" alt=\"Photographer cyprus\">\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"col-md-6 align-center col-lg-3\" mbr-if=\"menuItems1 > 0\">\n\t\t\t\t<div class=\"item-content\">\n\t\t\t\t\t<h3 class=\"mbr-section-title pb-2 mbr-bold mbr-fonts-style\" mbr-if=\"showcardTitle\" mbr-theme-style=\"display-7\">Contacts</h3>\n\t\t\t\t\t<p class=\"mbr-text pb-3 mbr-fonts-style\" mbr-if=\"showText\" data-app-selector=\".mbr-text, .mbr-section-btn\" mbr-theme-style=\"display-4\"><a href=\"mailto:photo@lilkangoomedia.com\" class=\"text-primary\">photo@lilkangoomedia.com</a><br>What's app: <a href=\"https://wa.me/48 534 073 861\" class=\"text-info\">+48 534 073 861</a><br>Phone: <a href=\"tel:+35799005924\" class=\"text-primary\">+357 99 0059 24</a><br><a href=\"https://twitter.com/Lily_Lorelei_\" class=\"text-primary\" target=\"_blank\">Twitter Lily</a><br><a href=\"https://twitter.com/lilKangoo\" class=\"text-primary\" target=\"_blank\">Twitter Kangoo<br></a><br>© Copyright 2022 LilKangooMedia - All Rights Reserved<br><a href=\"termsofservice.html\" class=\"text-primary\">Terms of service</a></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"col-md-6 col-lg-3 align-center\" mbr-if=\"menuItems1 > 1\">\n\t\t\t\t<div class=\"item-content\">\n\t\t\t\t\t<h3 class=\"mbr-section-title pb-2 mbr-bold mbr-fonts-style\" mbr-if=\"showcardTitle\" mbr-theme-style=\"display-7\">Links</h3>\n\t\t\t\t\t<p class=\"mbr-text mbr-fonts-style\" mbr-if=\"showText\" data-app-selector=\".mbr-text, .mbr-section-btn\" mbr-theme-style=\"display-4\"><a href=\"http://instagram.com/lilkangoomedia\" class=\"text-primary\" target=\"_blank\">Instagram</a><br><a href=\"https://www.facebook.com/Lilkangoomedia/\" class=\"text-primary\" target=\"_blank\">Facebook</a><br><a href=\"https://www.youtube.com/channel/UCgIrKPHFpPy6srhdq4SjEtw\" class=\"text-primary\" target=\"_blank\">Youtube</a><br><a href=\"Education.html\" class=\"text-primary\">Photography&nbsp;Education</a></p>\n\t\t\t\t\t<h4 class=\"phone mbr-bold pb-5 mbr-fonts-style\" mbr-if=\"showPhone\" mbr-theme-style=\"display-7\">Please send us your ideas, bug reports, suggestions! Any feedback would be appreciated.</h4>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"col-md-6 col-lg-3 align-center\" mbr-if=\"menuItems1 > 2\">\n\t\t\t\t<div class=\"item-content\">\n\t\t\t\t\t<h3 class=\"mbr-section-title pb-2 mbr-bold mbr-fonts-style\" mbr-if=\"showcardTitle\" mbr-theme-style=\"display-7\">Our projects</h3>\n\t\t\t\t\t<p class=\"mbr-text pb-3 mbr-fonts-style\" mbr-if=\"showText\" data-app-selector=\".mbr-text, .mbr-section-btn\" mbr-theme-style=\"display-4\">Merchandise:<br>-<a href=\"https://www.redbubble.com/people/InkyGenies/shop\" class=\"text-primary\" target=\"_blank\">InkyGenies</a><br>NFT:<br>-<a href=\"https://lilylorelei.art/\" class=\"text-primary\" target=\"_blank\">Lily</a><br>-<a href=\"https://kangoo.click/\" class=\"text-primary\" target=\"_blank\">Kangoo</a></p>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"col-md-6 col-lg-3 pb-5 align-center\" mbr-if=\"menuItems1 > 3\">\n\t\t\t\t<div class=\"item-content\">\n\t\t\t\t\t<h3 class=\"mbr-section-title pb-2 mbr-bold mbr-fonts-style\" mbr-if=\"showcardTitle\" mbr-theme-style=\"display-7\">Instagram feed</h3>\n\t\t\t\t\t<img class=\"feedimg\" src=\"@ADDONS_PATH@/dinerm4/components/_images/img/01.jpg\" alt=\"Travel\">\n\t\t\t\t\t<img class=\"feedimg\" src=\"@ADDONS_PATH@/dinerm4/components/_images/img/02.jpg\" alt=\"Cyprus\">\n\t\t\t\t\t<img class=\"feedimg\" src=\"@ADDONS_PATH@/dinerm4/components/_images/img/03.jpg\" alt=\"Photographer\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>",
+          "_styles": {
+            "& when not (@fullScreen)": {
+              "padding-top": "(@paddingTop * 15px)",
+              "padding-bottom": "(@paddingBottom * 15px)"
+            },
+            "& when (@bg-type = 'color')": {
+              "background-color": "@bg-value",
+              "& when (@gradientBg)": {
+                "background": "linear-gradient(45deg, @bg-value, @color2)"
+              }
+            },
+            "& when (@bg-type = 'image')": {
+              "background-image": "url(@bg-value)"
+            },
+            ".logo": {
+              "max-width": "140px",
+              "width": "100%",
+              "margin": "auto"
+            },
+            ".row": {
+              "border-bottom": "1px solid @border"
+            },
+            "H2": {
+              "color": "#e7272d"
+            },
+            ".feedimg": {
+              "width": "80px",
+              "height": "80px",
+              "object-fit": "cover",
+              "border-radius": "6px",
+              "margin": "0 2px"
+            },
+            ".logo-wrap": {
+              "width": "fit-content",
+              "margin": "auto",
+              "&:before": {
+                "position": "absolute",
+                "content": "''",
+                "top": "50%",
+                "left": "180px",
+                "width": "999px",
+                "height": "1px",
+                "background": "@border"
+              },
+              "&:after": {
+                "position": "absolute",
+                "content": "''",
+                "top": "50%",
+                "right": "180px",
+                "width": "999px",
+                "height": "1px",
+                "background": "@border"
+              },
+              "position": "relative"
+            },
+            ".col-lg-12": {
+              "overflow": "hidden"
+            },
+            "H4": {
+              "color": "#111111"
+            },
+            ".mbr-text, .mbr-section-btn": {
+              "color": "#111111"
+            },
+            "@media (max-width: 767px)": {
+              ".logo-wrap": {
+                "&:before": {
+                  "content": "none"
+                },
+                "&:after": {
+                  "content": "none"
+                }
+              }
+            },
+            ".mbr-fallback-image.disabled": {
+              "display": "none"
+            },
+            ".mbr-fallback-image": {
+              "display": "block",
+              "background-size": "cover",
+              "background-position": "center center",
+              "width": "100%",
+              "height": "100%",
+              "position": "absolute",
+              "top": "0",
+              "& when (@bg-type = 'video')": {
+                "background-image": "url(@fallBackImage)"
+              }
+            },
+            "H3": {
+              "color": "#a7a7a7"
+            }
+          },
+          "_PHPplaceholders": [],
+          "_JSplaceholders": [],
+          "_cid": "tvLEjceaD3",
+          "_protectedParams": [],
+          "_global": true,
+          "_once": "footers",
+          "_params": {},
+          "_anchor": "footer01-hb"
         }
       ]
     }
