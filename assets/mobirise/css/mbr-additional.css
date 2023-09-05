@@ -1344,73 +1344,13 @@ a {
 .cid-trPMMgUhzZ .offcanvas_btn .mbr-section-btn .btn {
   flex-grow: 1;
 }
-.cid-tP0C921USt {
-  padding-top: 90px;
-  padding-bottom: 90px;
-  background-image: url("../../../assets/images/zaneta-zgliczynska-14-2000x1333.jpg");
+.cid-tP16D46KeR {
+  background-image: url("../../../assets/images/zaneta-zgliczynska-15-2000x1333.jpg");
 }
-.cid-tP0C921USt .mbr-iconfont {
-  color: #ddc499 !important;
-  font-size: 3.5rem !important;
-}
-.cid-tP0C921USt .row {
-  justify-content: center;
-  padding-bottom: 5rem;
-}
-.cid-tP0C921USt .link {
-  margin: 0;
-}
-.cid-tP0C921USt .link a {
-  position: relative;
-  letter-spacing: 2px;
-}
-.cid-tP0C921USt .link a:after {
-  position: absolute;
-  content: '';
-  bottom: -20px;
-  left: 0;
-  margin: auto;
-  right: 0;
-  width: 40px;
-  height: 2px;
-  background: currentColor;
-}
-.cid-tP0C921USt h3 {
-  width: fit-content;
-  position: relative;
-  margin: auto;
-  margin-bottom: 1.8rem;
-  letter-spacing: 6px;
-}
-.cid-tP0C921USt h3:before {
-  position: absolute;
-  content: '';
-  left: -60px;
-  top: 0;
-  margin: auto;
-  bottom: 0;
-  width: 40px;
-  height: 1px;
-  background: currentColor;
-}
-.cid-tP0C921USt h3:after {
-  position: absolute;
-  content: '';
-  right: -60px;
-  top: 0;
-  margin: auto;
-  bottom: 0;
-  width: 40px;
-  height: 1px;
-  background: currentColor;
-}
-.cid-tP0C921USt .btn {
-  margin: 0.2rem !important;
-}
-.cid-tP0C921USt .mbr-fallback-image.disabled {
+.cid-tP16D46KeR .mbr-fallback-image.disabled {
   display: none;
 }
-.cid-tP0C921USt .mbr-fallback-image {
+.cid-tP16D46KeR .mbr-fallback-image {
   display: block;
   background-size: cover;
   background-position: center center;
@@ -1418,6 +1358,48 @@ a {
   height: 100%;
   position: absolute;
   top: 0;
+}
+.cid-tP16D46KeR .mbr-section-title {
+  margin-bottom: 32px;
+}
+.cid-tP16D46KeR .mbr-text {
+  color: #ddc499;
+}
+.cid-tP0XP5Pkbt {
+  padding-top: 1rem;
+  padding-bottom: 0rem;
+  background-color: #ffffff;
+}
+.cid-tP0XP5Pkbt .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-tP0XP5Pkbt .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-tP0XP5Pkbt .item-wrapper {
+  display: flex;
+}
+@media (max-width: 991px) {
+  .cid-tP0XP5Pkbt .item-wrapper {
+    margin-bottom: 2rem;
+  }
+}
+.cid-tP0XP5Pkbt .mbr-iconfont {
+  font-size: 2rem;
+  color: #ddc499;
+  padding-right: 1.5rem;
+}
+.cid-tP0XP5Pkbt .card-text {
+  text-align: center;
+}
+.cid-tP0XP5Pkbt .card-title {
+  text-align: center;
 }
 .cid-tpVkQW9MCS {
   background-color: #ddc499;
@@ -2240,7 +2222,7 @@ a {
 .cid-tnbzYlwDoI {
   padding-top: 15px;
   padding-bottom: 30px;
-  background-image: url("../../../assets/images/boat-www-2000x1125.jpg");
+  background-image: url("../../../assets/images/flamingo-4-2000x1269.jpeg");
 }
 .cid-tnbzYlwDoI .main-head {
   display: flex;
