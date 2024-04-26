@@ -96025,15 +96025,13 @@ a {
 .cid-uaMNyGPIVZ a[class*="text-"]:not(.nav-link):not(.dropdown-item):not([role]):not(.navbar-caption):hover {
   background-image: none;
 }
-.cid-uaMQbl5gJP {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background-color: #ffffff;
+.cid-ub55CfRyUH {
+  background-image: url("../../../assets/images/agnieszka-sciezka-29-2000x1381.jpg");
 }
-.cid-uaMQbl5gJP .mbr-fallback-image.disabled {
+.cid-ub55CfRyUH .mbr-fallback-image.disabled {
   display: none;
 }
-.cid-uaMQbl5gJP .mbr-fallback-image {
+.cid-ub55CfRyUH .mbr-fallback-image {
   display: block;
   background-size: cover;
   background-position: center center;
@@ -96042,13 +96040,30 @@ a {
   position: absolute;
   top: 0;
 }
-.cid-uaMQbl5gJP .item {
+.cid-ub55EGi5Xy {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #ffffff;
+}
+.cid-ub55EGi5Xy .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-ub55EGi5Xy .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-ub55EGi5Xy .item {
   padding-bottom: 2rem;
 }
-.cid-uaMQbl5gJP .item-wrapper {
+.cid-ub55EGi5Xy .item-wrapper {
   position: relative;
 }
-.cid-uaMQbl5gJP .item-wrapper .icon-wrapper {
+.cid-ub55EGi5Xy .item-wrapper .icon-wrapper {
   pointer-events: none;
   position: absolute;
   width: 60px;
@@ -96067,26 +96082,26 @@ a {
   background-color: #1b1b1b;
   transition: 0.2s;
 }
-.cid-uaMQbl5gJP .item-wrapper:hover .icon-wrapper {
+.cid-ub55EGi5Xy .item-wrapper:hover .icon-wrapper {
   opacity: 0.7;
 }
-.cid-uaMQbl5gJP .carousel-control,
-.cid-uaMQbl5gJP .close {
+.cid-ub55EGi5Xy .carousel-control,
+.cid-ub55EGi5Xy .close {
   background: #1b1b1b;
 }
-.cid-uaMQbl5gJP .carousel-control-prev {
+.cid-ub55EGi5Xy .carousel-control-prev {
   margin-left: 2.5rem;
 }
-.cid-uaMQbl5gJP .carousel-control-prev span {
+.cid-ub55EGi5Xy .carousel-control-prev span {
   margin-right: 5px;
 }
-.cid-uaMQbl5gJP .carousel-control-next {
+.cid-ub55EGi5Xy .carousel-control-next {
   margin-right: 2.5rem;
 }
-.cid-uaMQbl5gJP .carousel-control-next span {
+.cid-ub55EGi5Xy .carousel-control-next span {
   margin-left: 5px;
 }
-.cid-uaMQbl5gJP .close {
+.cid-ub55EGi5Xy .close {
   position: fixed;
   opacity: 0.5;
   font-size: 22px;
@@ -96106,15 +96121,15 @@ a {
   justify-content: center;
   display: flex;
 }
-.cid-uaMQbl5gJP .close::before {
+.cid-ub55EGi5Xy .close::before {
   content: '\e91a';
 }
-.cid-uaMQbl5gJP .close:hover {
+.cid-ub55EGi5Xy .close:hover {
   opacity: 1;
   background: #000;
   color: #fff;
 }
-.cid-uaMQbl5gJP .carousel-control {
+.cid-ub55EGi5Xy .carousel-control {
   display: flex;
   top: 50%;
   width: 60px;
@@ -96126,26 +96141,26 @@ a {
   border-radius: 50%;
   transition: all 0.3s;
 }
-.cid-uaMQbl5gJP .carousel-control.carousel-control-prev {
+.cid-ub55EGi5Xy .carousel-control.carousel-control-prev {
   left: 0;
   margin-left: 2.5rem;
 }
-.cid-uaMQbl5gJP .carousel-control.carousel-control-next {
+.cid-ub55EGi5Xy .carousel-control.carousel-control-next {
   right: 0;
   margin-right: 2.5rem;
 }
 @media (max-width: 767px) {
-  .cid-uaMQbl5gJP .carousel-control {
+  .cid-ub55EGi5Xy .carousel-control {
     top: auto;
     bottom: 1rem;
   }
 }
-.cid-uaMQbl5gJP .carousel-indicators {
+.cid-ub55EGi5Xy .carousel-indicators {
   position: absolute;
   bottom: 0;
   margin-bottom: 3px;
 }
-.cid-uaMQbl5gJP .carousel-indicators li {
+.cid-ub55EGi5Xy .carousel-indicators li {
   max-width: 15px;
   height: 15px;
   width: 15px;
@@ -96157,15 +96172,15 @@ a {
   opacity: 0.5;
   transition: all 0.3s;
 }
-.cid-uaMQbl5gJP .carousel-indicators li.active,
-.cid-uaMQbl5gJP .carousel-indicators li:hover {
+.cid-ub55EGi5Xy .carousel-indicators li.active,
+.cid-ub55EGi5Xy .carousel-indicators li:hover {
   opacity: 0.9;
 }
-.cid-uaMQbl5gJP .carousel-indicators li::after,
-.cid-uaMQbl5gJP .carousel-indicators li::before {
+.cid-ub55EGi5Xy .carousel-indicators li::after,
+.cid-ub55EGi5Xy .carousel-indicators li::before {
   content: none;
 }
-.cid-uaMQbl5gJP .carousel-indicators.ie-fix {
+.cid-ub55EGi5Xy .carousel-indicators.ie-fix {
   left: 50%;
   display: block;
   width: 60%;
@@ -96173,60 +96188,60 @@ a {
   text-align: center;
 }
 @media (max-width: 768px) {
-  .cid-uaMQbl5gJP .carousel-indicators {
+  .cid-ub55EGi5Xy .carousel-indicators {
     display: none !important;
   }
 }
 @media (max-width: 991px) {
-  .cid-uaMQbl5gJP .carousel-indicators {
+  .cid-ub55EGi5Xy .carousel-indicators {
     margin-bottom: 3.625rem !important;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
 }
 @media (max-width: 767px) {
-  .cid-uaMQbl5gJP .carousel-indicators {
+  .cid-ub55EGi5Xy .carousel-indicators {
     display: none;
   }
 }
-.cid-uaMQbl5gJP .carousel-inner {
+.cid-ub55EGi5Xy .carousel-inner {
   display: flex;
   align-items: center;
 }
-.cid-uaMQbl5gJP .carousel-inner > .active {
+.cid-ub55EGi5Xy .carousel-inner > .active {
   display: block;
 }
-.cid-uaMQbl5gJP .carousel-control.left {
+.cid-ub55EGi5Xy .carousel-control.left {
   left: 0;
   margin-left: 2.5rem;
 }
-.cid-uaMQbl5gJP .carousel-control.right {
+.cid-ub55EGi5Xy .carousel-control.right {
   right: 0;
   margin-right: 2.5rem;
 }
-.cid-uaMQbl5gJP .carousel-control:hover {
+.cid-ub55EGi5Xy .carousel-control:hover {
   background: #1b1b1b;
   color: #fff;
   opacity: 1;
 }
 @media (max-width: 768px) {
-  .cid-uaMQbl5gJP .carousel-control,
-  .cid-uaMQbl5gJP .carousel-indicators,
-  .cid-uaMQbl5gJP .modal .close {
+  .cid-ub55EGi5Xy .carousel-control,
+  .cid-ub55EGi5Xy .carousel-indicators,
+  .cid-ub55EGi5Xy .modal .close {
     position: fixed;
   }
 }
 @media (max-width: 767px) {
-  .cid-uaMQbl5gJP .mbr-slider .carousel-control {
+  .cid-ub55EGi5Xy .mbr-slider .carousel-control {
     top: auto;
     bottom: 20px;
   }
-  .cid-uaMQbl5gJP .mbr-slider > .container .carousel-control {
+  .cid-ub55EGi5Xy .mbr-slider > .container .carousel-control {
     margin-bottom: 0;
   }
 }
-.cid-uaMQbl5gJP .carousel-indicators .active,
-.cid-uaMQbl5gJP .carousel-indicators li {
+.cid-ub55EGi5Xy .carousel-indicators .active,
+.cid-ub55EGi5Xy .carousel-indicators li {
   width: 7px;
   height: 7px;
   margin: 3px;
@@ -96234,68 +96249,59 @@ a {
   opacity: 0.5;
   border: 4px solid #000000;
 }
-.cid-uaMQbl5gJP .carousel-indicators .active {
+.cid-ub55EGi5Xy .carousel-indicators .active {
   background: #fff;
 }
-.cid-uaMQbl5gJP .carousel-indicators li {
+.cid-ub55EGi5Xy .carousel-indicators li {
   max-width: 15px;
   max-height: 15px;
   border-radius: 50%;
 }
-.cid-uaMQbl5gJP .modal {
+.cid-ub55EGi5Xy .modal {
   padding-left: 0 !important;
   position: fixed;
   overflow: hidden;
   padding-right: 0 !important;
 }
-.cid-uaMQbl5gJP .modal-dialog {
+.cid-ub55EGi5Xy .modal-dialog {
   margin: 0 auto;
   max-width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
 }
-.cid-uaMQbl5gJP .modal-content {
+.cid-ub55EGi5Xy .modal-content {
   border-radius: 0;
   border: none;
   background: transparent;
 }
-.cid-uaMQbl5gJP .modal-body {
+.cid-ub55EGi5Xy .modal-body {
   padding: 0;
   display: flex;
   align-items: center;
 }
-.cid-uaMQbl5gJP .modal-body img {
+.cid-ub55EGi5Xy .modal-body img {
   width: 100%;
   object-fit: contain;
   max-height: calc(100vh - 1.75rem);
 }
-.cid-uaMQbl5gJP .carousel {
+.cid-ub55EGi5Xy .carousel {
   width: 100%;
 }
-.cid-uaMQbl5gJP .modal-backdrop.in {
+.cid-ub55EGi5Xy .modal-backdrop.in {
   opacity: 0.8;
 }
-.cid-uaMQbl5gJP .modal.fade .modal-dialog {
+.cid-ub55EGi5Xy .modal.fade .modal-dialog {
   transition: margin-top 0.3s ease-out;
 }
-.cid-uaMQbl5gJP .modal.fade .modal-dialog,
-.cid-uaMQbl5gJP .modal.in .modal-dialog {
+.cid-ub55EGi5Xy .modal.fade .modal-dialog,
+.cid-ub55EGi5Xy .modal.in .modal-dialog {
   transform: none;
 }
-.cid-uaMQbl5gJP .mbr-gallery .item-wrapper {
+.cid-ub55EGi5Xy .mbr-gallery .item-wrapper {
   cursor: pointer;
 }
-.cid-uaMQbl5gJP H6 {
+.cid-ub55EGi5Xy H6 {
   text-align: center;
-}
-.cid-uaMRVmSVEV {
-  padding-top: 15px;
-  padding-bottom: 75px;
-  background-color: #ffffff;
-}
-.cid-uaMRVmSVEV .mbr-overlay {
-  background-color: #ffffff;
-  opacity: 0.4;
 }
 .cid-uaMNyN5dUF {
   padding-top: 1rem;
