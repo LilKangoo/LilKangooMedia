@@ -1,0 +1,17 @@
+/* Unified admin content. Original site.css and cms.css remain unchanged. */
+.admin-nav-label{color:#a9c6b4;font-size:10px;font-weight:800;letter-spacing:.12em;margin:17px 13px 8px}
+.admin-sidebar a{display:block}
+#cmsRoot.cms-root[data-embedded="1"]{max-width:none;width:100%;min-height:400px;padding:0;margin:0}
+.cms-embedded-toolbar{display:flex;justify-content:flex-end;gap:10px;margin-bottom:12px}
+.cms-root[hidden],#cmsRoot[hidden]{display:none!important}
+.lkm-media-controls{display:grid;grid-template-columns:1fr 220px 260px;gap:12px;align-items:end}
+.lkm-media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:13px;margin:20px 0}
+.lkm-media-card{background:white;border:1px solid #dbe3dc;border-radius:12px;overflow:hidden;min-width:0}
+.lkm-media-card img{width:100%;height:145px;object-fit:cover;background:#e9ebe7;display:block}
+.lkm-media-info{padding:10px;display:flex;flex-direction:column;gap:6px;min-height:99px}
+.lkm-media-info strong{font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lkm-media-info span{font-size:10px;color:#758477}
+.lkm-media-info .cms-btn{font-size:10px;padding:7px 8px;margin-top:auto}
+.lkm-media-pager{display:flex;justify-content:center;gap:12px;align-items:center;flex-wrap:wrap;font-size:12px;color:#4b6052;margin-top:15px}
+@media(max-width:1100px){.lkm-media-controls{grid-template-columns:1fr 1fr}.lkm-media-controls .cms-field:last-child{grid-column:1/-1}}
+@media(max-width:650px){.lkm-media-controls{grid-template-columns:1fr}.lkm-media-controls .cms-field:last-child{grid-column:auto}.lkm-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

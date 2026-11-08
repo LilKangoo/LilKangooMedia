@@ -1,11 +1,13 @@
 (()=>{
 'use strict';
 const root=document.getElementById('cmsRoot');
+const embedded=root?.dataset.embedded==='1';
 const store=window.LKMStore;
 const cfg=window.LKM_CONFIG||{};
 const host=String(cfg.SUPABASE_URL||'').replace(/\/$/,'');
 const key=cfg.SUPABASE_ANON_KEY||'';
 const state={tab:'posts',posts:[],categories:[],galleries:[],images:[],services:[],selectedPost:null,selectedGallery:null,editingPhoto:null,newPost:false,newGallery:false};
+const media={loaded:false,loading:false,error:'',items:[],query:'',category:'All',page:0,pageSize:36,partial:false};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slugify=v=>String(v||'').toLowerCase().trim().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,100);
 const safePath=v=>/^\/[a-zA-Z0-9._%+~-]+\.html$/.test(v);
@@ -35,7 +37,10 @@ const refresh=async()=>{
  render();
 };
 function login(){root.innerHTML=`<div class="cms-login cms-panel"><img src="/assets/lkm-v3/brand/logo-black-orange.png" width="74" height="74" alt="LilKangooMedia"><h1>Content administrator</h1><p class="cms-muted">Sign in using an approved Supabase administrator account.</p><form id="cmsSignIn">${field('Email address','cmsEmail','','email')}${field('Password','cmsPassword','','password')}<button class="cms-btn" type="submit" style="width:100%">Sign in</button><p id="cmsAuthError" class="cms-error" role="alert"></p></form></div>`}
-function shell(content){root.innerHTML=`<div class="cms-heading"><div><p class="cms-muted" style="font-weight:700;letter-spacing:1px">LILKANGOОMEDIA / CMS</p><h1>Content Management</h1><p>Manage articles and approved portfolio galleries without changing code.</p></div><div>${btn('Refresh','refresh','secondary')} ${btn('Sign out','logout','secondary')}</div></div><div class="cms-layout"><nav class="cms-tabs" aria-label="Content sections"><button data-tab="posts" aria-selected="${state.tab==='posts'}">Articles</button><button data-tab="galleries" aria-selected="${state.tab==='galleries'}">Galleries</button><a href="/admin.html">Services & prices ↗</a><a href="/blog.html">View blog ↗</a><a href="/portfolio.html">View portfolio ↗</a></nav><section>${content}</section></div>`}
+function shell(content){
+ if(embedded){root.innerHTML=`<div class="cms-embedded-toolbar">${btn('Refresh','refresh','secondary')}</div>${content}`;return}
+ root.innerHTML=`<div class="cms-heading"><div><p class="cms-muted" style="font-weight:700;letter-spacing:1px">LILKANGOOMEDIA / CMS</p><h1>Content Management</h1><p>Manage articles and approved portfolio galleries without changing code.</p></div><div>${btn('Refresh','refresh','secondary')} ${btn('Sign out','logout','secondary')}</div></div><div class="cms-layout"><nav class="cms-tabs" aria-label="Content sections"><button data-tab="posts" aria-selected="${state.tab==='posts'}">Articles</button><button data-tab="galleries" aria-selected="${state.tab==='galleries'}">Galleries</button><button data-tab="media" aria-selected="${state.tab==='media'}">Media library</button><a href="/admin.html">Services & prices ↗</a><a href="/blog.html">View blog ↗</a><a href="/portfolio.html">View portfolio ↗</a></nav><section>${content}</section></div>`;
+}
 function postEditor(){const p=state.newPost?{}:state.posts.find(x=>x.id===state.selectedPost)||{};
  return `<div class="cms-panel"><h2>${state.newPost?'Create article':p.id?'Edit article':'Choose an article'}</h2><div class="cms-note">SEO safeguard: use the original URL for legacy imported content. Existing HTML pages remain unchanged until a verified migration. Only publish material you have reviewed.</div>
  ${field('Title *','postTitle',p.title||'')}
@@ -63,7 +68,51 @@ function photoEditor(){const g=state.galleries.find(x=>x.id===state.selectedGall
  <div class="cms-photo-grid">${state.images.map(im=>`<button class="cms-photo" type="button" data-photo="${im.id}" style="text-align:left;cursor:pointer"><img src="${esc(im.image_url)}" alt="${esc(im.alt_text)}" loading="lazy"><small>${esc(im.alt_text||im.image_url.split('/').pop())}</small><span class="cms-status">${esc(im.visibility)}</span></button>`).join('')}</div>${!state.images.length?'<div class="cms-empty">No photographs added to this gallery yet.</div>':''}</div>`;
 }
 function galleriesView(){return `<div class="cms-heading"><div><h2>Portfolio & galleries</h2><p>Organize the full photo library by project, category, and service.</p></div>${btn('+ New gallery','new-gallery')}</div><div class="cms-grid"><div class="cms-panel"><p class="cms-muted">${state.galleries.length} galleries · imported items require approval</p><div class="cms-list">${state.galleries.map(g=>`<button class="cms-item" data-gallery="${g.id}" aria-current="${state.selectedGallery===g.id&&!state.newGallery}"><span><strong>${esc(g.title)}</strong><small>${esc(g.category)} · ${esc(g.visibility)}</small></span></button>`).join('')||'<div class="cms-empty">Create your first gallery or import existing files.</div>'}</div></div><div>${galleryEditor()}${photoEditor()}</div></div>`;}
-function render(){shell(state.tab==='posts'?postsView():galleriesView());}
+// Read-only catalog of original GitHub files. No file gets published automatically.
+async function loadMedia(force=false){
+ if(media.loading||(!force&&media.loaded))return;
+ media.loading=true;media.error='';render();
+ try{
+   const response=await fetch('/api/media-catalog',{headers:{Accept:'application/json'}});
+   const data=await response.json().catch(()=>({}));
+   if(!response.ok||!Array.isArray(data.images))throw new Error(data.error||'Could not load the source image catalog.');
+   media.items=data.images;
+   media.partial=Boolean(data.partial);
+   media.loaded=true;
+ }catch(e){media.error=e.message||'Catalog unavailable';}
+ finally{media.loading=false;render();}
+}
+function visibleMedia(){
+ const term=media.query.toLowerCase();
+ return media.items.filter(x=>(media.category==='All'||x.suggested_category===media.category)&&(!term||x.path.toLowerCase().includes(term)));
+}
+function mediaCardsHtml(){
+ if(media.loading)return '<div class="cms-empty">Loading original photos from GitHub…</div>';
+ if(media.error)return `<div class="cms-note">${esc(media.error)}. Use Refresh to try again. The original photos have not been changed.</div>`;
+ if(!media.loaded)return '<div class="cms-empty">Select Refresh to load the media catalog.</div>';
+ const items=visibleMedia();const pages=Math.max(1,Math.ceil(items.length/media.pageSize));media.page=Math.min(media.page,pages-1);
+ const display=items.slice(media.page*media.pageSize,(media.page+1)*media.pageSize);
+ const body=display.map(x=>`<article class="lkm-media-card"><img loading="lazy" src="${esc(x.url)}" alt="${esc(x.file)}" onerror="this.style.opacity='.2'"/><div class="lkm-media-info"><strong title="${esc(x.path)}">${esc(x.file)}</strong><span>Suggested: ${esc(x.suggested_category)}</span><button type="button" data-media-add="${esc(x.path)}" class="cms-btn" aria-label="Add ${esc(x.file)} to the chosen gallery for review">Add to gallery (review)</button></div></article>`).join('');
+ return `<div class="lkm-media-grid">${body||'<p class="cms-empty">No photos match these filters.</p>'}</div><div class="lkm-media-pager"><span>Showing ${items.length?media.page*media.pageSize+1:0}–${Math.min((media.page+1)*media.pageSize,items.length)} of ${items.length}</span><button class="cms-btn secondary" data-media-page="-1" ${media.page<=0?'disabled':''}>← Previous</button><span>Page ${media.page+1} / ${pages}</span><button class="cms-btn secondary" data-media-page="1" ${media.page>=pages-1?'disabled':''}>Next →</button></div>`;
+}
+function mediaView(){
+ const categories=[...new Set(media.items.map(x=>x.suggested_category))].sort();
+ return `<div class="cms-heading"><div><h2>Media Library</h2><p>Browse all image files from the original GitHub repository and assign selected work to a gallery.</p></div>${btn('Reload catalog','reload-media','secondary')}</div><div class="cms-note">Existing image files remain on your website. Category labels are <b>automatic suggestions</b> based on filenames, not verified classifications. Assign images to a gallery as <b>Review (hidden)</b>; approve them individually before public display. Do not add private client work without permission.</div>
+ <div class="lkm-media-controls"><div class="cms-field"><label for="mediaSearch">Search filename</label><input id="mediaSearch" placeholder="Search photos…" value="${esc(media.query)}"></div><div class="cms-field"><label for="mediaCategory">Suggested category</label><select id="mediaCategory"><option value="All">All categories</option>${categories.map(c=>`<option ${media.category===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div><div class="cms-field"><label for="mediaTargetGallery">Add selected image to gallery</label><select id="mediaTargetGallery"><option value="">Choose gallery...</option>${state.galleries.map(g=>`<option value="${esc(g.id)}">${esc(g.title)} · ${esc(g.visibility)}</option>`).join('')}</select></div></div>
+ <div class="cms-muted">${media.items.length} original image files indexed.${media.partial?' GitHub returned an incomplete list — more work needed for full import.':''} No images are imported or published automatically.</div>
+ <div id="lkmMediaResults">${mediaCardsHtml()}</div>`;
+}
+function updateMediaResults(){const area=root.querySelector('#lkmMediaResults');if(area)area.innerHTML=mediaCardsHtml()}
+async function addLegacyPhoto(path){
+ const target=selection('mediaTargetGallery');if(!target)throw new Error('Choose a target gallery first. Create a gallery under Portfolio & galleries if needed.');
+ const file=media.items.find(x=>x.path===path);if(!file)throw new Error('Unknown image file.');
+ const old=await api('portfolio_images?select=id&original_path=eq.'+encodeURIComponent(file.path)+'&limit=1');
+ if(old?.length)throw new Error('This image is already assigned to a gallery.');
+ await api('portfolio_images',{method:'POST',data:{gallery_id:target,image_url:file.url,original_path:file.path,alt_text:file.file.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ').slice(0,150),caption:'',visibility:'review',display_order:100}});
+ toast('Photograph added to gallery as REVIEW. Not visible publicly until approved.');
+}
+
+function render(){shell(state.tab==='posts'?postsView():state.tab==='media'?mediaView():galleriesView());}
 const requireSlug=slug=>{if(!/^[a-z0-9-]{1,100}$/.test(slug))throw new Error('Slug must contain lowercase letters, numbers and dashes only.')};
 const requireImage=url=>{if(!url||!(/^(https:\/\/[^\s]+|\/assets\/[a-zA-Z0-9%._/-]+)$/.test(url)))throw new Error('Use an HTTPS image URL or /assets/ path.')};
 async function savePost(){const title=value('postTitle'),slug=slugify(value('postSlug')||title),status=selection('postStatus');if(!title)throw new Error('Article title required.');requireSlug(slug);
@@ -92,11 +141,27 @@ async function uploadPhoto(){if(!state.selectedGallery)throw new Error('Choose a
  await api('portfolio_images',{method:'POST',data:{gallery_id:state.selectedGallery,image_url:publicUrl,alt_text:file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),visibility:'review',display_order:(state.images.length+1)*10}});
  state.editingPhoto=null;await refresh();toast('Image uploaded and saved as REVIEW (not displayed publicly).');
 }
+root.addEventListener('input',e=>{if(e.target.id==='mediaSearch'){media.query=e.target.value;media.page=0;updateMediaResults()}});
+root.addEventListener('change',e=>{if(e.target.id==='mediaCategory'){media.category=e.target.value;media.page=0;updateMediaResults()}});
 root.addEventListener('submit',async e=>{if(e.target.id!=='cmsSignIn')return;e.preventDefault();const el=root.querySelector('#cmsAuthError');el.textContent='';try{await store.login(value('cmsEmail'),value('cmsPassword'));if(!await store.isAdmin())throw new Error('This account is not an approved administrator.');await refresh()}catch(err){store.logout();el.textContent=err.message}});
-root.addEventListener('click',async e=>{let b=e.target.closest('[data-tab]');if(b){state.tab=b.dataset.tab;render();return}b=e.target.closest('[data-post]');if(b){state.selectedPost=b.dataset.post;state.newPost=false;render();return}b=e.target.closest('[data-gallery]');if(b){state.selectedGallery=b.dataset.gallery;state.newGallery=false;state.editingPhoto=null;try{state.images=await api('portfolio_images?select=*&gallery_id=eq.'+encodeURIComponent(state.selectedGallery)+'&order=display_order.asc&limit=1000');render()}catch(err){toast(err.message)}return}b=e.target.closest('[data-photo]');if(b){state.editingPhoto=b.dataset.photo;render();return}b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;
+root.addEventListener('click',async e=>{let b=e.target.closest('[data-tab]');if(b){state.tab=b.dataset.tab;render();if(state.tab==='media')loadMedia();return}b=e.target.closest('[data-media-page]');if(b){media.page=Math.max(0,media.page+Number(b.dataset.mediaPage));updateMediaResults();return}b=e.target.closest('[data-media-add]');if(b){b.disabled=true;try{await addLegacyPhoto(b.dataset.mediaAdd)}catch(err){toast('Error: '+err.message)}finally{b.disabled=false}return}b=e.target.closest('[data-post]');if(b){state.selectedPost=b.dataset.post;state.newPost=false;render();return}b=e.target.closest('[data-gallery]');if(b){state.selectedGallery=b.dataset.gallery;state.newGallery=false;state.editingPhoto=null;try{state.images=await api('portfolio_images?select=*&gallery_id=eq.'+encodeURIComponent(state.selectedGallery)+'&order=display_order.asc&limit=1000');render()}catch(err){toast(err.message)}return}b=e.target.closest('[data-photo]');if(b){state.editingPhoto=b.dataset.photo;render();return}b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;
  if(a==='logout'){store.logout();login();return}if(a==='new-post'){state.newPost=true;state.selectedPost=null;render();return}if(a==='cancel-post'){state.newPost=false;render();return}
  if(a==='new-gallery'){state.newGallery=true;state.selectedGallery=null;state.images=[];render();return}if(a==='cancel-gallery'){state.newGallery=false;render();return}if(a==='clear-photo'){state.editingPhoto=null;render();return}
- b.disabled=true;try{if(a==='refresh')await refresh();if(a==='save-post')await savePost();if(a==='save-gallery')await saveGallery();if(a==='save-photo')await savePhoto();if(a==='upload-photo')await uploadPhoto();}catch(err){console.error(err);toast('Error: '+err.message)}finally{b.disabled=false}
+ b.disabled=true;try{if(a==='refresh')await refresh();if(a==='reload-media')await loadMedia(true);if(a==='save-post')await savePost();if(a==='save-gallery')await saveGallery();if(a==='save-photo')await savePhoto();if(a==='upload-photo')await uploadPhoto();}catch(err){console.error(err);toast('Error: '+err.message)}finally{b.disabled=false}
 });
-(async()=>{if(!store||!store.configured){root.innerHTML='<div class="cms-panel"><h1>Supabase not connected</h1><p>Configure the public Supabase URL and publishable key in lkm-config.js. CMS demo mode is disabled for security.</p></div>';return}try{if(store.getSession()&&await store.isAdmin()){await refresh();return}}catch(e){store.logout()}login()})();
+async function setTab(next){
+ if(!['posts','galleries','media'].includes(next))return;
+ if(!store?.configured)throw new Error('Supabase configuration missing.');
+ if(!store.getSession()||!await store.isAdmin()){login();return;}
+ const changed=state.tab!==next;
+ state.tab=next;
+ if(changed||!state.categories.length)await refresh();else render();
+ if(state.tab==='media')await loadMedia();
+}
+if(embedded){
+ window.LKMCMS={setTab};
+ root.innerHTML='<div class="cms-empty">Choose Articles, Galleries or Media Library from the left menu.</div>';
+}else{
+ (async()=>{if(!store||!store.configured){root.innerHTML='<div class="cms-panel"><h1>Supabase not connected</h1><p>Configure the public Supabase URL and publishable key in lkm-config.js. CMS demo mode is disabled for security.</p></div>';return}try{if(store.getSession()&&await store.isAdmin()){await refresh();return}}catch(e){store.logout()}login()})();
+}
 })();
