@@ -1,0 +1,16 @@
+import {test, afterEach} from 'node:test';
+import assert from 'node:assert/strict';
+import handler, {config} from '../netlify/functions/enquiry.mjs';
+const origFetch = globalThis.fetch;
+const keys=['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','RESEND_API_KEY','FROM_EMAIL','CONTACT_EMAIL','TURNSTILE_SECRET'];
+const original=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
+afterEach(()=>{globalThis.fetch=origFetch;for(let k of keys){if(original[k]===undefined)delete process.env[k];else process.env[k]=original[k]}});
+const sample={name:'Test Client',email:'client@example.com',message:'A website enquiry message.',consent:'on',service_type:'Photography'};
+const req=(data=sample,method='POST')=>new Request('https://lilkangoomedia.com/api/enquiry',{method,headers:{'Content-Type':'application/json','Origin':'https://lilkangoomedia.com'},body:method==='POST'?JSON.stringify(data):undefined});
+const ready=()=>Object.assign(process.env,{SUPABASE_URL:'https://placeholder.supabase.co',SUPABASE_SERVICE_ROLE_KEY:'sb_secret_example',RESEND_API_KEY:'re_example',FROM_EMAIL:'LilKangooMedia <website@lilkangoomedia.com>',CONTACT_EMAIL:'photo@lilkangoomedia.com'});
+test('route remains /api/enquiry',()=>assert.equal(config.path,'/api/enquiry'));
+test('GET denied', async()=>{const r=await handler(req(sample,'GET'));assert.equal(r.status,405)});
+test('invalid input rejected before calls to services',async()=>{ready();globalThis.fetch=()=>{throw Error('Unexpected outbound call')};const r=await handler(req({...sample,email:'invalid'}));assert.equal(r.status,400)});
+test('unconfigured services fail with clear 503',async()=>{for(let k of keys)delete process.env[k];const r=await handler(req());assert.equal(r.status,503);assert.equal((await r.json()).ok,false)});
+test('saves to Supabase and sends mail on success',async()=>{ready();const calls=[];globalThis.fetch=async(url,options)=>{calls.push({url,options});return String(url).includes('/rest/v1/contact_leads')?new Response(JSON.stringify([{id:'abc-123'}]),{status:201}):new Response(JSON.stringify({id:'email-123'}),{status:200})};const r=await handler(req());assert.equal(r.status,200);assert.equal((await r.json()).id,'abc-123');assert.equal(calls.length,2);assert.equal(calls[0].options.headers.apikey,'sb_secret_example');assert.equal(calls[0].options.headers.Authorization,undefined);assert.match(calls[1].url,/api.resend.com/);});
+test('email failure is not reported as success',async()=>{ready();globalThis.fetch=async(url)=>String(url).includes('/rest/v1/contact_leads')?new Response('[{"id":"lead1"}]',{status:201}):new Response('{"error":"domain not verified"}',{status:403});const r=await handler(req());assert.equal(r.status,502);assert.equal((await r.json()).saved,true)});
