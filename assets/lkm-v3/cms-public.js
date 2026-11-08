@@ -60,8 +60,55 @@ const postCard=p=>{const c=categories.find(c=>c.id===p.category_id);return `<a h
 function postList(){const items=posts.filter(p=>filter==='All'||categories.find(c=>c.id===p.category_id)?.name===filter);document.title='Articles | LilKangooMedia';root.innerHTML=hero('Creative ideas and Cyprus guides','Articles & inspiration','Photography education, practical business content and Cyprus travel guides from LilKangooMedia.')+`<div class="cms-pub-chips">${postCats().map(c=>filterButton(c,filter)).join('')}</div>`+(items.length?`<div class="cms-pub-grid">${items.map(postCard).join('')}</div>`:'<div class="cms-pub-empty">Explore our photography guides and Cyprus travel articles. <a href="/Education.html">Photography guides</a> · <a href="/articlesaboutcyprus.html">Cyprus articles</a>.</div>');}
 function postDetail(slug){const p=posts.find(x=>x.slug===slug);if(!p){postList();return}const c=categories.find(c=>c.id===p.category_id);document.title=(p.seo_title||p.title)+' | LilKangooMedia';root.innerHTML=`<div class="cms-article"><div class="cms-pub-breadcrumb"><a href="#/">← All articles</a> / ${esc(c?.name||'Articles')}</div>${hero(c?.name||'Article',p.title,p.excerpt||'')}${img(p.cover_url,p.cover_alt||p.title,'cms-article-hero')}<article class="cms-article-body">${safeArticleMarkup(p.body_html)}</article></div>`;}
 function render(){let hash=decodeURIComponent(location.hash||'#/');let match=hash.match(/^#\/(post|gallery)\/([^?#]+)/);if(match){if(page==='blog'&&match[1]==='post')postDetail(match[2]);else if(page==='portfolio'&&match[1]==='gallery')galleryDetail(match[2]);else page==='blog'?postList():galleryList();}else page==='blog'?postList():galleryList();window.scrollTo(0,0);pageView()}
-root.addEventListener('click',e=>{let btn=e.target.closest('[data-filter]');if(btn){filter=btn.dataset.filter;page==='blog'?postList():galleryList();return}const image=e.target.closest('.cms-gallery-grid img');if(image){let d=document.createElement('div');d.className='cms-lightbox';const picture=document.createElement('img');picture.src=image.src;picture.alt=image.alt;d.appendChild(picture);document.body.appendChild(d);d.addEventListener('click',()=>d.remove());return}});
-window.addEventListener('hashchange',render);
+// Accessible gallery viewer: arrows, keyboard, touch swipe, thumbnail counter and close.
+let activeLightbox=null;
+function closeLightbox(){
+ if(!activeLightbox)return;
+ const {element,trigger,onKey}=activeLightbox;
+ window.removeEventListener('keydown',onKey);
+ document.body.style.overflow=activeLightbox.originalOverflow;
+ element.remove();activeLightbox=null;
+ trigger?.focus({preventScroll:true});
+}
+function openLightbox(clicked){
+ closeLightbox();
+ const photos=Array.from(root.querySelectorAll('.cms-gallery-grid figure')).map(f=>({
+  src:f.querySelector('img')?.currentSrc||f.querySelector('img')?.src,
+  alt:f.querySelector('img')?.alt||'',
+  caption:f.querySelector('figcaption')?.textContent?.trim()||'',
+  trigger:f.querySelector('img')
+ })).filter(p=>p.src);
+ if(!photos.length)return;
+ let position=Math.max(0,photos.findIndex(p=>p.trigger===clicked));
+ const container=document.createElement('div');container.className='cms-lightbox';
+ container.setAttribute('role','dialog');container.setAttribute('aria-modal','true');container.setAttribute('aria-label','Photo gallery viewer');
+ container.innerHTML=`<button type="button" class="cms-lightbox-close" data-lightbox="close" aria-label="Close image viewer">×</button>
+  <button type="button" class="cms-lightbox-nav cms-lightbox-prev" data-lightbox="prev" aria-label="Previous photograph">‹</button>
+  <figure class="cms-lightbox-figure"><img alt=""><figcaption class="cms-lightbox-caption"></figcaption></figure>
+  <button type="button" class="cms-lightbox-nav cms-lightbox-next" data-lightbox="next" aria-label="Next photograph">›</button>
+  <span class="cms-lightbox-count" role="status" aria-live="polite"></span>`;
+ const picture=container.querySelector('img'),caption=container.querySelector('.cms-lightbox-caption');
+ const setPosition=i=>{position=(i+photos.length)%photos.length;const x=photos[position];picture.src=x.src;picture.alt=x.alt;caption.textContent=x.caption||x.alt;container.querySelector('.cms-lightbox-count').textContent=`${position+1} / ${photos.length}`;
+  // Preload the adjacent photos to keep navigation responsive.
+  [photos[(position+1)%photos.length],photos[(position-1+photos.length)%photos.length]].forEach(a=>{const preload=new Image();preload.src=a.src});};
+ const onKey=e=>{if(e.key==='Escape'){e.preventDefault();closeLightbox()}if(e.key==='ArrowRight'){e.preventDefault();setPosition(position+1)}if(e.key==='ArrowLeft'){e.preventDefault();setPosition(position-1)}};
+ let touchStart=0;
+ container.addEventListener('touchstart',e=>{touchStart=e.changedTouches[0]?.screenX||0},{passive:true});
+ container.addEventListener('touchend',e=>{const delta=(e.changedTouches[0]?.screenX||0)-touchStart;if(Math.abs(delta)>55)setPosition(position+(delta<0?1:-1))},{passive:true});
+ container.addEventListener('click',e=>{const action=e.target.closest('[data-lightbox]')?.dataset.lightbox;
+  if(action==='close'||e.target===container){closeLightbox();return}
+  if(action==='prev')setPosition(position-1);if(action==='next')setPosition(position+1);
+ });
+ activeLightbox={element:container,trigger:clicked,onKey,originalOverflow:document.body.style.overflow};
+ document.body.appendChild(container);document.body.style.overflow='hidden';window.addEventListener('keydown',onKey);
+ setPosition(position);container.querySelector('.cms-lightbox-close').focus({preventScroll:true});
+}
+root.addEventListener('click',e=>{
+ const btn=e.target.closest('[data-filter]');
+ if(btn){filter=btn.dataset.filter;page==='blog'?postList():galleryList();return}
+ const photo=e.target.closest('.cms-gallery-grid img');if(photo)openLightbox(photo);
+});
+window.addEventListener('hashchange',()=>{closeLightbox();render()});
 (async()=>{if(!base||!key){root.innerHTML='<div class="cms-pub-empty">Portfolio and blog will become available when Supabase is configured.</div>';return}try{if(page==='blog'){
  [posts,categories]=await Promise.all([api('blog_posts?select=*&status=eq.published&published_at=lte.'+encodeURIComponent(new Date().toISOString())+'&order=published_at.desc&limit=1000'),api('blog_categories?select=*&order=sort_order.asc&limit=1000')]);
  }else{[galleries,images]=await Promise.all([api('portfolio_galleries?select=*&visibility=eq.public&order=display_order.asc&limit=1000'),api('portfolio_images?select=*&visibility=eq.public&order=display_order.asc&limit=1000')]);}

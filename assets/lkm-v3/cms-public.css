@@ -27,3 +27,16 @@
 @media(max-width:520px){.cms-pub-grid,.cms-gallery-grid{grid-template-columns:1fr}.cms-gallery-grid img{height:auto;max-height:420px}.public-cms-page{padding:35px 16px}}
 
 .cms-cookie{position:fixed;bottom:14px;left:14px;right:14px;z-index:400;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;padding:16px;border-radius:12px;background:#1c3025;color:white;box-shadow:0 10px 36px #0004}.cms-cookie[hidden]{display:none}.cms-cookie span{font-size:12px;max-width:690px;color:#e2e8df}.cms-cookie button{background:#eed2a6;color:#1c3025;border:0;border-radius:6px;padding:9px 12px;cursor:pointer;font-size:12px;font-weight:700}
+
+/* Full-screen lightbox controls: keyboard arrows, swipe gestures, focusable close */
+.cms-lightbox{cursor:default;padding:clamp(16px,3vw,48px);gap:6px}
+.cms-lightbox-figure{margin:0;min-width:0;width:min(90vw,1500px);height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;pointer-events:none}
+.cms-lightbox-figure img{max-width:100%;max-height:min(82vh,calc(100vh - 112px));object-fit:contain;pointer-events:auto}
+.cms-lightbox-caption{color:#f0f4ee;font-size:13px;text-align:center;min-height:18px;max-width:800px;max-height:48px;overflow:hidden}
+.cms-lightbox-close,.cms-lightbox-nav{position:absolute;z-index:2;display:grid;place-items:center;border:1px solid #ffffff55;background:#16241ccc;color:#fff;cursor:pointer;box-shadow:0 5px 25px #0006}
+.cms-lightbox-close{right:19px;top:15px;width:44px;height:44px;border-radius:50%;font-size:30px}
+.cms-lightbox-nav{top:50%;transform:translateY(-50%);width:52px;height:70px;border-radius:11px;font-size:50px;line-height:1}
+.cms-lightbox-prev{left:12px}.cms-lightbox-next{right:12px}
+.cms-lightbox-nav:hover,.cms-lightbox-close:hover,.cms-lightbox-nav:focus-visible,.cms-lightbox-close:focus-visible{background:#325341;outline:2px solid #d9b681}
+.cms-lightbox-count{position:absolute;left:50%;bottom:15px;transform:translateX(-50%);color:#fff;font-size:12px;letter-spacing:1px;background:#192d25b8;border-radius:50px;padding:8px 14px}
+@media(max-width:650px){.cms-lightbox{padding:12px}.cms-lightbox-nav{width:39px;height:60px;font-size:37px}.cms-lightbox-prev{left:3px}.cms-lightbox-next{right:3px}.cms-lightbox-figure{width:100%}.cms-lightbox-close{top:9px;right:9px}}
