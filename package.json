@@ -1,0 +1,11 @@
+{
+  "name": "lilkangoomedia-github-overlay",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node -e \"console.log('LilKangooMedia: static site, no build step required')\"",
+    "test": "node --test tests/backend.test.mjs",
+    "check": "node --check assets/lkm-v3/site.js && node --check assets/lkm-v3/admin.js && node --check assets/lkm-v3/store.js"
+  }
+}

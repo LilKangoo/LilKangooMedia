@@ -1,0 +1,11 @@
+# Cloudflare Pages FUNCTIONS (secret environment variables, NOT in public/config.js)
+SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SECRET_SERVICE_ROLE_KEY
+RESEND_API_KEY=re_YOUR_SECRET
+FROM_EMAIL="LilKangooMedia <website@lilkangoomedia.com>"
+CONTACT_EMAIL=photo@lilkangoomedia.com
+SITE_URL=https://lilkangoomedia.com
+STRIPE_SECRET_KEY=sk_live_YOUR_SECRET
+STRIPE_WEBHOOK_SECRET=whsec_YOUR_SECRET
+# Optional anti-spam. If set, also configure TURNSTILE_SITE_KEY in public/config.js
+TURNSTILE_SECRET=
