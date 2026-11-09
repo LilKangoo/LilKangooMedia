@@ -1,94 +1,85 @@
-# LilKangooMedia — Photo Manager Phase 6
+# LilKangooMedia — Phase 7: elastyczne ceny i rozwijana edycja usług
 
-Aktualizacja do istniejącej strony `lilkangoomedia.com` (Netlify + Supabase). **Nie jest to pełny projekt.** Kopiuj tylko wskazane pliki, w dokładnie te same ścieżki. Pozostałe pliki strony i zdjęcia pozostają bez zmian.
+## Co zawiera paczka
 
-## 1. Zapisz kopię danych, zanim cokolwiek zmienisz
+**Wyłącznie 4 pliki, które należy zastąpić w repozytorium GitHub:**
 
-W Supabase → Table Editor wyeksportuj/utwórz kopię tabel `public.portfolio_images` i `public.portfolio_galleries`. Nie usuwaj żadnej bazy i nie uruchamiaj migracji CMS Phase 1 ponownie.
+1. `assets/lkm-v3/admin.js` — nowy panel edycji w akordeonie + elastyczne pakiety i dodatki.
+2. `assets/lkm-v3/admin-unified.css` — układ pełnej szerokości, kolapsowalne karty, responsywne pola.
+3. `assets/lkm-v3/site.js` — prezentacja ceny z jednostką, kalkulacja godzin/dni/osób/sztuk i powiadomienie w formularzu.
+4. `assets/lkm-v3/site.css` — drobne style sekcji cenowych.
 
-## 2. Supabase SQL — wykonaj PRZED aktualizacją plików
+**Nie zastępuj całych folderów `assets` ani `netlify`.** Paczka nie zawiera i nie usuwa żadnych zdjęć, CMS, konfiguracji poczty, Supabase, Stripe ani formularzy Netlify.
 
-Supabase → **SQL Editor → New query** → wklej całą zawartość pliku:
+Nie wymaga SQL: `services.packages` i `services.addons` są już JSONB. Dodano tylko dodatkowe pola w poszczególnych obiektach pakietów i dodatków. Wszystkie stare pakiety bez pola `pricing_model` pozostają **jednorazowe / fixed** z dotychczasową kwotą. Zachowano istniejące identyfikatory pakietów i metadane (np. `duration_hours`).
 
-`supabase/migrations/20261109_lkm_media_management.sql`
+## 1. Wdrożenie bez ryzyka
 
-Kliknij **Run**. Skrypt jest addytywny. Dodaje metadane plików do `portfolio_images` oraz tabelę `lkm_media_hidden` z RLS. Niczego nie usuwa.
+1. Otwórz GitHub → `LilKangoo/LilKangooMedia`.
+2. Utwórz gałąź `lkm-pricing-v7` na bazie aktualnej `main`.
+3. Zastąp **dokładnie powyższe cztery pliki**, bez usuwania pozostałej zawartości katalogów.
+4. Zrób Commit/Push; otwórz Netlify Deploy Preview gałęzi.
+5. Sprawdź `/admin.html` → Services & Pricing. Lista ma być pełnej szerokości; `Edit ↓` rozwija, `Collapse ↑` zwija. Przetestuj nowy pakiet w niepublicznej testowej usłudze.
+6. Sprawdź stronę publiczną: usługa wyceniana godzinowo pokazuje cenę `/hour`, możliwość wpisania liczby godzin i poprawne szacowanie; oferta miesięczna pokazuje `/month` bez automatycznej płatności.
+7. Po akceptacji wykonaj Merge gałęzi do `main`.
 
-Weryfikacja:
+**Uwaga:** Netlify Deploy Preview może korzystać z tej samej produkcyjnej bazy Supabase. Wszelkie zapisy w panelu testowym mogą pojawić się natychmiast na stronie live. Testuj zapisy na **osobnej nieaktywnej** usłudze; nie zmieniaj cennika istniejących usług na próbę.
 
-```sql
-SELECT COUNT(*) AS galleries FROM public.portfolio_galleries;
-SELECT COUNT(*) AS photos FROM public.portfolio_images;
-SELECT COUNT(*) AS removed_items FROM public.lkm_media_hidden;
-```
+## 2. Typy wyceny — działające w tej wersji
 
-## 3. GitHub i Netlify — tylko sześć plików + sw.js
+| Model | Co wprowadzić | Jak klient widzi |
+|---|---|---|
+| Fixed package | Jedna kwota za gotowy pakiet | `€149` |
+| Per hour | Cena za godzinę, min., max. i krok | `€150/hour`, np. 3,5 godziny = `€525` |
+| Per day | Cena za dzień, min., max. | `€.../day` |
+| Per person | Cena za osobę | `€.../person` |
+| Per item | Cena za produkt/sztukę | `€.../item` |
+| Monthly subscription | Kwota miesięczna, opcjonalna opłata startowa, okres minimalny | `€.../month` + ewentualna opłata jednorazowa |
+| Annual subscription | Kwota roczna, opcjonalny koszt uruchomienia | `€.../year` |
+| Custom quote | Bez kwoty | `Custom quote` |
 
-Zaktualizuj gałąź TESTOWĄ opartą na aktualnej `main`, np. `lkm-photo-manager-v6`, przez MERGE poniższych plików:
+Każdy **pakiet** może mieć inny model. Nie trzeba tworzyć nowej usługi tylko dlatego, że jedna oferta jest jednorazowa, a druga abonamentowa. Możesz zmieniać kolejność pakietów przyciskami `↑` i `↓`. Dodatki mogą być jednorazowe, za jednostkę, miesięczne albo roczne. Opcja **Display as “From”** pozwala oznaczyć cenę początkową.
 
-| Ścieżka w repozytorium | Czynność |
-|---|---|
-| `assets/lkm-v3/cms.js` | Replace **tylko ten plik** |
-| `assets/lkm-v3/cms.css` | Replace **tylko ten plik** |
-| `assets/lkm-v3/cms-public.js` | Replace **tylko ten plik** |
-| `assets/lkm-v3/cms-public.css` | Replace **tylko ten plik** |
-| `assets/lkm-v3/admin.js` | Replace **tylko ten plik** |
-| `assets/lkm-v3/admin-unified.css` | Replace **tylko ten plik** |
-| `sw.js` | Replace — wyłącza bezgraniczne cache'owanie zdjęć i czyści dawną pamięć podręczną |
+**Kwoty ilustracyjne w tej instrukcji nie są dodawane do bazy.** Aktualne ceny nie zostały automatycznie zmienione. Każdą nową cenę zatwierdzasz w panelu.
 
-**Nie zastępuj całego `assets`, `netlify`, `index.html`, `home.html`, `admin.html`, `lkm-config.js`.** Nie zmieniaj działającego `netlify/functions/enquiry.mjs`, konfiguracji Resend, DNS ani Google Analytics.
+## 3. Jak ustawić istniejące rodzaje usług
 
-Netlify → Deploys → otwórz **Deploy Preview** dla gałęzi. Przetestuj wyświetlanie nowego interfejsu. Po zaakceptowaniu Merge do `main`.
+- **Portrait & Family Photography:** zachowaj obecne pakiety 1h/3h/8h jako stałe ceny za pakiet; opcjonalnie dodaj inny pakiet godzinowy.
+- **Personal Videography, Commercial Video & Reels:** jednorazowy film lub stawka godzinowa/dzienna; wybrana opcja zależy od faktycznej umowy.
+- **Weddings & Engagements, Celebrations & Events:** stała cena pakietu, cały dzień lub indywidualna wycena.
+- **Cyprus Photo Trips i Cyprus Video Trips:** obecne warianty czasowe są pakietami stałymi (np. 5h/8h/10h/20h), nie oznaczaj ich automatycznie jako stawka za godzinę.
+- **Product & Brand Photography:** projekt, sztuka, godzina lub indywidualna wycena.
+- **Social Media Management, Marketing & Advertising:** miesięczny abonament, opcjonalna opłata startowa lub dodatkowe jednorazowe materiały.
+- **Graphic Design & Brand Identity:** jednorazowy projekt, cena od sztuki albo indywidualna wycena.
+- **Website Design & Development:** jednorazowa cena budowy strony i oddzielny abonament/utrzymanie roczne (jako osobny pakiet lub dodatek).
+- **Business Setup Packages:** obecne pakiety jednorazowe; nie zmieniaj cen bez potwierdzenia.
 
-**UWAGA:** Deploy Preview wykorzystuje to samo produkcyjne Supabase, jeśli `lkm-config.js` wskazuje ten sam projekt. Każda operacja edycji, publikacji, przesunięcia lub usunięcia przypisania z preview zmienia również dane produkcyjne. Najpierw obejrzyj interfejs; zapisy testuj tylko na specjalnie przygotowanym, niepublicznym albumie albo w osobnym projekcie testowym Supabase.
+Nie założyliśmy nowych kwot. Wszystkie modele są dostępne, ale ustawisz je na podstawie własnego cennika.
 
-## 4. Co nowego
+## 4. Co trafia do zapytania i czego *nie* robimy
 
-### Publiczne portfolio
-- Kliknięcie zdjęcia otwiera pełnoekranowy podgląd.
-- Strzałki lewo/prawo, klawisze **← / →**, **Esc**, przewijanie gestem na telefonie.
-- Licznik zdjęć i podpis, zamknięcie krzyżykiem lub kliknięciem tła.
+Formularz zapytania zapisuje nazwę pakietu, model ceny, liczbę wybranych jednostek i orientacyjną kwotę **w treści wiadomości** przesyłanej przez działający Netlify Function. Dzięki temu zapytanie widoczne w Supabase/Zoho zawiera potrzebne szczegóły bez migracji bazy.
 
-### Admin → Portfolio & Galleries
-- Miniatury fotografii w wybranej galerii, edycja przez kliknięcie.
-- Zaznacz wiele / zaznacz wszystkie; **Remove from gallery**, **Publish selected**, **Set to review**.
-- Wybierz zdjęcie okładki przez **Set cover**.
-- **Choose from Media Library** z automatycznie wybraną aktualną galerią.
-- **Upload photos** pozwala dodać 1–15 nowych fotografii na raz (do 8 MB na plik).
-- Szczegółowe adresy URL pozostają w sekcji Advanced i nie są potrzebne do zwykłej pracy.
+- **Nie włączamy automatycznych subskrypcji Stripe.** Kwoty miesięczne i roczne to oferty wymagające zapytania; docelowo Stripe Billing musi mieć osobne produkty/ceny, onboarding, obsługę webhooków i anulowania.
+- **Nie pozwalamy na standardowy Checkout dla pakietów zmiennych/abonamentowych.** Dotychczasowy endpoint jednorazowych płatności nie obsługuje bezpiecznie mnożenia godzin ani cyklicznych opłat.
+- Podsumowanie na stronie to **orientacyjna wycena**, a nie zaksięgowana płatność ani potwierdzona rezerwacja.
+- Nowe rodzaje cen wymagające progów wolumenowych, rabatów sezonowych, podatków lub osobnego harmonogramu płatności są **kolejnym etapem**, nie zostały zaimplementowane tutaj.
 
-### Admin → Media Library
-- Pliki istniejące na GitHubie + nowe pliki przesłane do Supabase Storage.
-- Wyszukiwanie, kategorie, wybór docelowej galerii, oznaczenie aktualnych galerii przy każdej miniaturze.
-- Zaznaczanie wielu zdjęć; jednorazowe przypisanie wybranych do galerii. Zdjęcie można umieścić w kilku galeriach — nie usuwa to wcześniejszych przypisań.
-- Etykiety w KB/MB na podstawie metadanych GitHuba lub przesłanego pliku oraz rzeczywiste wymiary w pikselach po wczytaniu miniatury.
-- **Automatyczne doładowywanie przy przewijaniu** po 48 zdjęć. Dostępny także przycisk Load more.
-- **Remove** oznacza odpięcie od galerii + odwracalne ukrycie z Media Library, **nie trwałe usunięcie pliku**. Można zaznaczyć Show removed photos i przywrócić Restore. Nie kasuje to innych odniesień do zdjęcia w HTML, usługach i artykułach.
+## 5. Testy
 
-### Admin → Services & pricing
-- Miniatury zdjęcia głównego i galerii zamiast samego pola URL.
-- Wybór z **Portfolio galleries** albo z istniejących plików GitHub w **Media Library**.
-- Usuwanie zdjęć z usługi przez Remove × (wymaga Save changes).
-- Dodawanie nowego zdjęcia bezpośrednio do Supabase Storage. Zapisane zdjęcie pojawi się również w Media Library.
+- `node --check` — `admin.js`, `site.js`: poprawna składnia.
+- `node --test tests/pricing.test.cjs`: 7 testów jednostkowych kalkulacji.
+- Test przeglądarkowy w odizolowanym HTML z atrapą Supabase: otwieranie/zamykanie edytora, zapis stawek, prezentacja cen, aktualizowanie liczby godzin, miesięczna kwota + opłata startowa, dane przekazywane w zapytaniu — przeszły.
+- Nie testowano jeszcze **rzeczywistego** wdrożenia gałęzi Netlify z Twoją produkcyjną bazą, dlatego konieczny jest Deploy Preview.
 
-### Poprawka pamięci podręcznej przeglądarki
-Dawny `sw.js` zapisywał w Cache Storage praktycznie wszystkie żądania sieciowe, w tym tysiące zdjęć. Powodowało to widoczny w konsoli błąd `QuotaExceededError`. Nowa wersja SW usuwa jego stare cache i **nie przechwytuje żądań zdjęć, logowania ani API**. Offline cache strony z dawnego Mobirise przestaje być dostępny; jest to celowe przy działającym CMS.
+## 6. Weryfikacja po wdrożeniu
 
-## 5. Co sprawdzić po wdrożeniu
+1. `/admin.html#services` → wszystkie 13 usług obecne.
+2. Dowolna usługa → `Edit ↓` i `Collapse ↑` → formularz jest pod daną usługą, nie obok listy.
+3. Weryfikacja ofert już istniejących → ich kwoty są identyczne jak przed instalacją.
+4. Nieaktywna usługa testowa → pakiet za godzinę, minimalna liczba godzin i krok 0,5.
+5. Ta sama usługa → test pakietu miesięcznego z ewentualną opłatą startową.
+6. Formularz kontaktowy i zapytań → nadal działa; żadne nowe ustawienia Netlify nie są potrzebne.
+7. Portfolio, artykuły i Media Library → bez zmian.
 
-1. `https://lilkangoomedia.com/portfolio.html` → otwórz galerię → kliknij zdjęcie → naciśnij strzałki / Esc.
-2. `https://lilkangoomedia.com/admin.html#services` → Edit → Choose existing photo → wybierz → Save changes.
-3. `https://lilkangoomedia.com/admin.html#galleries` → wybierz galerię → miniatury, Set cover, select, Remove from gallery. Nie wykonuj destrukcyjnych testów na galerii klienta.
-4. `https://lilkangoomedia.com/admin.html#media` → wybierz galerię docelową, sprawdź rozmiar i wymiary zdjęć, przewiń w dół, wybierz zdjęcie i Add to gallery; potwierdź przypisanie.
-5. Potwierdź, że formularz kontaktowy i `Admin → Enquiries` działają bez zmian.
-
-**Nie trzeba konfigurować nowych sekretów Netlify, Resend, Zoho, Google, Stripe.** Wymagana jest tylko migracja SQL z kroku 2.
-
-## Ważna granica bezpieczeństwa
-
-**Prywatność uploadów:** obecny bucket Supabase `portfolio` jest publiczny. Status **Review** ukrywa zdjęcie w nowym portfolio, ale **nie chroni bezpośredniego adresu pliku**. Nie przesyłaj poufnych galerii klientów do tego bucketu bez osobnego rozwiązania z prywatnym bucketem i uwierzytelnionymi linkami.
-
-
-Istniejące pliki w publicznym repozytorium GitHub nie stają się prywatne po ukryciu w Media Library. Trwałe kasowanie źródłowych plików jest odrębną, potencjalnie destrukcyjną operacją wymagającą audytu powiązań z usługami, galeriami, HTML i SEO. Celowo nie włączono jej do masowego przycisku Remove.
-
-Testy: pliki JS sprawdzone składniowo (`node --check`), scenariusze galerii, wyboru fotografii, wielokrotnego przypisania, batch remove/restore oraz upload sprawdzone w Chromium na danych symulowanych. Rzeczywista baza Supabase i wdrożenie Netlify wymagają potwierdzenia w Deploy Preview / produkcji.
+Jeśli w produkcyjnym kodzie były równoległe niezacommitowane poprawki `site.js`/`admin.js`, najpierw porównaj różnice przed `Replace`. Paczka została przygotowana na bazie ostatniej dostępnej wersji projektu, więc nie należy nadpisywać nowszych zmian bez sprawdzenia.
