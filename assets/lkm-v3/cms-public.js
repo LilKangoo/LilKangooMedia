@@ -14,7 +14,8 @@ privacy();
 const filterButton=(name,active)=>`<button type="button" data-filter="${esc(name)}" aria-pressed="${active===name}">${esc(name)}</button>`;
 const hero=(kicker,title,intro)=>`<div class="cms-pub-eyebrow">${esc(kicker)}</div><h1 class="cms-pub-title">${esc(title)}</h1><p class="cms-pub-intro">${esc(intro)}</p>`;
 const img=(url,alt,cl='')=>safeImage(url)?`<img class="${cl}" src="${esc(url)}" alt="${esc(alt)}" loading="lazy">`:'';
-let posts=[],categories=[],galleries=[],images=[],filter='All';
+let posts=[],categories=[],galleries=[],images=[],videos=[],filter='All';
+const videoThumb=id=>'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg';
 function safeArticleMarkup(input){
  const parsed=new DOMParser().parseFromString(String(input||''),'text/html');
  const allowed=new Set(['H1','H2','H3','H4','P','BR','STRONG','B','EM','I','U','UL','OL','LI','A','BLOCKQUOTE','IMG','FIGURE','FIGCAPTION','HR','PRE','CODE']);
@@ -50,12 +51,22 @@ function safeArticleMarkup(input){
 const cats=()=>['All',...new Set(galleries.map(g=>g.category||'Other'))];
 const postCats=()=>['All',...new Set(posts.map(p=>p.category_name||categories.find(c=>c.id===p.category_id)?.name||'Articles'))];
 const galleryItem=g=>{
- const match=images.filter(i=>i.gallery_id===g.id);const cover=match.find(i=>i.id===g.cover_image_id)||match[0];
- return `<a href="#/gallery/${encodeURIComponent(g.slug)}" class="cms-pub-card">${cover?img(cover.image_url,cover.alt_text||g.title):''}<div class="cms-pub-copy"><small>${esc(g.category)}</small><h2>${esc(g.title)}</h2><p>${esc(g.description)}</p><p>${match.length} published photo${match.length===1?'':'s'}</p></div></a>`;
+ const match=images.filter(i=>i.gallery_id===g.id),clips=videos.filter(v=>v.gallery_id===g.id);
+ const cover=match.find(i=>i.id===g.cover_image_id)||match[0];
+ const preview=cover?img(cover.image_url,cover.alt_text||g.title):clips.length?img(videoThumb(clips[0].youtube_id),clips[0].title):'';
+ const count=match.length+clips.length;
+ return `<a href="#/gallery/${encodeURIComponent(g.slug)}" class="cms-pub-card">${preview}<div class="cms-pub-copy"><small>${esc(g.category)}</small><h2>${esc(g.title)}</h2><p>${esc(g.description)}</p><p>${count} item${count===1?'':'s'}${clips.length?' · '+clips.length+' video'+(clips.length>1?'s':''):''}</p></div></a>`;
 };
-function galleryList(){const visible=galleries.filter(g=>filter==='All'||g.category===filter);document.title='Photography Portfolio | LilKangooMedia';root.innerHTML=hero('Selected photography & films','Our portfolio','Explore photography and design projects, organized by subject and creative discipline.')+`<div class="cms-pub-chips">${cats().map(c=>filterButton(c,filter)).join('')}</div>`+(visible.length?`<div class="cms-pub-grid">${visible.map(galleryItem).join('')}</div>`:'<div class="cms-pub-empty">No galleries are currently available in this category. Explore another collection or contact us about a project.</div>');}
+function galleryList(){const visible=galleries.filter(g=>filter==='All'||g.category===filter);document.title='Photography & Video Portfolio | LilKangooMedia';root.innerHTML=hero('Selected photography & films','Our portfolio','Explore photography, film and design projects, organized by subject and creative discipline.')+`<div class="cms-pub-chips">${cats().map(c=>filterButton(c,filter)).join('')}</div>`+(visible.length?`<div class="cms-pub-grid">${visible.map(galleryItem).join('')}</div>`:'<div class="cms-pub-empty">No galleries are currently available in this category. Explore another collection or contact us about a project.</div>');}
 const galleryAliases={'legacy-portraits':'portraits','legacy-nature':'nature-photography','legacy-products':'product-jewellery-photography','legacy-graphic-design':'graphic-design','legacy-igori-gabrysia':'igor-gabrysia'};
-function galleryDetail(slug){const requested=galleryAliases[slug]||slug;let g=galleries.find(g=>g.slug===requested)||galleries.find(g=>g.slug===slug)||galleries.find(g=>galleryAliases[g.slug]===requested);if(!g){galleryList();return}const items=images.filter(i=>i.gallery_id===g.id);document.title=g.title+' | LilKangooMedia Portfolio';root.innerHTML=`<div class="cms-pub-breadcrumb"><a href="#/">← All galleries</a> / ${esc(g.category)}</div>`+hero(g.category,g.title,g.description||'Photography and creative work by LilKangooMedia.')+`<div class="cms-gallery-grid">${items.map(i=>`<figure>${img(i.image_url,i.alt_text||g.title)}${i.caption?.trim()?`<figcaption>${esc(i.caption)}</figcaption>`:''}</figure>`).join('')}</div>`;}
+function galleryDetail(slug){
+ const requested=galleryAliases[slug]||slug;
+ let g=galleries.find(g=>g.slug===requested)||galleries.find(g=>g.slug===slug)||galleries.find(g=>galleryAliases[g.slug]===requested);
+ if(!g){galleryList();return}
+ const items=[...images.filter(i=>i.gallery_id===g.id).map(i=>({...i,kind:'photo'})),...videos.filter(v=>v.gallery_id===g.id).map(v=>({...v,kind:'video'}))].sort((a,b)=>(a.display_order||100)-(b.display_order||100));
+ document.title=g.title+' | LilKangooMedia Portfolio';
+ root.innerHTML=`<div class="cms-pub-breadcrumb"><a href="#/">← All galleries</a> / ${esc(g.category)}</div>`+hero(g.category,g.title,g.description||'Photography and creative work by LilKangooMedia.')+`<div class="cms-gallery-grid">${items.map(i=>i.kind==='video'?`<figure class="lkm-gallery-video-thumb" data-video-id="${esc(i.youtube_id)}"><img loading="lazy" src="${videoThumb(i.youtube_id)}" alt="${esc(i.title||'Watch video')}"><span class="lkm-video-play" aria-hidden="true">▶</span><figcaption>${esc(i.title)}</figcaption></figure>`:`<figure>${img(i.image_url,i.alt_text||g.title)}${i.caption?.trim()?`<figcaption>${esc(i.caption)}</figcaption>`:''}</figure>`).join('')}</div>`;
+}
 const postCard=p=>{const c=categories.find(c=>c.id===p.category_id);const url=p.permalink||p.legacy_path||'/articles/'+encodeURIComponent(p.slug)+'.html';return `<a href="${esc(url)}" class="cms-pub-card">${img(p.cover_url,p.cover_alt||p.title)}<div class="cms-pub-copy"><small>${esc(p.category_name||c?.name||'Articles')}</small><h2>${esc(p.title)}</h2><p>${esc(p.excerpt)}</p></div></a>`};
 function postList(){const items=posts.filter(p=>filter==='All'||(p.category_name||categories.find(c=>c.id===p.category_id)?.name)===filter);document.title='Articles | LilKangooMedia';root.innerHTML=hero('Creative ideas and Cyprus guides','Articles & inspiration','Photography education, practical business content and Cyprus travel guides from LilKangooMedia.')+`<div class="cms-pub-chips">${postCats().map(c=>filterButton(c,filter)).join('')}</div>`+(items.length?`<div class="cms-pub-grid">${items.map(postCard).join('')}</div>`:'<div class="cms-pub-empty">Explore our photography guides and Cyprus travel articles. <a href="/Education.html">Photography guides</a> · <a href="/articlesaboutcyprus.html">Cyprus articles</a>.</div>');}
 function postDetail(slug){const p=posts.find(x=>x.slug===slug);if(!p){postList();return}if(!p.body_html){window.location.replace(p.permalink||p.legacy_path||'/articles/'+encodeURIComponent(p.slug)+'.html');return}const c=categories.find(c=>c.id===p.category_id);document.title=(p.seo_title||p.title)+' | LilKangooMedia';root.innerHTML=`<div class="cms-article"><div class="cms-pub-breadcrumb"><a href="#/">← All articles</a> / ${esc(c?.name||'Articles')}</div>${hero(c?.name||'Article',p.title,p.excerpt||'')}${img(p.cover_url,p.cover_alt||p.title,'cms-article-hero')}<article class="cms-article-body">${safeArticleMarkup(p.body_html)}</article></div>`;}
@@ -72,33 +83,30 @@ function closeLightbox(){
 }
 function openLightbox(clicked){
  closeLightbox();
- const photos=Array.from(root.querySelectorAll('.cms-gallery-grid figure')).map(f=>({
+ const all=Array.from(root.querySelectorAll('.cms-gallery-grid figure')).map(f=>({
   src:f.querySelector('img')?.currentSrc||f.querySelector('img')?.src,
-  alt:f.querySelector('img')?.alt||'',
-  caption:f.querySelector('figcaption')?.textContent?.trim()||'',
-  trigger:f.querySelector('img')
+  alt:f.querySelector('img')?.alt||'',caption:f.querySelector('figcaption')?.textContent?.trim()||'',
+  trigger:f.querySelector('img'),videoId:f.dataset.videoId||''
  })).filter(p=>p.src);
- if(!photos.length)return;
- let position=Math.max(0,photos.findIndex(p=>p.trigger===clicked));
+ if(!all.length)return;
+ let position=Math.max(0,all.findIndex(p=>p.trigger===clicked));
  const container=document.createElement('div');container.className='cms-lightbox';
- container.setAttribute('role','dialog');container.setAttribute('aria-modal','true');container.setAttribute('aria-label','Photo gallery viewer');
- container.innerHTML=`<button type="button" class="cms-lightbox-close" data-lightbox="close" aria-label="Close image viewer">×</button>
-  <button type="button" class="cms-lightbox-nav cms-lightbox-prev" data-lightbox="prev" aria-label="Previous photograph">‹</button>
-  <figure class="cms-lightbox-figure"><img alt=""><figcaption class="cms-lightbox-caption"></figcaption></figure>
-  <button type="button" class="cms-lightbox-nav cms-lightbox-next" data-lightbox="next" aria-label="Next photograph">›</button>
-  <span class="cms-lightbox-count" role="status" aria-live="polite"></span>`;
- const picture=container.querySelector('img'),caption=container.querySelector('.cms-lightbox-caption');
- const setPosition=i=>{position=(i+photos.length)%photos.length;const x=photos[position];picture.src=x.src;picture.alt=x.alt;caption.textContent=x.caption||x.alt;container.querySelector('.cms-lightbox-count').textContent=`${position+1} / ${photos.length}`;
-  // Preload the adjacent photos to keep navigation responsive.
-  [photos[(position+1)%photos.length],photos[(position-1+photos.length)%photos.length]].forEach(a=>{const preload=new Image();preload.src=a.src});};
+ container.setAttribute('role','dialog');container.setAttribute('aria-modal','true');container.setAttribute('aria-label','Photo and video gallery viewer');
+ container.innerHTML=`<button type="button" class="cms-lightbox-close" data-lightbox="close" aria-label="Close viewer">×</button><button type="button" class="cms-lightbox-nav cms-lightbox-prev" data-lightbox="prev" aria-label="Previous item">‹</button><figure class="cms-lightbox-figure"><img alt=""><iframe title="Video player" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" hidden></iframe><figcaption class="cms-lightbox-caption"></figcaption><a class="lkm-youtube-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Watch on YouTube</a></figure><button type="button" class="cms-lightbox-nav cms-lightbox-next" data-lightbox="next" aria-label="Next item">›</button><span class="cms-lightbox-count" role="status" aria-live="polite"></span>`;
+ const picture=container.querySelector('img'),frame=container.querySelector('iframe'),caption=container.querySelector('.cms-lightbox-caption'),link=container.querySelector('.lkm-youtube-link');
+ const setPosition=i=>{
+  position=(i+all.length)%all.length;const x=all[position];
+  frame.removeAttribute('src');picture.removeAttribute('src');
+  if(x.videoId){picture.hidden=true;frame.hidden=false;frame.src='https://www.youtube-nocookie.com/embed/'+x.videoId+'?autoplay=1&playsinline=1&rel=0';link.href='https://www.youtube.com/watch?v='+x.videoId;link.hidden=false}
+  else{picture.hidden=false;frame.hidden=true;picture.src=x.src;picture.alt=x.alt;link.hidden=true}
+  caption.textContent=x.caption||x.alt;container.querySelector('.cms-lightbox-count').textContent=`${position+1} / ${all.length}`;
+  if(!x.videoId)[all[(position+1)%all.length],all[(position-1+all.length)%all.length]].forEach(v=>{if(!v.videoId){const p=new Image();p.src=v.src}});
+ };
  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();closeLightbox()}if(e.key==='ArrowRight'){e.preventDefault();setPosition(position+1)}if(e.key==='ArrowLeft'){e.preventDefault();setPosition(position-1)}};
  let touchStart=0;
  container.addEventListener('touchstart',e=>{touchStart=e.changedTouches[0]?.screenX||0},{passive:true});
- container.addEventListener('touchend',e=>{const delta=(e.changedTouches[0]?.screenX||0)-touchStart;if(Math.abs(delta)>55)setPosition(position+(delta<0?1:-1))},{passive:true});
- container.addEventListener('click',e=>{const action=e.target.closest('[data-lightbox]')?.dataset.lightbox;
-  if(action==='close'||e.target===container){closeLightbox();return}
-  if(action==='prev')setPosition(position-1);if(action==='next')setPosition(position+1);
- });
+ container.addEventListener('touchend',e=>{const d=(e.changedTouches[0]?.screenX||0)-touchStart;if(Math.abs(d)>55)setPosition(position+(d<0?1:-1))},{passive:true});
+ container.addEventListener('click',e=>{const action=e.target.closest('[data-lightbox]')?.dataset.lightbox;if(action==='close'||e.target===container){closeLightbox();return}if(action==='prev')setPosition(position-1);if(action==='next')setPosition(position+1)});
  activeLightbox={element:container,trigger:clicked,onKey,originalOverflow:document.body.style.overflow};
  document.body.appendChild(container);document.body.style.overflow='hidden';window.addEventListener('keydown',onKey);
  setPosition(position);container.querySelector('.cms-lightbox-close').focus({preventScroll:true});
@@ -124,7 +132,7 @@ window.addEventListener('hashchange',()=>{closeLightbox();render()});
  }
  }else{
   if(!base||!key)throw new Error('Supabase is not configured.');
-  [galleries,images]=await Promise.all([api('portfolio_galleries?select=*&visibility=eq.public&order=display_order.asc&limit=1000'),api('portfolio_images?select=*&visibility=eq.public&order=display_order.asc&limit=1000')]);
+  [galleries,images,videos]=await Promise.all([api('portfolio_galleries?select=*&visibility=eq.public&order=display_order.asc&limit=1000'),api('portfolio_images?select=*&visibility=eq.public&order=display_order.asc&limit=1000'),api('media_videos?select=*&visibility=eq.public&gallery_id=not.is.null&order=display_order.asc&limit=1000').catch(()=>[])]);
  }
  render();
 }catch(err){root.innerHTML='<div class="cms-pub-empty">The content list is temporarily unavailable. Please try again later.</div>';console.warn(err)}})();

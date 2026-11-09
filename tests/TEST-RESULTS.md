@@ -1,10 +1,8 @@
-# Phase 8 verification
+# Local validation — Phase 10
 
-Validated locally:
-
-- Five Python unit/integration tests: passing.
-- Parser tested on four original uploaded LilKangooMedia article HTML files (Cyprus travel and photo education); every generated page preserved the canonical URL and contained one H1 and full body text.
-- JavaScript source syntax: passing for CMS, public blog and analytics-consent script.
-- Generated article content sanitization and distinct category/URL selection: passing.
-
-**Not yet verified**: full build against all 60+ remote GitHub source HTML pages, production Supabase authentication/edits, Netlify build, SEO indexing/actual search performance, and final appearance in a browser. Netlify Deploy Preview required before merging main.
+- `node --check` — PASS for `site.js`, `cms-public.js`, `video-admin.js`
+- Chromium Playwright mock integration: service photo zoom + keyboard/video transitions — PASS
+- Chromium Playwright mock integration: public portfolio gallery photo/video + closing iframe — PASS
+- Chromium Playwright mock integration: Video Library add YouTube Shorts link, edit & close — PASS
+- Database RLS and real Supabase integration — NOT YET TESTED (requires deploy environment)
+- Real YouTube playback, consent checks, mobile Safari — NOT YET TESTED
