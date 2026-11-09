@@ -1,47 +1,35 @@
-# LilKangooMedia — Phase 15 / Service Copy & Features
+# LilKangooMedia — Phase 16: kolejność sekcji usług
 
-## Co otrzymujesz
+Paczka zmienia **tylko wygląd/układ** stron wszystkich usług. Nie dotyka Supabase, cen, pakietów, formularza ani płatności.
 
-- Profesjonalne opisy po angielsku dla **14 usług** (13 z katalogu + CyprusEye Partner Advertising).
-- Osobne `features` usługi i `features` każdego zweryfikowanego pakietu.
-- Admin: dodawanie, edycja, usuwanie, przesuwanie cech góra/dół, osobno dla usługi i każdego pakietu.
-- Nowoczesna prezentacja tych cech na aktualnym szablonie Phase 14.
-- Zmiana widocznej nazwy `brand-launch-packages` na **Brand Launch & Creative Setup**, bez zmiany URL/slug.
-- **Nie zmieniamy cen, rozliczeń, pakietów, dodatków, zdjęć, filmów ani Stripe.**
+## Pliki do podmiany (tylko te dwa)
 
-## Kolejność instalacji
+- `assets/lkm-v3/service-detail-v14.js` — replace
+- `assets/lkm-v3/service-detail-v14.css` — replace
 
-1. **Backup**: w Supabase Table Editor → `public.services` → Export CSV. To jest baza produkcyjna; koniecznie zapisz kopię.
-2. W projekcie Supabase LilKangooMedia otwórz **SQL Editor** i wklej całość pliku `supabase/migrations/20261109_lkm_service_features_phase15.sql`. Wykonaj RUN.
-3. Sprawdź wynik SELECT: powinno być 14 rekordów, jeśli wszystkie istnieją w bazie. W przypadku brakujących pozycji nie tworzy nowych usług; najpierw sprawdź ich slugi.
-4. W GitHubie utwórz gałąź testową `lkm-service-features-v15` z aktualnej `main`.
-5. Dodaj / zastąp **wyłącznie** cztery pliki (zachowaj ścieżki):
-   - `assets/lkm-v3/admin.js` — ZASTĄP
-   - `assets/lkm-v3/admin-unified.css` — ZASTĄP
-   - `assets/lkm-v3/service-detail-v14.js` — ZASTĄP
-   - `assets/lkm-v3/service-detail-v14.css` — ZASTĄP
-6. Nie zmieniaj `index.html`, `home.html`, `site.js`, `service-bundle.js`, Netlify Functions ani żadnych folderów ze zdjęciami.
-7. Sprawdź **Netlify Deploy Preview**: `/#/service/portrait-photography`, `/#/service/brand-launch-packages`, `/#/service/cypruseye-partner-advertising`, `/#/quote`, admin `#services`.
-8. Zwróć uwagę: **Deploy Preview korzysta z produkcyjnego Supabase**, dopóki nie masz osobnego środowiska.
-9. Kiedy wszystko działa, połącz zmiany do `main`.
+Nazwy plików pozostają `v14`, żeby nie zmieniać istniejących odniesień w `index.html` i `home.html`.
 
-## Jak edytować Features
+## Kolejność na stronie
 
-Admin → Services & Pricing → Edit: pod Full description jest sekcja **Service highlights**. W każdym wariancie pod Package summary znajdziesz **Included in this package**. Możesz dodawać, usuwać oraz zmieniać kolejność strzałkami; kliknij **Save changes** żeby zapisać cały rekord.
+1. Tytuł, krótki opis, galeria zdjęć i filmów
+2. **About this service** — widoczny pełny opis bez dropdown (jeśli opis jest dłuższy niż wstęp)
+3. **What we offer** — lista zalet/elementów usługi, jeśli wpisane w panelu admin
+4. **Available packages** — rozwinięte informacje bez "Read package details"; dokładne included features z Phase 15
+5. **How it works** — trzy poziome kroki na komputerze, pełna szerokość kontenera; pionowo na telefonie
+6. **Plan & pricing / Ready to continue?** — podsumowanie wybranego pakietu i przycisk **Continue with this package →** (lub **Request a quote →** bez pakietów)
 
-## Ważna ochrona aktualnych pakietów
+### Instalacja
 
-SQL **nie zmienia** `price_cents`, `pricing_model`, `show_from`, `package_id` i żadnych innych ustawień cenowych. Do `packages` dodaje jedynie pole `features` i tylko wtedy, gdy identyfikator pakietu oraz jego aktualny opis odpowiadają zweryfikowanej wersji oryginalnej, a `features` są dotąd puste. **Pakiety edytowane ręcznie pozostają bez zmian**. Wtedy uzupełnij ich features z poziomu admina.
+1. Zaktualizuj repozytorium, najlepiej na gałęzi `lkm-service-flow-v16`.
+2. Wgraj oba pliki **we właściwe katalogi**. Nie podmieniaj całych folderów.
+3. Uruchom Netlify Deploy Preview.
+4. Otwórz usługę `CyprusEye Partner Advertising`, `Portrait & Family Photography` i jedną usługę wycenianą indywidualnie.
+5. Sprawdź zmianę pakietu, cenę w sekcji dolnej, przycisk przejścia do `#/quote`, zdjęcia, filmy i funkcjonalność Phase 13.
+6. Po potwierdzeniu działania scal gałąź z `main`.
 
-## Bezpieczeństwo i testy
+### Uwaga
 
-- Uruchom SQL przed podmianą admin.js, bo nowy formularz zapisuje kolumnę `features`.
-- Kod używa `textContent` do prezentowania treści, bez interpretacji HTML w feature.
-- Skrypt SQL może być ponownie uruchomiony; zaktualizuje opis główny ponownie. Nie uruchamiaj po ręcznym edytowaniu opisów, bo zresetuje tekst.
-- Po teście porównaj `price_cents` w Supabase z eksportem CSV sprzed migracji.
-- Materiał `docs/SERVICE-COPY-EN.md` jest przeznaczony do przeglądu tekstów i nie wymaga publikacji w GitHubie.
-
-## Cofnięcie
-
-GitHub: przywróć cztery pliki z wcześniejszego commita. Supabase: przywróć `summary`, `description`, `features`, tytuł i pakietowe `features` z własnego eksportu (nie nadpisuj innych kolumn/rekordów).
-
+- Nie ma migracji SQL i nie trzeba podmieniać `index.html`/`home.html`, jeśli skrypty Phase 14 już się tam ładują.
+- Pełny opis jest wyświetlany tylko raz, kiedy dane pozwalają odróżnić go od krótkiego opisu. Jeżeli short description jest identyczny z full description, unikamy identycznej powtórki.
+- Przy zmianie pakietu strona korzysta z tego samego mechanizmu kalkulacji co przed aktualizacją.
+- Formularz wysyła zapytanie, **nie potwierdza rezerwacji ani nie pobiera automatycznej płatności**.

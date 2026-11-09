@@ -1,13 +1,11 @@
-# Phase 14 — local verification
+# Phase 16 — Testy lokalne
 
-- JavaScript syntax: PASS (`node --check` for service-detail-v14.js and service-bundle.js)
-- Existing services: PASS (13 simulated seed services, including custom quote with no packages)
-- CyprusEye: PASS (simulated advertising record, four monthly price options)
-- One H1 per service: PASS
-- Original detail-grid replaced with responsive single-page layout: PASS
-- Package selection and navigation to `#/quote`: PASS
-- Phase 13 cross-service selection and recalculation: PASS
-- No page JavaScript exceptions: PASS
-- No horizontal page overflow at 320, 375, 390, 768, 1024 or 1440 CSS px: PASS
+- 14 usług przeanalizowanych w lokalnym Chromium na danych testowych.
+- Kontrola jednego H1 na stronie i prawidłowej kolejności About → What we offer → Available packages → How it works → Plan & pricing.
+- Pakiety mają treść widoczną bez rozwijania; dane `features` wyświetlają się jako listy.
+- Zmiana pakietu CyprusEye z €50/mies. na €450/mies. odświeża dolne podsumowanie.
+- CTA przechodzi do obecnego `#/quote` z modułem Phase 13.
+- Układy 320, 375, 390, 768, 850, 1024 i 1440 px bez poziomego overflow.
+- Brak błędów JS w testach.
 
-Scope: local browser with mock content; not a production Netlify/Supabase integration test. External media may not load in the isolated test environment.
+**Uwaga:** test na symulowanych rekordach i lokalnym HTML, nie jest testem produkcyjnego Supabase / Netlify. Obrazy w lokalnych screenshotach nie wczytywały się, bo nie kopiowano biblioteki zdjęć do środowiska testowego. ZIP nie zmienia ścieżek ani plików zdjęć.

@@ -64,3 +64,50 @@
 .lkm-v15-package-features li{font-size:13px}
 .lkm-v14-package .lkm-v15-package-features{margin-top:0}
 @media(max-width:760px){.lkm-v15-highlights{padding:21px;margin-top:22px}.lkm-v15-feature-grid{grid-template-columns:1fr;gap:9px}}
+
+/* Phase 16 — clear reading flow. Scoped to redesigned service pages only. */
+.lkm-v16 .lkm-v14-intro{max-width:1020px;margin:0 auto;padding-bottom:23px}
+.lkm-v16 .lkm-v14-top{display:block;margin:8px 0 0}
+.lkm-v16 .lkm-v14-media{max-width:1020px;margin:0 auto}
+.lkm-v16 .lkm-v14-media .gallery-main{height:clamp(310px,48vw,550px)}
+.lkm-v16 .lkm-v14-about{display:block;max-width:1020px;margin:52px auto 0;padding:0;background:none;border:0}
+.lkm-v16 .lkm-v14-about h2,.lkm-v16 .lkm-v15-highlights h2,.lkm-v16 .lkm-v14-section-head h2,.lkm-v16 .lkm-v14-process h2,.lkm-v16 .lkm-v16-booking-intro h2{font-size:clamp(26px,3vw,36px);line-height:1.16;letter-spacing:-1px;font-weight:800;margin:0 0 19px;color:#1d3024}
+.lkm-v16 .lkm-v16-about-text{font-size:clamp(14px,1.35vw,16px);color:#506052;line-height:1.85;white-space:pre-line;margin:0;overflow-wrap:anywhere;max-width:95ch}
+.lkm-v16 .lkm-v15-highlights{max-width:1020px;margin:43px auto 0;padding:30px 34px}
+.lkm-v16 .lkm-v15-highlights .lkm-v14-section-head{margin-bottom:15px}
+.lkm-v16 .lkm-v14-packages{margin-top:62px;scroll-margin-top:110px}
+.lkm-v16 .lkm-v14-package{padding:21px;display:flex;flex-direction:column;gap:8px}
+.lkm-v16 .lkm-v14-package button.package-choice small{display:block;font-size:13px;line-height:1.72;color:#576a5c;margin-top:12px;white-space:pre-line;overflow-wrap:anywhere}
+.lkm-v16 .lkm-v15-package-features{margin:7px 0 0;padding:18px 0 0;border-top:1px solid #e2e9e1;gap:10px}
+.lkm-v16 .lkm-v14-package button.package-choice{min-height:66px}
+.lkm-v16 .lkm-v14-process{margin-top:60px;padding:32px 36px;border-radius:20px;background:#edf2ec;width:100%;max-width:none}
+.lkm-v16 .lkm-v14-process h2{margin-bottom:24px}
+.lkm-v16 .lkm-v14-process-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0}
+.lkm-v16 .lkm-v14-process-list li{display:flex;align-items:center;gap:13px;min-width:0;padding:22px 17px;border:1px solid #dfe7dd;border-radius:14px;background:white;font-size:14px;line-height:1.45;color:#304c36;font-weight:700}
+.lkm-v16 .lkm-v14-process-list .lkm-v14-step{width:44px;min-width:44px;height:44px;border-radius:13px;background:#f3f6f1;font-size:13px}
+.lkm-v16 .lkm-v14-checkout{position:static;display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,370px);align-items:center;gap:32px;width:100%;max-width:none;margin-top:54px;padding:clamp(25px,4vw,45px);background:linear-gradient(120deg,#fff 0%,#f9fbf8 100%);box-shadow:0 18px 48px #1425180c;border:1px solid #dbe4da;border-radius:20px}
+.lkm-v16 .lkm-v16-booking-intro{min-width:0;align-self:center}
+.lkm-v16 .lkm-v16-booking-intro h2{margin-bottom:12px}
+.lkm-v16 .lkm-v16-booking-intro .lkm-v14-muted{font-size:15px;max-width:54ch;line-height:1.7}
+.lkm-v16 .lkm-v16-booking-action{min-width:0;border-left:1px solid #e0e8dd;padding-left:32px}
+.lkm-v16 .lkm-v14-selected-label{margin:0 0 4px;color:#6b786e;font-size:12px}
+.lkm-v16 .lkm-v14-chosen-name{font-size:15px;color:#415849;margin:0 0 8px;font-weight:700;line-height:1.5}
+.lkm-v16 .lkm-v14-price{margin:0;font-size:clamp(30px,3.2vw,44px);color:#1c3526}
+.lkm-v16 .lkm-v14-cta{margin-top:20px;min-height:53px;font-size:14px}
+.lkm-v16 .lkm-v14-note{margin-top:14px;line-height:1.6}
+@media(max-width:850px){
+ .lkm-v16 .lkm-v14-checkout{grid-template-columns:1fr;gap:25px}
+ .lkm-v16 .lkm-v16-booking-action{border-left:0;border-top:1px solid #e0e8dd;padding-left:0;padding-top:22px}
+ .lkm-v16 .lkm-v14-process-list{grid-template-columns:1fr}
+ .lkm-v16 .lkm-v14-process-list li{padding:15px 17px}
+ .lkm-v16 .lkm-v14-package-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+ .lkm-v16 .lkm-v14-top{margin-top:4px}
+ .lkm-v16 .lkm-v14-media .gallery-main{height:clamp(250px,64vw,430px)}
+ .lkm-v16 .lkm-v14-about{margin-top:33px}
+ .lkm-v16 .lkm-v15-highlights{margin-top:31px;padding:22px}
+ .lkm-v16 .lkm-v14-packages{margin-top:44px}
+ .lkm-v16 .lkm-v14-process{margin-top:42px;padding:22px 18px}
+ .lkm-v16 .lkm-v14-checkout{margin-top:38px;padding:23px 20px}
+}
