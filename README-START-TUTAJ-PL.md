@@ -1,5 +1,13 @@
 # LilKangooMedia — Phase 19 · Links library
 
+## Poprawka błędu Netlify (9 listopada 2026)
+
+- Funkcja `netlify/functions/link-preview.js` została przepisana z `exports.handler` (CommonJS) na `export const handler` (ES Modules). W repozytorium ustawiono `"type": "module"`, dlatego wcześniejsza wersja nie przechodziła budowania funkcji.
+- Nazwa i ścieżka funkcji pozostają bez zmian; reguły `/share/service/:slug` oraz `/share/gallery/:slug` w `netlify.toml` są zachowane.
+- Test sprawdza teraz faktyczny import `link-preview.js` w katalogu z `package.json` ustawionym na `"type": "module"`.
+- Po podmianie plików w GitHub wykonaj nowy deploy; sam `Retry` starej wersji może pobrać stary commit.
+- Testy lokalne nie są potwierdzeniem sukcesu Netlify, który wymaga nowego deployu.
+
 ## Cel
 
 Nowa pozycja **↗ Links library** w panelu administratora LilKangooMedia. Umożliwia szybkie znalezienie i wysłanie właściwego publicznego linku do usługi, artykułu, galerii, recenzji lub innej ważnej strony.

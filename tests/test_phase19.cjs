@@ -1,8 +1,18 @@
 'use strict';
-const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path'),os=require('os');
+const {pathToFileURL}=require('url');
 const folder=path.resolve(__dirname,'..');
 async function testShare(){
- const share=require(folder+'/netlify/functions/link-preview.js');
+ // Recreate Netlify's root package.json with type:module and import the function as ESM.
+ const esmDir=fs.mkdtempSync(path.join(os.tmpdir(),'lkm-phase19-esm-'));
+ let share;
+ try{
+  fs.writeFileSync(path.join(esmDir,'package.json'),JSON.stringify({type:'module'}));
+  const fn=path.join(esmDir,'link-preview.js');
+  fs.copyFileSync(path.join(folder,'netlify/functions/link-preview.js'),fn);
+  share=await import(pathToFileURL(fn).href);
+ }finally{fs.rmSync(esmDir,{recursive:true,force:true});}
+ assert.equal(typeof share.handler,'function','Netlify function must expose an ESM handler');
  const calls=[];
  global.fetch=async url=>{calls.push(url);let x=[];
   if(url.includes('services?'))x=[{slug:'commercial-video-reels',title:'Commercial Video & Reels',summary:'Commercial video <marketing> for Cyprus brands.',cover_url:'/assets/images/woodstock.jpg'}];

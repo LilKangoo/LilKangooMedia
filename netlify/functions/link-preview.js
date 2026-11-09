@@ -19,7 +19,7 @@ async function get(api,key,path){
  if(!res.ok)throw new Error('Public catalog HTTP '+res.status);
  return res.json();
 }
-exports.handler=async function(event){
+export const handler=async function(event){
  const kind=event.queryStringParameters?.kind,slug=event.queryStringParameters?.slug;
  if(!['service','gallery'].includes(kind)||!safeSlug(slug))return errorPage(400,'Invalid share link.');
  const supabase=(process.env.SUPABASE_URL||FALLBACK_URL).replace(/\/$/,'');

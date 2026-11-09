@@ -6,3 +6,10 @@
 - `node tests/test_phase19.cjs` passed: source retrieval mocked for two services, one gallery and one published article; filter/search; copy social link; copy formatted title/description/link.
 - Unable to run local graphical browser tests: installed Chromium blocks navigation (`ERR_BLOCKED_BY_ADMINISTRATOR`). Manual Netlify Deploy Preview and social sharing validation required.
 - No production files or database altered.
+
+## 2026-11-09 — Netlify function ESM deployment fix
+
+- Root project uses `"type": "module"`; original function used CommonJS `exports.handler`, causing Netlify to stop at function bundling.
+- Changed `netlify/functions/link-preview.js` to ESM named export `export const handler` without altering its HTTP logic.
+- Updated Phase 19 tests to import the function from a temporary package with `"type": "module"`, matching Netlify project module semantics.
+- Tests run locally after the fix; full GitHub/Netlify production deployment still needs confirmation.
