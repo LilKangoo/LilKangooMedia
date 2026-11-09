@@ -32,7 +32,7 @@ function makeItem({kind,folder,title,description,image,slug,url,directUrl,catego
 }
 function standard(){
  const base=[
-  ['Home','/', 'Photography, filmmaking, design and marketing services in Cyprus.','/assets/images/home-meta.jpg','pages'],
+  ['LilKangooMedia.com — Homepage','/', 'Photography, filmmaking, design and marketing services in Cyprus.','/assets/images/home-meta.jpg','pages'],
   ['All services','/#/services','Browse LilKangooMedia photography, videography, design and marketing services.','/assets/images/home-meta.jpg','pages'],
   ['Personal services','/#/services?audience=personal','Photography, videography, weddings and private experiences in Cyprus.','/assets/images/portrait-15.jpg','pages'],
   ['Business services','/#/services?audience=business','Commercial photography, video, websites, creative design and marketing.','/assets/images/orofino-4.jpg','pages'],
@@ -74,7 +74,7 @@ async function loadAll(){
      if(!res.ok)return;const html=await res.text();const doc=new DOMParser().parseFromString(html,'text/html');
      x.metaTitle=doc.title?.trim()||x.metaTitle;
      x.description=brief(doc.querySelector('meta[name="description"]')?.getAttribute('content')||x.description);
-     const og=doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
+     const og=doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || doc.querySelector('meta[name="twitter:image"]')?.getAttribute('content') || doc.querySelector('meta[name="twitter:image:src"]')?.getAttribute('content');
      if(og)x.image=safeImage(og)||x.image;
    }));
  }
@@ -119,7 +119,7 @@ async function loadAll(){
 function folderCount(f){return items.filter(x=>x.folder===f).length;}
 function groupName(f){return groups.find(x=>x.id===f)?.label||f;}
 function matches(x){return !q||[x.title,x.metaTitle,x.description,x.slug,x.url,x.category,groupName(x.folder)].join(' ').toLocaleLowerCase().includes(q.toLocaleLowerCase());}
-function visible(){return items.filter(x=>(filter==='all'||x.folder===filter)&&matches(x)).sort((a,b)=>a.title.localeCompare(b.title,'en'))}
+function visible(){return items.filter(x=>(filter==='all'||x.folder===filter)&&matches(x)).sort((a,b)=>((a.folder==='pages'&&a.url===SITE+'/'?0:1)-(b.folder==='pages'&&b.url===SITE+'/'?0:1))||a.title.localeCompare(b.title,'en'))}
 function aside(){return `<aside class="admin-sidebar" aria-label="Admin navigation"><div class="admin-nav-label">MANAGEMENT</div>
 <a href="/admin.html#services">▣ Services & pricing</a><a href="/admin.html#leads">▤ Enquiries & bookings</a>
 <div class="admin-nav-label">CONTENT</div><a href="/admin.html#articles">▤ Articles & SEO</a><a href="/admin.html#galleries">▧ Portfolio & galleries</a><a href="/admin.html#media">▦ Media library</a><a href="/admin-reviews.html">★ Customer reviews</a>
@@ -128,7 +128,7 @@ function aside(){return `<aside class="admin-sidebar" aria-label="Admin navigati
 <a href="#" data-action="signout">⇥ Sign out</a></aside>`;}
 // Compact cards keep sharing actions visible while moving long SEO metadata into optional details.
 function imageCard(item){
- if(item.kind==='page'||item.kind==='external'||!item.image){
+ if(item.kind==='external'||!item.image){
   const symbol=item.kind==='external'?'↗':item.kind==='page'?item.title.charAt(0).toUpperCase():'◈';
   return `<div class="lkm-link-cover lkm-link-cover--symbol" aria-hidden="true"><span>${esc(symbol)}</span></div>`;
  }
@@ -137,7 +137,7 @@ function imageCard(item){
 function shortPath(item){
  try{
   const u=new URL(item.url);
-  return u.origin===SITE?(u.pathname+u.search+u.hash):(u.host+u.pathname+u.search);
+  return u.origin===SITE?(u.pathname==='/'&&!u.search&&!u.hash?'lilkangoomedia.com':u.pathname+u.search+u.hash):(u.host+u.pathname+u.search);
  }catch{return item.slug||item.url;}
 }
 function card(x){
