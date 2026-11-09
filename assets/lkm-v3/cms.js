@@ -1,6 +1,8 @@
 (()=>{
 'use strict';
 const root=document.getElementById('cmsRoot');
+// Adds article editor styling without replacing admin.html, which already works.
+if(!document.querySelector('link[data-lkm-article-admin]')){const css=document.createElement('link');css.rel='stylesheet';css.href='/assets/lkm-v3/article-admin.css';css.dataset.lkmArticleAdmin='1';document.head.append(css);}
 const embedded=root?.dataset.embedded==='1';
 const store=window.LKMStore;
 const cfg=window.LKM_CONFIG||{};
@@ -44,21 +46,61 @@ function shell(content){
  if(embedded){root.innerHTML=`<div class="cms-embedded-toolbar">${btn('Refresh','refresh','secondary')}</div>${content}`;return}
  root.innerHTML=`<div class="cms-heading"><div><p class="cms-muted" style="font-weight:700;letter-spacing:1px">LILKANGOOMEDIA / CMS</p><h1>Content Management</h1><p>Manage articles and approved portfolio galleries without changing code.</p></div><div>${btn('Refresh','refresh','secondary')} ${btn('Sign out','logout','secondary')}</div></div><div class="cms-layout"><nav class="cms-tabs" aria-label="Content sections"><button data-tab="posts" aria-selected="${state.tab==='posts'}">Articles</button><button data-tab="galleries" aria-selected="${state.tab==='galleries'}">Galleries</button><button data-tab="media" aria-selected="${state.tab==='media'}">Media library</button><a href="/admin.html">Services & prices ↗</a><a href="/blog.html">View blog ↗</a><a href="/portfolio.html">View portfolio ↗</a></nav><section>${content}</section></div>`;
 }
-function postEditor(){const p=state.newPost?{}:state.posts.find(x=>x.id===state.selectedPost)||{};
- return `<div class="cms-panel"><h2>${state.newPost?'Create article':p.id?'Edit article':'Choose an article'}</h2><div class="cms-note">Keep the established URL for articles already indexed by search engines. Check the title, images and SEO details before publishing.</div>
- ${field('Title *','postTitle',p.title||'')}
- <div class="cms-fields2">${field('Slug *','postSlug',p.slug||'')}${select('Category','postCategory',[['','Uncategorized'],...state.categories.map(c=>[c.id,c.name])],p.category_id||'')}</div>
- ${select('Status','postStatus',[['draft','Draft'],['review','Review'],['published','Published'],['archived','Archived']],p.status||'draft')}
- ${area('Short excerpt','postExcerpt',p.excerpt||'',3)}
- ${area('Article HTML (headings, paragraphs, images, links)','postBody',p.body_html||'',12)}
- <div class="cms-fields2">${field('Cover image URL','postCover',p.cover_url||'')}${field('Cover image alt text','postCoverAlt',p.cover_alt||'')}</div>
- ${field('SEO title','postSeoTitle',p.seo_title||'')}
- ${area('SEO description','postSeoDesc',p.seo_description||'',2)}
- ${field('Canonical URL (leave empty for new post)','postCanonical',p.canonical_url||'')}
- ${field('Existing article URL, e.g. /article.html','postLegacy',p.legacy_path||'')}
- <div class="cms-actions">${btn(state.newPost?'Create draft/article':'Save article','save-post')}${btn('Cancel','cancel-post','secondary')}</div><p class="cms-muted">Publishing to Supabase makes the record publicly readable. Search-friendly static pages require the separate Netlify blog generation step.</p></div>`;
+const safeInlineImage=url=>/^(https:\/\/[^\s<>]+|\/assets\/[a-zA-Z0-9%._\/-]+)$/.test(url||'');
+function cleanArticleMarkup(raw){
+ const parsed=new DOMParser().parseFromString(String(raw||''),'text/html');
+ const allowed=new Set(['P','H2','H3','H4','UL','OL','LI','STRONG','B','EM','I','A','IMG','BR','BLOCKQUOTE','HR','CODE','PRE','FIGURE','FIGCAPTION','TABLE','THEAD','TBODY','TR','TD','TH']);
+ const forbidden=new Set(['SCRIPT','STYLE','IFRAME','OBJECT','FORM','SVG','MATH','TEMPLATE','INPUT','VIDEO','AUDIO']);
+ const visit=node=>{for(const child of Array.from(node.childNodes)){
+  if(child.nodeType===8){child.remove();continue}if(child.nodeType!==1){if(child.nodeType!==3)child.remove();continue}
+  if(forbidden.has(child.tagName)){child.remove();continue}
+  let href=child.getAttribute('href'),src=child.getAttribute('src'),alt=child.getAttribute('alt')||'';
+  if(!allowed.has(child.tagName)){visit(child);child.replaceWith(...Array.from(child.childNodes));continue}
+  for(const attr of Array.from(child.attributes))child.removeAttribute(attr.name);
+  if(child.tagName==='A'&&href&&/^(https?:\/\/|mailto:|\/|#)/.test(href)){child.setAttribute('href',href);child.setAttribute('rel','noopener noreferrer')}
+  if(child.tagName==='IMG'){if(!safeInlineImage(src)){child.remove();continue}child.setAttribute('src',src);child.setAttribute('alt',alt);child.setAttribute('loading','lazy')}
+  visit(child);
+ }};visit(parsed.body);return parsed.body.innerHTML;
 }
-function postsView(){return `<div class="cms-heading"><div><h2>Articles & SEO</h2><p>Write and manage photography, business and Cyprus articles with SEO information.</p></div>${btn('+ New article','new-post')}</div><div class="cms-grid"><div class="cms-panel"><p class="cms-muted">${state.posts.length} records · unpublished drafts are hidden from visitors</p><div class="cms-list">${state.posts.length?state.posts.map(p=>`<button class="cms-item" data-post="${p.id}" aria-current="${state.selectedPost===p.id&&!state.newPost}"><span><strong>${esc(p.title)}</strong><small>${esc(p.slug)} · ${esc(p.status)}</small></span></button>`).join(''):'<div class="cms-empty">No articles added yet. Create a draft to get started.</div>'}</div></div>${postEditor()}</div>`}
+function getArticleBody(){const editor=root.querySelector('#postBodyEditor');const source=root.querySelector('#postBody');if(!editor||!source)return '';return source.hidden?cleanArticleMarkup(editor.innerHTML):cleanArticleMarkup(source.value)}
+function postEditor(){const p=state.newPost?{}:state.posts.find(x=>x.id===state.selectedPost)||{};
+ const hasItem=state.newPost||!!p.id;
+ if(!hasItem)return '<div class="cms-panel"><h2>Choose an article</h2><p class="cms-muted">Select an article above to edit its content, images, search information and publication status.</p></div>';
+ const url=p.legacy_path||'/articles/'+(p.slug||'your-article')+'.html';
+ const intro=state.newPost?'New articles are saved as drafts until you choose Published.':'Keep the existing article address to protect its search visibility and backlinks.';
+ return `<div class="cms-panel lkm-blog-editor"><div class="cms-heading"><div><h2>${state.newPost?'New article':esc(p.title||'Edit article')}</h2><p class="cms-muted">${intro}</p></div>${p.id?`<a class="cms-btn secondary" target="_blank" rel="noopener" href="${esc(url)}">Open article ↗</a>`:''}</div>
+ ${field('Article title *','postTitle',p.title||'')}
+ <div class="cms-fields2">${field('URL slug *','postSlug',p.slug||'')}${select('Category','postCategory',[['','Choose category'],...state.categories.map(c=>[c.id,c.name])],p.category_id||'')}</div>
+ ${select('Visibility','postStatus',[['draft','Draft — not on the website'],['review','Review'],['published','Published'],['archived','Archived']],p.status||'draft')}
+ ${area('Short introduction / excerpt','postExcerpt',p.excerpt||'',3)}
+ <div class="cms-field"><label>Article content</label><div class="lkm-blog-toolbar" aria-label="Article formatting">
+  <button type="button" data-post-format="paragraph">Paragraph</button><button type="button" data-post-format="h2">H2</button><button type="button" data-post-format="h3">H3</button>
+  <button type="button" data-post-format="bold"><b>B</b></button><button type="button" data-post-format="italic"><i>I</i></button>
+  <button type="button" data-post-format="ul">• List</button><button type="button" data-post-format="ol">1. List</button>
+  <button type="button" data-post-format="link">Link</button><button type="button" data-post-format="image">Image</button>
+  <button type="button" data-post-editor-mode="source" id="postEditMode">HTML source</button><button type="button" data-post-action="preview">Preview</button>
+ </div><div class="lkm-rich-body" id="postBodyEditor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Article body">${cleanArticleMarkup(p.body_html||'')}</div>
+ <textarea id="postBody" rows="14" hidden aria-label="Article HTML source">${esc(p.body_html||'')}</textarea>
+ <small>Edit normally using the toolbar, or switch to HTML to fine-tune the structure. Images must use public image URLs.</small></div>
+ <div class="cms-fields2">${field('Cover image URL','postCover',p.cover_url||'')}${field('Image ALT text','postCoverAlt',p.cover_alt||'')}</div>
+ <div class="lkm-blog-cover">${p.cover_url?`<img src="${esc(p.cover_url)}" alt="${esc(p.cover_alt||p.title||'Cover image')}">`:'<span>No cover selected</span>'}</div>
+ <div class="cms-actions">${btn('Choose existing photograph','post-choose-photo','secondary')}<input type="file" id="postImageUpload" accept="image/jpeg,image/png,image/webp" style="max-width:220px">${btn('Upload cover','post-upload-cover','secondary')}</div>
+ <details class="lkm-seo-panel" open><summary>Search engine appearance</summary>
+  ${field('SEO page title','postSeoTitle',p.seo_title||p.title||'')}
+  ${area('SEO description','postSeoDesc',p.seo_description||'',2)}
+  ${field('Canonical URL','postCanonical',p.canonical_url||'')}
+  ${field('Original page address','postLegacy',p.legacy_path||'')}
+  <p class="cms-muted">URL: <code>${esc(url)}</code>. Existing article URLs should remain unchanged. New posts publish to /articles/your-slug.html.</p>
+  <div class="lkm-seo-preview"><span>lilkangoomedia.com</span><h3 id="lkmSeoLiveTitle">${esc(p.seo_title||p.title||'Your article title')}</h3><p id="lkmSeoLiveDesc">${esc(p.seo_description||'Your article description')}</p></div>
+ </details>
+ <div class="cms-actions">${btn(state.newPost?'Create article':'Save article','save-post')}${btn('Cancel','cancel-post','secondary')}</div>
+ <p class="cms-muted">Published articles are rendered as HTML by Netlify. If automatic publishing is not configured, trigger a new Netlify deploy after saving.</p></div>`;
+}
+function postsView(){return `<div class="cms-heading"><div><h2>Articles & SEO</h2><p>Manage photography education, Cyprus travel articles and creative business guides.</p></div><div class="cms-actions">${btn('+ New article','new-post')}${btn('+ Category','new-category','secondary')}${btn('Import existing articles','import-articles','secondary')}</div></div>
+ <div class="cms-panel lkm-blog-list"><div class="lkm-blog-listhead"><p class="cms-muted"><strong>${state.posts.length} articles</strong> in Supabase · existing public articles can be imported without changing their URLs.</p><input id="postSearch" type="search" placeholder="Search articles…" aria-label="Search articles"></div>
+ <div class="lkm-blog-items">${state.posts.length?state.posts.map(p=>`<button type="button" class="lkm-blog-item" data-post="${esc(p.id)}" data-title="${esc((p.title||'').toLowerCase())}" aria-current="${state.selectedPost===p.id&&!state.newPost}"><span><strong>${esc(p.title)}</strong><small>${esc(state.categories.find(x=>x.id===p.category_id)?.name||'Article')} · ${esc(p.legacy_path||'/articles/'+p.slug+'.html')}</small></span><em class="lkm-blog-status ${esc(p.status)}">${esc(p.status)}</em></button>`).join(''):'<p class="cms-muted">No articles in Supabase yet. Click “Import existing articles” to bring in the published archive.</p>'}</div>
+ <p id="postImportStatus" role="status" class="cms-muted"></p></div>${postEditor()}`;
+}
 const galleryEditor=()=>{const g=state.newGallery?{}:state.galleries.find(g=>g.id===state.selectedGallery)||{};
 return `<div class="cms-panel"><h2>${state.newGallery?'Create a gallery':g.id?'Gallery settings':'Select a gallery'}</h2><div class="cms-note">Only galleries and photographs marked Public appear in the portfolio. Review image permissions and descriptions before publishing.</div>${field('Gallery title *','galTitle',g.title||'')}<div class="cms-fields2">${field('Slug *','galSlug',g.slug||'')}${select('Visibility','galVisibility',[['review','Review (hidden)'],['private','Private (hidden)'],['public','Public']],g.visibility||'review')}</div>${field('Category','galCategory',g.category||'Photography')}${area('Description','galDesc',g.description||'',3)}${field('Client or project name (optional)','galClient',g.client_name||'')}${select('Related service','galService',[['','None'],...state.services.map(s=>[s.slug,s.title])],g.related_service_slug||'')}${field('Display order','galOrder',g.display_order??100,'number')}<div class="cms-actions">${btn(state.newGallery?'Create gallery':'Save gallery','save-gallery')}${btn('Cancel','cancel-gallery','secondary')}</div></div>`;};
 function photoEditor(){
@@ -287,17 +329,57 @@ async function uploadMediaFiles(files,chosenGallery){
 function render(){shell(state.tab==='posts'?postsView():state.tab==='media'?mediaView():galleriesView());if(state.tab==='media')observeMediaScroll();}
 const requireSlug=slug=>{if(!/^[a-z0-9-]{1,100}$/.test(slug))throw new Error('Slug must contain lowercase letters, numbers and dashes only.')};
 const requireImage=url=>{if(!url||!(/^(https:\/\/[^\s]+|\/assets\/[a-zA-Z0-9%._/-]+)$/.test(url)))throw new Error('Use an HTTPS image URL or /assets/ path.')};
+function articleFormPreview(){const markup=getArticleBody();const preview=document.createElement('div');preview.className='lkm-blog-preview-overlay';preview.innerHTML='<div class="lkm-blog-preview-modal" role="dialog" aria-modal="true" aria-label="Article preview"><button type="button" data-post-action="close-preview" aria-label="Close preview">× Close</button><iframe sandbox="" title="Article preview"></iframe></div>';document.body.append(preview);
+ const t=value('postTitle')||'Article title';const src='<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="/assets/lkm-v3/article.css"></head><body><main class="article-container"><h1>'+esc(t)+'</h1><article class="article-prose">'+markup+'</article></main></body></html>';
+ preview.querySelector('iframe').srcdoc=src;
+ preview.addEventListener('click',e=>{if(e.target===preview||e.target.closest('[data-post-action="close-preview"]'))preview.remove()});}
+async function uploadArticleCover(){const file=root.querySelector('#postImageUpload')?.files?.[0];if(!file)throw new Error('Choose an image first.');if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>8*1024*1024)throw new Error('Choose JPG, PNG or WebP under 8 MB.');
+ const token=await store.authenticatedToken();const ext=file.name.split('.').pop().toLowerCase();const path='articles/'+crypto.randomUUID()+'.'+ext;
+ const reply=await fetch(host+'/storage/v1/object/portfolio/'+path,{method:'POST',headers:{apikey:key,Authorization:'Bearer '+token,'Content-Type':file.type,'x-upsert':'false'},body:file});
+ if(!reply.ok)throw new Error('Image upload failed: '+(await reply.text()).slice(0,180));
+ const url=host+'/storage/v1/object/public/portfolio/'+path;root.querySelector('#postCover').value=url;const cover=root.querySelector('.lkm-blog-cover');if(cover)cover.innerHTML='<img src="'+esc(url)+'" alt="Article cover">';toast('Cover uploaded. Save the article to publish the new image.');
+}
+async function chooseArticlePhoto(){const [allPhotos,publicGalleries]=await Promise.all([api('portfolio_images?select=image_url,alt_text,gallery_id&visibility=eq.public&order=created_at.desc&limit=1000'),api('portfolio_galleries?select=id&visibility=eq.public&limit=1000')]);const published=new Set(publicGalleries.map(g=>g.id));const photos=allPhotos.filter(p=>published.has(p.gallery_id));
+ const panel=document.createElement('div');panel.className='lkm-blog-preview-overlay';panel.innerHTML='<div class="lkm-blog-photo-modal" role="dialog" aria-modal="true"><div class="lkm-blog-modal-head"><h2>Choose a photograph</h2><button type="button" data-photo-close>× Close</button></div><input type="search" placeholder="Search photos…" aria-label="Search images"><div class="lkm-blog-photo-grid"></div></div>';document.body.append(panel);
+ const list=panel.querySelector('.lkm-blog-photo-grid');const draw=(query='')=>{list.innerHTML=photos.filter(p=>(p.alt_text||p.image_url).toLowerCase().includes(query.toLowerCase())).slice(0,200).map((p,i)=>`<button type="button" data-photo-url="${esc(p.image_url)}"><img src="${esc(p.image_url)}" loading="lazy" alt="${esc(p.alt_text||'Photo')}"><span>${esc(p.alt_text||'Photo')}</span></button>`).join('')};draw();
+ panel.querySelector('input').addEventListener('input',e=>draw(e.target.value));panel.addEventListener('click',e=>{if(e.target===panel||e.target.closest('[data-photo-close]')){panel.remove();return}let b=e.target.closest('[data-photo-url]');if(b){root.querySelector('#postCover').value=b.dataset.photoUrl;const cover=root.querySelector('.lkm-blog-cover');if(cover)cover.innerHTML='<img src="'+esc(b.dataset.photoUrl)+'" alt="Article cover">';panel.remove();}});
+}
+async function importArticles(){const status=root.querySelector('#postImportStatus');const report=s=>{if(status)status.textContent=s;};
+ const r=await fetch('/assets/lkm-v3/articles-import.json',{cache:'no-store'});if(!r.ok)throw new Error('Article import manifest is not deployed. Check the Netlify build.');const data=await r.json();if(!Array.isArray(data.posts))throw new Error('Invalid import manifest.');
+ const existing=new Set(state.posts.map(p=>p.slug));const originals=new Set(state.posts.map(p=>p.legacy_path).filter(Boolean));let candidates=data.posts.filter(p=>!existing.has(p.slug)&&!originals.has(p.legacy_path));
+ if(!candidates.length){report('All existing articles are already imported.');return}
+ if(!confirm(`Import ${candidates.length} published articles into Supabase? Their text and SEO settings will be editable. Existing records will not be overwritten.`))return;
+ let added=0,failed=[];
+ const catMap=new Map(state.categories.map(c=>[c.slug,c.id]));
+ for(let offset=0;offset<candidates.length;offset+=8){const chunk=candidates.slice(offset,offset+8).map(p=>({
+  slug:p.slug,legacy_path:p.legacy_path,category_id:catMap.get(p.category)||null,title:p.title,excerpt:p.excerpt||'',body_html:p.body_html||'',
+  cover_url:p.cover_url||null,cover_alt:p.cover_alt||'',seo_title:p.seo_title||p.title,seo_description:p.seo_description||p.excerpt||'',
+  canonical_url:p.canonical_url||null,source_file:p.source_file||null,status:'published',published_at:new Date().toISOString()
+ }));
+  try{const saved=await api('blog_posts?on_conflict=slug',{method:'POST',data:chunk,headers:{Prefer:'resolution=ignore-duplicates,return=representation'}});added+=saved.length}
+  catch(err){failed.push('Batch '+(offset/8+1)+': '+err.message.slice(0,120))}
+  report(`Imported ${added} of ${candidates.length} articles${failed.length?' · '+failed.length+' batch(es) failed':''}…`);
+ }
+ await refresh();toast(`${added} articles imported.${failed.length?' Check errors in the browser console.':''}`);
+ if(failed.length){console.error('Article import issues:',failed);alert(failed.join('\n'))}
+ if(added)await triggerArticleBuild();
+}
+async function triggerArticleBuild(){try{const token=await store.authenticatedToken();const res=await fetch('/api/publish-articles',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token}});
+ if(res.status===404){toast('Saved. Trigger a Netlify deploy to update SEO pages.');return}
+ const body=await res.json().catch(()=>({}));if(!res.ok){toast('Saved. Trigger a Netlify deploy to update SEO pages.');return}
+ toast('Publishing: a Netlify deployment has been requested.');
+ }catch{toast('Saved. Trigger a Netlify deploy to update SEO pages.');}}
 async function savePost(){const title=value('postTitle'),slug=slugify(value('postSlug')||title),status=selection('postStatus');if(!title)throw new Error('Article title required.');requireSlug(slug);
  const legacy=value('postLegacy');if(legacy&&!safePath(legacy))throw new Error('Article URL must look like /article-name.html');
  let cat=selection('postCategory'),publishedAt=null;
  const prev=state.posts.find(p=>p.id===state.selectedPost);
  if(status==='published')publishedAt=(prev?.published_at||new Date().toISOString());
- const payload={title,slug,status,category_id:cat||null,excerpt:value('postExcerpt'),body_html:root.querySelector('#postBody')?.value||'',cover_url:value('postCover')||null,cover_alt:value('postCoverAlt'),seo_title:value('postSeoTitle'),seo_description:value('postSeoDesc'),canonical_url:value('postCanonical')||null,legacy_path:legacy||null,published_at:publishedAt};
+ const payload={title,slug,status,category_id:cat||null,excerpt:value('postExcerpt'),body_html:getArticleBody(),cover_url:value('postCover')||null,cover_alt:value('postCoverAlt'),seo_title:value('postSeoTitle'),seo_description:value('postSeoDesc'),canonical_url:value('postCanonical')||null,legacy_path:legacy||null,published_at:publishedAt};
  const body=payload.body_html;
  if(status==='published'&&(!body.trim()||!value('postSeoTitle')||!value('postSeoDesc')))throw new Error('Add article text, SEO title and description before publishing.');
  if(payload.cover_url)requireImage(payload.cover_url);
  const saved=await api(state.newPost||!prev?'blog_posts':'blog_posts?id=eq.'+encodeURIComponent(prev.id),{method:state.newPost||!prev?'POST':'PATCH',data:payload});state.selectedPost=saved[0]?.id||prev?.id;state.newPost=false;
- await refresh();toast('Article saved. Review the public preview before sharing its link.');
+ await refresh();toast('Article saved. A Netlify deployment publishes its HTML page.');if(status==='published')await triggerArticleBuild();
 }
 async function saveGallery(){let title=value('galTitle'),slug=slugify(value('galSlug')||title);if(!title)throw new Error('Gallery title required.');requireSlug(slug);
  const prev=state.galleries.find(g=>g.id===state.selectedGallery);
@@ -315,6 +397,11 @@ async function uploadPhoto(){if(!state.selectedGallery)throw new Error('Choose a
 }
 root.addEventListener('input',e=>{
  if(e.target.id==='mediaSearch'){media.query=e.target.value;media.shown=48;updateMediaResults()}
+ if(e.target.id==='postSearch'){const q=e.target.value.trim().toLowerCase();root.querySelectorAll('.lkm-blog-item').forEach(item=>item.hidden=!item.dataset.title.includes(q));}
+ if(e.target.id==='postSeoTitle'){const el=root.querySelector('#lkmSeoLiveTitle');if(el)el.textContent=e.target.value||value('postTitle')||'Article title'}
+ if(e.target.id==='postTitle'&&!value('postSeoTitle')){const el=root.querySelector('#lkmSeoLiveTitle');if(el)el.textContent=e.target.value||'Article title'}
+ if(e.target.id==='postCover'){const cover=root.querySelector('.lkm-blog-cover');if(cover)cover.innerHTML=safeInlineImage(e.target.value)?'<img src="'+esc(e.target.value)+'" alt="Cover image">':'<span>No cover selected</span>'}
+ if(e.target.id==='postSeoDesc'){const el=root.querySelector('#lkmSeoLiveDesc');if(el)el.textContent=e.target.value||'Your article description'}
 });
 root.addEventListener('change',e=>{
  const t=e.target;
@@ -333,10 +420,14 @@ root.addEventListener('load',e=>{const img=e.target;if(img.tagName!=='IMG'||!img
 root.addEventListener('submit',async e=>{if(e.target.id!=='cmsSignIn')return;e.preventDefault();const el=root.querySelector('#cmsAuthError');el.textContent='';try{
  await store.login(value('cmsEmail'),value('cmsPassword'));if(!await store.isAdmin())throw new Error('This account is not an approved administrator.');await refresh()
 }catch(err){store.logout();el.textContent=err.message}});
+root.addEventListener('mousedown',e=>{if(e.target.closest('[data-post-format]'))e.preventDefault()});
 root.addEventListener('click',async e=>{
  let b=e.target.closest('[data-tab]');if(b){state.tab=b.dataset.tab;render();if(state.tab==='media')await loadMedia(true);return}
  b=e.target.closest('[data-media-assign]');if(b){media.selected.add(b.dataset.mediaAssign);await assignSelectedMedia([b.dataset.mediaAssign]);return}
  b=e.target.closest('[data-media-toggle]');if(b){if(media.hidden.has(b.dataset.mediaToggle))await restoreMediaFiles([b.dataset.mediaToggle]);else await hideMediaFiles([b.dataset.mediaToggle]);return}
+ b=e.target.closest('[data-post-format]');if(b){e.preventDefault();const ed=root.querySelector('#postBodyEditor');if(!ed||ed.hidden)return;ed.focus();const ops={paragraph:['formatBlock','p'],h2:['formatBlock','h2'],h3:['formatBlock','h3'],bold:['bold',null],italic:['italic',null],ul:['insertUnorderedList',null],ol:['insertOrderedList',null]};const op=ops[b.dataset.postFormat];if(op)document.execCommand(op[0],false,op[1]);else if(b.dataset.postFormat==='link'){const url=prompt('Link URL (https:// or /path):');if(url&&/^(https?:\/\/|\/)/.test(url))document.execCommand('createLink',false,url)}else if(b.dataset.postFormat==='image'){const url=prompt('Public image URL:');if(url&&safeInlineImage(url))document.execCommand('insertHTML',false,'<img src="'+esc(url)+'" alt="Article image">')};return}
+ b=e.target.closest('[data-post-editor-mode]');if(b){const ed=root.querySelector('#postBodyEditor'),src=root.querySelector('#postBody');if(src.hidden){src.value=cleanArticleMarkup(ed.innerHTML);src.hidden=false;ed.hidden=true;b.textContent='Visual editor'}else{ed.innerHTML=cleanArticleMarkup(src.value);ed.hidden=false;src.hidden=true;b.textContent='HTML source'}return}
+ b=e.target.closest('[data-post-action]');if(b){if(b.dataset.postAction==='preview')articleFormPreview();return}
  b=e.target.closest('[data-post]');if(b){state.selectedPost=b.dataset.post;state.newPost=false;render();return}
  b=e.target.closest('[data-gallery]');if(b){state.selectedGallery=b.dataset.gallery;state.newGallery=false;state.editingPhoto=null;photoSelection.clear();try{
  state.images=await api('portfolio_images?select=*&gallery_id=eq.'+encodeURIComponent(state.selectedGallery)+'&order=display_order.asc&limit=1000');render()
@@ -345,6 +436,10 @@ root.addEventListener('click',async e=>{
  b=e.target.closest('[data-photo-cover]');if(b){if(!state.selectedGallery)return;try{await api('portfolio_galleries?id=eq.'+state.selectedGallery,{method:'PATCH',data:{cover_image_id:b.dataset.photoCover}});await refresh();toast('Gallery cover updated.')}catch(err){toast('Could not set cover: '+err.message)}return}
  b=e.target.closest('[data-action]');if(!b)return;const action=b.dataset.action;
  if(action==='logout'){store.logout();login();return}
+ if(action==='import-articles'){b.disabled=true;try{await importArticles()}catch(err){console.error(err);toast('Import failed: '+err.message)}finally{b.disabled=false}return}
+ if(action==='new-category'){let name=prompt('New article category name:');if(!name||!name.trim())return;name=name.trim().slice(0,90);let slug=slugify(name);if(!slug)return;try{await api('blog_categories',{method:'POST',data:{name,slug,sort_order:(state.categories.length+1)*10}});await refresh();toast('Category created.')}catch(err){toast('Cannot create category: '+err.message)}return}
+ if(action==='post-choose-photo'){try{await chooseArticlePhoto()}catch(err){toast('Image picker: '+err.message)}return}
+ if(action==='post-upload-cover'){b.disabled=true;try{await uploadArticleCover()}catch(err){toast('Upload error: '+err.message)}finally{b.disabled=false}return}
  if(action==='new-post'){state.newPost=true;state.selectedPost=null;render();return}
  if(action==='cancel-post'){state.newPost=false;render();return}
  if(action==='new-gallery'){state.newGallery=true;state.selectedGallery=null;state.images=[];photoSelection.clear();render();return}

@@ -1,0 +1,9 @@
+# LilKangooMedia - pre-render photography / Cyprus articles for search engines.
+# The generator modifies only the ephemeral Netlify build checkout, not GitHub.
+[build]
+  command = "python3 scripts/build_articles.py"
+  publish = "."
+  functions = "netlify/functions"
+
+[build.environment]
+  PYTHON_VERSION = "3.12"

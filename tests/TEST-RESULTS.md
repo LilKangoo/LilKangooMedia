@@ -1,12 +1,10 @@
-# Phase 6 validation report
+# Phase 8 verification
 
-Automated browser tests run with headless Chromium against mocked Supabase / media API responses. No real service, payments, photos or production database modified.
+Validated locally:
 
-- Public portfolio: open lightbox, next button, Left arrow, Escape, counter — PASS
-- Admin services: choose image from portfolio for gallery, remove service image, choose cover — PASS
-- CMS media: load 48 initial thumbnails, assign image to second gallery (preserving first), batch add, remove/hide and restore — PASS
-- CMS gallery: thumbnails, select and detach image from gallery — PASS
-- CMS upload: mock Supabase Storage upload and metadata registration — PASS
-- All three JS files passed `node --check`; no uncaught JavaScript errors in browser simulations.
+- Five Python unit/integration tests: passing.
+- Parser tested on four original uploaded LilKangooMedia article HTML files (Cyprus travel and photo education); every generated page preserved the canonical URL and contained one H1 and full body text.
+- JavaScript source syntax: passing for CMS, public blog and analytics-consent script.
+- Generated article content sanitization and distinct category/URL selection: passing.
 
-Limitations: no live Netlify deployment or live Supabase writes performed in this package. Real Storage bucket policies and actual image delivery remain to be verified after deployment. Service worker new version intentionally disables offline caches.
+**Not yet verified**: full build against all 60+ remote GitHub source HTML pages, production Supabase authentication/edits, Netlify build, SEO indexing/actual search performance, and final appearance in a browser. Netlify Deploy Preview required before merging main.

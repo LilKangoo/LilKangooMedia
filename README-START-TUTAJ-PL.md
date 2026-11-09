@@ -1,85 +1,77 @@
-# LilKangooMedia — Phase 7: elastyczne ceny i rozwijana edycja usług
+# LilKangooMedia — Phase 8: Articles & SEO
 
-## Co zawiera paczka
+**Cel:** pełny katalog dotychczasowych publicznych artykułów, nowoczesny wygląd pod dotychczasowymi adresami, import treści do Supabase i edytor umożliwiający nowe publikacje. **Bez ingerencji w usługi, ceny, galerie klientów, pocztę, formularze, Stripe i już działające funkcje.**
 
-**Wyłącznie 4 pliki, które należy zastąpić w repozytorium GitHub:**
+## 1. Co dokładnie otrzymujesz
 
-1. `assets/lkm-v3/admin.js` — nowy panel edycji w akordeonie + elastyczne pakiety i dodatki.
-2. `assets/lkm-v3/admin-unified.css` — układ pełnej szerokości, kolapsowalne karty, responsywne pola.
-3. `assets/lkm-v3/site.js` — prezentacja ceny z jednostką, kalkulacja godzin/dni/osób/sztuk i powiadomienie w formularzu.
-4. `assets/lkm-v3/site.css` — drobne style sekcji cenowych.
+- Generator działający w **Netlify podczas builda**, który odczytuje strony wskazane na `Education.html` i `articlesaboutcyprus.html`. Nie opiera się na zgadywaniu nazw artykułów.
+- Odtwarza treść publicznych wpisów (nagłówki, akapity, linki, listy i obrazy), **zachowuje faktyczne tytuły, opisy i historyczne kanoniczne adresy URL**, nadaje wspólny nowoczesny szablon HTML. Nie pisze od nowa treści i nie dodaje zmyślonych informacji czy dat.
+- Generuje nowoczesne strony kategorii także pod `/Education.html` i `/articlesaboutcyprus.html`, listę wpisów `/blog.html`, dane uporządkowane `BlogPosting` i uzupełnienia `sitemap.xml`.
+- Generuje `assets/lkm-v3/articles-index.json` (publiczną listę) i `assets/lkm-v3/articles-import.json` (do jednorazowego importu z poziomu panelu admin). Dane obu powstają automatycznie; **nie trzeba ich ręcznie dodawać do GitHuba**.
+- Nowy edytor pod **Admin → Articles & SEO**: import artykułów, wyszukiwarka, kategorie, wizualne formatowanie tekstu, tryb HTML, wybór/uplod zdjęć, SEO i podgląd.
+- Nowe wpisy publikowane z Supabase po buildzie jako `/articles/nazwa-artykulu.html`. Istniejące wpisy z zaimportowanym `legacy_path` pozostają pod oryginalnym adresem.
+- Opcjonalna automatyczna publikacja po kliknięciu Save — zabezpieczony tokenem admina Netlify Build Hook.
 
-**Nie zastępuj całych folderów `assets` ani `netlify`.** Paczka nie zawiera i nie usuwa żadnych zdjęć, CMS, konfiguracji poczty, Supabase, Stripe ani formularzy Netlify.
+## 2. Najważniejsze — wdrożenie bez ryzyka
 
-Nie wymaga SQL: `services.packages` i `services.addons` są już JSONB. Dodano tylko dodatkowe pola w poszczególnych obiektach pakietów i dodatków. Wszystkie stare pakiety bez pola `pricing_model` pozostają **jednorazowe / fixed** z dotychczasową kwotą. Zachowano istniejące identyfikatory pakietów i metadane (np. `duration_hours`).
+1. Zrób kopię danych `blog_posts` i `blog_categories` (jeśli masz już w nich treści).
+2. W GitHubie utwórz z bieżącej `main` gałąź **`lkm-articles-v8`**. Nie publikuj bezpośrednio na `main`.
+3. Rozpakuj ZIP. Wgraj zawartość do **głównego katalogu** repozytorium (nie sam ZIP ani folder o nazwie paczki). Zachowaj ścieżki:
 
-## 1. Wdrożenie bez ryzyka
+   | Ścieżka | Co zrobić |
+   |---|---|
+   | `netlify.toml` | ADD (nowa konfiguracja builda) |
+   | `scripts/build_articles.py` | ADD |
+   | `assets/lkm-v3/article.css` | ADD |
+   | `assets/lkm-v3/article-consent.js` | ADD |
+   | `assets/lkm-v3/article-admin.css` | ADD |
+   | `assets/lkm-v3/cms.js` | REPLACE, **tylko ten plik** |
+   | `assets/lkm-v3/cms-public.js` | REPLACE, **tylko ten plik** |
+   | `netlify/functions/publish-articles.mjs` | ADD |
 
-1. Otwórz GitHub → `LilKangoo/LilKangooMedia`.
-2. Utwórz gałąź `lkm-pricing-v7` na bazie aktualnej `main`.
-3. Zastąp **dokładnie powyższe cztery pliki**, bez usuwania pozostałej zawartości katalogów.
-4. Zrób Commit/Push; otwórz Netlify Deploy Preview gałęzi.
-5. Sprawdź `/admin.html` → Services & Pricing. Lista ma być pełnej szerokości; `Edit ↓` rozwija, `Collapse ↑` zwija. Przetestuj nowy pakiet w niepublicznej testowej usłudze.
-6. Sprawdź stronę publiczną: usługa wyceniana godzinowo pokazuje cenę `/hour`, możliwość wpisania liczby godzin i poprawne szacowanie; oferta miesięczna pokazuje `/month` bez automatycznej płatności.
-7. Po akceptacji wykonaj Merge gałęzi do `main`.
+4. **Foldery łącz (Merge), nie Replace**. Nie usuwaj niczego z `assets/images`, `netlify/functions/enquiry.mjs`, `assets/lkm-v3/site.js`, `admin.js`, `site.css`, `lkm-config.js`, starych stron HTML ani oryginalnych zdjęć.
+5. Commit/Push gałęzi `lkm-articles-v8`, otwórz **Netlify Deploy Preview**. W Build logs wypatruj komunikatu `LilKangooMedia articles: original=... published Supabase=... total=... skipped=...`. Liczba zależy od rzeczywiście dostępnych oryginalnych plików w repozytorium. Oczekujemy kilkudziesięciu, bo indeksy linkują do dwóch głównych zbiorów artykułów.
+6. Sprawdź w Deploy Preview: `/blog.html`, `/Education.html`, `/articlesaboutcyprus.html`, 2–3 stare artykuły i `/admin.html#articles`. Sprawdź również stronę główną, galerie, działający formularz i `/api/enquiry` (GET powinien zwrócić 405).
+7. Dopiero po akceptacji połącz PR z `main`, poczekaj na udany produkcyjny deployment Netlify.
 
-**Uwaga:** Netlify Deploy Preview może korzystać z tej samej produkcyjnej bazy Supabase. Wszelkie zapisy w panelu testowym mogą pojawić się natychmiast na stronie live. Testuj zapisy na **osobnej nieaktywnej** usłudze; nie zmieniaj cennika istniejących usług na próbę.
+**Zmiana techniczna Netlify:** `netlify.toml` uruchamia `python3 scripts/build_articles.py`, publish directory pozostaje `.` (katalog główny) i funkcje pozostają w `netlify/functions`. Generator zmienia tylko pliki w **tymczasowym checkout Netlify**; nie nadpisuje plików artykułów w GitHubie.
 
-## 2. Typy wyceny — działające w tej wersji
+## 3. Import do Supabase — bez SQL i przepisywania artykułów
 
-| Model | Co wprowadzić | Jak klient widzi |
-|---|---|---|
-| Fixed package | Jedna kwota za gotowy pakiet | `€149` |
-| Per hour | Cena za godzinę, min., max. i krok | `€150/hour`, np. 3,5 godziny = `€525` |
-| Per day | Cena za dzień, min., max. | `€.../day` |
-| Per person | Cena za osobę | `€.../person` |
-| Per item | Cena za produkt/sztukę | `€.../item` |
-| Monthly subscription | Kwota miesięczna, opcjonalna opłata startowa, okres minimalny | `€.../month` + ewentualna opłata jednorazowa |
-| Annual subscription | Kwota roczna, opcjonalny koszt uruchomienia | `€.../year` |
-| Custom quote | Bez kwoty | `Custom quote` |
+1. Po pierwszym działającym deploymentcie zaloguj się do `https://lilkangoomedia.com/admin.html#articles`.
+2. Kliknij **Import existing articles**.
+3. Panel pokaże liczbę wpisów do importu; potwierdź.
+4. Oczekuj potwierdzenia importu. Import **pomija wpisy mające już tę samą nazwę slug lub stary URL** i nie nadpisuje Twoich zmian. Dotychczasowe publiczne artykuły otrzymają status `Published`.
+5. Po imporcie ustaw i sprawdź zdjęcia, kategorie, SEO i treść. Zapis zmian wymaga **kolejnego deploymentu**, aby zaktualizować statyczne HTML.
 
-Każdy **pakiet** może mieć inny model. Nie trzeba tworzyć nowej usługi tylko dlatego, że jedna oferta jest jednorazowa, a druga abonamentowa. Możesz zmieniać kolejność pakietów przyciskami `↑` i `↓`. Dodatki mogą być jednorazowe, za jednostkę, miesięczne albo roczne. Opcja **Display as “From”** pozwala oznaczyć cenę początkową.
+**Uwaga o okresie przejściowym:** stare artykuły będą od razu dostępne w nowej szacie po pierwszym deploymencie, jeszcze przed importem do Supabase. Import dodaje ich edytowalną wersję do panelu.
 
-**Kwoty ilustracyjne w tej instrukcji nie są dodawane do bazy.** Aktualne ceny nie zostały automatycznie zmienione. Każdą nową cenę zatwierdzasz w panelu.
+## 4. Automatyczna publikacja po zapisaniu (zalecane)
 
-## 3. Jak ustawić istniejące rodzaje usług
+Żeby nowe i edytowane artykuły aktualizowały się w Netlify bez ręcznego robienia Push:
 
-- **Portrait & Family Photography:** zachowaj obecne pakiety 1h/3h/8h jako stałe ceny za pakiet; opcjonalnie dodaj inny pakiet godzinowy.
-- **Personal Videography, Commercial Video & Reels:** jednorazowy film lub stawka godzinowa/dzienna; wybrana opcja zależy od faktycznej umowy.
-- **Weddings & Engagements, Celebrations & Events:** stała cena pakietu, cały dzień lub indywidualna wycena.
-- **Cyprus Photo Trips i Cyprus Video Trips:** obecne warianty czasowe są pakietami stałymi (np. 5h/8h/10h/20h), nie oznaczaj ich automatycznie jako stawka za godzinę.
-- **Product & Brand Photography:** projekt, sztuka, godzina lub indywidualna wycena.
-- **Social Media Management, Marketing & Advertising:** miesięczny abonament, opcjonalna opłata startowa lub dodatkowe jednorazowe materiały.
-- **Graphic Design & Brand Identity:** jednorazowy projekt, cena od sztuki albo indywidualna wycena.
-- **Website Design & Development:** jednorazowa cena budowy strony i oddzielny abonament/utrzymanie roczne (jako osobny pakiet lub dodatek).
-- **Business Setup Packages:** obecne pakiety jednorazowe; nie zmieniaj cen bez potwierdzenia.
+1. Netlify → projekt `lilkangoomedia.com` → **Project configuration / Build & deploy → Build hooks** (lokalizacja opcji może się zmienić). Utwórz hook o nazwie `LilKangooMedia Articles`, kierujący na gałąź `main`.
+2. Skopiuj wygenerowany URL `https://api.netlify.com/build_hooks/...` (jest sekretem).
+3. W **Project configuration → Environment variables** dodaj `NETLIFY_BUILD_HOOK_URL`, zaznacz **Contains secret values**, zakres **Functions**, kontekst **Production**. URL wklej wyłącznie tam, nigdy do pliku w GitHubie.
+4. Wykonaj nowy deployment, aby funkcja `publish-articles` miała dostęp do sekretu.
+5. Kiedy zapisujesz artykuł ze statusem `Published`, CMS zleca nowy deployment. Strona będzie aktualna **po jego zakończeniu**, nie natychmiast w chwili zapisu.
 
-Nie założyliśmy nowych kwot. Wszystkie modele są dostępne, ale ustawisz je na podstawie własnego cennika.
+**Bez tego sekretu** artykuły można nadal dodawać i edytować, ale po publikacji trzeba uruchomić ręcznie nowy Netlify deploy. Nie podawaj URL build hooka w rozmowie.
 
-## 4. Co trafia do zapytania i czego *nie* robimy
+## 5. SEO, bezpieczeństwo i ograniczenia
 
-Formularz zapytania zapisuje nazwę pakietu, model ceny, liczbę wybranych jednostek i orientacyjną kwotę **w treści wiadomości** przesyłanej przez działający Netlify Function. Dzięki temu zapytanie widoczne w Supabase/Zoho zawiera potrzebne szczegóły bez migracji bazy.
+- Generator wybiera tylko **publiczne, faktyczne artykuły wskazane przez dwa stare indeksy**. Galerie klientów i strony zabezpieczone hasłem nie są importowane.
+- Istniejące canonical, tytuły i meta opisy są zachowywane z oryginalnych źródeł, o ile poprawne; nie dodajemy wymyślonych dat autorstwa ani nowej treści.
+- Na stagingu sprawdź przykładowe artykuły, zwłaszcza te z nietypowym układem. Generator wypisuje pominięte pliki w Build logs zamiast publikować niekompletne strony.
+- Publikacja statusu `Draft`, `Review` lub `Archived` wymaga deploya; serwerowa wersja z odpowiednimi uprawnieniami może wygenerować dla ukrytego starszego artykułu stronę `noindex`.
+- **HTML jest filtrowany**, a artykuły w bazie modyfikować mogą tylko administratorzy z Supabase Auth i RLS.
+- Nazwy i metadane starego Google Analytics GA4, Search Console oraz wydawcy AdSense pozostają w generowanych dokumentach. **Wyświetlanie reklam AdSense** na nowych szablonach wymaga osobnego audytu zgodności z CMP w EOG; nie publikuj na produkcji, zanim sprawdzisz ewentualne przychody i politykę reklam.
+- Strony artykułów są HTML generowanym na serwerze, a nie tylko hash-route w JavaScript — Google otrzymuje nagłówki i treść bez renderowania JS.
+- W etapie 8 **nie zmieniamy żadnych cen, usług, zdjęć, formularzy i logowania**.
 
-- **Nie włączamy automatycznych subskrypcji Stripe.** Kwoty miesięczne i roczne to oferty wymagające zapytania; docelowo Stripe Billing musi mieć osobne produkty/ceny, onboarding, obsługę webhooków i anulowania.
-- **Nie pozwalamy na standardowy Checkout dla pakietów zmiennych/abonamentowych.** Dotychczasowy endpoint jednorazowych płatności nie obsługuje bezpiecznie mnożenia godzin ani cyklicznych opłat.
-- Podsumowanie na stronie to **orientacyjna wycena**, a nie zaksięgowana płatność ani potwierdzona rezerwacja.
-- Nowe rodzaje cen wymagające progów wolumenowych, rabatów sezonowych, podatków lub osobnego harmonogramu płatności są **kolejnym etapem**, nie zostały zaimplementowane tutaj.
+## 6. Kontrola i wycofanie
 
-## 5. Testy
-
-- `node --check` — `admin.js`, `site.js`: poprawna składnia.
-- `node --test tests/pricing.test.cjs`: 7 testów jednostkowych kalkulacji.
-- Test przeglądarkowy w odizolowanym HTML z atrapą Supabase: otwieranie/zamykanie edytora, zapis stawek, prezentacja cen, aktualizowanie liczby godzin, miesięczna kwota + opłata startowa, dane przekazywane w zapytaniu — przeszły.
-- Nie testowano jeszcze **rzeczywistego** wdrożenia gałęzi Netlify z Twoją produkcyjną bazą, dlatego konieczny jest Deploy Preview.
-
-## 6. Weryfikacja po wdrożeniu
-
-1. `/admin.html#services` → wszystkie 13 usług obecne.
-2. Dowolna usługa → `Edit ↓` i `Collapse ↑` → formularz jest pod daną usługą, nie obok listy.
-3. Weryfikacja ofert już istniejących → ich kwoty są identyczne jak przed instalacją.
-4. Nieaktywna usługa testowa → pakiet za godzinę, minimalna liczba godzin i krok 0,5.
-5. Ta sama usługa → test pakietu miesięcznego z ewentualną opłatą startową.
-6. Formularz kontaktowy i zapytań → nadal działa; żadne nowe ustawienia Netlify nie są potrzebne.
-7. Portfolio, artykuły i Media Library → bez zmian.
-
-Jeśli w produkcyjnym kodzie były równoległe niezacommitowane poprawki `site.js`/`admin.js`, najpierw porównaj różnice przed `Replace`. Paczka została przygotowana na bazie ostatniej dostępnej wersji projektu, więc nie należy nadpisywać nowszych zmian bez sprawdzenia.
+- Sprawdzenie składni JS: `node --check assets/lkm-v3/cms.js` i `node --check assets/lkm-v3/cms-public.js`.
+- Testy generatora: `python3 -m unittest discover -s tests -v` (folder `tests` dołączony do paczki).
+- Jeśli staging nie przejdzie testu, **nie scalaj gałęzi**.
+- Jeśli problem pojawi się po produkcyjnym merge, Netlify → Deploys → wybierz ostatni działający deployment → Publish deploy, a następnie wycofaj problematyczny commit w GitHubie, żeby kolejny automatyczny deploy nie przywrócił błędu.
