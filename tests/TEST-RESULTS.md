@@ -1,6 +1,13 @@
-# Phase 12 — Testy
+# Phase 14 — local verification
 
-- `node --check assets/lkm-v3/video-admin.js` — PASS
-- Chromium + mock Supabase: 7 testów: utworzenie sekcji, lista filmów, zaznaczanie, insert, blokada duplikatów, odłączenie filmu, dodanie YouTube URL — PASS
-- Chromium + `site.js` w wersji obecnie dostępnej w GitHubie: publiczny film przypisany do `service_slug` wyświetla się na stronie usługi, miniatura otwiera odtwarzacz — PASS
-- Prawdziwej bazy Supabase, publikacji na Netlify i konta YouTube **nie dotykano**.
+- JavaScript syntax: PASS (`node --check` for service-detail-v14.js and service-bundle.js)
+- Existing services: PASS (13 simulated seed services, including custom quote with no packages)
+- CyprusEye: PASS (simulated advertising record, four monthly price options)
+- One H1 per service: PASS
+- Original detail-grid replaced with responsive single-page layout: PASS
+- Package selection and navigation to `#/quote`: PASS
+- Phase 13 cross-service selection and recalculation: PASS
+- No page JavaScript exceptions: PASS
+- No horizontal page overflow at 320, 375, 390, 768, 1024 or 1440 CSS px: PASS
+
+Scope: local browser with mock content; not a production Netlify/Supabase integration test. External media may not load in the isolated test environment.

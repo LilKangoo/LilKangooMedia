@@ -88,11 +88,11 @@ function configHtml(){const rows=extraRows();return `<div class="lkm-bundle-head
  <div class="lkm-bundle-foot"><span>${rows.length} additional service${rows.length===1?'':'s'} selected</span><strong>${rows.length?esc(totalLabel(totals())):'Choose more services above'}</strong></div><p class="lkm-bundle-disclaimer">Estimates are based on current published rates. Custom quotations, availability and the final scope are confirmed before booking. Monthly and annual charges are shown separately.</p>`;}
 function extraLineItems(t){return t.rows.map(x=>`<div class="estimate-row lkm-bundle-estimate-row"><span>${esc(x.service.title)}<small>${esc(x.pkg?.name||'Custom quotation')}${pricing.variable(x.pkg)?' × '+x.choice.qty:''}</small></span><strong>${esc(priceLabel(x.est))}</strong></div>`).join('');}
 function updateQuoteSummary(){const aside=root.querySelector('.form-grid > aside');if(!aside)return;
- aside.querySelector('#lkm-bundle-summary')?.remove();
  const t=totals();
  const signature=JSON.stringify([t.primaryPackage?.id,t.primaryEstimate,t.rows.map(x=>[x.service.slug,x.pkg?.id,x.choice,x.est])]);
  if(aside.dataset.lkmBundleSignature===signature)return;
  aside.dataset.lkmBundleSignature=signature;
+ aside.querySelector('#lkm-bundle-summary')?.remove();
  const total=aside.querySelector('.estimate-total');
  const price=aside.querySelector('.price-big');
  if(price){price.classList.toggle('lkm-bundle-overall',Boolean(t.rows.length));price.textContent=t.rows.length?totalLabel(t):priceLabel(t.primaryEstimate)}
