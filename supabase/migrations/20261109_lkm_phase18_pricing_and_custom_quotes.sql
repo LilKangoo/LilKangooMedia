@@ -1,0 +1,73 @@
+-- LilKangooMedia Phase 18, 2026-11-09
+-- Run in Supabase SQL Editor after uploading JS/CSS + HTML. Review README before applying.
+-- Existing prices, photos, slugs, service descriptions, and admin settings are preserved.
+-- The seven empty services get starter packages only when no priced packages exist.
+-- All services receive Custom quote at the end when it is not already defined.
+BEGIN;
+
+UPDATE public.services SET packages = '[{"id":"event-photo-2h","name":"Event Photography — 2 hours","pricing_model":"fixed","price_cents":29000,"description":"Photography coverage for up to 2 hours.","features":["Photography coverage for up to 2 hours."],"show_from":false,"combinable":true,"choice_group":"event-photo"},{"id":"event-photo-4h","name":"Event Photography — 4 hours","pricing_model":"fixed","price_cents":55000,"description":"Photography coverage for up to 4 hours.","features":["Photography coverage for up to 4 hours."],"show_from":false,"combinable":true,"choice_group":"event-photo"},{"id":"event-photo-8h","name":"Event Photography — 8 hours","pricing_model":"fixed","price_cents":99000,"description":"Photography coverage for up to 8 hours.","features":["Photography coverage for up to 8 hours."],"show_from":false,"combinable":true,"choice_group":"event-photo"},{"id":"event-film-2h","name":"Event Highlights Video — 2h coverage","pricing_model":"fixed","price_cents":49000,"description":"Up to 2 hours of event filming; edited highlights video, length agreed before booking.","features":["Up to 2 hours of event filming; edited highlights video, length agreed before booking."],"show_from":false,"combinable":true,"choice_group":"event-film"},{"id":"event-film-4h","name":"Event Highlights Video — 4h coverage","pricing_model":"fixed","price_cents":89000,"description":"Up to 4 hours of event filming; edited highlights video, length agreed before booking.","features":["Up to 4 hours of event filming; edited highlights video, length agreed before booking."],"show_from":false,"combinable":true,"choice_group":"event-film"}]'::jsonb
+WHERE slug = 'private-events'
+  AND NOT EXISTS (
+    SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+    WHERE COALESCE(p->>'pricing_model','fixed') <> 'quote'
+  );
+
+UPDATE public.services SET packages = '[{"id":"brand-photo-1h","name":"Brand Photography — 1 hour","pricing_model":"fixed","price_cents":15000,"description":"One-hour brand photography session.","features":["One-hour brand photography session."],"show_from":false,"combinable":true,"choice_group":"brand-session"},{"id":"brand-photo-3h","name":"Brand Content Session — 3 hours","pricing_model":"fixed","price_cents":39000,"description":"Up to 3 hours of brand photography.","features":["Up to 3 hours of brand photography."],"show_from":false,"combinable":true,"choice_group":"brand-session"},{"id":"brand-photo-6h","name":"Commercial Content Session — 6 hours","pricing_model":"fixed","price_cents":75000,"description":"Up to 6 hours of commercial brand photography.","features":["Up to 6 hours of commercial brand photography."],"show_from":false,"combinable":true,"choice_group":"brand-session"},{"id":"simple-products-10","name":"Simple Product Photos — 10 products","pricing_model":"fixed","price_cents":25000,"description":"One straightforward catalogue photo per product, 10 products; complex retouching excluded.","features":["One straightforward catalogue photo per product, 10 products; complex retouching excluded."],"show_from":false,"combinable":true,"choice_group":"product-photos"},{"id":"simple-products-25","name":"Simple Product Photos — 25 products","pricing_model":"fixed","price_cents":50000,"description":"One straightforward catalogue photo per product, 25 products; complex retouching excluded.","features":["One straightforward catalogue photo per product, 25 products; complex retouching excluded."],"show_from":false,"combinable":true,"choice_group":"product-photos"}]'::jsonb
+WHERE slug = 'product-brand-photography'
+  AND NOT EXISTS (
+    SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+    WHERE COALESCE(p->>'pricing_model','fixed') <> 'quote'
+  );
+
+UPDATE public.services SET packages = '[{"id":"commercial-reel-1","name":"Single Reel — 30–45 seconds","pricing_model":"fixed","price_cents":25000,"description":"Filming and editing of one 30–45 second reel; production scope agreed in advance.","features":["Filming and editing of one 30–45 second reel; production scope agreed in advance."],"show_from":false,"combinable":true,"choice_group":"reels"},{"id":"commercial-reel-3","name":"Content Pack — 3 Reels","pricing_model":"fixed","price_cents":65000,"description":"3 edited reels filmed within one shared production session; scope agreed in advance.","features":["3 edited reels filmed within one shared production session; scope agreed in advance."],"show_from":false,"combinable":true,"choice_group":"reels"},{"id":"commercial-reel-5","name":"Content Pack — 5 Reels","pricing_model":"fixed","price_cents":95000,"description":"5 edited reels filmed within one shared production session; scope agreed in advance.","features":["5 edited reels filmed within one shared production session; scope agreed in advance."],"show_from":false,"combinable":true,"choice_group":"reels"},{"id":"commercial-promo-1-2m","name":"Business Promotional Video — 1–2 minutes","pricing_model":"fixed","price_cents":75000,"description":"Promotional video of approximately 1–2 minutes; final production scope quoted individually.","features":["Promotional video of approximately 1–2 minutes; final production scope quoted individually."],"show_from":true,"combinable":true,"choice_group":"promo"}]'::jsonb
+WHERE slug = 'commercial-video-reels'
+  AND NOT EXISTS (
+    SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+    WHERE COALESCE(p->>'pricing_model','fixed') <> 'quote'
+  );
+
+UPDATE public.services SET packages = '[{"id":"social-starter-16","name":"Starter — 16 posts/month","pricing_model":"month","price_cents":25000,"description":"16 social media posts per month. Publishing and content responsibilities agreed before service begins.","features":["16 social media posts per month. Publishing and content responsibilities agreed before service begins."],"show_from":false},{"id":"social-business-24","name":"Business — 24 posts/month","pricing_model":"month","price_cents":45000,"description":"24 social media posts per month. Publishing and content responsibilities agreed before service begins.","features":["24 social media posts per month. Publishing and content responsibilities agreed before service begins."],"show_from":false},{"id":"social-growth-48","name":"Growth — 48 posts/month","pricing_model":"month","price_cents":95000,"description":"48 social media posts per month. Publishing and content responsibilities agreed before service begins.","features":["48 social media posts per month. Publishing and content responsibilities agreed before service begins."],"show_from":false}]'::jsonb
+WHERE slug = 'social-media-management'
+  AND NOT EXISTS (
+    SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+    WHERE COALESCE(p->>'pricing_model','fixed') <> 'quote'
+  );
+
+UPDATE public.services SET packages = '[{"id":"design-single-social","name":"Single Social Media Graphic","pricing_model":"fixed","price_cents":4500,"description":"One individually designed social media graphic; scope agreed before work.","features":["One individually designed social media graphic; scope agreed before work."],"show_from":false,"combinable":true,"choice_group":"social-graphics"},{"id":"design-social-five","name":"5 Social Media Graphics","pricing_model":"fixed","price_cents":18000,"description":"Five individual social media graphics prepared under one brief.","features":["Five individual social media graphics prepared under one brief."],"show_from":false,"combinable":true,"choice_group":"social-graphics"},{"id":"design-flyer-poster","name":"Flyer / Poster Design","pricing_model":"fixed","price_cents":12000,"description":"One flyer or poster design; format and file deliverables agreed in advance.","features":["One flyer or poster design; format and file deliverables agreed in advance."],"show_from":false,"combinable":true,"choice_group":"flyer"},{"id":"design-logo","name":"Professional Logo Design","pricing_model":"fixed","price_cents":35000,"description":"Professional logo design; concepts and revisions agreed before work.","features":["Professional logo design; concepts and revisions agreed before work."],"show_from":false,"combinable":true,"choice_group":"identity"},{"id":"design-identity","name":"Brand Identity Starter","pricing_model":"fixed","price_cents":75000,"description":"Starter brand identity including logo direction, colors, typography and basic guidelines; final deliverables agreed.","features":["Starter brand identity including logo direction, colors, typography and basic guidelines; final deliverables agreed."],"show_from":false,"combinable":true,"choice_group":"identity"}]'::jsonb
+WHERE slug = 'graphic-design'
+  AND NOT EXISTS (
+    SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+    WHERE COALESCE(p->>'pricing_model','fixed') <> 'quote'
+  );
+
+UPDATE public.services SET packages = '[{"id":"web-landing","name":"Landing Page — 1 page","pricing_model":"fixed","price_cents":50000,"description":"One responsive landing page with basic on-page SEO.","features":["One responsive landing page with basic on-page SEO."],"show_from":false,"combinable":true,"choice_group":"website"},{"id":"web-business","name":"Business Website — up to 5 pages","pricing_model":"fixed","price_cents":95000,"description":"Responsive business website with up to 5 pages and basic on-page SEO.","features":["Responsive business website with up to 5 pages and basic on-page SEO."],"show_from":false,"combinable":true,"choice_group":"website"},{"id":"web-plus","name":"Business Plus — up to 8 pages","pricing_model":"fixed","price_cents":175000,"description":"Responsive business website with up to 8 pages and basic on-page SEO.","features":["Responsive business website with up to 8 pages and basic on-page SEO."],"show_from":false,"combinable":true,"choice_group":"website"},{"id":"web-commerce","name":"E-commerce Website","pricing_model":"fixed","price_cents":250000,"description":"Online shop; final catalogue, payment and integration requirements priced after consultation.","features":["Online shop; final catalogue, payment and integration requirements priced after consultation."],"show_from":true,"combinable":true,"choice_group":"website"},{"id":"web-care","name":"Website Care — annual","pricing_model":"year","price_cents":30000,"description":"Annual website care; maintenance scope and covered work agreed before activation.","features":["Annual website care; maintenance scope and covered work agreed before activation."],"show_from":false,"combinable":true,"choice_group":"website-care"}]'::jsonb
+WHERE slug = 'website-design'
+  AND NOT EXISTS (
+    SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+    WHERE COALESCE(p->>'pricing_model','fixed') <> 'quote'
+  );
+
+UPDATE public.services SET packages = '[{"id":"marketing-consult-1h","name":"Marketing Consultation — 1 hour","pricing_model":"fixed","price_cents":9000,"description":"One-hour marketing consultation.","features":["One-hour marketing consultation."],"show_from":false,"combinable":true,"choice_group":"consult"},{"id":"marketing-audit","name":"Marketing Audit & Action Plan","pricing_model":"fixed","price_cents":25000,"description":"Review and actionable recommendations, based on an agreed audit scope.","features":["Review and actionable recommendations, based on an agreed audit scope."],"show_from":false,"combinable":true,"choice_group":"audit"},{"id":"marketing-meta-setup","name":"Meta Ads Campaign Setup","pricing_model":"fixed","price_cents":25000,"description":"Setup of Meta advertising campaign; media budget excluded.","features":["Setup of Meta advertising campaign; media budget excluded."],"show_from":false,"combinable":true,"choice_group":"meta-setup"},{"id":"marketing-google-setup","name":"Google Ads Campaign Setup","pricing_model":"fixed","price_cents":25000,"description":"Setup of Google Ads campaign; media budget excluded.","features":["Setup of Google Ads campaign; media budget excluded."],"show_from":false,"combinable":true,"choice_group":"google-setup"},{"id":"marketing-one-platform","name":"Ads Management — one platform","pricing_model":"month","price_cents":35000,"description":"Monthly advertising management on one platform; media budget excluded.","features":["Monthly advertising management on one platform; media budget excluded."],"show_from":false,"combinable":true,"choice_group":"management"},{"id":"marketing-two-platforms","name":"Meta + Google Ads Management","pricing_model":"month","price_cents":60000,"description":"Monthly advertising management on Meta and Google; media budgets excluded.","features":["Monthly advertising management on Meta and Google; media budgets excluded."],"show_from":false,"combinable":true,"choice_group":"management"}]'::jsonb
+WHERE slug = 'marketing-advertising'
+  AND NOT EXISTS (
+    SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+    WHERE COALESCE(p->>'pricing_model','fixed') <> 'quote'
+  );
+
+UPDATE public.services
+SET packages = COALESCE(packages, '[]'::jsonb) ||
+  jsonb_build_array(jsonb_build_object(
+    'id','lkm-custom-quote','name','Custom quote','pricing_model','quote',
+    'price_cents',0,'description','Tell us what you need and we will prepare an individual proposal.',
+    'features',jsonb_build_array('Tailored scope and quote based on your requirements')
+  ))
+WHERE active IS TRUE AND NOT EXISTS (
+  SELECT 1 FROM jsonb_array_elements(COALESCE(packages, '[]'::jsonb)) AS p
+  WHERE COALESCE(p->>'pricing_model','')='quote' OR LOWER(COALESCE(p->>'name',''))='custom quote'
+);
+COMMIT;
+
+-- Confirm the newly added packages (and check that all 14 active services have Custom quote):
+SELECT slug, jsonb_array_length(packages) AS options,
+  (SELECT COUNT(*) FROM jsonb_array_elements(packages) p WHERE p->>'pricing_model'='quote') AS custom_quotes
+FROM public.services WHERE active IS TRUE ORDER BY sort_order;

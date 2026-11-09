@@ -1,0 +1,38 @@
+/* Phase 18 — only additive styles; preserve original Phase 16 service and Phase 13 bundle layout */
+.lkm18-options{border-top:1px solid #d9e1d9;margin-top:27px;padding-top:23px;color:#203b29}
+.lkm18-title h3{margin:0 0 6px;font-size:21px;line-height:1.25;letter-spacing:-.65px}
+.lkm18-title p,.lkm18-custom p{font-size:13px;line-height:1.55;color:#5c6c60;margin:6px 0 16px}
+.lkm18-extra-list{display:grid;gap:10px;margin-bottom:22px}
+.lkm18-extra-option{display:flex;gap:12px;align-items:flex-start;background:#f8faf7;border:1px solid #dbe3da;border-radius:11px;padding:13px;cursor:pointer;min-width:0}
+.lkm18-extra-option:hover:not(.lkm18-conflict){border-color:#8ca18c}
+.lkm18-extra-option:has(input:checked){background:#edf3eb;border-color:#748f7b}
+.lkm18-extra-option input{width:18px;height:18px;accent-color:#365d43;flex:none;margin:3px 0 0}
+.lkm18-extra-option>span{display:grid;gap:5px;min-width:0;flex:1}
+.lkm18-extra-option strong{font-size:13px;color:#1f3426}
+.lkm18-extra-option small{font-size:11px;line-height:1.5;color:#687969}
+.lkm18-extra-option em{font-size:12px;font-style:normal;font-weight:700;color:#243d29;text-align:right;min-width:88px}
+.lkm18-conflict{opacity:.5;cursor:not-allowed}
+.lkm18-custom{padding:16px;background:#f4f7f2;border:1px solid #e0e8df;border-radius:12px}
+.lkm18-custom>label:first-child{display:flex;gap:11px;align-items:start;line-height:1.35;font-size:13px;cursor:pointer}
+.lkm18-custom>label:first-child input{width:18px;height:18px;flex:none;accent-color:#365d43}
+.lkm18-custom p{margin:7px 0 0}
+.lkm18-custom-note{display:grid;gap:5px;margin-top:13px;font-size:12px;font-weight:700;color:#344e39}
+.lkm18-custom-note[hidden]{display:none}
+.lkm18-custom-note textarea{width:100%;min-height:100px;resize:vertical;padding:12px;border:1px solid #c7d6c8;border-radius:9px;background:white;color:#223b2a;font:inherit;font-weight:400;font-size:13px;line-height:1.5}
+.lkm18-total{border:1px solid #9ab29e;border-radius:12px;background:#f5f9f4;padding:16px;margin:18px 0;color:#27412e}
+.lkm18-kicker{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800;color:#547159;margin:0 0 10px}
+.lkm18-total ul{padding:0;list-style:none;margin:0 0 13px;display:grid;gap:10px}
+.lkm18-total li{display:flex;align-items:start;justify-content:space-between;gap:12px;font-size:12px}
+.lkm18-total li span{max-width:68%;line-height:1.5}.lkm18-total li strong{text-align:right;max-width:43%;font-size:12px}
+.lkm18-total-label{border-top:1px solid #cfddce;padding-top:14px;display:flex;justify-content:space-between;align-items:start;gap:9px;font-size:13px;font-weight:700}
+.lkm18-total-label strong{font-size:17px;text-align:right;line-height:1.35}
+.lkm18-total small{display:block;color:#637565;font-size:11px;line-height:1.5;margin-top:9px}
+.lkm18-custom-echo{line-height:1.6;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+/* Native estimate excludes second package from same section. Never show two different totals. */
+.form-grid>aside.lkm18-has-subtotal>.price-big,
+.form-grid>aside.lkm18-has-subtotal>.estimate-total,
+.form-grid>aside.lkm18-has-subtotal>.estimate-row,
+.form-grid>aside.lkm18-has-subtotal>#lkm-bundle-summary,
+.form-grid>aside.lkm18-has-request-total>.estimate-row.lkm18-hide-native,
+.form-grid>aside.lkm18-has-request-total>#lkm-bundle-request-summary{display:none}
+@media(max-width:580px){.lkm18-extra-option{flex-wrap:wrap}.lkm18-extra-option>span{flex-basis:calc(100% - 35px)}.lkm18-extra-option em{margin-left:30px;min-width:0}.lkm18-total-label strong{font-size:15px}}
