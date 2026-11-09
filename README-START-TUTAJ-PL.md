@@ -1,60 +1,87 @@
-# LilKangooMedia — Phase 10: YouTube videos & gallery lightbox
+# LilKangooMedia · Phase 11 — Official YouTube Channel Sync
 
-Aktualizacja rozszerza działającą stronę. Nie zmienia cenników, zamówień, formularzy, artykułów ani istniejących danych zdjęć. Nie usuwaj całych folderów przy kopiowaniu.
+**Cel:** wczytać rzeczywiste filmy z oficjalnego kanału YouTube do działającej Video Library i wyświetlić je na stronie LilKangooMedia bez wpisywania tytułów i opisów z pamięci.
 
-## Dlaczego YouTube?
+Źródło wskazane przez właściciela: https://www.youtube.com/@lilKangooMedia
 
-Filmy są hostowane i transkodowane przez YouTube. LilKangooMedia pobiera jedynie miniatury i otwiera odtwarzacz na żądanie klienta. Obsługiwane są standardowe adresy YouTube, linki `youtu.be`, `/shorts/` i `/live/`. Film musi zezwalać na osadzanie.
+Identyfikator kanału odnaleziony w oryginalnej stronie LilKangooMedia: `UCgIrKPHFpPy6srhdq4SjEtw`.
 
-## KROK 1 — Supabase, tylko raz
+**WAŻNE:** dostępnymi narzędziami nie udało się bezpośrednio odczytać bieżącej listy filmów z YouTube. Niniejsza paczka **nie zawiera zgadywanych filmów, ich tytułów ani opisów**. Zamiast tego wgrywa synchronizator, który po uruchomieniu na Netlify odczytuje bieżące metadane z YouTube. Filmy nie są dodawane do produkcyjnej bazy, dopóki administrator nie wybierze i nie zatwierdzi ich w panelu.
 
-W Supabase otwórz **SQL Editor → New query** i uruchom:
+## KROK 1 — GitHub, gałąź testowa
 
-`supabase/migrations/20261109_lkm_youtube_media.sql`
+Utwórz gałąź `lkm-youtube-sync-v11` od aktualnej `main`.
 
-Skrypt dodaje nową tabelę `public.media_videos` z RLS i nie zmienia starych tabel. Przed pracą na bazie produkcyjnej zrób kopię bezpieczeństwa. W razie błędu prześlij jego treść, nie wykonuj wielokrotnie losowych poprawek SQL.
+Przenieś do repozytorium **TYLKO** poniższe pliki z ZIP-a:
 
-## KROK 2 — GitHub (najpierw Deploy Preview)
-
-Utwórz gałąź `lkm-youtube-gallery-v10` z aktualnej `main`, a następnie wgraj pliki z ZIP w odpowiednie lokalizacje, **zastępując WYŁĄCZNIE te konkretne pliki**:
-
-| Plik | Co zrobić |
+| Plik | Operacja |
 |---|---|
-| `index.html` | Replace |
-| `home.html` | Replace |
-| `portfolio.html` | Replace |
-| `admin.html` | Replace |
-| `assets/lkm-v3/site.js` | Replace |
-| `assets/lkm-v3/cms-public.js` | Replace |
-| `assets/lkm-v3/video.css` | Add |
-| `assets/lkm-v3/video-admin.js` | Add |
-| `supabase/migrations/20261109_lkm_youtube_media.sql` | Add jako zapis migracji |
+| `assets/lkm-v3/video-admin.js` | Replace |
+| `assets/lkm-v3/video.css` | Replace |
+| `netlify/functions/youtube-channel-sync.mjs` | Add |
 
-Nie wgrywaj ponownie `cms.js`, `admin.js`, `site.css`, nie ruszaj zdjęć ani Netlify Functions. Nie usuwaj folderów `assets`, `netlify` ani `supabase`.
+**Nie zastępuj całych folderów**, nie dotykaj plików `site.js`, `cms-public.js`, `admin.js`, `index.html`, `netlify/functions/enquiry.mjs` ani bazowej konfiguracji. Phase 10 (Video Library i tabela `media_videos`) musi już działać.
 
-## KROK 3 — test panelu i galerii
+## KROK 2 — Netlify Deploy Preview
 
-1. Otwórz Deploy Preview `admin.html#media` i zaloguj się normalnie.
-2. W lewym menu pojawi się **Video Library**. Dostępny jest także przycisk **Manage service videos** w rozwiniętej usłudze i **Manage gallery videos** po wybraniu galerii.
-3. W Video Library wybierz `Portfolio gallery` lub `Service`, a potem docelowe miejsce.
-4. Wklej adres YouTube lub Shorts, dodaj tytuł i wybierz `Review` (na test) albo `Public` (aby pokazać publicznie). Kliknij **Add video to selected location**.
-5. Po kliknięciu **Publish** film pojawi się na stronie: w `/portfolio.html#/gallery/...` lub w danej usłudze pod `/#/service/...`.
-6. W usłudze kliknij duże zdjęcie, aby je powiększyć. Strzałki, Esc i gest przesuwania umożliwiają nawigację między zdjęciami a filmami.
-7. Sprawdź działanie na telefonie. Po zatwierdzeniu połącz gałąź z `main`.
+Po Push otwórz Deploy Preview z gałęzi testowej. Netlify musi widzieć nową funkcję `/api/youtube-channel-sync`.
 
-**Uwaga o środowisku testowym:** Deploy Preview domyślnie korzysta z tej samej bazy Supabase co strona produkcyjna. Film z ustawieniem `Public` przypisany do publicznej galerii lub aktywnej usługi może od razu pojawić się na stronie live. Do testowania bez publicznej publikacji wybierz `Review` albo osobny testowy projekt Supabase.
+Otwórz `/admin.html`, zaloguj się i kliknij **Video Library → Synchronize YouTube channel → Load channel videos**.
 
-## Funkcje i granice aktualizacji
+- W panelu pojawi się lista **rzeczywistych** filmów z oryginalnymi tytułami, opisami, datami i miniaturami YouTube.
+- Sprawdź ich zawartość, używając linków „Watch on YouTube”.
+- Zaznacz te, które mają być widoczne na stronie. Domyślnie zaznaczona jest cała pobrana lista.
+- Jeśli film ma znaleźć się także w konkretnej usłudze, wybierz tę usługę z listy obok filmu. Bez wyboru trafi tylko do galerii wideo.
+- Kliknij **Import & publish selected videos** i potwierdź operację.
 
-- Miniatury zdjęć i filmów w tych samych galeriach.
-- Odtwarzacz YouTube w powiększeniu, po kliknięciu (privacy-enhanced `youtube-nocookie.com`).
-- Strzałki i klawiatura, przesuwanie na telefonie, zamykanie odtwarzacza po opuszczeniu podglądu.
-- Video Library: dodawanie, edycja, tytuł, opis, kolejność, przypisanie, widoczność, usuwanie przypisania. Film może być przypisany do kilku miejsc poprzez osobne rekordy, bez ponownego uploadu.
-- `Remove` usuwa rekord przypisania z Supabase, nie usuwa filmu na YouTube.
-- Nie wgrywa plików MP4 do Netlify/GitHub, nie obsługuje uploadu do YouTube; publiczny film należy wcześniej opublikować tam.
-- YouTube może odmówić osadzania filmu, np. ze względu na ustawienia właściciela, ograniczenia wieku lub regionu; wtedy w podglądzie jest link **Watch on YouTube**.
-- Pliki wideo/miniatury to zasoby zewnętrzne. Tryb `youtube-nocookie.com` nie zastępuje pełnego przeglądu zgodności z polityką cookies/RODO.
+**Uwaga: Deploy Preview i strona live mogą używać tej samej produkcyjnej bazy Supabase!** Kliknięcie Import & publish zapisuje filmy jako publiczne i może natychmiast pokazać je na prawdziwej stronie. Jeśli wolisz bezpiecznie sprawdzić sam wygląd panelu, zatrzymaj się przed tym przyciskiem.
+
+## KROK 3 — Gdzie pojawią się filmy?
+
+Synchronizator tworzy, jeśli potrzebna, jedną publiczną galerię:
+
+**Films & Video Production**
+
+`https://lilkangoomedia.com/portfolio.html#/gallery/video-portfolio`
+
+Galeria pokazuje miniatury i prawdziwe tytuły z YouTube. Wbudowany odtwarzacz w Phase 10 otwiera się po kliknięciu i obsługuje strzałki oraz urządzenia mobilne.
+
+Jeżeli administrator dodatkowo przypisze film do istniejącej usługi, pojawi się on także w tej usłudze. Nie przypisujemy automatycznie po słowach w tytule — mogłoby to przedstawić film w nieodpowiedniej kategorii. Film opublikowany na kanale jest publiczny na YouTube, lecz w panelu można zdecydować, czy ma być widoczny na stronie.
+
+### Bez dodatkowego klucza API
+
+Synchronizator pobiera publiczny **RSS YouTube**. To źródło zawiera wyłącznie **najnowsze filmy** (typowo do około 15), nie kompletny katalog kanału. Panel informuje o ograniczeniu.
+
+### Pełniejsze archiwum YouTube
+
+Aby pobrać starsze filmy, w Google Cloud Console włącz **YouTube Data API v3** i utwórz klucz API. W Netlify → Project configuration → Environment variables dodaj:
+
+- Name: `YOUTUBE_API_KEY`
+- Value: *klucz z Google Cloud Console, tylko do sekcji Functions*
+- Secret: **Yes**, scope: Functions, Production (i Deploy Preview, jeśli testujesz w podglądzie)
+
+Po zmianie wykonaj nowy deploy. **Nie wklejaj klucza do GitHuba, `lkm-config.js` ani JavaScript uruchamianego w przeglądarce.** W Google Cloud ogranicz dostęp klucza do YouTube Data API v3. Funkcja potwierdza zgodność identyfikatora kanału z podanym handlem i pobiera do 300 ostatnich publicznych filmów, sprawdzając możliwość osadzania. Jeżeli kanał ma więcej, pozostaje kolejna partia do zaimportowania; liczba jest jawnie oznaczona w panelu.
+
+## Co pozostaje niezmienione
+
+- Wszystkie istniejące filmy już zapisane w `media_videos`, w tym ręcznie poprawione tytuły i opisy.
+- Wszystkie zdjęcia, przypisania zdjęć i istniejące galerie.
+- Ceny usług, zapytania, Supabase Auth, Stripe, Netlify Forms, Zoho i Resend.
+- Struktura SQL — **brak nowej migracji**, wykorzystujemy tabelę z Phase 10.
+
+Synchronizator sprawdza obecne rekordy i nie tworzy ich ponownie. Możesz uruchamiać import wielokrotnie, np. po dodaniu nowych filmów na YouTube.
+
+## Kontrola i ograniczenia
+
+- Działanie przetestowano lokalnie na **symulowanych** odpowiedziach YouTube/Supabase. Nie wykonano rzeczywistego importu na koncie LilKangooMedia.
+- RSS może być niedostępny albo ograniczony przez YouTube na Netlify. Wtedy należy użyć autoryzowanego YouTube Data API.
+- Film może mieć ograniczenia osadzania. Wersja RSS nie zawiera pełnych informacji o ustawieniu „embeddable”; w przypadku błędu odtwarzacz wyświetla link do YouTube.
+- Jeśli Google zwróci inny kanał lub podejrzaną nazwę kanału, synchronizator przerywa operację zamiast importować cudze filmy.
+- Odtwarzacz `youtube-nocookie.com` może nadal wymagać sprawdzenia konfiguracji prywatności i zgód RODO.
+- Nie wgrywamy plików MP4 do GitHuba ani Supabase Storage.
 
 ## Testy
 
-Przeszedł `node --check` na wszystkich trzech skryptach JS. Testy lokalnej przeglądarki Chromium (dane symulowane): foto→film, strzałki i Escape, galeria mieszana, dodanie filmu Shorts, odczyt i edycja w panelu. Testów z produkcyjnym Supabase, Netlify i realnymi filmami YouTube jeszcze nie przeprowadzono.
+W katalogu `tests` znajduje się test automatyczny: `node --test tests/youtube-sync.test.mjs`.
+
+Przetestowano: podgląd tytułu i opisu z XML, publikowanie, brak duplikatów, przypisanie do usługi, blokowanie niewłaściwych filmów, dostęp administratora, obsługę niezgodnego kanału, sprawdzanie YouTube API. Wszystkie 8 testów zakończyło się sukcesem przy symulowanych odpowiedziach.

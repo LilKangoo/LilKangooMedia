@@ -12,3 +12,24 @@
 .cms-lightbox iframe{width:min(1100px,100%);max-width:100%;aspect-ratio:16/9;max-height:70vh;border:0;pointer-events:auto}
 .cms-lightbox-figure a.lkm-youtube-link{color:#ffd399;font-size:13px;pointer-events:auto}
 .cms-lightbox img[hidden],.cms-lightbox iframe[hidden],.lkm-youtube-link[hidden]{display:none!important}
+
+/* Phase 11 — YouTube channel importer */
+.lkm-channel-sync-open{align-self:center;margin-left:auto;padding:10px 14px;background:#e4ece4;color:#23422f;border:1px solid #c8d9c9;border-radius:8px;font-weight:800;cursor:pointer;font-size:12px;white-space:nowrap}
+.lkm-channel-sync-open:hover{background:#d4e5d7}
+.lkm-youtube-sync-open{overflow:hidden!important}
+.lkm-youtube-sync-overlay{position:fixed;inset:0;background:#101b16e9;z-index:11000;overflow-y:auto;padding:24px 15px;display:flex;justify-content:center;align-items:flex-start}
+.lkm-youtube-sync-panel{margin:auto;width:min(1150px,100%);border-radius:16px;background:#fff;color:#1c2d22;box-shadow:0 24px 85px #0006;padding:26px}
+.lkm-youtube-sync-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding-bottom:16px;border-bottom:1px solid #dce8de}.lkm-youtube-sync-head h2{font-size:27px;letter-spacing:-.8px;margin:5px 0}.lkm-youtube-sync-head p{max-width:690px;font-size:13px;color:#566859;margin:0}.lkm-youtube-sync-head p a{text-decoration:underline}.lkm-youtube-sync-head button{font-size:29px;border:0;background:transparent;cursor:pointer}
+.lkm-youtube-sync-kicker{font-weight:800;letter-spacing:1.5px;font-size:10px;color:#bb791e}
+.lkm-youtube-sync-toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;padding:14px 0}
+.lkm-youtube-sync-toolbar button,.lkm-youtube-sync-publish{background:#233d2d;color:#fff;border:0;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:800;cursor:pointer}.lkm-youtube-sync-toolbar button:not(:first-child){background:#eaf0e8;color:#28402d}.lkm-youtube-sync-toolbar button[disabled],.lkm-youtube-sync-publish[disabled]{opacity:.5;cursor:wait}
+.lkm-youtube-sync-source{font-size:11px;color:#607364;margin-left:auto;font-weight:700}
+.lkm-youtube-sync-info{padding:11px;background:#fff6e6;color:#624516;border-radius:9px;font-size:12px}
+.lkm-youtube-sync-status{border-radius:9px;padding:11px 13px;background:#e7f1e7;color:#21442c;font-size:12px;margin:5px 0 12px}.lkm-youtube-sync-status.is-error{background:#ffeded;color:#982b2b}
+.lkm-youtube-sync-list{display:grid;gap:10px;max-height:55vh;overflow:auto;scrollbar-width:thin;padding-right:5px}
+.lkm-youtube-sync-item{border:1px solid #dce5dc;border-radius:11px;padding:12px;display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:12px;align-items:center;background:#fdfefd}
+.lkm-youtube-sync-choice{display:flex;gap:12px;align-items:center;min-width:0;cursor:pointer}.lkm-youtube-sync-choice>input{width:20px;height:20px;flex:0 0 20px;accent-color:#26452d}.lkm-youtube-sync-choice img{width:140px;aspect-ratio:16/9;object-fit:cover;border-radius:7px;background:#e2e6e2}.lkm-youtube-sync-choice span{flex:1;min-width:0}.lkm-youtube-sync-choice strong{font-size:13px;display:block;overflow-wrap:anywhere}.lkm-youtube-sync-choice small{display:block;font-size:11px;color:#607163;margin-top:5px;line-height:1.35}.lkm-youtube-sync-choice small a{color:#a86a22;text-decoration:underline}
+.lkm-youtube-sync-destination{font-size:11px;color:#3c5441;font-weight:700;display:block}.lkm-youtube-sync-destination select{display:block;width:100%;min-width:0;padding:9px;border:1px solid #cad7ca;border-radius:8px;margin-top:7px;background:#fff;font:inherit;font-size:12px}
+.lkm-youtube-sync-empty{padding:24px;text-align:center;color:#607163}.lkm-youtube-sync-bottom{margin-top:16px;border-top:1px solid #e2e8e3;padding-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.lkm-youtube-sync-bottom>a{font-size:12px;color:#946120;text-decoration:underline}.lkm-youtube-sync-bottom>span{font-size:11px;color:#6b796f;margin-left:auto}.lkm-youtube-sync-success-link{font-weight:800}
+@media(max-width:850px){.lkm-youtube-sync-item{grid-template-columns:1fr}.lkm-youtube-sync-choice img{width:110px}.lkm-youtube-sync-source{margin-left:0}.lkm-youtube-sync-head h2{font-size:22px}.lkm-channel-sync-open{white-space:normal}}
+@media(max-width:500px){.lkm-youtube-sync-panel{padding:15px}.lkm-youtube-sync-choice img{width:90px}.lkm-youtube-sync-choice{gap:7px}.lkm-youtube-sync-item{padding:9px}.lkm-youtube-sync-list{max-height:60vh}.lkm-youtube-sync-bottom>span{margin-left:0}}

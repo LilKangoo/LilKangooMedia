@@ -85,7 +85,7 @@ function initializeNav(){
 }
 let scheduled=false;new MutationObserver(()=>{if(!scheduled){scheduled=true;requestAnimationFrame(()=>{scheduled=false;initializeNav()})}}).observe(document.body,{subtree:true,childList:true});
 initializeNav();
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&open){e.preventDefault();close()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&open&&!document.getElementById('lkmYoutubeSyncDialog')){e.preventDefault();close()}});
 document.addEventListener('click',async e=>{
  if(!open||!overlay?.contains(e.target))return;
  if(e.target===overlay||e.target.closest('[data-v10-close]')){close();return}
@@ -110,4 +110,79 @@ document.addEventListener('submit',async e=>{if(!open||e.target.id!=='v10Form')r
   await api(currentId?'media_videos?id=eq.'+encodeURIComponent(currentId):'media_videos',{method:currentId?'PATCH':'POST',data});currentId='';await reload();draw();status('Video saved. Public videos are visible after refresh.');
  }catch(err){status(err.message.includes('23505')?'This video is already assigned here.':err.message,true);btn.disabled=false}
 });
+})();
+
+/* Phase 11 — verified YouTube channel import. This augments the Phase 10 Video Library. */
+(()=>{
+'use strict';
+const clean=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let modal=null,result=null,working=false;
+const sourceUrl='https://www.youtube.com/@lilKangooMedia';
+function inject(){
+ const header=document.querySelector('#lkmVideosOverlay .lkm-videos-heading');
+ if(!header||header.querySelector('[data-ys-open]'))return;
+ const button=document.createElement('button');button.type='button';button.dataset.ysOpen='';button.className='lkm-channel-sync-open';button.textContent='↻ Synchronize YouTube channel';
+ button.title='Read the official LilKangooMedia YouTube uploads and add selected videos to your website.';
+ header.append(button);
+}
+let pending=false;
+new MutationObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;inject()})}).observe(document.body,{childList:true,subtree:true});
+inject();
+function showDialog(){
+ if(modal)return;
+ modal=document.createElement('div');modal.id='lkmYoutubeSyncDialog';modal.className='lkm-youtube-sync-overlay';
+ modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Synchronize LilKangooMedia YouTube channel');
+ document.body.append(modal);document.body.classList.add('lkm-youtube-sync-open');
+ draw();
+}
+function close(){if(working)return;modal?.remove();modal=null;result=null;document.body.classList.remove('lkm-youtube-sync-open');}
+function draw(){
+ if(!modal)return;
+ const videos=result?.videos||[];
+ const services=result?.services||[];
+ modal.innerHTML=`<div class="lkm-youtube-sync-panel">
+  <div class="lkm-youtube-sync-head"><div><span class="lkm-youtube-sync-kicker">LILKANGOOMEDIA · VIDEO LIBRARY</span><h2>Synchronize YouTube videos</h2><p>Import original titles and descriptions from <a href="${sourceUrl}" target="_blank" rel="noopener">@lilKangooMedia</a>. Select the videos to publish. Service placements are optional and chosen by you.</p></div><button type="button" data-ys-close aria-label="Close">×</button></div>
+  <div class="lkm-youtube-sync-toolbar"><button type="button" data-ys-preview ${working?'disabled':''}>${result?'↻ Reload from YouTube':'Load channel videos'}</button>${result?`<button type="button" data-ys-all>Select all</button><button type="button" data-ys-none>Clear selection</button><span class="lkm-youtube-sync-source">${clean(result.source)} · ${videos.length} verified video${videos.length===1?'':'s'}</span>`:''}</div>
+  ${result?.truncated?'<p class="lkm-youtube-sync-info">The public YouTube feed only lists recent uploads. To import the full channel archive, configure YOUTUBE_API_KEY in Netlify and reload.</p>':''}
+  <p id="lkmYouTubeSyncStatus" class="lkm-youtube-sync-status" role="status" aria-live="polite" hidden></p>
+  <div class="lkm-youtube-sync-list">${videos.map(v=>`<div class="lkm-youtube-sync-item">
+   <label class="lkm-youtube-sync-choice"><input type="checkbox" data-ys-selected="${clean(v.id)}" checked><img src="${clean(v.thumbnail)}" alt="" loading="lazy"><span><strong>${clean(v.title)}</strong><small>${clean((v.description||'').slice(0,200))||'No description provided on YouTube.'}</small><small>${clean(v.published?String(v.published).slice(0,10):'')} · <a href="${clean(v.url)}" target="_blank" rel="noopener">Watch on YouTube</a></small></span></label>
+   <label class="lkm-youtube-sync-destination">Also show under service (optional)<select data-ys-service="${clean(v.id)}"><option value="">Video portfolio only</option>${services.map(s=>`<option value="${clean(s.slug)}">${clean(s.title)}</option>`).join('')}</select></label>
+   </div>`).join('')||'<p class="lkm-youtube-sync-empty">Load the official YouTube channel videos to continue.</p>'}</div>
+  <div class="lkm-youtube-sync-bottom">${result?'<button type="button" data-ys-import class="lkm-youtube-sync-publish">Import & publish selected videos</button>':''}<a href="/portfolio.html#/gallery/video-portfolio" target="_blank" rel="noopener">View video portfolio ↗</a><span>Existing photos, prices and edited videos will not be changed.</span></div>
+ </div>`;
+}
+function status(message,isError=false){const el=modal?.querySelector('#lkmYouTubeSyncStatus');if(el){el.hidden=false;el.textContent=message;el.classList.toggle('is-error',isError);}}
+async function request(action,payload={}){
+ const jwt=await window.LKMStore?.authenticatedToken?.();if(!jwt)throw Error('Sign in to the administrator panel first.');
+ const res=await fetch('/api/youtube-channel-sync',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+jwt},body:JSON.stringify({action,...payload})});
+ const data=await res.json().catch(()=>({}));
+ if(!res.ok||!data.ok)throw Error(data.error||'The YouTube sync request failed.');
+ return data;
+}
+async function preview(){working=true;try{status('Loading verified videos directly from YouTube…');const data=await request('preview');result=data;draw();status(`Loaded ${data.videos.length} video(s) from ${data.channel}. Review titles and service destinations before publishing.`);}catch(e){status(e.message,true)}finally{working=false}}
+async function publish(){
+ const chosen=[...modal.querySelectorAll('[data-ys-selected]:checked')].map(x=>x.dataset.ysSelected);
+ if(!chosen.length){status('Select at least one video.',true);return}
+ const assignments={};
+ modal.querySelectorAll('[data-ys-service]').forEach(el=>{if(chosen.includes(el.dataset.ysService)&&el.value)assignments[el.dataset.ysService]=el.value});
+ if(!confirm(`Publish ${chosen.length} video(s) to Films & Video Production? Videos assigned to a service will also appear on that service page.`))return;
+ working=true;const button=modal.querySelector('[data-ys-import]');if(button)button.disabled=true;
+ try{
+  status('Importing verified YouTube metadata and publishing videos…');
+  const data=await request('import',{selected_ids:chosen,assignments});
+  status(`Published: ${data.added} new video(s), ${data.already_present} already in portfolio. New service placements: ${data.service_placements_added}. The video portfolio is now available. Close this window and reopen Video Library to refresh its list.`);
+  modal.querySelector('.lkm-youtube-sync-bottom').insertAdjacentHTML('afterbegin',`<a class="lkm-youtube-sync-success-link" href="${data.gallery_url}" target="_blank" rel="noopener">Open published videos ↗</a>`);
+ }catch(e){status(e.message,true);if(button)button.disabled=false}finally{working=false}
+}
+document.addEventListener('click',e=>{
+ if(e.target.closest('[data-ys-open]')){showDialog();return}
+ if(!modal)return;
+ if(e.target===modal||e.target.closest('[data-ys-close]')){close();return}
+ if(e.target.closest('[data-ys-preview]')){if(!working)preview();return}
+ if(e.target.closest('[data-ys-all]')){modal.querySelectorAll('[data-ys-selected]').forEach(x=>x.checked=true);return}
+ if(e.target.closest('[data-ys-none]')){modal.querySelectorAll('[data-ys-selected]').forEach(x=>x.checked=false);return}
+ if(e.target.closest('[data-ys-import]')){if(!working)publish();return}
+});
+document.addEventListener('keydown',e=>{if(modal&&e.key==='Escape'&&!working){e.stopImmediatePropagation();close()}});
 })();
