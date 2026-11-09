@@ -54,3 +54,13 @@
 @media(max-width:760px){.lkm-v14{padding-bottom:44px}.lkm-v14-intro{padding:8px 0 25px}.lkm-v14-title{letter-spacing:-1.6px}.lkm-v14-lead{font-size:15px;margin-top:12px}.lkm-v14-top{grid-template-columns:1fr;gap:14px}.lkm-v14-media .gallery-main{height:clamp(250px,62vw,420px)}.lkm-v14-checkout{position:static;padding:21px}.lkm-v14-packages{margin-top:45px}.lkm-v14-package-grid{grid-template-columns:1fr}.lkm-v14-package button.package-choice{flex-direction:row}.lkm-v14-package button.package-choice .package-cost{text-align:right;max-width:130px}.lkm-v14-about{grid-template-columns:1fr;gap:15px}.lkm-v14-checkout .lkm-v14-cta{margin-top:15px}}
 @media(max-width:390px){.lkm-v14-media .gallery-main{height:260px}.lkm-v14-package button.package-choice{flex-direction:column}.lkm-v14-package button.package-choice .package-cost{text-align:left;max-width:100%}}
 @media(prefers-reduced-motion:reduce){.lkm-v14-package{transition:none}.lkm-v14-package:hover{transform:none}}
+
+/* Phase 15 — consistent, scannable service and package highlights. */
+.lkm-v15-highlights{margin-top:36px;padding:30px 34px;border:1px solid #e1e8e0;border-radius:18px;background:#fff}
+.lkm-v15-feature-grid{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 30px}
+.lkm-v15-feature-grid li,.lkm-v15-package-features li{position:relative;padding-left:25px;color:#354a3b;line-height:1.55;overflow-wrap:anywhere}
+.lkm-v15-feature-grid li:before,.lkm-v15-package-features li:before{content:'✓';position:absolute;left:2px;top:0;color:#a66d25;font-weight:800}
+.lkm-v15-package-features{list-style:none;margin:2px 0 0;padding:0 18px 20px;display:grid;gap:9px;font-size:13px}
+.lkm-v15-package-features li{font-size:13px}
+.lkm-v14-package .lkm-v15-package-features{margin-top:0}
+@media(max-width:760px){.lkm-v15-highlights{padding:21px;margin-top:22px}.lkm-v15-feature-grid{grid-template-columns:1fr;gap:9px}}

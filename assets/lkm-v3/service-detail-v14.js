@@ -7,6 +7,7 @@ const root=document.getElementById('main');
 if(!root)return;
 let catalogue=[],catalogueLoaded=false,queued=false;
 const sourceFor=slug=>catalogue.find(x=>x.slug===slug);
+const cleanFeatures=value=>Array.isArray(value)?[...new Set(value.filter(x=>typeof x==='string').map(x=>x.trim()).filter(Boolean))].slice(0,20):[];
 const make=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el};
 const shortText=(text,max=215)=>{
  const s=String(text||'').replace(/\s+/g,' ').trim();
@@ -23,7 +24,7 @@ const longAfterIntro=(full,intro)=>{
 };
 function currentSlug(){const match=location.hash.match(/^#\/service\/([^?#]+)/);if(!match)return '';try{return decodeURIComponent(match[1])}catch{return match[1]}}
 function enhance(){
- const slug=currentSlug();if(!slug)return;
+ const slug=currentSlug();if(!slug||!catalogueLoaded)return;
  const container=root.querySelector('.container');
  const grid=container?.querySelector(':scope > .detail-grid');
  const copy=container?.querySelector(':scope > .detail-copy');
@@ -61,6 +62,15 @@ function enhance(){
  info.append(make('p','lkm-v14-note','No payment is taken when submitting an enquiry. Availability and final scope are confirmed before booking.'));
  top.append(media,info);
  wrap.append(intro,top);
+ const serviceFeatures=cleanFeatures(record?.features);
+ if(serviceFeatures.length){
+  const featuresSection=make('section','lkm-v15-highlights');
+  const label=make('div','lkm-v14-section-head');label.append(make('p','lkm-v14-eyebrow','Our service'),make('h2','','What we offer'));
+  featuresSection.append(label);
+  const list=make('ul','lkm-v15-feature-grid');
+  serviceFeatures.forEach(feature=>{const item=make('li','',feature);list.append(item)});
+  featuresSection.append(list);wrap.append(featuresSection);
+ }
  if(choices.length){
   const packages=make('section','lkm-v14-packages');packages.id='lkm-v14-packages';
   const heading=make('div','lkm-v14-section-head');heading.append(make('p','lkm-v14-eyebrow','Choose your option'),make('h2','','Available packages'));
@@ -69,11 +79,21 @@ function enhance(){
   const cards=make('div','lkm-v14-package-grid');
   choices.forEach((btn,i)=>{
    const card=make('article','lkm-v14-package');if(btn.classList.contains('selected'))card.classList.add('is-selected');
+   const packageId=btn.dataset.package||'';
+   const recordPackage=(record?.packages||[]).find(p=>p.id===packageId);
+   const included=cleanFeatures(recordPackage?.features);
    const text=btn.querySelector('small');let full=text?.textContent.trim()||'';
-   if(text){text.textContent=shortText(full,115);}
+   if(text){if(included.length)text.remove();else text.textContent=shortText(full,115);}
    btn.classList.add('lkm-v14-package-button');btn.setAttribute('aria-pressed',String(btn.classList.contains('selected')));
    const caption=make('p','lkm-v14-plan-number',`Option ${i+1}`);card.append(caption,btn);
-   if(full.length>115){const details=make('details','lkm-v14-package-details');const summary=make('summary','', 'Read full package details');details.append(summary,make('p','',full));card.append(details)}
+   if(included.length){
+    const features=make('ul','lkm-v15-package-features');
+    included.forEach(feature=>features.append(make('li','',feature)));
+    card.append(features);
+   }else if(full.length>115){
+    const details=make('details','lkm-v14-package-details');
+    const summary=make('summary','','Read package details');details.append(summary,make('p','',full));card.append(details);
+   }
    cards.append(card);
   });
   packages.append(cards);wrap.append(packages);
@@ -97,6 +117,6 @@ root.addEventListener('click',e=>{const btn=e.target.closest('[data-v14-jump]');
 // Observe only replacements of #main's direct children, not our own reorganization below them.
 new MutationObserver(schedule).observe(root,{childList:true});
 window.addEventListener('hashchange',schedule);
-(async()=>{try{catalogue=await window.LKMStore?.publicServices?.()||[];catalogueLoaded=true;}catch(_){catalogue=[];}schedule()})();
+(async()=>{try{catalogue=await window.LKMStore?.publicServices?.()||[];catalogueLoaded=true;}catch(_){catalogue=[];catalogueLoaded=true;}schedule()})();
 schedule();
 })();

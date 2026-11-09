@@ -1,0 +1,18 @@
+{
+  "services": 14,
+  "packages_prepared": 24,
+  "package_features_condition": "Only inject when slug, package ID AND original description match and no features exist",
+  "price_fields_touched_in_sql": false,
+  "code_files": [
+    "assets/lkm-v3/admin.js",
+    "assets/lkm-v3/admin-unified.css",
+    "assets/lkm-v3/service-detail-v14.js",
+    "assets/lkm-v3/service-detail-v14.css"
+  ],
+  "source_git_sha": {
+    "admin.js": "de473383d261a42883690abe79cf0dee515b5f43",
+    "admin-unified.css": "4080977f2717ef2dcd2245b08c5690928e230a9b",
+    "service-detail-v14.js": "6b3d08e0f93f620357b38a9dcd68cd1c18694ce2",
+    "service-detail-v14.css": "86b7932b23a76106542cdaf805b1f7596c6efcb6"
+  }
+}
