@@ -15,14 +15,14 @@ const validSlug=s=>/^[a-z0-9][a-z0-9_-]{0,119}$/i.test(String(s||''));
 const nice=s=>String(s||'').replace(/[-_]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
 const safeImage=url=>{try{const u=new URL(url||'',SITE);if(!['http:','https:'].includes(u.protocol)||!url||/\s/.test(url))return '';return u.href;}catch{return ''}};
 const internalLink=path=>{try{let u=new URL(String(path||''),SITE);return u.origin===SITE&&['http:','https:'].includes(u.protocol)?u.href:'';}catch{return ''}};
-let items=[],filter='all',q='',openFolders=new Set(),warnings=[],ready=false;
+let items=[],filter='all',q='',warnings=[];
 const groups=[
- {id:'pages',label:'Main pages',icon:'⌂'},
- {id:'personal',label:'Personal services',icon:'◉'},
- {id:'business',label:'Business services',icon:'▣'},
- {id:'galleries',label:'Portfolio galleries',icon:'▧'},
- {id:'articles',label:'Articles & guides',icon:'▤'},
- {id:'social',label:'Social & contact',icon:'↗'}
+ {id:'pages',label:'Main pages'},
+ {id:'personal',label:'Personal services'},
+ {id:'business',label:'Business services'},
+ {id:'galleries',label:'Portfolio galleries'},
+ {id:'articles',label:'Articles & guides'},
+ {id:'social',label:'Social & contact'}
 ];
 function makeItem({kind,folder,title,description,image,slug,url,directUrl,category,metaTitle}){
  const safe=internalLink(url)||(/^https:\/\//.test(String(url||''))?String(url):'');
@@ -78,14 +78,13 @@ async function loadAll(){
      if(og)x.image=safeImage(og)||x.image;
    }));
  }
- let serviceCount=0,postCount=0,galleryCount=0;
  try{
   const services=await store.publicServices();
   for(const s of services){
    if(s.active===false||!validSlug(s.slug))continue;
    const original=SITE+'/#/service/'+encodeURIComponent(s.slug);
    const share=SITE+'/share/service/'+encodeURIComponent(s.slug);
-   results.push(makeItem({kind:'service',folder:s.audience==='personal'?'personal':'business',title:s.title,metaTitle:s.title+' | LilKangooMedia',description:s.summary||s.description||'',category:s.category||'',image:s.cover_url,slug:s.slug,url:share,directUrl:original}));serviceCount++;
+   results.push(makeItem({kind:'service',folder:s.audience==='personal'?'personal':'business',title:s.title,metaTitle:s.title+' | LilKangooMedia',description:s.summary||s.description||'',category:s.category||'',image:s.cover_url,slug:s.slug,url:share,directUrl:original}));
   }
  }catch(e){warnings.push('Services could not be loaded ('+e.message+'). Refresh to try again.');}
  try{
@@ -97,7 +96,7 @@ async function loadAll(){
    if(!validSlug(p.slug))continue;
    const url=internalLink(p.permalink||p.legacy_path||'/articles/'+encodeURIComponent(p.slug)+'.html');
    if(!url)continue;
-   results.push(makeItem({kind:'article',folder:'articles',title:p.title,metaTitle:p.seo_title||p.title+' | LilKangooMedia',description:p.seo_description||p.excerpt||'',category:p.category_name||'',image:p.cover_url,slug:p.slug,url}));postCount++;
+   results.push(makeItem({kind:'article',folder:'articles',title:p.title,metaTitle:p.seo_title||p.title+' | LilKangooMedia',description:p.seo_description||p.excerpt||'',category:p.category_name||'',image:p.cover_url,slug:p.slug,url}));
   }
  }catch(e){warnings.push('Published articles could not be loaded ('+e.message+').');}
  try{
@@ -111,11 +110,11 @@ async function loadAll(){
    const im=images.filter(x=>x.gallery_id===g.id);const pic=im.find(x=>x.id===g.cover_image_id)||im[0];
    const vid=videos.find(x=>x.gallery_id===g.id);
    const image=pic?.image_url||(vid?.youtube_id?'https://img.youtube.com/vi/'+encodeURIComponent(vid.youtube_id)+'/hqdefault.jpg':'');
-   results.push(makeItem({kind:'gallery',folder:'galleries',title:g.title,metaTitle:g.title+' | LilKangooMedia Portfolio',description:g.description||'Photography and creative work by LilKangooMedia.',image,category:g.category,slug:g.slug,url:SITE+'/share/gallery/'+encodeURIComponent(g.slug),directUrl:SITE+'/portfolio.html#/gallery/'+encodeURIComponent(g.slug)}));galleryCount++;
+   results.push(makeItem({kind:'gallery',folder:'galleries',title:g.title,metaTitle:g.title+' | LilKangooMedia Portfolio',description:g.description||'Photography and creative work by LilKangooMedia.',image,category:g.category,slug:g.slug,url:SITE+'/share/gallery/'+encodeURIComponent(g.slug),directUrl:SITE+'/portfolio.html#/gallery/'+encodeURIComponent(g.slug)}));
   }
  }catch(e){warnings.push('Portfolio galleries could not be loaded ('+e.message+').');}
  const seen=new Set();items=results.filter(x=>x&&!seen.has(x.url)&&(seen.add(x.url),true));
- ready=true;render();
+ render();
 }
 function folderCount(f){return items.filter(x=>x.folder===f).length;}
 function groupName(f){return groups.find(x=>x.id===f)?.label||f;}
@@ -127,42 +126,81 @@ function aside(){return `<aside class="admin-sidebar" aria-label="Admin navigati
 <a href="/admin-links.html" class="active" aria-current="page">↗ Links library</a><div class="admin-nav-label">PREVIEW</div>
 <a href="/" target="_blank" rel="noopener noreferrer">↗ Website</a><a href="/portfolio.html" target="_blank" rel="noopener noreferrer">↗ Portfolio</a>
 <a href="#" data-action="signout">⇥ Sign out</a></aside>`;}
-function imageCard(item){return `<div class="lkm-link-cover">${item.image?`<img src="${esc(item.image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${LOGO}'">`:`<img src="${LOGO}" alt="LilKangooMedia" loading="lazy">`}</div>`}
+// Compact cards keep sharing actions visible while moving long SEO metadata into optional details.
+function imageCard(item){
+ if(item.kind==='page'||item.kind==='external'||!item.image){
+  const symbol=item.kind==='external'?'↗':item.kind==='page'?item.title.charAt(0).toUpperCase():'◈';
+  return `<div class="lkm-link-cover lkm-link-cover--symbol" aria-hidden="true"><span>${esc(symbol)}</span></div>`;
+ }
+ return `<div class="lkm-link-cover"><img src="${esc(item.image)}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${LOGO}'"></div>`;
+}
+function shortPath(item){
+ try{
+  const u=new URL(item.url);
+  return u.origin===SITE?(u.pathname+u.search+u.hash):(u.host+u.pathname+u.search);
+ }catch{return item.slug||item.url;}
+}
 function card(x){
  const native=x.url!==x.directUrl;
- return `<article class="lkm-link-card" data-link-id="${esc(x.id)}">${imageCard(x)}<div class="lkm-link-content">
-  <div class="lkm-link-category">${esc(x.category||groupName(x.folder))}<span>${esc(x.kind)}</span></div>
-  <h3>${esc(x.title)}</h3><div class="lkm-link-meta-label">META TITLE</div><p class="lkm-link-meta-title" title="Share / SEO title">${esc(x.metaTitle)}</p>
-  <div class="lkm-link-meta-label">META DESCRIPTION</div><p class="lkm-link-desc">${esc(x.description||'No description supplied for this page.')}</p>
-  <div class="lkm-link-route"><span>SLUG / URL</span><code title="${esc(x.url)}">${esc(x.slug||x.url.replace(SITE,''))}</code></div>
-  <div class="lkm-link-url" title="${esc(x.url)}">${esc(x.url)}</div>
-  <div class="lkm-link-actions"><button type="button" data-action="copy" data-id="${esc(x.id)}" class="button button-dark">Copy link</button><button type="button" data-action="message" data-id="${esc(x.id)}" class="button button-light" title="Copy title, description and link">Copy text</button><a class="button button-light" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">Open ↗</a></div>
-  ${native?`<p class="lkm-link-direct">Share link shows this service/gallery's own preview. <button type="button" data-action="direct" data-id="${esc(x.id)}">Copy direct page URL</button></p>`:''}
- </div></article>`;
+ return `<article class="lkm-link-card" data-link-id="${esc(x.id)}">
+  <div class="lkm-link-card-main">
+   ${imageCard(x)}
+   <div class="lkm-link-info">
+    ${x.category?`<span class="lkm-link-category">${esc(x.category)}</span>`:''}
+    <h3 title="${esc(x.title)}">${esc(x.title)}</h3>
+    ${x.description?`<p class="lkm-link-desc">${esc(x.description)}</p>`:''}
+    <div class="lkm-link-path" title="${esc(x.url)}">${esc(shortPath(x))}</div>
+   </div>
+  </div>
+  <div class="lkm-link-actions">
+   <button type="button" data-action="copy" data-id="${esc(x.id)}" class="button button-dark">Copy link</button>
+   <button type="button" data-action="message" data-id="${esc(x.id)}" class="button button-light" title="Copy title, description and share link">Copy text</button>
+   <a class="lkm-link-open" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer" aria-label="Open ${esc(x.title)} in a new tab" title="Open link">Open ↗</a>
+  </div>
+  <details class="lkm-link-details">
+   <summary>SEO &amp; more</summary>
+   <div class="lkm-link-details-body">
+    <div class="lkm-detail-label">Page title</div><p>${esc(x.metaTitle)}</p>
+    <div class="lkm-detail-label">Description</div><p>${esc(x.description||'Not provided')}</p>
+    ${native?`<button type="button" data-action="direct" data-id="${esc(x.id)}" class="lkm-copy-direct">Copy direct page URL</button>`:''}
+   </div>
+  </details>
+ </article>`;
 }
 function render(){
  const count=items.length,show=visible();
  root.innerHTML=`<div class="admin-shell lkm-links-shell">${aside()}<section class="admin-main lkm-links-main">
-  <header class="lkm-links-top"><div><div class="label-kicker">CONTENT / QUICK SHARING</div><h1>Links library</h1><p>Copy the right link for every service, gallery and article — with its title, description and cover image.</p></div>
-  <button type="button" class="button button-light" data-action="refresh">↻ Refresh links</button></header>
-  <div class="lkm-link-stats"><span><strong>${count}</strong> available links</span><span><strong>${folderCount('personal')+folderCount('business')}</strong> services</span><span><strong>${folderCount('galleries')}</strong> galleries</span><span><strong>${folderCount('articles')}</strong> articles</span></div>
+  <header class="lkm-links-top"><div class="lkm-links-headline"><h1>Links library</h1><span class="lkm-links-count" id="lkmLinkResultCount" aria-live="polite">${show.length} ${show.length===1?'link':'links'}</span></div>
+   <button type="button" class="button button-light lkm-refresh" data-action="refresh" title="Reload current published links">↻ Refresh</button>
+  </header>
   ${warnings.length?`<div class="lkm-links-warnings" role="status">${warnings.map(x=>`<p>${esc(x)}</p>`).join('')}</div>`:''}
-  <div class="lkm-links-toolbar"><label for="lkmLinkSearch"><span>SEARCH ALL LINKS</span><input id="lkmLinkSearch" type="search" placeholder="Search by title, service, slug, keyword or URL…" value="${esc(q)}" autocomplete="off"></label><button type="button" class="button button-light" data-action="clear" title="Clear search and folder filter">Clear filters</button></div>
-  <div class="lkm-links-folderbar" aria-label="Link folders"><button type="button" class="lkm-folder ${filter==='all'?'is-active':''}" data-folder="all" aria-pressed="${filter==='all'}"><span>All links</span><strong>${count}</strong></button>${groups.map(g=>`<button type="button" class="lkm-folder ${filter===g.id?'is-active':''}" data-folder="${g.id}" aria-pressed="${filter===g.id}"><span>${esc(g.icon)} ${esc(g.label)}</span><strong>${folderCount(g.id)}</strong></button>`).join('')}</div>
-  <div class="lkm-links-result-head"><h2>${filter==='all'?'All folders':groupName(filter)}</h2><span id="lkmLinkResultCount">${show.length} results</span></div>
+  <div class="lkm-links-toolbar">
+   <label class="lkm-sr-only" for="lkmLinkSearch">Search public links</label>
+   <input id="lkmLinkSearch" type="search" placeholder="Find a page, service, gallery or article…" value="${esc(q)}" autocomplete="off" aria-label="Search links by name, keywords or URL">
+   <button type="button" id="lkmLinkClear" class="button button-light" data-action="clear" title="Reset search and category" ${q||filter!=='all'?'':'hidden'}>Clear</button>
+  </div>
+  <div class="lkm-links-folderbar" role="group" aria-label="Filter links by category">
+   <button type="button" class="lkm-folder ${filter==='all'?'is-active':''}" data-folder="all" aria-pressed="${filter==='all'}"><span>All</span><strong>${count}</strong></button>
+   ${groups.map(g=>`<button type="button" class="lkm-folder ${filter===g.id?'is-active':''}" data-folder="${g.id}" aria-pressed="${filter===g.id}"><span>${esc(g.label)}</span><strong>${folderCount(g.id)}</strong></button>`).join('')}
+  </div>
   <div id="lkmLinksResults">${results(show)}</div>
-  <p class="lkm-links-note">The library reads currently published website data. New or unpublished items are not listed. Individual social previews for services and galleries use the Netlify share endpoint; article links use their existing SEO pages. No new database tables are required.</p>
  </section></div>`;
 }
 function results(found){
- if(!found.length)return '<div class="lkm-links-empty">No links match your search. Try a shorter phrase or a different folder.</div>';
+ if(!found.length)return '<div class="lkm-links-empty">No matching links. Try a shorter search or select another category.</div>';
  const buckets=filter==='all'?groups.filter(g=>found.some(x=>x.folder===g.id)):groups.filter(g=>g.id===filter);
  return buckets.map(g=>{
   const list=found.filter(x=>x.folder===g.id);
-  return `<section class="lkm-links-section" id="links-folder-${esc(g.id)}"><div class="lkm-links-section-head"><span>${esc(g.icon)}</span><h3>${esc(g.label)}</h3><small>${list.length} links</small></div><div class="lkm-links-grid">${list.map(card).join('')}</div></section>`;
+  // The selected category chip already names the section; avoid repeating it.
+  return `<section class="lkm-links-section" id="links-folder-${esc(g.id)}">${filter==='all'?`<h2 class="lkm-links-section-head">${esc(g.label)}</h2>`:''}<div class="lkm-links-grid">${list.map(card).join('')}</div></section>`;
  }).join('');
 }
-function updateResults(){const f=visible();const zone=root.querySelector('#lkmLinksResults');if(zone)zone.innerHTML=results(f);const n=root.querySelector('#lkmLinkResultCount');if(n)n.textContent=f.length+' results';}
+function updateResults(){
+ const f=visible(),zone=root.querySelector('#lkmLinksResults');
+ if(zone)zone.innerHTML=results(f);
+ const n=root.querySelector('#lkmLinkResultCount');if(n)n.textContent=f.length+' '+(f.length===1?'link':'links');
+ const clear=root.querySelector('#lkmLinkClear');if(clear)clear.hidden=!q&&filter==='all';
+}
 function notice(v){let t=document.getElementById('toast');if(!t)return;t.hidden=false;t.textContent=v;clearTimeout(t._timer);t._timer=setTimeout(()=>t.hidden=true,4000);}
 async function copy(value){
  try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(value);notice('Copied to clipboard.');return;}}
