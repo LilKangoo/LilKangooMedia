@@ -1,8 +1,6 @@
-# Local validation — Phase 10
+# Phase 12 — Testy
 
-- `node --check` — PASS for `site.js`, `cms-public.js`, `video-admin.js`
-- Chromium Playwright mock integration: service photo zoom + keyboard/video transitions — PASS
-- Chromium Playwright mock integration: public portfolio gallery photo/video + closing iframe — PASS
-- Chromium Playwright mock integration: Video Library add YouTube Shorts link, edit & close — PASS
-- Database RLS and real Supabase integration — NOT YET TESTED (requires deploy environment)
-- Real YouTube playback, consent checks, mobile Safari — NOT YET TESTED
+- `node --check assets/lkm-v3/video-admin.js` — PASS
+- Chromium + mock Supabase: 7 testów: utworzenie sekcji, lista filmów, zaznaczanie, insert, blokada duplikatów, odłączenie filmu, dodanie YouTube URL — PASS
+- Chromium + `site.js` w wersji obecnie dostępnej w GitHubie: publiczny film przypisany do `service_slug` wyświetla się na stronie usługi, miniatura otwiera odtwarzacz — PASS
+- Prawdziwej bazy Supabase, publikacji na Netlify i konta YouTube **nie dotykano**.
