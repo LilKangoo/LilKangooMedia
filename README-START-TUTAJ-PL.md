@@ -1,99 +1,75 @@
-# LilKangooMedia — Phase 17: Google Reviews (bez Google Cloud)
+# LilKangooMedia — Phase 19 · Links library
 
-## Co jest gotowe
+## Cel
 
-- **121 autentycznych Google ratings**, potwierdzonych z 7 dostarczonych plików JSON Google Takeout (wszystkie 5 gwiazdek).
-- **91 opinii z tekstem** (72 już zawierają angielskie tłumaczenie Google), **30 samych ocen gwiazdkowych**.
-- Każda opinia zachowuje źródłowego autora, oryginalne gwiazdki, datę, angielskie brzmienie, tekst oryginalny i — jeśli istnieje — odpowiedź firmy.
-- Sekcja karuzeli na **stronie głównej po portfolio, przed końcowym CTA**.
-- Nowa **`/reviews.html`** z wszystkimi opublikowanymi opiniami, wyszukiwaniem, filtrem (tekst / gwiazdki), paginacją i linkami do Google Maps.
-- Nowy **`/admin-reviews.html`**, dostępny z zakładki **Customer reviews** w istniejącym `/admin.html`.
-- Admin: dodawanie, edycja angielskiego tekstu, publikowanie/ukrywanie, wyróżnianie, usuwanie, kolejność, import kolejnych JSON z Google Takeout (bez duplikatów). Autora, ocenę, datę i tekst źródłowy importowanych opinii celowo chronimy przed zmianą.
-- SQL RLS: odczyt opublikowanych wpisów publiczny, edycja tylko dla autoryzowanych administratorów LilKangooMedia.
-- Brak Google Cloud, Google API, abonamentów na widget i kluczy prywatnych w kodzie.
+Nowa pozycja **↗ Links library** w panelu administratora LilKangooMedia. Umożliwia szybkie znalezienie i wysłanie właściwego publicznego linku do usługi, artykułu, galerii, recenzji lub innej ważnej strony.
 
-## DWA RÓŻNE PLIKI DO POBRANIA
+**Uwaga:** to paczka DO WDROŻENIA. Nie wprowadzono żadnych zmian do Twojej strony produkcyjnej ani bazy Supabase.
 
-**1. `LilKangooMedia_Phase17_Google_Reviews_CODE.zip` — kod publicznej strony.**
+## Co zawiera
 
-**2. `LilKangooMedia_Phase17_PRIVATE_IMPORT.sql` — PRYWATNE dane recenzji.**
+- `/admin.html` — dołączony **jeden** nowy skrypt w istniejącym panelu; reszta bez zmian.
+- `/admin-reviews.html` — nowy link do Links library w menu recenzji; reszta bez zmian.
+- `/admin-links.html` — osobna podstrona biblioteki wewnątrz administracji, wymagająca istniejącego logowania admina.
+- `/assets/lkm-v3/admin-links-nav.js` — wpis w bocznym menu panelu.
+- `/assets/lkm-v3/admin-links.js` — pobieranie aktualnych danych usług, galerii i artykułów; wyszukiwanie; filtrowanie; kopiowanie.
+- `/assets/lkm-v3/admin-links.css` — wygląd kart i responsywny układ.
+- `/netlify/functions/link-preview.js` — indywidualny podgląd do udostępniania (Open Graph) dla usług i galerii; bez nowych uprawnień ani tabel.
+- `/netlify.toml` — istniejące ustawienia Netlify z dopisanymi dwoma regułami rewrites.
+- `/tests/test_phase19.cjs` — testy jednostkowe logiki i metadanych (Node 18+).
 
-**BARDZO WAŻNE: Pliku `LilKangooMedia_Phase17_PRIVATE_IMPORT.sql` nie wgrywaj do GitHub, Netlify, repozytorium ani publicznego folderu strony.** To realne imiona/nazwy autorów i pełne komentarze. Wyłącznie wklej zawartość pliku do Supabase SQL Editor, uruchom i przechowuj lokalnie.
+## Skąd bierzemy linki?
 
-Plik z kodem celowo **NIE** zawiera danych klientów ani publicznego pliku JSON z tymi opiniami. Dzięki temu opcja Hide w panelu naprawdę usuwa daną opinię z publicznego API i nie zostawia równoległej statycznej kopii na stronie. Oryginały pozostają w prywatnym eksporcie Google Takeout.
+- **Services / Personal** i **Services / Business**: z aktualnej publicznej tabeli `services` w Supabase; wyłącznie `active = true`.
+- **Portfolio galleries**: z `portfolio_galleries` i zdjęć publicznych `portfolio_images` w Supabase.
+- **Articles & guides**: z `assets/lkm-v3/articles-index.json` generowanego podczas wdrożenia Netlify; jeśli indeks jest pusty — z opublikowanych `blog_posts`. Zachowujemy oryginalne istniejące `permalink`/`legacy_path` i SEO `seo_title`/`seo_description`.
+- **Main pages**: homepage, usługi, wersje Personal/Business, About, Contact, Portfolio, Articles, Customer reviews, FAQ. Dla zwykłych stron HTML katalog odczytuje rzeczywisty `<title>`, meta description i OG image, jeśli są obecne.
+- **Social & contact**: oficjalne linki do Google Reviews, Leave a Google review, WhatsApp, Facebook, Instagram i YouTube podane wcześniej na stronie.
 
-## Instrukcja wdrożenia — 5 kroków
+**Nie wymyślamy** nowych linków do niewydanych usług czy artykułów. Liczba dostępnych linków i folderów zależy od tego, co jest rzeczywiście opublikowane w CMS/Supabase.
 
-### 1. Kopia bazy i Netlify Deploy Preview
+## Jak działa wysyłanie linków?
 
-W Supabase przygotuj backup. Repozytorium: `LilKangoo/LilKangooMedia` → gałąź testowa/PR → Netlify Deploy Preview. Nie publikuj najpierw bez testów.
+W każdej karcie jest obraz, tytuł, SEO/meta title, meta description, slug, gotowy adres, przyciski:
 
-### 2. Wgraj pliki z CODE.zip do repozytorium
+- **Copy link** — kopiuje publiczny link do przesłania klientowi.
+- **Copy text** — kopiuje tytuł, krótki opis i link, gotowe do wklejenia w WhatsApp, e-mail lub Messenger.
+- **Open** — otwiera link w nowej karcie.
+- **Copy direct page URL** — dodatkowa opcja przy usługach i galeriach. Kopiuje standardowy adres strony z `#`, bez indywidualnej karty Open Graph.
 
-Zachowaj dokładnie ścieżki. Paczka zawiera:
+### Dlaczego usługi i galerie mają specjalny link?
 
-- `index.html`, `home.html` — odnośniki do Reviews, nowego CSS/JS, zachowane odnośniki Phase 18.
-- `admin.html` — tylko dodany skrypt linku Reviews; istniejące skrypty CMS oraz Services pozostawione.
-- `reviews.html`, `admin-reviews.html` — nowa podstrona opinii i moduł administratora.
-- `assets/lkm-v3/reviews-public.js` i `reviews-public.css`.
-- `assets/lkm-v3/reviews-admin.js`, `reviews-admin.css`, `reviews-admin-link.js`.
-- `assets/lkm-v3/phase18-pricing.js`, `phase18-pricing.css` — dołączone **bez zmian** dla kompatybilności z poprzednią paczką Phase 18. Żadne istniejące pliki `site.js`, `store.js`, `admin.js`, `cms.js`, `seed.js`, galerii i płatności nie są nadpisywane.
-- `supabase/migrations/20261109_phase17_google_reviews_schema.sql` — schemat bazy i polityki RLS, można trzymać w repozytorium.
+Standardowy adres usługi `https://lilkangoomedia.com/#/service/<slug>` działa u odwiedzających, ale `#` nie dociera do serwera i Facebook/WhatsApp może wyświetlić ogólne zdjęcie oraz tytuł strony głównej. Dlatego **Copy link** kopiuje dla usługi:
 
-**Uwaga dotycząca Phase 18:** w tym ZIP jest tylko frontend Phase 18, żeby przy aktualizacji HTML nie utracić jego skryptów. Migracja cenowa Phase 18 nadal pozostaje osobnym krokiem i nie jest uruchamiana przez Phase 17.
+`https://lilkangoomedia.com/share/service/<slug>`
 
-### 3. Uruchom schemat SQL w Supabase
+Dla galerii:
 
-Supabase → SQL Editor → wklej zawartość pliku z paczki:
+`https://lilkangoomedia.com/share/gallery/<slug>`
 
-`supabase/migrations/20261109_phase17_google_reviews_schema.sql`
+Netlify Functions odczytuje **publiczne** dane z Supabase i zwraca HTML z własnym `og:title`, `og:description`, `og:image` i `og:url` dla danej pozycji. Przeglądarka klienta automatycznie przechodzi na istniejącą stronę usługi lub galerii. Nie zmieniamy dotychczasowych ścieżek SPA ani konfiguratora. Nowe lub edytowane usługi w Supabase mogą aktualizować podgląd bez zmiany kodu (serwery społecznościowe mogą cache'ować wcześniejszy podgląd).
 
-Kliknij **Run**. Zmiana tworzy osobną tabelę `public.lkm_reviews`, nie dotyka tabel `services`, `contact_leads` ani `stripe_orders`. Zakłada, że istnieje już funkcja `public.lkm_is_admin()` z aktualnego systemu LilKangooMedia.
+Przy artykułach używamy ich **oryginalnych osobnych stron SEO**, a przy zwykłych podstronach — rzeczywistych publicznych adresów. Podgląd z indywidualnym zdjęciem nie jest obiecywany dla zewnętrznych platform, na których LilKangooMedia nie ma kontroli nad metadanymi.
 
-### 4. Uruchom PRYWATNY import SQL — tylko Supabase SQL Editor
+## Instalacja — 5 kroków
 
-Otwórz osobny, pobrany plik:
+1. Rozpakuj ZIP. Skopiuj zawartość do repozytorium `LilKangoo/LilKangooMedia`, zachowując ścieżki. Nowe pliki dodaj, a trzy istniejące (`admin.html`, `admin-reviews.html`, `netlify.toml`) zaktualizuj. Pozostałe pliki zostaw bez zmian.
+2. Najlepiej wykonaj zmiany na gałęzi testowej i uruchom **Netlify Deploy Preview**. W środowisku Preview otwórz `/admin-links.html` i zaloguj się istniejącym kontem administratora.
+3. Sprawdź foldery, wyszukiwanie po tytule/slugu, **Copy link** i **Copy text**, poprawność zdjęć oraz liczbę usług, galerii i artykułów.
+4. Zweryfikuj nowy endpoint **na domenie deploy preview**: `https://TWOJ-PREVIEW.netlify.app/share/service/portrait-photography`. Po odczytaniu metadanych link powinien otworzyć właściwą podstronę (po stronie produkcyjnej link będzie na `lilkangoomedia.com`). Można zweryfikować nagłówki `og:title` / `og:image` narzędziem Facebook Sharing Debugger, jeśli URL preview jest dostępny publicznie.
+5. Po udanych testach zmerguj do `main`, poczekaj na Netlify deploy i sprawdź właściwy produkcyjny adres `/share/service/portrait-photography`. Teraz przyciski **Copy link** będą gotowe do wysyłania klientom.
 
-`LilKangooMedia_Phase17_PRIVATE_IMPORT.sql`
+**Nie uruchamiamy żadnego SQL.** Moduł korzysta z istniejącej sesji Supabase Auth i wymaga uprawnienia administratora. Nie edytuje żadnych rekordów i nie wpływa na Phase 17 (Google Reviews) lub Phase 18 (Pricing & Custom Quotes).
 
-Wklej w SQL Editor i uruchom. Oczekiwany wynik zapytania kontrolnego:
+## Ważne uwagi
 
-- `google_ratings = 121`
-- `written_reviews = 91`
-- `translated_reviews = 72`
-- `ratings_without_text = 30`
-
-Import jest idempotentny: ponowne uruchomienie pomija istniejące `google_review_id` i **nie nadpisuje późniejszych zmian wykonanych przez admina**. Wszystkie 121 recenzji początkowo są widoczne. Wybrane 12 recenzji z tekstem są oznaczone jako Featured w karuzeli.
-
-### 5. Sprawdź i opublikuj
-
-- `/#/` — sekcja **Words that matter** jest po portfolio i przed ostatnim CTA. Średnia **5.0/5 z 121 importowanych ocen**.
-- `/reviews.html` — wszystkie 121 ocen, w tym 91 z tekstem i 30 bez komentarza. Wyszukiwanie i filtry działają.
-- `/admin.html` — w lewym menu **Customer reviews**.
-- `/admin-reviews.html` — zaloguj się tą samą metodą co do panelu admina. Przetestuj Hide/Publish, Featured, add/edit, import JSON, wyszukiwarkę.
-- Wejdź na stronę w telefonie; sprawdź karuzelę i pełną listę.
-- Przejrzyj również dotychczasowe usługi, formularz zapytania i Phase 18 — zmiany w recenzjach nie powinny ich dotykać.
-- Po pozytywnym teście zmerguj do `main`.
-
-**Ważne o Deploy Preview:** jeśli preview i strona produkcyjna korzystają z tej samej bazy Supabase, uruchomienie SQL doda nową tabelę do produkcyjnej bazy (jednak nie zmieni dotychczasowej tabeli usług). Kod nowej podstrony pojawi się klientom dopiero po publikacji.
-
-## Jak dodawać nowe opinie później?
-
-- Dodaj ręcznie nowy wpis w `/admin-reviews.html` i wybierz **Google Maps (manually copied)**, podając autentyczny link do Google; albo
-- Pozyskaj aktualny eksport Google Takeout, w panelu **Customer reviews → Import Google Takeout files (JSON)** wybierz nowe pliki i kliknij **Import & skip duplicates**.
-
-Import JSON akceptuje tylko rekordy przypisane do lokalizacji Google LilKangooMedia `12745176287903667711`; wpisy z innych wizytówek nie zostaną zaimportowane. Bez API nie ma synchronizacji na żywo.
-
-## Dane, źródło i transparentność
-
-- 121 recenzji i ich gwiazdki pochodzą z plików Google Takeout przekazanych 9 listopada 2026. **Wszystkie mają 5 gwiazdek**, dlatego średnia archiwalna wynosi dokładnie 5,0/5.
-- Tłumaczenia Google wyraźnie oznaczone jako „Translated by Google”. Pozostałe angielskie komentarze zachowano bez poprawek.
-- Star-only ratings są opisane jako ocena bez komentarza, a nie jako wymyślony cytat.
-- Nie stosujemy manipulacyjnego `AggregateRating` w schema.org dla własnych opinii firmy.
-- Nie deklarujemy automatycznej synchronizacji ani bieżącej oceny Google Maps — to **archiwum z eksportu**. Nowe recenzje należy dodać osobno.
-- Jeśli opublikowany wpis Google zostanie przeredagowany po angielsku w adminie, zostanie oznaczony „Edited for website”; oryginał źródłowy pozostanie zachowany.
-- Jako operator strony upewnij się, że publikacja ocen i nazw autorów spełnia obowiązujące zasady Google oraz wymagania ochrony danych (GDPR), w tym procedurę obsługi próśb o usunięcie danych.
+- Share pages wymagają **Netlify Functions** — nie zadziałają na innej usłudze hostingowej bez osobnej adaptacji. Obecne repo zawiera `netlify.toml` i używa Netlify Functions jako systemu docelowego tej paczki.
+- W `netlify/functions/link-preview.js` jako fallback wstawiony jest istniejący publiczny klucz Supabase z `lkm-config.js` (to **publishable key**, nie `service_role`); preferowane są zmienne Netlify `SUPABASE_URL` i `SUPABASE_ANON_KEY`, jeśli istnieją. Jeśli zmienisz projekt Supabase, dostosuj również ten fallback lub ustaw zmienne środowiskowe.
+- Share URL skierowany na domenę produkcyjną zacznie działać **dopiero po publicznym deployu**. Testuj wersję preview przez domenę Netlify Preview.
+- Jeśli witryna przez jakiś czas nie może pobrać kategorii CMS, moduł pokaże ostrzeżenie, ale nadal udostępni załadowane linki.
+- Część platform społecznościowych buforuje poprzednie miniatury; w razie potrzeby odśwież ich cache za pomocą narzędzia debuggera danej platformy.
+- Archiwum zawiera jedynie pliki panelu i endpointu; **nie zawiera** prywatnych danych klientów ani kluczy `service_role`.
 
 ## Testy
 
-`node --check` dla nowych skryptów, weryfikacja 121 unikalnych identyfikatorów i statystyk, testy interakcji w Chromium na izolowanym widoku HTML: renderowanie, filtry, search, mobile, dodawanie, ukrywanie, import JSON i pomijanie duplikatów. Wyniki: `docs/PHASE17-TEST-RESULTS.md`. **Połączenia z prawdziwym Supabase i działanie na stronie Netlify wymagają testu po wdrożeniu**; w tej sesji nie wykonywano zmian na serwerze.
+Z lokalnej kopii paczki: `node tests/test_phase19.cjs` (bez instalowania zależności). Testy sprawdzają generowanie metadanych, bezpieczny slug, zachowanie nieopublikowanej strony, awarię bazy, automatyczne linki do usług i galerii, filtrowanie i kopiowanie. Pełny wizualny test Netlify Preview pozostaje do wykonania — uruchamianie lokalnej przeglądarki jest blokowane w środowisku przygotowania paczki.

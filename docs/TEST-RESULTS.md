@@ -1,17 +1,8 @@
-# Phase 18 local verification — 2026-11-09
+# Phase 19 — checks and results
 
-Tests completed with headless Chromium and the existing site/bundle/service-detail rendering model, using realistic in-memory service data. No production Supabase write has been performed.
-
-- PASS: all 7 services contain the proposed price data (33 new priced packages in SQL/JSON).
-- PASS: 5 event packages + Custom quote rendered on service page.
-- PASS: Within one event quote, 2h photo (€290) + 2h highlights film (€490) yields €780; alternative photo hours disabled.
-- PASS: Separate custom-quote checkbox and text survive quote → request navigation.
-- PASS: Submitted enquiry includes additional event package and special requirements.
-- PASS: Social Media Management renders 16/24/48 posts per month for €250/€450/€950, plus Custom quote; subscriptions remain mutually exclusive.
-- PASS: Fixed marketing consultation (€90) plus monthly ads management (€350/month) are displayed with separate billing frequencies.
-- PASS: Phase 13 additional services remain selectable and appear in the combined estimate.
-- PASS: 320 px mobile viewport without horizontal page overflow.
-- PASS: no browser JavaScript exceptions in covered flows.
-- PASS: node --check syntax on new JavaScript.
-
-Limitations: tests use the public site code and a mock browser data source. Live Supabase RLS behavior, Netlify production deployment, actual email delivery, and business acceptance of final detailed deliverables must be checked by the owner after deployment. No automatic production SQL execution or GitHub commit was attempted.
+- HTML/CSS/JS source prepared as an additive admin module. Existing `site.js`, `cms.js`, `store.js`, `reviews-admin.js`, `phase18-pricing.js` and Supabase migrations remain untouched.
+- `node --check` passed: `admin-links.js`, `admin-links-nav.js`, `netlify/functions/link-preview.js`.
+- `node tests/test_phase19.cjs` passed: service/gallery OG title, description and cover image; escaped HTML; valid redirects; bad slug (400), unpublished item (404), temporary database failure (503).
+- `node tests/test_phase19.cjs` passed: source retrieval mocked for two services, one gallery and one published article; filter/search; copy social link; copy formatted title/description/link.
+- Unable to run local graphical browser tests: installed Chromium blocks navigation (`ERR_BLOCKED_BY_ADMINISTRATOR`). Manual Netlify Deploy Preview and social sharing validation required.
+- No production files or database altered.

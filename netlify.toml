@@ -1,5 +1,4 @@
-# LilKangooMedia - pre-render photography / Cyprus articles for search engines.
-# The generator modifies only the ephemeral Netlify build checkout, not GitHub.
+# LilKangooMedia — Netlify generated articles and shareable service/gallery previews.
 [build]
   command = "python3 scripts/build_articles.py"
   publish = "."
@@ -7,3 +6,14 @@
 
 [build.environment]
   PYTHON_VERSION = "3.12"
+
+# 200-rewrite: social crawlers receive OpenGraph metadata, browsers move to the normal SPA route.
+[[redirects]]
+  from = "/share/service/:slug"
+  to = "/.netlify/functions/link-preview?kind=service&slug=:slug"
+  status = 200
+
+[[redirects]]
+  from = "/share/gallery/:slug"
+  to = "/.netlify/functions/link-preview?kind=gallery&slug=:slug"
+  status = 200
