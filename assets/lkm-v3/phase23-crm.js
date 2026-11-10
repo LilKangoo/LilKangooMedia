@@ -13,7 +13,7 @@
  const ACTIVE=new Set(['new','qualified','proposal','negotiation']);
  const PRI=[['low','Low'],['normal','Normal'],['high','High']];
  const ACT=[['note','Internal note'],['call','Call completed'],['email','Email sent manually'],['meeting','Meeting held']];
- const state={leads:[],details:new Map(),activities:[],selected:'',search:'',stage:'all',view:'board',loading:false,saving:false};
+ const state={leads:[],details:new Map(),activities:[],audits:[],quotes:[],locked:new Set(),selected:'',search:'',stage:'all',view:'board',archived:false,dueOnly:false,loading:false,saving:false};
  const create=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=String(text);return el;};
  const node=(tag,cls,text)=>create(tag,cls,text);
  const add=(parent,...children)=>{parent.append(...children);return parent};
@@ -37,7 +37,12 @@
    headers:{apikey:key,Authorization:`Bearer ${token}`,'Content-Type':'application/json',...options.headers},
    ...(options.body!==undefined?{body:JSON.stringify(options.body)}:{})
   });
-  if(!response.ok){if(response.status===401||response.status===403)throw Error('Administrator session expired or permission denied.');throw Error('CRM request could not be completed ('+response.status+'). Check SQL migration and try again.');}
+  if(!response.ok){
+    if(response.status===401||response.status===403)throw Error('Administrator session expired or permission denied.');
+    const error=await response.json().catch(()=>({}));
+    const detail=typeof error.message==='string'?error.message.slice(0,240):'';
+    throw Error(detail||'CRM request could not be completed ('+response.status+'). Check SQL migrations and try again.');
+   }
   const text=await response.text();return text?JSON.parse(text):[];
  }
  async function paged(table,query,max=2000){
@@ -82,10 +87,11 @@
  function stat(label,val,sub){const cell=node('div','lkm23-stat');add(cell,node('span','',label),node('strong','',val),node('small','',sub));return cell}
  function stats(){
   const box=node('div','lkm23-stats');box.id='lkm23Stats';
-  const pending=state.leads.filter(l=>ACTIVE.has(detail(l.id).stage));
+  const visible=state.leads.filter(l=>!l.archived_at);
+  const pending=visible.filter(l=>ACTIVE.has(detail(l.id).stage));
   const due=pending.filter(l=>{const d=detail(l.id).next_follow_up_date;return d&&d<=today()}).length;
   const forecast=pending.reduce((n,l)=>n+Number(detail(l.id).estimated_value_cents||0),0);
-  add(box,stat('Enquiries',state.leads.length,'From existing lead database'),stat('Open opportunities',pending.length,'New through negotiation'),stat('Follow-ups due',due,'Today or overdue'),stat('Potential pipeline',euros(forecast),'Estimates, not income'));
+  add(box,stat('Active enquiries',visible.length,'Archived entries excluded'),stat('Open opportunities',pending.length,'New through negotiation'),stat('Follow-ups due',due,'Today or overdue'),stat('Potential pipeline',euros(forecast),'Estimates, not income'));
   return box;
  }
  function filters(){
@@ -95,13 +101,21 @@
   const stage=node('select');stage.setAttribute('aria-label','Filter by sales stage');
   for(const [v,label] of [['all','All stages'],...STAGES]){const opt=node('option','',label);opt.value=v;opt.selected=v===state.stage;stage.append(opt)}
   stage.addEventListener('change',()=>{state.stage=stage.value;renderPipeline()});
+  const scope=node('div','lkm23-toggle');for(const [arch,label] of [[false,'Active'],[true,'Archived']]){
+   const b=node('button','',label);b.type='button';b.classList.toggle('is-active',state.archived===arch);b.setAttribute('aria-pressed',String(state.archived===arch));
+   b.addEventListener('click',()=>{state.archived=arch;state.dueOnly=false;state.stage='all';state.selected=state.leads.find(l=>Boolean(l.archived_at)===arch)?.id||'';render();if(state.selected)void selectLead(state.selected)});scope.append(b);
+  }
+  const dueButton=node('button','lkm23-due-filter'+(state.dueOnly?' active':''),'Due now');dueButton.type='button';dueButton.setAttribute('aria-pressed',String(state.dueOnly));
+  dueButton.disabled=state.archived;dueButton.addEventListener('click',()=>{state.dueOnly=!state.dueOnly;render();if(state.selected)void selectLead(state.selected)});
   const mode=node('div','lkm23-toggle');for(const [v,label] of [['board','Board'],['list','List']]){
    const b=node('button','',label);b.type='button';b.classList.toggle('is-active',state.view===v);b.setAttribute('aria-pressed',String(state.view===v));
    b.addEventListener('click',()=>{state.view=v;for(const x of mode.querySelectorAll('button')){x.classList.toggle('is-active',x===b);x.setAttribute('aria-pressed',String(x===b))}renderPipeline()});mode.append(b);
   }
-  add(outer,search,stage,mode);return outer;
+  add(outer,search,stage,scope,dueButton,mode);return outer;
  }
  function filtered(){const q=state.search.trim().toLocaleLowerCase();return state.leads.filter(l=>{
+  if(Boolean(l.archived_at)!==state.archived)return false;
+  if(state.dueOnly&&(!ACTIVE.has(detail(l.id).stage)||!detail(l.id).next_follow_up_date||detail(l.id).next_follow_up_date>today()))return false;
   if(state.stage!=='all'&&detail(l.id).stage!==state.stage)return false;
   if(!q)return true;
   return [l.customer_name,l.customer_email,l.phone,l.service_slug,l.service_type,l.message,l.package_id].some(v=>String(v||'').toLocaleLowerCase().includes(q));
@@ -112,6 +126,7 @@
   btn.setAttribute('aria-pressed',String(active));
   const head=node('div','lkm23-card-head');add(head,node('strong','',l.customer_name||'Unnamed customer'),node('span','lkm23-priority '+(d.priority==='high'?'high':''),d.priority==='high'?'High priority':stageName(d.stage)));
   const source=node('p','lkm23-service',l.service_slug||l.service_type||'General enquiry');
+  if(l.archived_at)source.append(node('span','lkm23-archived-chip','Archived'));
   const meta=node('div','lkm23-card-foot');
   add(meta,node('span','',stamp(l.created_at)),node('strong','',d.estimated_value_cents===null?'Value not set':euros(d.estimated_value_cents)));
   add(btn,head,source,meta);
@@ -122,7 +137,7 @@
  function renderPipeline(){
   const target=document.getElementById('lkm23Pipeline');if(!target)return;
   target.replaceChildren();const set=filtered();
-  const title=node('p','lkm23-count',`Showing ${set.length} of ${state.leads.length} enquiries${state.leads.length>=2000?' · first 2,000 only':''}`);target.append(title);
+  const title=node('p','lkm23-count',`Showing ${set.length} of ${state.leads.filter(l=>Boolean(l.archived_at)===state.archived).length} ${state.archived?'archived':'active'} enquiries${state.leads.length>=2000?' · first 2,000 only':''}`);target.append(title);
   if(!set.length){target.append(node('p','lkm23-empty','No enquiries match this filter.'));return}
   if(state.view==='list'){
    const list=node('div','lkm23-list');set.forEach(l=>list.append(leadCard(l)));target.append(list);return;
@@ -139,9 +154,12 @@
  function line(title,value){const el=node('div','lkm23-detail-line');add(el,node('span','',title),node('strong','',value||'—'));return el}
  async function selectLead(id){
   if(!state.leads.some(x=>x.id===id))return;
-  state.selected=id;state.activities=[];renderPipeline();renderDetail();
-  try{const rows=await api('lkm_crm_activities?select=id,lead_id,kind,summary,created_at&lead_id=eq.'+encodeURIComponent(id)+'&order=created_at.desc&limit=100');
-    if(state.selected===id){state.activities=Array.isArray(rows)?rows:[];renderActivity()}}
+  state.selected=id;state.activities=[];state.audits=[];renderPipeline();renderDetail();
+  try{const [rows,audits]=await Promise.all([
+     api('lkm_crm_activities?select=id,lead_id,kind,summary,created_at&lead_id=eq.'+encodeURIComponent(id)+'&order=created_at.desc&limit=100'),
+     api('lkm_crm_lead_audit?select=id,action,changed_fields,occurred_at&lead_id=eq.'+encodeURIComponent(id)+'&order=occurred_at.desc&limit=30')
+    ]);
+    if(state.selected===id){state.activities=Array.isArray(rows)?rows:[];state.audits=Array.isArray(audits)?audits:[];renderActivity();renderAudit()}}
   catch(e){if(state.selected===id){const c=document.getElementById('lkm23Activities');if(c)c.textContent='Activity history unavailable: '+e.message}}
  }
  function detailInput(label,tag,type,value,id){const wrap=node('label','lkm23-label');wrap.append(node('span','',label));const el=node(tag);el.id=id;
@@ -152,6 +170,101 @@
   const [units,dec='']=x.split('.');const cents=Number(units)*100+Number(dec.padEnd(2,'0'));
   if(!Number.isSafeInteger(cents)||cents>1000000000)throw Error('Amount exceeds the allowed range.');
   return cents;
+ }
+ function validDateValue(s){
+  if(!s)return true;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return false;
+  const t=new Date(s+'T12:00:00Z');return !Number.isNaN(t.getTime())&&t.toISOString().slice(0,10)===s;
+ }
+ function leadEditor(l){
+  const box=node('section','lkm23-manage-form');box.id='lkm23LeadEditor';box.hidden=true;
+  add(box,node('h3','','Edit customer enquiry'),node('p','lkm23-hint','Administrator corrections only. Does not update previously saved quotation snapshots or send emails.'));
+  const form=node('form','lkm23-lead-edit-fields');form.id='lkm23LeadEditForm';
+  const fields=[
+   ['Customer name','customer_name','text',100],['Email','customer_email','email',200],
+   ['Phone','phone','tel',40],['Service / source','service_slug','text',120],
+   ['Package ID','package_id','text',100],['Preferred date','preferred_date','date',25]
+  ];
+  const inputs={};
+  for(const [title,name,type,max] of fields){const [w,input]=detailInput(title,'input',type,l[name]||'','lkm23Lead_'+name);input.name=name;input.maxLength=max;inputs[name]=input;form.append(w);}
+  const [msgW,msg]=detailInput('Customer message / brief','textarea','',l.message||'','lkm23Lead_message');
+  msg.rows=6;msg.name='message';msg.maxLength=5000;msg.required=true;form.append(msgW);inputs.message=msg;
+  inputs.customer_name.required=true;inputs.customer_email.required=true;
+  if(state.locked.has(l.id)){
+   inputs.service_slug.disabled=true;inputs.preferred_date.disabled=true;
+   form.append(node('p','lkm23-hint','Confirmed booking: the service and date are locked. Use Availability Calendar to cancel/rebook first.'));
+  }
+  const actions=node('div','lkm23-manage-buttons');const save=node('button','button button-dark','Save enquiry changes');save.type='submit';
+  const cancel=node('button','button button-light','Cancel');cancel.type='button';cancel.addEventListener('click',()=>{box.hidden=true});actions.append(save,cancel);form.append(actions);box.append(form);
+  form.addEventListener('submit',async ev=>{
+   ev.preventDefault();if(state.saving||!form.reportValidity())return;
+   const data={};for(const [name,inp] of Object.entries(inputs))if(!inp.disabled)data[name]=inp.value.trim();
+   if(!validEmail(data.customer_email)||!data.customer_name||!data.message||data.message.length>5000||!validDateValue(data.preferred_date)){
+    message('Check name, email, message, or preferred date.',true);return;
+   }
+   if(!data.service_slug)data.service_slug=null;
+   if(!data.package_id)data.package_id=null;
+   if(!data.preferred_date)data.preferred_date=null;
+   state.saving=true;save.disabled=true;message('Saving customer enquiry…');
+   try{
+    const rows=await api('contact_leads?id=eq.'+encodeURIComponent(l.id),{
+     method:'PATCH',headers:{Prefer:'return=representation'},body:data
+    });
+    if(!Array.isArray(rows)||rows.length!==1)throw Error('No enquiry updated.');
+    const i=state.leads.findIndex(x=>x.id===l.id);if(i>=0)state.leads[i]=rows[0];
+    renderPipeline();renderDetail();void selectLead(l.id);message('Customer enquiry updated. Changes are recorded in the admin audit history.');
+   }catch(e){message(e.message||'Could not save enquiry.',true)}finally{state.saving=false;save.disabled=false;}
+  });
+  return box;
+ }
+ async function setArchive(l,archived){
+  if(state.saving)return;
+  if(archived&&!confirm('Archive this customer enquiry? It will disappear from the active pipeline but remain available under Archived.'))return;
+  state.saving=true;message(archived?'Archiving enquiry…':'Restoring enquiry…');
+  try{
+   const rows=await api('contact_leads?id=eq.'+encodeURIComponent(l.id),{
+    method:'PATCH',headers:{Prefer:'return=representation'},body:{archived_at:archived?new Date().toISOString():null}
+   });
+   if(!Array.isArray(rows)||rows.length!==1)throw Error('Archive change not confirmed.');
+   const i=state.leads.findIndex(x=>x.id===l.id);if(i>=0)state.leads[i]=rows[0];
+   state.archived=archived;state.stage='all';state.dueOnly=false;state.selected=l.id;
+   render();void selectLead(l.id);message(archived?'Enquiry archived. Restore it here whenever needed.':'Enquiry restored to the active pipeline.');
+  }catch(e){message(e.message,true)}finally{state.saving=false}
+ }
+ async function removeLead(l){
+  if(state.saving||!l.archived_at)return;
+  const phrase=prompt('PERMANENT deletion removes this enquiry and its CRM notes/activities. Linked quotations, bookings or Stripe payments block deletion.\n\nType DELETE to proceed:');
+  if(phrase!=='DELETE'){if(phrase!==null)message('Deletion cancelled — confirmation must be exactly DELETE.',true);return;}
+  state.saving=true;message('Checking linked records and removing enquiry…');
+  try{
+   const result=await api('rpc/lkm_crm_admin_remove_lead',{method:'POST',body:{p_lead_id:l.id,p_confirmation:'DELETE'}});
+   if(!result?.ok)throw Error('Deletion not acknowledged.');
+   state.leads=state.leads.filter(x=>x.id!==l.id);state.selected=state.leads.find(x=>Boolean(x.archived_at)===state.archived)?.id||'';
+   render();if(state.selected)void selectLead(state.selected);
+   message('Enquiry permanently deleted. Payment and quotation records were not modified.');
+  }catch(e){message(e.message||'Unable to delete this enquiry. Keep it archived.',true)}finally{state.saving=false}
+ }
+ function quoteSummary(l){
+  const box=node('section','lkm23-quote-summary');
+  const head=node('div','lkm23-inline-heading');add(head,node('h3','','Quotations'),node('span','lkm23-light-count',String(state.quotes.filter(q=>q.lead_id===l.id).length)));
+  const newLink=node('a','button button-light','+ Create quotation');newLink.href='/admin-quotes.html?lead_id='+encodeURIComponent(l.id);head.append(newLink);box.append(head);
+  const quotes=state.quotes.filter(q=>q.lead_id===l.id).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')));
+  if(!quotes.length){box.append(node('p','lkm23-hint','No quotation linked to this enquiry.'));return box}
+  for(const q of quotes){const row=node('div','lkm23-quote-mini');const detailBox=node('div');
+   const number='LKM-Q-'+String(q.quote_number||0).padStart(6,'0');
+   add(detailBox,node('strong','',number),node('span','',q.title||'Quotation'),node('small','',q.status==='sent'?'Marked sent · '+stamp(q.updated_at):'Editable draft'));
+   const link=node('a','lkm23-quote-open','Open ↗');link.href='/admin-quotes.html?quote_id='+encodeURIComponent(q.id);
+   row.append(detailBox,link);box.append(row)
+  }return box;
+ }
+ function leadAuditSection(){const box=node('section','lkm23-audit');box.append(node('h3','','Enquiry change history'));const list=node('div');list.id='lkm23AuditList';box.append(list);return box;}
+ function renderAudit(){const list=document.getElementById('lkm23AuditList');if(!list)return;list.replaceChildren();
+  if(!state.audits.length){list.append(node('p','lkm23-hint','No administrator changes recorded yet.'));return;}
+  for(const row of state.audits){const item=node('div','lkm23-audit-row');
+   add(item,node('strong','',String(row.action||'edited').replace(/^./,x=>x.toUpperCase())+' · '+stamp(row.occurred_at)),
+     node('span','',Array.isArray(row.changed_fields)&&row.changed_fields.length?row.changed_fields.join(', '):'No personal data retained in the log'));
+   list.append(item);
+  }
  }
  function renderDetail(){
   const target=document.getElementById('lkm23Details');if(!target)return;
@@ -168,9 +281,20 @@
    const intl=digits.startsWith('+')?digits.slice(1):digits.startsWith('00')?digits.slice(2):'';
    if(/^\d{8,15}$/.test(intl)){const wa=node('a','button button-light','WhatsApp');wa.href='https://wa.me/'+intl;wa.target='_blank';wa.rel='noopener noreferrer';links.append(wa)}
   }
-  const quoteLink=node('a','button button-light','Create quotation');quoteLink.href='/admin-quotes.html?lead_id='+encodeURIComponent(l.id);links.append(quoteLink);
+  // Quotes now live in the same enquiry card, below the enquiry management controls.
   if(links.children.length)target.append(links);
-  if(l.message){const brief=node('details','lkm23-brief');const summary=node('summary','','Original customer brief');brief.append(summary,node('p','',l.message));target.append(brief)}
+  if(l.message){const brief=node('details','lkm23-brief');const summary=node('summary','','Customer enquiry / submitted brief');brief.append(summary,node('p','',l.message));target.append(brief)}
+  const controlBox=node('section','lkm23-admin-control');
+  const heading=node('div','lkm23-inline-heading');
+  add(heading,node('h3','','Enquiry management'),node('p','lkm23-hint','Edit, archive or restore directly from this card. Changes are admin-only.'));
+  controlBox.append(heading);
+  const controlBtns=node('div','lkm23-manage-buttons');
+  const editBtn=node('button','button button-light','Edit enquiry');editBtn.type='button';
+  editBtn.addEventListener('click',()=>{const editor=document.getElementById('lkm23LeadEditor');if(!editor)return;editor.hidden=!editor.hidden;if(!editor.hidden)editor.querySelector('input')?.focus()});controlBtns.append(editBtn);
+  const archBtn=node('button','button button-light',l.archived_at?'Restore enquiry':'Archive enquiry');archBtn.type='button';
+  archBtn.addEventListener('click',()=>void setArchive(l,!l.archived_at));controlBtns.append(archBtn);
+  if(l.archived_at){const del=node('button','button lkm23-danger','Delete permanently');del.type='button';del.addEventListener('click',()=>void removeLead(l));controlBtns.append(del);}
+  controlBox.append(controlBtns,leadEditor(l));target.append(controlBox,quoteSummary(l));
   const section=node('section','lkm23-edit');section.append(node('h3','','Sales details'));
   const [stageWrap,stage]=selection('Stage',STAGES,d.stage);
   const [priorityWrap,priority]=selection('Priority',PRI,d.priority);
@@ -210,7 +334,7 @@
   });
   const timeline=node('div','lkm23-timeline');timeline.id='lkm23Activities';
   add(activity,kindWrap,summaryWrap,record,timeline);target.append(activity);
-  renderActivity();
+  renderActivity();target.append(leadAuditSection());renderAudit();
  }
  function renderActivity(){
   const target=document.getElementById('lkm23Activities');if(!target)return;
@@ -231,13 +355,16 @@
   if(state.loading)return;state.loading=true;
   try{
     if(!await store.isAdmin())throw Error('Only an administrator can view the CRM.');
-    const [leads,details]=await Promise.all([
-      paged('contact_leads','select=id,customer_name,customer_email,phone,service_slug,service_type,package_id,preferred_date,message,submission_type,status,created_at&order=created_at.desc',2000),
-      paged('lkm_crm_lead_details','select=*&order=updated_at.desc',2000)
+    const [leads,details,quotes,confirmed]=await Promise.all([
+      paged('contact_leads','select=id,customer_name,customer_email,phone,service_slug,service_type,package_id,preferred_date,message,submission_type,status,archived_at,created_at,edited_at&order=created_at.desc',2000),
+      paged('lkm_crm_lead_details','select=*&order=updated_at.desc',2000),
+      paged('lkm_crm_quotes','select=id,lead_id,quote_number,status,title,created_at,updated_at&order=created_at.desc',2000),
+      api('lkm_booking_confirmations?select=source_id&source_type=eq.lead&state=eq.confirmed&limit=2000').catch(()=>[])
     ]);
     state.leads=leads;state.details=new Map(details.filter(d=>d.lead_id).map(d=>[d.lead_id,d]));
-    if(!state.leads.find(x=>x.id===state.selected))state.selected=state.leads[0]?.id||'';
-    state.activities=[];
+    state.quotes=Array.isArray(quotes)?quotes:[];state.locked=new Set((Array.isArray(confirmed)?confirmed:[]).map(c=>c.source_id));
+    if(!state.leads.find(x=>x.id===state.selected&&Boolean(x.archived_at)===state.archived))state.selected=state.leads.find(x=>Boolean(x.archived_at)===state.archived)?.id||'';
+    state.activities=[];state.audits=[];
     render();
     if(state.selected)await selectLead(state.selected);
   }catch(error){root.replaceChildren();const card=node('section','lkm23-error');add(card,node('h1','','CRM could not load'),node('p','',error.message||'An unexpected error occurred.'));

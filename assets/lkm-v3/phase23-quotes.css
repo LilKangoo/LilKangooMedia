@@ -124,3 +124,6 @@
  .lkm23q-print-section{margin:5mm 0}
  .lkm23q-print-footer{padding-top:3mm;margin-top:5mm}
 }
+/* Phase 23.3A: safe draft removal; sent offers remain immutable */
+.lkm23q-delete{border:1px solid #e4b5b0;background:#fff7f5;color:#a03f36;font-weight:750}
+.lkm23q-delete:hover{background:#fff0ed}

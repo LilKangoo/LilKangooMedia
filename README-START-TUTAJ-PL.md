@@ -1,83 +1,56 @@
-# LilKangooMedia — Phase 23.2 Quotation Builder
+# LilKangooMedia — Phase 23.3A: Administrator Controls / Unified Sales CRM
 
-Aktualizacja do `LilKangoo/LilKangooMedia` (GitHub → Netlify; Supabase). Działa z istniejącym Phase 23.1 CRM.
+## JAK WSTAWIĆ — kolejność ważna
 
-## Co nowego
+1. **Supabase > SQL Editor > New query:** wklej całą zawartość pliku:
+   `supabase/migrations/20261110_lkm_crm_admin_controls.sql`
+   i uruchom **Run**. Migracja jest addytywna; nie czyści zgłoszeń ani ofert.
+   Wymaga wcześniejszych Phase 21.4A, 23.1 i 23.2 (wdrożone według Twoich informacji).
+2. Rozpakuj ten ZIP i wgraj zawartość do głównego folderu repozytorium `LilKangoo/LilKangooMedia` na GitHubie. **Zachowaj ścieżki plików.** Zatwierdź zmiany — Netlify powinien wdrożyć wersję automatycznie.
+3. Otwórz `https://lilkangoomedia.com/admin-crm.html` i zaloguj się administratorem.
 
-- **Prywatny panel** `https://lilkangoomedia.com/admin-quotes.html` (logowanie istniejącym kontem administratora Supabase).
-- Link **Create quotation** w panelu `https://lilkangoomedia.com/admin-crm.html` po otwarciu klienta oraz **Quotation Builder** w głównym adminie.
-- Wycena powiązana z realnym zapytaniem w `public.contact_leads`, z danymi klienta, firmy, wprowadzeniem, zakresem, warunkami i datą ważności.
-- **Pozycje wyceny**: własne usługi albo wybrane aktywne pakiety z katalogu, z możliwością zmiany opisu, ilości i ceny. Obsługiwane ilości od 0,25 w krokach 0,25. Rabat jako stała kwota w euro. Wszystkie kwoty obliczane są w groszach euro, bez zgadywania stawek podatkowych.
-- Numery wycen automatycznie nadawane przez Supabase: `LKM-Q-000001`, `LKM-Q-000002` itd.
-- **Zapis szkicu**, odświeżanie i ponowne otwarcie wcześniej zapisanej wyceny, ręczne oznaczenie „wysłana” (bez wysyłki), możliwość utworzenia nowej wersji na podstawie poprzedniej wyceny.
-- **Elegancki wydruk A4** z logo LilKangooMedia, danymi klienta, zestawieniem pozycji, sumami i warunkami. PDF generuje natywna funkcja przeglądarki **Print / Save as PDF**. Bez bibliotek zewnętrznych i bez przetwarzania dokumentu na obcym serwerze.
-- Oddzielne tabele CRM i wycen. Wyceny **nie zmieniają płatności Stripe, rezerwacji, faktur i statusów zamówień**.
+**Nie wprowadzaj żadnego sekretu do plików JS/HTML.** W tym etapie nie trzeba ustawiać nowych zmiennych Netlify. Nie uruchamiaj ponownie starszych migracji — dwie starsze są w paczce wyłącznie dla kompletności zestawu.
 
-## Instalacja — kolejność
+## CO NOWE
 
-1. Potwierdź, że **Phase 23.1 CRM** jest już zainstalowana i działa (potwierdzone w ostatnim zrzucie ekranu).
-2. W **istniejącym** projekcie Supabase LilKangooMedia przejdź do **SQL Editor → New query**.
-3. Wklej całą zawartość pliku **`supabase/migrations/20261110_lkm_quotations.sql`** i kliknij **Run**. To nowa migracja dla Phase 23.2. Plik `20261110_lkm_sales_crm.sql` jest dołączony wyłącznie jako odniesienie do poprzedniej fazy — **NIE uruchamiaj go ponownie**, skoro CRM już działa.
-4. Rozpakuj ZIP i wgraj jego pliki do głównego katalogu repozytorium `LilKangoo/LilKangooMedia` z zachowaniem struktury katalogów. Nie umieszczaj całości w dodatkowym folderze.
-5. Zastąp istniejące `admin.html`, `admin-crm.html`, `assets/lkm-v3/phase23-crm.js` (zmiany są tylko addytywne, zachowują funkcje CRM). **Nie usuwaj innych plików.**
-6. Commit changes → automatyczny deploy Netlify.
-7. Otwórz **`https://lilkangoomedia.com/admin-crm.html`**, wybierz klienta, kliknij **Create quotation** (lub odwiedź `https://lilkangoomedia.com/admin-quotes.html` i wybierz zgłoszenie).
+- **Edycja zgłoszenia bezpośrednio w CRM**: imię, e-mail, telefon, usługa, ID pakietu, preferowana data i oryginalna treść wiadomości. Bezpośredni zapis do istniejącego `public.contact_leads` przez zalogowanego administratora i RLS.
+- **Archiwum**: usuwa z aktywnego lejka, ale zachowuje dane, notatki i ofertę; można przywrócić.
+- **Trwałe usuwanie**: możliwe TYLKO po archiwizacji i ręcznym wpisaniu `DELETE`. Baza blokuje tę operację, jeżeli są powiązane oferty, rezerwacje lub zamówienia Stripe z danym e-mailem. Istniejące notatki i historia CRM dla usuniętego klienta są usuwane razem z nim; log zachowuje tylko identyfikator i rodzaj operacji, bez danych osobowych.
+- **Nienaruszalność potwierdzonej rezerwacji**: nie można edytować jej dnia/usługi bez wcześniejszej zmiany w kalendarzu. Statusy rezerwacji/płatności nie są zmieniane przez CRM.
+- **Historia zmian (audit)**: kto/kiedy/które pola poprawił; bez zapisywania dodatkowych kopii danych osobowych.
+- **Powiązane wyceny w karcie klienta**: otwórz odpowiednią ofertę lub utwórz nową — bez przeszukiwania osobnej listy.
+- **Usuwanie draftów wycen**: możliwe z generatora ofert po wpisaniu `DELETE`; *wysłane oferty są chronione*. Jest to ręczne usunięcie szkicu, nie cofnięcie płatności.
+- **Due now**: szybki filtr zaległych follow-upów w CRM; żadne automatyczne e-maile ani SMS nie są wysyłane.
+- **Link z istniejącego Admin > Enquiries & bookings**: `Edit · archive · manage enquiries` do tego samego CRM.
 
-## Jak zrobić pierwszą wycenę
+## CO SPRAWDZIĆ PO WDROŻENIU (BEZ KASOWANIA PRAWDZIWYCH DANYCH)
 
-1. Wybierz realne zapytanie klienta (np. testowe, które masz w CRM). Dane klienta wstawią się z zapytania.
-2. Wpisz tytuł, dane firmy (jeśli chcesz), okres ważności, zakres i warunki.
-3. Dodaj pozycję `+ Add from catalogue` albo `+ Add custom line`. Sprawdź ilości, ceny jednostkowe i ewentualny rabat.
-4. Kliknij **Save quotation**. Baza nada numer `LKM-Q-...`.
-5. Kliknij **Print / Save as PDF** → w Chrome na Mac wybierz **Destination: Save as PDF**, format **A4**, zapisz plik. W Safari wybierz **Print → PDF → Save as PDF**. Jeśli nagłówek/stópka przeglądarki psują wygląd, wyłącz opcję „Headers and footers” w oknie drukowania.
-6. **Załącz plik PDF ręcznie** do e-maila klienta. W panelu przycisk `Draft email to client` jedynie otwiera szkic w programie pocztowym — **nie dołącza pliku automatycznie**.
-7. Dopiero po faktycznym wysłaniu dokumentu kliknij **Mark sent manually**. Aby zmienić ceny lub zakres w już wysłanej wycenie, użyj **Create revised draft**; oryginalny dokument zachowuje swój numer.
+1. W `admin-crm.html` sprawdź sekcję `Enquiry management` w karcie klienta.
+2. Popraw np. opis **testowego** zgłoszenia przez `Edit enquiry` > `Save enquiry changes`; odśwież stronę i sprawdź zapis.
+3. Rozwiń `Enquiry change history` — powinny być zapisane nazwy zmienionych pól.
+4. `Archive enquiry` > przejdź do `Archived` > `Restore enquiry` > `Active`.
+5. Zobacz `Quotations` w tej samej karcie. Przy wcześniejszej ofercie powinien być link `Open`.
+6. W `admin-quotes.html` tylko robocza oferta posiada `Discard draft`. **Nie testuj na prawdziwej ofercie**, jeśli chcesz ją zachować.
+7. Sprawdź w `admin.html#leads` przycisk prowadzący do CRM.
 
-**Nie wysyłaj dokumentu do klienta bez sprawdzenia zakresu, wyceny i warunków.** Podany numer jest numerem *wyceny*, nie numerem faktury. Wycena nie potwierdza terminu i nie pobiera pieniędzy. Ta faza nie oblicza VAT ani nie wystawia dokumentów podatkowych.
+## WAŻNE GRANICE
 
-## Szybkie sprawdzenie po wdrożeniu (nie pełny audyt)
+- Zmiana danych zgłoszenia NIE zmienia już zapisanych danych i kwot w ofertach PDF. To świadoma ochrona historii wyceny. Jeśli trzeba zmienić ofertę, popraw jej draft w Quotation Builder albo utwórz nową wersję.
+- CRM i Quotation Builder są stronami administratorskimi; dostęp do danych wymaga aktualnego tokenu Supabase i wpisu administratora (RLS).
+- Trwałe usuwanie zgłoszeń z historią płatności, zaakceptowanej rezerwacji lub podpiętymi wycenami **jest celowo zablokowane**. Takie zgłoszenia archiwizuj.
+- Obecny moduł nie oferuje klientom akceptacji ofert przez link. To osobny etap 23.3B i wymaga bezpieczeństwa tokenów, podpisów oraz testów.
+- **Zwroty robimy wyłącznie w aplikacji Stripe**; ten ZIP nie ma funkcji refundowania, pobierania pieniędzy ani automatycznego wysyłania.
+- Pełny test produkcyjny Supabase/Netlify/Stripe wykonamy jako Final Audit po ukończeniu roadmapy. Testy lokalne z mockami nie zastępują tego audytu.
+- Jeżeli SQL nie został uruchomiony, nowy CRM nie załaduje się poprawnie. Wykonaj migrację **przed** wgraniem JS/HTML.
 
-- [ ] `/admin-crm.html` dalej pokazuje rzeczywiste leady i szczegóły sprzedaży.
-- [ ] `Create quotation` w wybranym leadzie otwiera edytor z poprawnym imieniem, mailem i telefonem.
-- [ ] `Add from catalogue` pokazuje tylko faktyczne, aktywne pakiety z konkretną ceną; zmiana godzin/ilości przelicza subtotal.
-- [ ] `Save quotation` zapisuje dane i nadaje numer `LKM-Q-...`; odświeżenie wyświetla zapisaną wycenę na liście.
-- [ ] `Print / Save as PDF` otwiera systemowe okno drukowania, a pobrany PDF ma logo, dane klienta, pozycje, sumę, daty i warunki. PDF testowy z jedną pozycją mieścił się na 1 stronie A4.
-- [ ] `Mark sent manually` nie wysyła maila; kopia „Create revised draft” może służyć do nowej wersji.
-- [ ] Bez logowania/roli administratora nie widać danych klientów. Wcześniejsze kalendarze, rezerwacje i płatności nie zmieniły się.
+## TESTY W PAKIECIE
 
-## Bezpieczeństwo i ograniczenia
+- `node --test tests/*.test.mjs`
+- `python tests/test_phase23_3_admin_browser.py`
+- `python tests/test_phase23_3_quotes_browser.py`
 
-- SQL włącza **RLS** i daje dostęp wyłącznie zalogowanym administratorom `public.lkm_is_admin()`. Nie udostępnia ofert jako publicznych linków ani nie używa klucza `service_role` w JS.
-- Oferta jest widoczna **tylko w panelu administratora**. Klient dostaje PDF ręcznie, nie link do prywatnego panelu. Akceptacja/odrzucenie ofert i przypomnienia należą do Phase 23.3.
-- `Mark sent manually` zmienia status tylko wyceny. Nie zmienia etapu CRM, nie tworzy rezerwacji i nie pobiera płatności.
-- **Zwroty wyłącznie w aplikacji Stripe.** Brak przycisków/endpointów refund w tym pakiecie.
-- Case Study uzupełnimy na **końcu** po otrzymaniu od Ciebie prawdziwych zdjęć, filmów i opisu projektu.
-- Pełny audyt produkcyjny całej platformy zgodnie z ustaleniem wykonamy dopiero po Phase 25.
+Z testów przeglądarkowych użyto wyłącznie przykładowych rekordów i mockowanego backendu. Testy nie przesyłały żadnych danych do produkcji.
 
-## Pliki w ZIP
+## JAK COFNĄĆ UI (JEŻELI KONIECZNE)
 
-```
-README-START-TUTAJ-PL.md
-admin.html
-admin-crm.html
-admin-quotes.html
-assets/lkm-v3/phase23-crm.js
-assets/lkm-v3/phase23-crm.css
-assets/lkm-v3/phase23-crm-quote-admin-nav.js
-assets/lkm-v3/phase23-quotes.css
-assets/lkm-v3/phase23-quotes.js
-assets/lkm-v3/phase23-quotes-core.mjs
-supabase/migrations/20261110_lkm_quotations.sql
-supabase/migrations/20261110_lkm_sales_crm.sql   (poprzednia faza; nie uruchamiaj ponownie)
-tests/phase23-quotes-core.test.mjs
-tests/test_phase23_quotes_browser.py
-tests/phase23-crm-structure.test.mjs
-tests/test_phase23_crm_browser.py
-```
-
-## Weryfikacja lokalna
-
-- `node --test tests/phase23-crm-structure.test.mjs tests/phase23-quotes-core.test.mjs` — **16/16 PASS**.
-- `python tests/test_phase23_quotes_browser.py` — PASS komputer 1280 px, telefon 390 px, test dostępu dla nie-admina; dokument PDF testowy poprawnie wygenerowany (1 strona A4).
-- `python tests/test_phase23_crm_browser.py` — PASS wcześniejszych funkcji CRM na komputerze i telefonie.
-- Testy używają **symulowanych danych i odpowiedzi Supabase**. Nie wykonywano rzeczywistych zapisów na produkcji i nie wysyłano maili.
+Przywróć poprzednie pliki UI i JS z repozytorium GitHub (przed tym commitem). Sama migracja dodaje kolumny, funkcje i historię zmian — wycofanie UI nie wymaga kasowania żadnych danych. **Nie usuwaj tabel ani funkcji SQL bez przemyślanego planu migracji**, jeżeli zdążyły pojawić się zapisy.

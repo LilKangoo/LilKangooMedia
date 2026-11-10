@@ -26,7 +26,8 @@
   if(!store?.configured||!base.startsWith('https://')||!key)throw Error('Supabase configuration is missing.');
   const token=await store.authenticatedToken();
   const res=await fetch(base+'/rest/v1/'+path,{method:opt.method||'GET',headers:{apikey:key,Authorization:'Bearer '+token,'Content-Type':'application/json',...(opt.headers||{})},...(opt.body!==undefined?{body:JSON.stringify(opt.body)}:{})});
-  if(!res.ok){if(res.status===401||res.status===403)throw Error('Administrator session expired or access denied.');throw Error('Database request failed ('+res.status+'). Check Phase 23.2 SQL installation.');}
+  if(!res.ok){if(res.status===401||res.status===403)throw Error('Administrator session expired or access denied.');
+   const e=await res.json().catch(()=>({}));throw Error(typeof e.message==='string'?e.message.slice(0,220):'Database request failed ('+res.status+'). Check SQL migration.');}
   const body=await res.text();return body?JSON.parse(body):[];
  }
  function login(message='Sign in with the existing LilKangooMedia administrator account.'){
@@ -39,10 +40,10 @@
  function updateBadge(){const badge=document.getElementById('lkm23qBadge');if(!badge)return;badge.textContent=st.dirty?'Unsaved changes':st.current?.id?'Saved quotation':'New draft';badge.classList.toggle('dirty',st.dirty);
  const print=document.getElementById('lkm23qPrint');if(print)print.disabled=st.dirty||!st.current?.id;
  }
- function leadOptions(){return [['','Choose a CRM enquiry'],...st.leads.map(l=>[l.id,`${l.customer_name||'Customer'} — ${l.customer_email||l.service_slug||'Enquiry'}`])];}
+ function leadOptions(){return [['','Choose a CRM enquiry'],...st.leads.filter(l=>!l.archived_at||l.id===st.current?.lead_id).map(l=>[l.id,`${l.customer_name||'Customer'} — ${l.customer_email||l.service_slug||'Enquiry'}${l.archived_at?' (archived)':''}`])];}
  function selectLead(id){const lead=st.leads.find(l=>l.id===id);st.current=blank(lead);st.dirty=true;render()}
  function menu(){const bar=el('header','lkm23q-header');const left=el('div');add(left,el('p','lkm23q-overline','LILKANGOOMEDIA · SALES'),el('h1','','Quotation Builder'),el('p','lkm23q-hint','Create private, editable quotations. Save first, then print or save as PDF. Sending is always manual.'));
- const right=el('div','lkm23q-actions');const refreshBtn=el('button','button button-light','Refresh');refreshBtn.type='button';refreshBtn.addEventListener('click',()=>{if(st.dirty&&!confirm('Discard unsaved edits and reload saved quotations?'))return;void refresh();});
+ const right=el('div','lkm23q-actions');const back=el('a','button button-light','← Sales CRM');back.href='/admin-crm.html';right.append(back);const refreshBtn=el('button','button button-light','Refresh');refreshBtn.type='button';refreshBtn.addEventListener('click',()=>{if(st.dirty&&!confirm('Discard unsaved edits and reload saved quotations?'))return;void refresh();});
  const sign=el('button','button button-light','Sign out');sign.type='button';sign.addEventListener('click',()=>{if(st.dirty&&!confirm('Discard unsaved changes and sign out?'))return;store.logout();st.current=null;printRoot.replaceChildren();printRoot.hidden=true;login('Signed out. Sign in to view quotations.');});right.append(refreshBtn,sign);
  add(bar,left,right);return bar;
  }
@@ -121,6 +122,10 @@
    for(const key of ['id','quote_number','created_at','updated_at','created_by','updated_by'])delete revision[key];
    st.current=revision;st.dirty=true;render();announce('Revised draft created. Edit and save it to receive a new quotation number.');
   });buttons.append(duplicate);
+  if(q.status==='draft'){
+   const discard=el('button','button lkm23q-delete','Discard draft');discard.type='button';
+   discard.addEventListener('click',()=>void discardDraft(q));buttons.append(discard);
+  }
  }
  box.append(buttons);
  if(q.status==='sent'){
@@ -157,6 +162,20 @@
   if(!Array.isArray(rows)||rows.length!==1)throw Error('Could not confirm status change.');
   st.current=rows[0];st.dirty=false;const i=st.quotes.findIndex(x=>x.id===st.current.id);if(i>=0)st.quotes[i]=rows[0];render();announce('Marked as sent manually. This did not send any email.');
  }catch(e){announce(e.message||'Could not mark as sent.',true)}finally{st.busy=false;}}
+ async function discardDraft(q){
+  if(st.busy||!q.id||q.status!=='draft')return;
+  if(st.dirty){announce('Save or discard unsaved changes before deleting the draft.',true);return;}
+  const phrase=prompt('Discard this DRAFT quotation permanently?\nSent quotations are protected.\n\nType DELETE to confirm:');
+  if(phrase!=='DELETE'){if(phrase!==null)announce('Deletion cancelled — type DELETE exactly.',true);return;}
+  st.busy=true;announce('Discarding draft quotation…');
+  try{
+   const result=await api('rpc/lkm_crm_admin_remove_draft_quote',{method:'POST',body:{p_quote_id:q.id,p_confirmation:'DELETE'}});
+   if(!result?.ok)throw Error('Database did not confirm deletion.');
+   st.quotes=st.quotes.filter(v=>v.id!==q.id);st.current=null;st.dirty=false;
+   const u=new URL(location.href);u.searchParams.delete('quote_id');history.replaceState({},'',u.pathname+u.search);
+   render();announce('Draft quotation deleted. Sent quotations are never deleted here.');
+  }catch(e){announce(e.message||'Could not delete draft.',true)}finally{st.busy=false}
+ }
  function printPair(parent,labelText,value){const d=el('div','lkm23q-print-meta');add(d,el('span','',labelText),el('strong','',value||'—'));parent.append(d)}
  function makePrint(q,calc){printRoot.replaceChildren();const sheet=el('article','lkm23q-print');const head=el('header','lkm23q-print-header');
  const brand=el('div','lkm23q-print-brand');const logo=el('img');logo.src='/assets/lkm-v3/brand/logo-orange.png';logo.alt='LilKangooMedia';brand.append(logo);const identity=el('div');add(identity,el('strong','','LilKangooMedia LTD'),el('span','','Photography · Film · Digital · Marketing'),el('span','','Cyprus · lilkangoomedia.com'),el('span','','photo@lilkangoomedia.com · +357 99 005 924'));brand.append(identity);
@@ -184,7 +203,7 @@
  async function refresh(){st.busy=true;root.replaceChildren(el('p','lkm23q-hint','Loading private enquiries and quotations…'));
  try{if(!store?.configured||!await store.isAdmin())throw Error('Administrator permission required.');
   const [leads,quotes,services]=await Promise.all([
-   api('contact_leads?select=id,customer_name,customer_email,phone,service_slug,service_type,message,created_at&order=created_at.desc&limit=2000'),
+   api('contact_leads?select=id,customer_name,customer_email,phone,service_slug,service_type,message,archived_at,created_at&order=created_at.desc&limit=2000'),
    api('lkm_crm_quotes?select=*&order=created_at.desc&limit=1000'),
    store.adminServices().catch(()=>[])
   ]);
