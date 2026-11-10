@@ -1,52 +1,48 @@
-# LilKangooMedia — Phase 22.1 · Service Portfolio & Real Projects
+# LilKangooMedia — Phase 22.2 (Real Client Reviews & Trust)
 
-## Instalacja: JEDNA PACZKA, bez edytowania kodu
+## Instalacja (bez edycji kodu)
 
-Ta paczka została przygotowana na podstawie GitHub main z wgranym Phase 21.4B.
-Poczekaj na zakończenie wdrażania Phase 21.4B, następnie:
+1. Rozpakuj ten jeden plik ZIP.
+2. Wgraj jego zawartość do głównego folderu repozytorium GitHub `LilKangoo/LilKangooMedia`, zachowując ścieżki katalogów. Pliki `index.html` i `home.html` zastępują obecne wersje — przygotowano je na podstawie rzeczywistego stanu GitHub po Phase 22.1.
+3. W GitHub wybierz **Commit changes**.
+4. Po publikacji Netlify, wejdź na dowolną stronę szczegółów usługi, np. `https://lilkangoomedia.com/#/service/portrait-photography`.
 
-1. Rozpakuj `LKM_Phase22_1_FULL.zip`.
-2. Wgraj pliki do katalogu głównego repozytorium `LilKangoo/LilKangooMedia`, **zachowując foldery**.
-3. Zastąp istniejące `index.html`, `home.html` i `admin.html` plikami z tej paczki.
-4. Dodaj 3 nowe pliki w `assets/lkm-v3/`.
-5. Zatwierdź GitHub **Commit changes** i sprawdź Netlify **Published**.
+Nie trzeba uruchamiać SQL, konfigurować nowego API ani modyfikować czegokolwiek ręcznie. Zmiany w Stripe/Netlify/Supabase nie są wymagane.
 
-Nie trzeba uruchamiać SQL ani dodawać zmiennych środowiskowych. Niczego nie zmieniaj ręcznie w kodzie.
+## Co zmienia się po wdrożeniu
 
-## Jak przypisać prawdziwe realizacje do usług
+- Na stronach usług pojawia się sekcja „What clients say about LilKangooMedia”.
+- Dane pobierane są z już istniejącego publicznego archiwum `lkm_reviews` w Supabase z filtrem `visible=true`.
+- Maksymalnie trzy **rzeczywiście opublikowane opinie z tekstem** są wyświetlane z oceną, autorem i źródłem.
+- Opinie oznaczone jako przetłumaczone albo redagowane dla strony mają stosowną etykietę.
+- Sekcja wyraźnie wyjaśnia, że są to **opinie o firmie**, niekoniecznie o konkretnej usłudze.
+- Można przejść do `/reviews.html`, firmowego profilu Google i konfiguratora usługi `#/quote`.
+- Jeśli baza opinii jest pusta/niedostępna, zamiast wymyślonych opinii pokazywany jest komunikat i odsyłacze.
+- Phase 22.1 Portfolio, bieżąca nawigacja i CTA, Stripe, kalendarz i formularze pozostają bez zmian.
 
-1. Zaloguj się do `https://lilkangoomedia.com/admin.html#galleries`.
-2. Otwórz istniejącą galerię lub utwórz nową. W formularzu galerii wybierz **Related service**.
-3. Ustaw widoczność galerii na **Public** i kliknij **Save gallery**.
-4. Upewnij się, że co najmniej jedno zdjęcie w galerii jest **Public**. Alternatywnie dodaj publiczny film YouTube do tej galerii przez Video Manager.
-5. Otwórz podstronę powiązanej usługi (w panelu galerii pojawia się link do podglądu). W sekcji „See this service in action” pojawią się projekty przypisane do usługi.
+## Co zawiera paczka
 
-Jeśli galeria jest ukryta, jej media nie są publiczne lub nie wskazano „Related service”, nie będzie wyświetlana jako realizacja tej usługi. Wtedy pozostanie neutralny link do całego portfolio. Maksymalnie 4 projekty na stronę usługi.
-
-## Co zmienia aktualizacja
-
-- Dodaje sekcję z opublikowanymi projektami zgodnymi z `portfolio_galleries.related_service_slug`.
-- Wyświetla obrazy tylko z publicznych zdjęć; dla galerii bez zdjęć może pokazać miniaturę jej publicznego filmu.
-- Każda karta prowadzi do właściwej galerii na `/portfolio.html#/gallery/<slug>`.
-- Na każdej stronie usługi dodaje link do publicznych opinii klientów, **bez zgadywania**, że opinia dotyczy właśnie tej usługi.
-- W CMS wyjaśnia funkcję `Related service` i dodaje podgląd przypisanej usługi.
-- Ogranicza liczbę projektów i ładuje miniatury z `loading=lazy`.
-- Chroni przed wstrzyknięciem HTML przez tytuł/opis galerii (DOM/textContent).
-
-## Bezpieczeństwo i zgodność
-
-- Nie zmienia SQL, rezerwacji, blokad godzinowych, Supabase RLS, Stripe, webhooków, cen ani zwrotów.
-- Nie tworzy fikcyjnych realizacji ani opinii.
-- Nie wyświetla galerii oznaczonych `private` lub `review`.
-- Publiczne dane pobierane są z obecnego Supabase przez obecny anonimowy klucz i aktualne RLS.
-- Nie wymaga podawania klucza `service_role` w przeglądarce.
-- Jeśli baza chwilowo nie działa, klient nadal widzi zwykły link do portfolio.
+- `index.html` — oryginalna obecna strona z dodanym odnośnikiem do skryptu i CSS 22.2.
+- `home.html` — analogiczna aktualizacja drugiej strony startowej.
+- `assets/lkm-v3/phase22-trust-reviews.js` — nowa, izolowana logika sekcji opinii.
+- `assets/lkm-v3/phase22-trust-reviews.css` — styl mobilny i desktopowy.
+- `tests/phase22-trust.test.mjs` — testy bez zmian w systemie produkcyjnym.
+- ten plik README.
 
 ## Testy wykonane lokalnie
 
-- `node --check` obu skryptów JS: PASS.
-- Chromium Desktop 1280×900 i mobile 375×812: PASS.
-- Galeria dopasowana do usługi, właściwy link, tylko publiczne media, sanitizacja opisu, brak duplikatu sekcji, przerenderowanie SPA, brak wyników i wskazówka w panelu: PASS.
-- Struktura ZIP `unzip -t`: PASS.
+- `node --check assets/lkm-v3/phase22-trust-reviews.js` — poprawna składnia.
+- `node --test tests/phase22-trust.test.mjs` — 6 testów PASS.
+- Kontrola integralności ZIP i zgodności z HTML Phase 22.1.
+- Osobny test Chromium nie ukończył się z powodu problemu uruchomienia przeglądarki w środowisku testowym; nie traktuj tego jako potwierdzenia wyglądu na produkcji.
 
-**Uwaga:** nie był wykonywany test z produkcyjną bazą danych. Wyświetlane galerie zależą od rzeczywistych publicznych danych i przypisań skonfigurowanych w CMS. Phase 22.2 obejmie dalszy rozwój sekcji opinii i wiarygodności.
+## Plan po tym etapie
+
+- Phase 22.3: opisy rzeczywistych case studies — bez wymyślania wyników i nazw klientów.
+- Phase 22.4: dedykowane sekcje i strony dla branż.
+- Phase 23: CRM, oferty, follow-upy.
+- Phase 24: panel klienta i dostarczanie plików.
+- Phase 25: PL/EN, indeksowalne podstrony usług i konwersja.
+- Na koniec wszystkich etapów: pełne testy produkcyjne end-to-end (Netlify, Supabase, Stripe, SEO, formularze, responsywność).
+
+**Zasada:** Refundacje i zwroty środków wykonywane są wyłącznie w Stripe, nigdy z panelu strony.

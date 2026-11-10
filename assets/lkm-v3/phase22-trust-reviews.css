@@ -1,0 +1,32 @@
+/* LilKangooMedia Phase 22.2 — company-wide feedback, never service-specific attribution */
+.lkm222-reviews{padding:clamp(32px,4.5vw,60px) 0;margin-top:8px;border-top:1px solid rgba(29,41,26,.12);color:#26382d}
+.lkm222-reviews *{box-sizing:border-box}
+.lkm222-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:25px}
+.lkm222-eyebrow{font-size:11px!important;letter-spacing:.16em;font-weight:800;color:#b96527;margin:0 0 9px!important}
+.lkm222-head h2{font-size:clamp(27px,3.2vw,42px);letter-spacing:-.045em;line-height:1.12;margin:0 0 10px;color:#26382d}
+.lkm222-lede{font-size:14px;line-height:1.65;color:#687369;max-width:670px;margin:0}
+.lkm222-all{color:#2c4836;text-decoration:underline;text-underline-offset:4px;font-size:13px;font-weight:750;flex-shrink:0}
+.lkm222-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.lkm222-card{display:flex;flex-direction:column;gap:15px;padding:23px 20px;border-radius:17px;border:1px solid #e3e7e0;background:#f7f8f4;min-width:0}
+.lkm222-card-top{display:flex;justify-content:space-between;align-items:center;gap:9px}
+.lkm222-stars{font-size:17px;letter-spacing:2px;color:#cf792e;white-space:nowrap}
+.lkm222-date{font-size:11px;color:#637268;white-space:nowrap}
+.lkm222-quote{margin:0;flex:1;color:#344538;font-size:14px;line-height:1.7;overflow-wrap:anywhere;white-space:normal}
+.lkm222-reviewer{display:flex;align-items:center;gap:11px}
+.lkm222-avatar{background:#e1eadc;color:#294332;border-radius:50%;display:grid;place-items:center;width:41px;height:41px;flex-shrink:0;font-size:12px;font-weight:800}
+.lkm222-author{display:flex;flex-direction:column;min-width:0;gap:4px}
+.lkm222-author strong{font-size:13px;font-weight:800;overflow-wrap:anywhere}
+.lkm222-author small{font-size:11px;color:#66756c}
+.lkm222-read{color:#2c5439;font-size:12px;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+.lkm222-disclaimer{font-size:12px;line-height:1.6;color:#667269;margin:14px 0 0}
+.lkm222-fallback{border:1px dashed #d3dacd;border-radius:13px;padding:22px;background:#fafbf8;color:#536459;font-size:14px;line-height:1.6}
+.lkm222-next{margin-top:22px;display:flex;gap:20px;justify-content:space-between;align-items:center;border:1px solid #dce4d7;background:#edf3e8;border-radius:16px;padding:22px 24px}
+.lkm222-next strong{font-size:17px;font-weight:800}
+.lkm222-next p{color:#526854;font-size:13px;line-height:1.55;margin:5px 0 0}
+.lkm222-actions{display:flex;gap:9px;flex-wrap:wrap;flex-shrink:0}
+.lkm222-cta,.lkm222-google{display:inline-flex;align-items:center;justify-content:center;border-radius:9px;min-height:44px;padding:12px 16px;font-size:13px;text-decoration:none!important;font-weight:780;text-align:center}
+.lkm222-cta{background:#25392b;color:#fff!important}
+.lkm222-google{border:1px solid #becfc0;background:#fff;color:#2a442f!important}
+.lkm222-cta:focus-visible,.lkm222-google:focus-visible,.lkm222-all:focus-visible,.lkm222-read:focus-visible{outline:3px solid #c56631;outline-offset:3px}
+@media(max-width:960px){.lkm222-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lkm222-next{align-items:flex-start;flex-direction:column}.lkm222-actions{flex-shrink:1}}
+@media(max-width:620px){.lkm222-reviews{padding:32px 0}.lkm222-head{align-items:flex-start;flex-wrap:wrap;gap:12px}.lkm222-head h2{letter-spacing:-.025em}.lkm222-grid{grid-template-columns:1fr}.lkm222-card{padding:20px}.lkm222-next{padding:18px}.lkm222-actions{width:100%;display:grid;grid-template-columns:1fr}.lkm222-cta,.lkm222-google{width:100%}}
