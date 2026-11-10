@@ -1,56 +1,76 @@
-# LilKangooMedia Phase 23.3B — klient akceptuje/odrzuca ofertę + przypomnienia w CRM
+# LilKangooMedia — Phase 23.4: Sales Reporting
 
-## WAŻNE: DOKŁADNIE JEDEN NOWY SQL
+**Jedna paczka ZIP do aktualizacji repozytorium `LilKangoo/LilKangooMedia` na branch `main`.**
+Nadpisz tylko pliki zawarte w paczce, zachowując ich ścieżki. Pozostałych plików NIE usuwaj.
 
-**Uruchom TYLKO:** `supabase/migrations/20261110_lkm_quote_approvals.sql`
+## SQL — dokładna instrukcja
 
-**Nie uruchamiaj ponownie żadnego z poprzednich:** `20261110_lkm_sales_crm.sql`, `20261110_lkm_quotations.sql`, `20261110_lkm_crm_admin_controls.sql` ani migracji Stripe, kalendarza i Case Studies.
+**NOWY SQL DO URUCHOMIENIA: BRAK (0 plików).**
+**ZMIENIONE POPRZEDNIE SQL: BRAK.**
+Nie uruchamiaj ponownie żadnej migracji SQL z poprzednich faz (21.1–23.3B).
+Phase 23.4 używa tylko odczytu istniejących tabel:
+- `public.contact_leads`
+- `public.lkm_crm_lead_details`
+- `public.lkm_crm_quotes`
+- `public.lkm_quote_approvals`
+- `public.stripe_orders`
 
-Ta paczka zawiera **tylko jeden plik .sql**. Nie zawiera żadnych zmienionych starszych migracji.
+Wszystkie korzystają z dotychczasowych uprawnień RLS i zalogowanego administratora.
 
-## Kolejność wdrożenia
+## Instalacja w GitHub
 
-1. Najpierw w tym samym projekcie Supabase otwórz SQL Editor → New query. Skopiuj **całą** zawartość `supabase/migrations/20261110_lkm_quote_approvals.sql`. Kliknij Run; wynik powinien być bez błędów. Migracja jest addytywna; nie zmienia istniejących zamówień, płatności ani faktur.
-2. Wgraj pozostałe pliki z ZIP do głównego katalogu GitHub `LilKangoo/LilKangooMedia` z zachowaniem ścieżek. Wykonaj Commit/Push. Deploy przez Netlify.
-3. W panelu `https://lilkangoomedia.com/admin-quotes.html` wybierz *już wysłaną* wycenę. Jeśli to jeszcze szkic, zapisz poprawne dane, pobierz PDF i kliknij **Mark sent manually** (nie wysyła wiadomości).
-4. Kliknij **Generate client decision link** → **Copy link**. Prześlij klientowi link ręcznie, np. z załącznikiem PDF. Link prowadzi do `https://lilkangoomedia.com/proposal.html#token=...`. Nie publikuj go w otwartych kanałach.
-5. Klient może zobaczyć ofertę i wybrać **Accept quotation** (podaje imię i zaznacza zgodę na warunki) lub **Decline quotation**. Odpowiedź jest jednokrotna, nieodwracalna z tego linku. Jeśli trzeba skorygować zakres/cenę — tworzysz **Create revised draft** z nowym numerem wyceny.
-6. Odśwież `admin-quotes.html`, aby zobaczyć status *pending / accepted / declined*. W `admin-crm.html` jest lista **Proposals to follow up**, a w karcie klienta status przypisanej oferty.
+1. Rozpakuj `LKM_23_4.zip`.
+2. Wgraj zawartość do głównego katalogu repozytorium `LilKangoo/LilKangooMedia`, zachowując ścieżki folderów.
+3. Zatwierdź i wykonaj push do `main`; poczekaj na zakończenie automatycznego deployu Netlify.
+4. Nowy prywatny panel: **https://lilkangoomedia.com/admin-reports.html**
 
-## Co już działa po tej aktualizacji
+Nie trzeba zmieniać kluczy API, ustawień Stripe, Resend ani Supabase.
 
-- Nowa prywatna strona `proposal.html`: prezentuje tylko konkretną wysłaną wersję wyceny, po weryfikacji sekretnego linku. Zdjęć klientów, notatek CRM i innych ofert nie pobiera.
-- Przechowywany jest wyłącznie SHA-256 linku. Utworzenie nowego linku unieważnia wcześniejszy. Po decyzji klienta nie można go zresetować w tej samej ofercie.
-- Wycena oznaczona jako wysłana jest niemodyfikowalna w Supabase; nową wersję przygotowuje się przez utworzenie kolejnego szkicu.
-- Lista przypomnień **w panelu** dotyczy wysłanych wycen bez odpowiedzi. Nie ma automatycznych e-maili/WhatsApp, brak harmonogramu zewnętrznego.
-- Żadnych wywołań Stripe / checkout / refundacji. **Zwroty wyłącznie w aplikacji Stripe**.
-- Akceptacja wyceny to potwierdzenie proponowanego zakresu i warunków; nie jest uwierzytelnionym podpisem elektronicznym, fakturą, opłaconą usługą ani automatycznie potwierdzoną rezerwacją. To link, który klient musi traktować poufnie.
+## Co dodano
 
-## Bezpieczna kontrola po wdrożeniu
+- Filtr 30 / 90 / 365 dni / cała historia oraz filtr wg usługi.
+- Statystyki zgłoszeń i bieżących etapów CRM; szacowana wartość OTWARTEGO lejka (nie wpływy).
+- Wartość WYSŁANYCH i ZAAKCEPTOWANYCH wersji ofert z zapisanych pozycji oraz rabatu.
+- Zarejestrowane płatności Stripe LIVE — kwota BRUTTO wpływów z zapisanych zamówień, bez potrącania ręcznych zwrotów i prowizji; test mode wykluczony.
+- Historia miesięczna zgłoszeń, najczęściej wskazywane usługi oraz rodzaje formularzy.
+- Ręczne follow-upy i lista wysłanych ofert bez ostatecznej odpowiedzi, z linkami do istniejących paneli.
+- Eksport zbiorczego raportu CSV (bez e-maili, telefonów, nazwisk czy wiadomości klientów).
+- Linki `Reports` w CRM, Quotation Builder i starym panelu administratora.
+- Brak operacji POST/PATCH/DELETE, automatycznych e-maili, automatycznych płatności i jakichkolwiek zwrotów.
 
-- Użyj **testowej wyceny**. Nie wykonuj akceptacji ani odrzucenia na rzeczywistym zamówieniu klienta w ramach testów.
-- Otwórz wycenę oznaczoną `sent`; sprawdź generowanie linku. Otwórz go w prywatnym oknie, bez logowania do administracji.
-- Zweryfikuj sumę, rabat, opis i warunki. Zatwierdź tylko testowy przykład. Po odświeżeniu w Admin Quotes powinien widnieć status `accepted`.
-- Zwróć uwagę, że tego samego testowego linku nie da się ponownie zaakceptować/odrzucić.
-- Otwórz CRM i sprawdź sekcję `Proposals to follow up` oraz dane oferty w karcie klienta.
+### Ważne zasady odczytu
 
-## Testy i ograniczenia
+- Okres odnosi się do **daty utworzenia konkretnego rekordu** (zgłoszenie / wycena / zamówienie). Etap CRM prezentuje AKTUALNY stan zgłoszeń utworzonych w wybranym okresie; nie odtwarza historycznej zmiany statusu.
+- Jedna usługa może mieć wiele wycen / rewizji; wszystkie wersje oznaczone jako `sent` liczą się osobno.
+- Akceptacja oferty nie oznacza zapłaty, potwierdzonej rezerwacji ani wyniku sprzedaży netto.
+- Płatności testowe nie są ujęte w kwocie LIVE. **Ręczne zwroty i prowizje Stripe nie są odliczane** — ich wiarygodne rozliczenie pozostaje w aplikacji Stripe.
+- Przy wyborze „All history” wykres miesięczny pokazuje 6 ostatnich miesięcy, podczas gdy sumy obejmują całą zachowaną historię.
+- Dane pochodzą z tabel istniejących w Supabase; klient nie dostaje do nich dostępu. Bez uprawnień administratora nie wykonujemy zapytań raportowych.
+- Gdy któraś tabela nie odpowiada lub wynik przekroczy 10 000 rekordów na tabelę, panel pokaże błąd zamiast niepełnej sumy.
 
-- Testy struktury/logiki Node: `node --test tests/phase23-approvals.test.mjs`.
-- Test przeglądarkowy izolowany na mock-data: `python3 tests/test_phase23_approvals_browser.py` (wymaga Chromium + Playwright; nie wysyła nic do produkcji).
-- Funkcje SQL i rzeczywisty zapis w Twoim Supabase nie zostały uruchomione z tego środowiska. Zweryfikujemy to po wdrożeniu oraz kompleksowo na końcu roadmapy.
-- W przypadku błędu: przywróć zmienione pliki z poprzedniej paczki Phase 23.3A, nie usuwaj tabeli `lkm_quote_approvals` bez sprawdzenia historii wysłanych wycen.
+## Co powinno działać po instalacji (możemy zweryfikować podczas Final Audit)
 
-## Dokładna lista plików w tej paczce
+1. `https://lilkangoomedia.com/admin-reports.html`: logowanie administratora i podsumowanie.
+2. Filtry 30/90/365/All i wybór usługi przeliczają liczby bez zmian w bazie.
+3. `Export summary CSV` pobiera wyłącznie zagregowane wiersze, bez prywatnych danych osobowych.
+4. Statystyki Stripe nie obejmują statusów testowych i są opisane jako GROSS, nie NET.
+5. `https://lilkangoomedia.com/admin-crm.html`: na górze nowy link Reports, poprzedni CRM działa jak wcześniej.
+6. `https://lilkangoomedia.com/admin-quotes.html`: na górze nowy link Reports; edycja ofert niezmieniona.
+7. `https://lilkangoomedia.com/admin.html`: nowa pozycja Sales reports.
 
-- README-START-TUTAJ-PL.md
-- proposal.html
-- assets/lkm-v3/phase23-proposal.js
-- assets/lkm-v3/phase23-proposal.css
-- assets/lkm-v3/phase23-quotes.js
-- assets/lkm-v3/phase23-quotes.css
-- assets/lkm-v3/phase23-crm.js
-- assets/lkm-v3/phase23-crm.css
-- supabase/migrations/20261110_lkm_quote_approvals.sql (**tylko ten SQL**)
-- tests/phase23-approvals.test.mjs
-- tests/test_phase23_approvals_browser.py
+Zgodnie z ustaleniami pełny test produkcyjny robimy po wszystkich fazach wraz z uzupełnieniem jednego prawdziwego Case Study.
+
+## Testy lokalne
+
+- `node --test tests/phase23-report-core.test.mjs` — 13 testów logiki/struktury.
+- `python tests/test_reporting_browser.py` — 2 testy układu / filtrów / CSV (Chromium desktop 1280px, mobile 390px) oraz 1 test odmowy dostępu bez uprawnień; wymaga Playwright i systemowego Chromium.
+- Browser testy używają DANYCH SYMULOWANYCH i nie wysyłają nic do produkcji.
+
+## Przywrócenie poprzedniej wersji
+
+Przywróć pliki z poprzedniego commita GitHub (Revert danego commita). Nie trzeba cofać migracji SQL, bo nie ma żadnej nowej. W raportach nie powstają żadne nowe dane.
+
+## Następna faza
+
+**Phase 24.1 — Client Dashboard foundation**: projekt bezpiecznego logowania klientów, rozdzielenie uprawnień administrator / klient, powiązania zamówień i projektów, z minimalnym udostępnianiem danych.
+Zwroty pozostają **wyłącznie w aplikacji Stripe**.
