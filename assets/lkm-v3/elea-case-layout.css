@@ -1,0 +1,22 @@
+/* Case Study only: video-first, privacy-enhanced click-to-play, selected photos underneath. */
+.lkm-elea-visuals{margin-top:32px}
+.lkm-elea-films{margin:16px 0 38px}
+.lkm-elea-photos{margin:0 0 20px}
+.lkm-elea-films h3,.lkm-elea-photos h3{font-size:clamp(19px,2vw,24px);line-height:1.25;color:#263e30;margin:0 0 16px;letter-spacing:-.025em}
+.lkm-elea-film-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:17px;align-items:start}
+.lkm-elea-film-card{min-width:0;background:#f8faf7;border:1px solid #dfe7db;border-radius:15px;overflow:hidden}
+.lkm-elea-film-poster{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;cursor:pointer;background:#18251c;color:#fff}
+.lkm-elea-film-poster img{width:100%;height:100%;object-fit:cover;display:block;opacity:.91}
+.lkm-elea-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#162e22dd;color:#fff;padding:12px 17px;border-radius:100px;font-weight:750;font-size:13px;white-space:nowrap}
+.lkm-elea-film-poster:hover img{opacity:.75}
+.lkm-elea-film-poster:focus-visible{outline:3px solid #bf783c;outline-offset:3px}
+.lkm-elea-film-caption{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:15px 17px;color:#263d2d;font-size:13px;line-height:1.45}
+.lkm-elea-film-caption a{font-weight:700;text-decoration:underline;text-underline-offset:3px;color:#975824}
+.lkm-elea-player{aspect-ratio:16/9;background:#14231b;position:relative;width:100%}
+.lkm-elea-player.is-short{aspect-ratio:9/16;max-width:290px;margin:0 auto}
+.lkm-elea-player iframe{border:0;width:100%;height:100%;position:absolute;inset:0}
+.lkm-elea-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.lkm-elea-photo-grid .lkm-case-media-item img{aspect-ratio:4/3;object-fit:cover}
+@media(max-width:800px){.lkm-elea-film-grid{grid-template-columns:1fr 1fr}.lkm-elea-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.lkm-elea-film-grid{grid-template-columns:1fr}.lkm-elea-photo-grid{grid-template-columns:1fr 1fr;gap:9px}.lkm-elea-film-caption{padding:13px}.lkm-elea-films{margin-bottom:30px}}
+@media(max-width:410px){.lkm-elea-photo-grid{grid-template-columns:1fr}}

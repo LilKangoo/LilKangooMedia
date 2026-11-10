@@ -1,55 +1,65 @@
-# LilKangooMedia — Phase 25.3: Conversion & Customer Journey
+# LilKangooMedia — Eléa Golf Club | Case Study + 18 curated images
 
-## WDROŻENIE — tylko jeden ZIP, zero nowego SQL
+## Najważniejsze
 
-1. **Supabase / SQL: NIC NIE URUCHAMIAJ.** Liczba nowych plików SQL: **0**. Liczba zmienionych poprzednich plików SQL: **0**. Żadnej wcześniejszej migracji NIE powtarzaj.
-2. Rozpakuj **LKM_25_3.zip** i prześlij wszystkie pliki i foldery do głównego katalogu repozytorium GitHub **LilKangoo/LilKangooMedia** na gałęzi **main**, zachowując foldery. Zatwierdź Commit/Push i pozwól Netlify zakończyć build.
-3. Nie zmieniaj Stripe, Supabase, e-mail, RLS, domeny ani kluczy API. Nie trzeba ręcznie modyfikować HTML ani JS.
-4. Po pomyślnym buildzie przejdziemy do pierwszego prawdziwego case study z Twoich materiałów, potem wykonamy pełny audyt produkcyjny.
+W archiwum Web.zip było 409 zdjęć. Wybrałem **18 różnorodnych zdjęć** z turnieju, finału, pola i drona.
+Fotografie zoptymalizowano do WebP (maksymalny wymiar 2400 px; bez metadanych EXIF).
 
-## Co zmienia Phase 25.3
+Treść Case Study została zaktualizowana: **ponad 400 dostarczonych fotografii** łącznie z pracą turniejową i osobnymi zamówieniami dwóch zawodników.
+Mariusz i Agnieszka zostali opisani jako **osobni prywatni klienci**, a nie jako zlecenie Eléa Golf Club.
 
-- W katalogu usług i na stronie głównej przy kartach pojawia się dodatkowy **Build a quote →**. **Quick enquiry** i **Explore** zostają bez zmian.
-- Kliknięcie nowego linku prowadzi w **jednym kliknięciu do ekranu konfiguracji właściwej usługi**, bez otwierania jej galerii. Mechanizm uruchamia pełną nową sesję widoku SPA, by wybrać właściwą usługę nawet jeśli w tej samej karcie przeglądarki wcześniej konfigurowano inną.
-- Na stronie SEO usługi dodatkowy link **Build a quote →** pojawia się dopiero, gdy publiczne Supabase potwierdzi aktywność konkretnej usługi. Przy braku danych nadal można otworzyć dotychczasowy katalog.
-- Na małych ekranach przy konfiguracji usługi i formularzu zapytania pojawia się jeden dyskretny pasek przy dolnej krawędzi. W konfiguratorze **wyzwala istniejący link Continue to details** — ważne, ponieważ stare dodatki i multi-service bundle zapisują swój stan po kliknięciu właśnie tego linku. W formularzu **nie wysyła wiadomości za użytkownika**: przewija do pierwszego pustego pola wymaganego, a następnie do istniejącego przycisku Submit.
-- Nie zmieniono struktury formularzy, cen, pakietów, sesji Stripe, kalendarza, statusów CRM ani operacji finansowych. Brak publicznego lub prywatnego nowego API.
-- Nowe kliknięcia Build a quote mogą emitować wyłącznie anonimowe zdarzenie CTA w istniejącym GA4, jeśli użytkownik zgodził się na analitykę (bez e-maila i danych osobowych).
-- **Język strony: wyłącznie angielski.** Nie tworzymy wersji polskiej.
+**Prywatne sesje:** sprawdziłem zdjęcia także z folderów Mariusz i Agnieszka. Fotografie tych osób nie trafiły do publicznej paczki, ponieważ zakres zgody na marketingową publikację ich indywidualnych sesji nie został potwierdzony. Możesz je później zatwierdzić i dodać przez CMS.
 
-## Jak działa wstrzyknięcie assetów
+## KOLEJNOŚĆ WDROŻENIA — KONIECZNIE ZACHOWAJ
 
-Plik `scripts/build_service_pages.py` (istniejący z Phase 25.2) został zaktualizowany. Podczas standardowego builda Netlify dodaje do wynikowych `index.html` i `home.html` trzy znaczniki: mały skrypt startowy, CSS i skrypt CTA. Robi to idempotentnie — nie dodaje ich dwukrotnie. Dzięki temu ZIP **nie nadpisuje** bieżących stron głównych i nie cofa zmian innych faz.
+### 1. GitHub — nowa paczka plików
+Rozpakuj ZIP **LKM_Elea_400.zip**. Zawartość wyślij do repozytorium `LilKangoo/LilKangooMedia` zachowując pełne ścieżki:
 
-Pakiet aktualizuje także `assets/lkm-v3/service-seo.mjs`, zachowując kontrolę aktywnej usługi przez publiczny katalog. 14 publicznych `services/*.html` jest dołączonych dla wygody; generator pozostaje źródłem tych stron podczas Netlify build.
+- `case-studies.html` — niewielka aktualizacja powiązania CSS i JS (zachowuje poprzednie skrypty)
+- `assets/lkm-v3/elea-case-layout.js` — dwa filmy na samej górze + odtwarzanie YouTube po kliknięciu
+- `assets/lkm-v3/elea-case-layout.css` — układ responsywny
+- `assets/images/elea-golf-club/*.webp` — 18 zdjęć, nie wszystkie 409
+- `supabase/migrations/20261110_lkm_elea_case_update_400photos.sql` — JEDYNY nowy SQL
 
-## Co powinno działać — lista do Final Audit
+`PREVIEW-18-PHOTOS.jpg` i `SOURCE_PHOTO_SELECTION.txt` służą do przeglądu; nie musisz dodawać ich do repozytorium. Pliki testowe też są opcjonalne.
+**Nie wrzucaj pliku ZIP jako jednego archiwum do GitHub** — musisz przesłać zawartość po rozpakowaniu.
 
-1. `https://lilkangoomedia.com/#/services` — przy każdej aktywnej usłudze dostępny przycisk **Build a quote →**, obok dotychczasowego **Quick enquiry**.
-2. Wybranie Build a quote na stronie katalogu otwiera właściwe `/#/quote` od razu dla klikniętej usługi; również po wcześniejszym wyborze innej usługi.
-3. `/services/website-design.html` — po potwierdzeniu aktywności przez Supabase pojawia się skrót do wyceny.
-4. Telefon: `/#/quote` — dolny pasek **Continue to your details →** zachowuje pakiety i dodatki.
-5. Telefon: `/#/request` — dolny pasek prowadzi do kolejnego wymaganego pola, nie wysyła sam formularza i nie odpala Stripe.
-6. Na desktopie pasek nie zasłania interfejsu; quick enquiries, checkout, rezerwacje, dostarczanie plików, CRM i SEO nadal działają tak samo jak wcześniej.
+### 2. Netlify — poczekaj na udany deploy
+Sprawdź czy wyświetla się zdjęcie: https://lilkangoomedia.com/assets/images/elea-golf-club/aerial-course-sand-bunkers.webp
+Jeżeli dostajesz 404, nie uruchamiaj jeszcze SQL — obrazy nie są na serwerze.
 
-**Nie używaj danych prawdziwego klienta do testu usuwania.** Końcowy audyt Supabase / Stripe / Netlify / formularzy odbędzie się po zakończeniu roadmapy.
+### 3. Supabase — uruchom TYLKO jeden nowy SQL
+Otwórz Supabase → SQL Editor → New query.
+Wklej całą zawartość **`supabase/migrations/20261110_lkm_elea_case_update_400photos.sql`** i kliknij Run.
+
+Ten SQL:
+- aktualizuje ten sam istniejący wpis `elea-golf-club` (nie duplikuje galerii),
+- zmienia „300+” na „400+” oraz dodaje indywidualną fotorelację Mariusza i Agnieszki,
+- zachowuje dwa filmy `y1CB22Z-Qm4` i `kU3ACgDkxDo`,
+- przypisuje **18 wybranych zdjęć** do galerii w kolejności,
+- nadaje opis alternatywny, podpis i zdjęcie okładkowe z drona,
+- nie kasuje żadnych wcześniej istniejących zdjęć ani innych galerii.
+
+Przy ponownym uruchomieniu SQL fotografie nie powinny się duplikować.
+**ŻADNYCH poprzednich SQL nie uruchamiaj ponownie.**
+
+### 4. Sprawdzenie wyniku
+Wynik ostatniego SELECT w SQL Editor powinien zawierać:
+- `gallery_slug=elea-golf-club`
+- `gallery_visibility=public`
+- `case_study_published=true`
+- `public_video_count=2`
+- `public_photo_count>=18` (jeśli wcześniej były już zdjęcia, liczba może być większa)
+
+Podgląd: https://lilkangoomedia.com/case-studies.html#/elea-golf-club
+Kolejność: najpierw pełny film nad 18 dołkami, potem YouTube Short, następnie galeria zdjęć.
+Zdjęć w publicznym Case Study zobaczysz maksymalnie 12; wszystkie 18 są widoczne pod „Open full project gallery”.
+
+### 5. Późniejsze zmiany
+Możesz dodawać więcej zdjęć przez Admin → Galleries → Eléa Golf Club, bez ponownego uruchamiania SQL.
+Osobnych zdjęć prywatnych zawodników nie publikuj marketingowo bez potwierdzenia uprawnień / zgody na wykorzystanie wizerunku.
 
 ## Testy lokalne
-
-```
-node --test tests/phase25_direct_start.test.mjs
-node --test tests/phase25_service_seo.test.mjs
-python3 -m unittest discover -s tests -p 'test_phase25_3_conversion.py' -v
-python3 -m unittest discover -s tests -p 'test_phase25_service_pages.py' -v
-python3 tests/test_phase25_3_browser.py
-python3 tests/test_phase25_seo_browser.py
-```
-
-Testy browserowe używają lokalnego Chromium i symulowanych odpowiedzi Supabase; nie wysyłają zapytań do produkcyjnej bazy.
-
-## Plan po tej paczce
-
-- **Final Content:** pierwsze prawdziwe Case Study (po otrzymaniu materiałów i informacji użytkownika).
-- **Final Audit:** end-to-end na produkcji: dane i RLS Supabase, prywatne Storage, Stripe test/live bez zwrotów ze strony, kalendarz, webhooks, formularze, CRM, oferty, autoryzacja klienta, SEO, responsywność, dostępność i wydajność.
-
-Zwroty płatności pozostają **wyłącznie w aplikacji Stripe**.
+- 7/7 testów Python — pliki, prywatność, ścieżki i zgodność SQL
+- 5/5 scenariuszy Chromium — filmy u góry, mobile, click-to-play, inne Case Studies bez zmian
+- Nie wykonano SQL na produkcyjnej bazie; to sprawdzisz po wdrożeniu.
