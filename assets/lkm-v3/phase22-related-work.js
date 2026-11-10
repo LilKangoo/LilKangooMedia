@@ -57,7 +57,10 @@
       + '&gallery_id=in.(' + ids + ')&visibility=eq.public&order=display_order.asc&limit=150').catch(() => []);
     const videoPromise = get('media_videos?select=id,gallery_id,youtube_id,title,display_order'
       + '&gallery_id=in.(' + ids + ')&visibility=eq.public&order=display_order.asc&limit=100').catch(() => []);
-    const [photos, videos] = await Promise.all([photosPromise, videoPromise]);
+    // Public RLS hides drafts. If the new table is not installed yet, keep Phase 22.1 working.
+    const storyPromise = get('lkm_case_studies?select=gallery_id&is_published=eq.true&gallery_id=in.(' + ids + ')&limit=12').catch(() => []);
+    const [photos, videos, stories] = await Promise.all([photosPromise, videoPromise, storyPromise]);
+    const storyIds = new Set(stories.map(s => s.gallery_id));
     return actual.map(g => {
       const matched = photos.filter(p => p.gallery_id === g.id && safeImage(p.image_url));
       const cover = matched.find(p => p.id === g.cover_image_id) || matched[0];
@@ -67,7 +70,7 @@
         description: trim(g.description, 175), client: trim(g.client_name, 100),
         image, alt: cover ? trim(cover.alt_text, 180) || trim(g.title, 170) : trim(clip?.title, 180),
         count: matched.length + videos.filter(v => v.gallery_id === g.id && videoThumb(v.youtube_id)).length,
-        isVideo: !cover && Boolean(clip)};
+        isVideo: !cover && Boolean(clip), hasStory: storyIds.has(g.id)};
     }).filter(g => g.title && g.image && g.count > 0).slice(0, 4);
   }
   function projectsFor(slug) {
@@ -102,7 +105,7 @@
       const list = node('div', 'lkm22-grid');
       for (const project of projects) {
         const card = node('a', 'lkm22-card');
-        card.href = `/portfolio.html#/gallery/${encodeURIComponent(project.slug)}`;
+        card.href = project.hasStory ? `/case-studies.html#/${encodeURIComponent(project.slug)}` : `/portfolio.html#/gallery/${encodeURIComponent(project.slug)}`;
         const visual = node('div','lkm22-image-wrap');
         const img = node('img');
         img.src = project.image;
@@ -117,7 +120,7 @@
         info.append(node('h3','',project.title));
         if (project.description) info.append(node('p','',project.description));
         if (project.client) info.append(node('span','lkm22-client',project.client));
-        info.append(node('span','lkm22-view','View project ↗'));
+        info.append(node('span','lkm22-view',project.hasStory ? 'Read project story ↗' : 'View project ↗'));
         card.append(info);
         list.append(card);
       }

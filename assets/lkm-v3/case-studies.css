@@ -1,0 +1,51 @@
+/* Phase 22.3 — isolated styles: case studies, editor and editorial project pages. */
+.lkm-case-public-page,.lkm-case-admin-page{background:#f6f7f3;color:#25332b}
+.lkm-case-public-main,.lkm-case-admin-main{min-height:65vh}
+.lkm-case-wrap,.lkm-case-admin-main{width:min(1180px,calc(100% - 40px));margin:0 auto}
+.lkm-case-hero{padding:70px 0 63px;background:#eaf0e8;border-bottom:1px solid #d5e0d6}
+.lkm-case-kicker{color:#a95a26!important;letter-spacing:.13em;font-size:11px!important;font-weight:800;text-transform:uppercase;margin:0 0 14px!important}
+.lkm-case-hero h1,.lkm-case-admin-header h1{font-size:clamp(35px,5vw,65px);line-height:1.06;letter-spacing:-.055em;margin:0 0 16px;color:#1e3329}
+.lkm-case-hero p:not(.lkm-case-kicker){color:#526657;font-size:clamp(15px,1.5vw,18px);line-height:1.65;max-width:750px;margin:0}
+.lkm-case-section{padding:50px 0 95px}.lkm-case-empty{font-size:17px;line-height:1.6;color:#526357;margin:0 0 25px}
+.lkm-case-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.lkm-case-card{display:flex;flex-direction:column;background:#fff;overflow:hidden;border:1px solid #e1e7df;border-radius:18px;text-decoration:none!important;color:inherit!important;box-shadow:0 3px 17px rgba(25,42,28,.03);transition:transform .2s,box-shadow .2s}
+.lkm-case-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(25,42,28,.12)}.lkm-case-card:focus-visible{outline:3px solid #d87937;outline-offset:3px}
+.lkm-case-card-image{background:linear-gradient(120deg,#e2e9e0,#c6d5c7);aspect-ratio:4/3;display:grid;place-items:center;color:#56725a;font-weight:700;overflow:hidden}
+.lkm-case-card-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}.lkm-case-card:hover img{transform:scale(1.04)}
+.lkm-case-card-info{padding:25px 24px;display:flex;flex-direction:column;flex:1;gap:9px}.lkm-case-card-info h2{font-size:clamp(20px,2vw,25px);line-height:1.2;letter-spacing:-.035em;margin:0}
+.lkm-case-card-info>p:not(.lkm-case-kicker){font-size:13px;line-height:1.65;color:#58695c;margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.lkm-case-card-foot{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:12px;font-size:12px;color:#6c7769}.lkm-case-card-foot strong{color:#a75325;margin-left:auto}
+.lkm-case-breadcrumb{padding:20px 0 16px;font-size:13px;color:#56685b}.lkm-case-breadcrumb a{color:#a25a2e;text-decoration:underline}
+.lkm-case-detail{padding:50px 0 85px}.lkm-case-meta{display:flex;flex-wrap:wrap;gap:12px 24px;color:#647367;font-size:13px;margin-bottom:25px}
+.lkm-case-meta a{color:#ab602d;text-decoration:underline;font-weight:700}.lkm-case-narrative{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.lkm-case-prose,.lkm-case-deliverables{background:#fff;border:1px solid #e0e7de;padding:28px 30px;border-radius:16px;margin-bottom:22px}
+.lkm-case-prose h2,.lkm-case-deliverables h2,.lkm-case-visuals h2{font-size:clamp(23px,2.5vw,32px);line-height:1.2;letter-spacing:-.03em;margin:0 0 17px;color:#213729}
+.lkm-case-prose p{white-space:pre-wrap;color:#536354;font-size:15px;line-height:1.85;margin:0}
+.lkm-case-deliverables ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 20px;list-style:none;padding:0;margin:0}
+.lkm-case-deliverables li{background:#f1f5ef;border:1px solid #e1e8dc;border-radius:10px;padding:12px 15px;font-size:14px;color:#3c5542}
+.lkm-case-outcome{border-left:4px solid #b86e39}.lkm-case-visuals{margin:25px 0 45px}.lkm-case-media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.lkm-case-media-item{display:block;background:#e5ebe4;border:1px solid #dce6db;border-radius:13px;overflow:hidden;color:#304235;text-decoration:none!important}
+.lkm-case-media-item img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}.lkm-case-media-item span{display:block;font-size:12px;line-height:1.5;padding:9px 11px}
+.lkm-case-media-item:hover{box-shadow:0 9px 20px #203d2a22}.lkm-case-gallery-link{display:inline-block;margin:17px 0 0;color:#9a5126;font-weight:750;text-decoration:underline}
+.lkm-case-cta{background:#203a2c;color:white;border-radius:20px;padding:35px 40px}.lkm-case-cta h2{color:white;font-size:clamp(26px,3vw,37px);margin:0 0 14px;letter-spacing:-.03em}
+.lkm-case-cta p{color:#d6e4d6;max-width:620px;line-height:1.65;margin:0 0 20px}.lkm-case-cta-actions{display:flex;flex-wrap:wrap;gap:12px}
+.lkm-case-footer{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;align-items:center;padding:26px 20px;background:#1f3328;color:#dce5dd;font-size:12px}.lkm-case-footer a{color:#fff}
+/* Editor */
+.lkm-case-admin-main{padding:48px 0 95px}.lkm-case-admin-header{display:flex;gap:25px;align-items:center;justify-content:space-between;margin-bottom:24px}
+.lkm-case-admin-header h1{font-size:clamp(32px,4vw,51px)}.lkm-case-admin-header p:not(.lkm-case-kicker){font-size:14px;color:#657267;max-width:600px;line-height:1.55;margin:0}
+.lkm-case-admin-tools,.lkm-case-form-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.lkm-case-admin-grid{display:grid;grid-template-columns:minmax(230px,300px) minmax(0,1fr);gap:21px;align-items:start}
+.lkm-case-picker,.lkm-case-editor,.lkm-case-auth{background:#fff;border:1px solid #e0e7df;border-radius:15px;padding:23px}
+.lkm-case-picker{max-height:76vh;overflow-y:auto}.lkm-case-picker h2{font-size:19px;margin:0 0 15px}.lkm-case-gallery-choice{display:flex;flex-direction:column;gap:6px;text-align:left;width:100%;padding:13px;border:1px solid #dfe7de;background:#fff;border-radius:10px;cursor:pointer;margin-bottom:8px;color:#223328}
+.lkm-case-gallery-choice:hover{background:#f4f6f2}.lkm-case-gallery-choice[aria-current=true]{border-color:#a66f40;background:#fff8f1}.lkm-case-gallery-choice strong{font-size:13px}.lkm-case-gallery-choice small{color:#748075;font-size:11px}
+.lkm-case-editor h2{font-size:30px;line-height:1.2;letter-spacing:-.03em;margin:0 0 20px}.lkm-case-warning{padding:14px;border:1px solid #e3c995;background:#fffaef;color:#77521d;border-radius:9px}
+.lkm-case-form-field{display:flex;flex-direction:column;gap:7px;margin:0 0 17px;font-size:13px;font-weight:750;color:#273d2e}
+.lkm-case-form-field input,.lkm-case-form-field textarea{width:100%;box-sizing:border-box;min-height:44px;border:1px solid #cbd8ca;border-radius:8px;font:inherit;font-weight:400;color:#263b2e;padding:10px 12px;background:#fff}
+.lkm-case-form-field textarea{resize:vertical;line-height:1.6}.lkm-case-form-field input:focus,.lkm-case-form-field textarea:focus{outline:2px solid #c27b48;outline-offset:1px}
+.lkm-case-form-field small,.lkm-case-fineprint{font-weight:400;color:#6b786e;font-size:12px;line-height:1.6}
+.lkm-case-form-two{display:grid;grid-template-columns:1fr 1fr;gap:15px}.lkm-case-publish-field{display:flex;gap:12px;align-items:center;font-weight:750;font-size:14px;margin:20px 0 12px}.lkm-case-publish-field input{width:18px;height:18px;accent-color:#ad6d3a}
+.lkm-case-status{color:#365e3f;font-size:14px;margin:12px 0 22px;line-height:1.5}.lkm-case-status.is-error{color:#a43e31}.lkm-case-auth{max-width:560px;margin:30px auto;padding:35px}
+@media(max-width:950px){.lkm-case-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.lkm-case-media-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lkm-case-admin-grid{grid-template-columns:230px minmax(0,1fr)}}
+@media(max-width:700px){.lkm-case-hero{padding:47px 0}.lkm-case-wrap,.lkm-case-admin-main{width:calc(100% - 30px)}.lkm-case-cards,.lkm-case-narrative,.lkm-case-admin-grid,.lkm-case-form-two{grid-template-columns:1fr}.lkm-case-picker{max-height:250px}.lkm-case-deliverables ul{grid-template-columns:1fr}.lkm-case-prose,.lkm-case-deliverables{padding:21px}.lkm-case-meta{gap:9px}.lkm-case-cta{padding:27px}.lkm-case-admin-header{flex-direction:column;align-items:flex-start}.lkm-case-admin-main{padding:30px 0 65px}}
+@media(max-width:480px){.lkm-case-cards,.lkm-case-media-grid{grid-template-columns:1fr}.lkm-case-hero h1{letter-spacing:-.04em}}
+@media(prefers-reduced-motion:reduce){.lkm-case-card,.lkm-case-card-image img{transition:none}.lkm-case-card:hover,.lkm-case-card:hover img{transform:none}}
