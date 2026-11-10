@@ -1,0 +1,6 @@
+/* Phase 21.2: payment option is inserted only after payment readiness passes. */
+#bookingForm .lkm21-pay{display:flex;width:100%;margin-top:12px;min-height:49px;font-weight:800}
+#bookingForm .lkm21-payment-note{font-size:12px;line-height:1.55;color:#506253;margin:10px 0 0}
+#bookingForm .lkm21-payment-status{font-size:12px;line-height:1.5;color:#9b372f;margin:7px 0 0}
+#bookingForm .lkm21-payment-status:empty{display:none}
+@media(max-width:650px){#bookingForm .lkm21-pay{min-height:52px}}

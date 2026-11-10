@@ -1,39 +1,52 @@
-# LilKangooMedia — Phase 21.1: Booking Preferences (FULL ZIP)
+# LilKangooMedia — Phase 21.2: Netlify Stripe Checkout & Signed Webhooks
 
-**Jedna paczka, bez ręcznej edycji kodu.** Przygotowano na bazie wdrożonej Phase 20.5 i obecnego repozytorium `LilKangoo/LilKangooMedia` (`main`, 10 listopada 2026).
+**Jedna kompletna paczka do aktualizacji istniejącego repozytorium GitHub. Bez ręcznej edycji kodu, bez nowego SQL.**
+Baza: rzeczywisty `LilKangoo/LilKangooMedia` na gałęzi `main` po Phase 21.1 (10.11.2026).
 
-## Co zostało dodane
-- Na ekranie `/#/request` klient wybiera preferowaną porę (elastycznie / rano / po południu / wieczorem), alternatywny termin i lokalizację wydarzenia.
-- Po prawej stronie zamówienia widzi aktualizowane podsumowanie preferowanego terminu i lokalizacji.
-- Formularz przesyła te dane istniejącym endpointem `POST /api/enquiry` (Netlify); trafiają do `contact_leads.message` w Supabase i do powiadomienia Resend. Nie potrzeba nowych tabel ani wykonywania SQL.
-- Backend odrzuca daty z przeszłości, nieistniejące daty, błędne przedziały czasu i niepoprawną datę alternatywną.
-- Zachowana jest ochrona przed ponownym wprowadzeniem tego samego zgłoszenia z Phase 20.4.
-- Istniejący przycisk Stripe Checkout na ekranie zapytania jest na razie ukryty, ponieważ w repozytorium funkcje `functions/api/checkout.js` i `functions/api/stripe-webhook.js` są w formacie Cloudflare Pages, podczas gdy `netlify.toml` korzysta z Netlify Functions. Brak aktualnie zweryfikowanej pary Netlify Checkout + webhook. To zapobiega błędnym obietnicom płatności.
+## Co dodano
+- Bezpieczne funkcje Netlify: `POST /api/checkout`, `POST /api/stripe-webhook`, `GET /api/payment-options`.
+- Checkout w przeglądarce tylko po **wyraźnym włączeniu** integracji i wyłącznie dla aktywnej usługi z `booking_mode` `deposit` lub `full`, stałym pakietem i prostymi jednorazowymi dodatkami.
+- Serwer liczy należność z aktywnego rekordu w Supabase. Cena wysłana przez przeglądarkę jest ignorowana. Pakiety miesięczne, godzinowe, „from”, niestandardowe, łączone i z opłatą wdrożeniową nadal obsługuje zapytanie.
+- Płatność kartą przez Stripe Checkout; idempotentny request tworzenia sesji.
+- Weryfikacja HMAC SHA256 podpisu webhooku Stripe na surowym body i ograniczenie czasu podpisu do ±5 minut. Oddzielne środowiska test/live.
+- Zapis do istniejącej `stripe_orders` atomowym INSERT ON CONFLICT DO NOTHING. Status `paid_pending_confirmation` lub `test_paid_pending_confirmation` — **zapłacenie nie potwierdza daty**.
+- Powiadomienie Resend po nowym zapisie. Błąd Resend nie anuluje opłaconego zamówienia ani nie powoduje podwójnego zapisu.
+- Zdarzenia z innych projektów Stripe ignorowane po identyfikatorze `lkm_project`.
+- Oryginalny (niekompatybilny z Netlify) `#checkoutButton` pozostaje ukryty przez Phase 21.1. Nowy, odrębny przycisk pojawia się wyłącznie wtedy, gdy integracja jest włączona i wybór usługi jest zgodny z warunkami płatności.
 
-**WAŻNE:** Ta wersja nie pokazuje dostępności w czasie rzeczywistym, nie blokuje terminów i nie pobiera płatności. Klient wysyła **prośbę o potwierdzenie terminu**. Datę i ewentualne koszty dojazdu potwierdza LilKangooMedia. Prawdziwy kalendarz i Stripe będą kolejnym etapem 21.2 — po wdrożeniu serwerowej obsługi i testach webhooków.
+## Instalacja — bez zmian w kodzie
+1. Rozpakuj ZIP, wgraj **wszystkie pliki** do repozytorium `LilKangoo/LilKangooMedia`, zachowując nazwy katalogów, potwierdź zastąpienie `index.html`, `home.html` i plików Phase 21.1.
+2. Zapisz `Commit changes`. Poczekaj na nowy deploy w Netlify (`Published`). **Po samym deployu pobieranie płatności jest wyłączone**.
+3. Sprawdź `https://lilkangoomedia.com/api/payment-options`: powinno zwracać `{"enabled":false,"mode":"off"}`. Formularze zapytań muszą działać bez zmian.
+4. Test Stripe wymaga konfiguracji **ustawień usług, nie kodu** (patrz poniżej); jeśli nie chcesz na razie korzystać z płatności, skończ na kroku 3.
 
-## Instalacja — bez edycji kodu
-1. Rozpakuj plik ZIP.
-2. Otwórz repozytorium GitHub `LilKangoo/LilKangooMedia`.
-3. Wgraj **wszystkie pliki zawarte w ZIP**, zachowując strukturę katalogów (`assets/lkm-v3/`, `netlify/functions/`, `tests/`). Jeśli GitHub pyta o podmianę istniejących plików, zaakceptuj.
-4. Wykonaj `Commit changes` i sprawdź w Netlify, czy deploy ma status `Published`.
-5. Sprawdź `https://lilkangoomedia.com/#/services`, otwórz dowolną usługę, wybierz pakiet i przejdź do ekranu zapytania. Zobacz sekcję "When and where?".
-6. Wyślij **jedno testowe zapytanie** (np. wpisz `PHASE 21.1 TEST` w treści) i sprawdź je w `Supabase > contact_leads` oraz w `Admin > Enquiries & bookings`. W polu `message` powinny pojawić się `BOOKING PREFERENCES`.
-7. Sprawdź, że przycisk płatności nie jest pokazywany, a rezerwacja jest opisana jako oczekująca na potwierdzenie.
+## Jak uruchomić bezpieczny TEST — ustawienia Netlify/Stripe
+Poniższych sekretów NIE wpisuj do kodu ani ZIP-a. Netlify → Site configuration → Environment variables → Add a variable (dostępne dla Functions):
+- `LKM_PAYMENTS_MODE` = `test`
+- `STRIPE_SECRET_KEY` = **Stripe test secret key** (`sk_test_...`)
+- `STRIPE_WEBHOOK_SECRET` = **sekret podpisu dla testowego endpointu webhook**, (`whsec_...`)
+- `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` = istniejące sekrety Netlify dla aplikacji i bazy; muszą być poprawnie ustawione.
+- `SITE_URL` = `https://lilkangoomedia.com/`
+- Opcjonalnie `RESEND_API_KEY`, `FROM_EMAIL`, `CONTACT_EMAIL` (prawdopodobnie już są używane dla zapytań).
+- Jeśli wypełniony jest `TURNSTILE_SECRET`, Checkout wymaga prawidłowego tokenu Turnstile z formularza.
 
-## Bezpieczeństwo i zgodność
-- Brak nowych sekretów, ustawień Netlify, tabel, migracji SQL lub edycji `netlify.toml`.
-- Zachowano obecne artykuły, SEO, ceny, pakiety, galerie, formularze kontaktowe i analitykę.
-- Wersja obejmuje tylko zmienione/dodane pliki. **Nie jest to kompletna kopia całego repozytorium** — wgrywamy ją na istniejący projekt.
-- Nie wgrywaj archiwum przez Netlify Drop zamiast przez GitHub — byłaby to niepełna strona.
-- Jeśli wystąpi problem, w Netlify możesz przywrócić poprzedni działający deploy, a w GitHub cofnąć commit tej aktualizacji.
+W Stripe w **trybie testowym** zarejestruj endpoint webhook: `https://lilkangoomedia.com/api/stripe-webhook`, nasłuchujący `checkout.session.completed` (i opcjonalnie `checkout.session.async_payment_succeeded`). Zapisz jego sekret podpisu jako `STRIPE_WEBHOOK_SECRET` w Netlify. Po zmianie zmiennych wykonaj nowy deploy Netlify, jeśli wymaga tego panel.
 
-## Testy przygotowania
-- `node --check assets/lkm-v3/phase21-booking.js`: PASS.
-- `node --check netlify/functions/enquiry.mjs`: PASS.
-- `node --test tests/netlify-enquiry.test.mjs`: 15/15 PASS (m.in. duplikaty, Resend, daty, booking preferences).
-- Test Chromium desktop 1280 px i mobile 390 px: PASS — pola, podsumowanie, brak checkout, SPA rerender.
-- Rzeczywisty deploy Netlify i dostarczenie maila wymagają potwierdzenia po wdrożeniu.
+W panelu administracyjnym wybraną usługę o **potwierdzonej, stałej cenie** ustaw na tryb `deposit` lub `full` (oraz odpowiedni procent zaliczki). **Nie uruchamiaj dla pakietów wycenianych indywidualnie.** Przetestuj kartą testową Stripe. W Supabase `stripe_orders` powinien pojawić się wpis `test_paid_pending_confirmation`, a w adminie wpis w części zamówień. Potwierdź podpis webhooku w Stripe oraz zapis tylko jednego wiersza po ponowieniu eventu. Jeśli nie widzisz potwierdzenia w bazie, nie przełączaj integracji na live.
 
-## Kolejny etap
-**Phase 21.2: bezpieczna integracja Netlify Stripe Checkout + podpisany webhook + ręczne potwierdzanie dostępności.** Nie włączamy realnych płatności bez pozytywnych testów technicznych i konfiguracji Stripe.
+### Tryb LIVE — dopiero po udanym teście
+Zmienne Netlify: `LKM_PAYMENTS_MODE=live`, `STRIPE_SECRET_KEY=sk_live_...`, `STRIPE_WEBHOOK_SECRET=whsec_...` z **live** endpointu webhook oraz `LKM_LIVE_PAYMENTS_APPROVED=YES`. Tryb live jest **zablokowany**, jeśli choć jeden z tych warunków jest niespełniony. Zarejestruj webhook także w live Stripe i przeprowadź kontrolowaną płatność. Poinformuj klienta, że termin nadal wymaga ręcznego potwierdzenia. Zasady zaliczek, zwrotów i podatek muszą być zgodne z Twoją ofertą.
+
+### Ważne ograniczenia
+- Ten etap **nie tworzy kalendarza dostępności, blokad terminów ani automatycznego potwierdzenia**. W przyszłej Phase 21.3 dopracujemy dostępność. Zanim jej nie ma, zaliczki trzeba obsługiwać jako rezerwacje **oczekujące na potwierdzenie**, z możliwością ręcznego zwrotu przez Stripe.
+- W przypadku awarii Resend po zapisie płatności mail może nie dotrzeć. Zamówienie pozostaje w `stripe_orders` i trzeba kontrolować je w panelu.
+- Samego POST do webhooku nie wolno testować bez prawidłowego podpisu Stripe — zwróci 400.
+- Nie publikuj w GitHub żadnego `sk_test`, `sk_live`, `whsec` ani `SUPABASE_SERVICE_ROLE_KEY`.
+- ZIP jest **aktualizacją/overlay**, nie całym repozytorium. Wgrywaj przez GitHub, nie Netlify Drop.
+- Ta wersja nie implementuje usług cyklicznych, wielousługowych ani płatności po zatwierdzonej wycenie (późniejsze etapy).
+
+## Testy w paczce
+`node --test tests/phase21-payments.test.mjs` — serwerowe scenariusze płatności. `python tests/test_phase21_payment_browser.py` — odizolowane testy Chromium (opcjonalnie, wymaga Playwright i Chromium). Testy wymagają istniejącej Phase 21.1 (w paczce zachowano jej JS/CSS).
+
+## Cofnięcie
+Jeżeli deploy nie przejdzie, przywróć poprzedni commit GitHub/Netlify. Wyłączenie nowych płatności bez cofania kodu: w Netlify ustaw `LKM_PAYMENTS_MODE=off` i opublikuj zmianę ustawień.

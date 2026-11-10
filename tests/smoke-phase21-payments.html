@@ -1,0 +1,7 @@
+<!doctype html><html><head><meta charset="utf-8"><script>
+window.LKMStore={publicServices:async()=>[{slug:'photo',title:'Photography',active:true,booking_mode:'deposit',packages:[{id:'standard',pricing_model:'fixed',price_cents:14900}],addons:[{id:'prints',billing_model:'once',price_cents:2500}]}]};
+sessionStorage.setItem('lkm_selected_service','photo');sessionStorage.setItem('lkm_phase18_main_photo',JSON.stringify({pkgId:'standard',addons:['prints'],qty:1}));
+location.hash='#/request';
+</script><script defer src="../assets/lkm-v3/phase21-booking.js"></script><script defer src="../assets/lkm-v3/phase21-payments.js"></script><link rel="stylesheet" href="../assets/lkm-v3/phase21-payments.css"></head><body>
+<div id="main"><div class="form-grid"><form id="bookingForm"><label>Name <input name="name" value="Test Client" required></label><label>Email <input name="email" type="email" value="client@example.com" required></label><label>Date <input id="requestDate" name="preferred_date" type="date" required></label><label>Message <textarea name="message" required>My real message</textarea></label><label>Consent <input name="consent" type="checkbox" checked required></label><button type="submit" id="requestSubmit">Send enquiry</button><button type="button" id="checkoutButton">Pay deposit (legacy)</button></form><aside></aside></div></div>
+</body></html>
