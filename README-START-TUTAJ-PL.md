@@ -1,56 +1,56 @@
-# LilKangooMedia — Phase 23.3A: Administrator Controls / Unified Sales CRM
+# LilKangooMedia Phase 23.3B — klient akceptuje/odrzuca ofertę + przypomnienia w CRM
 
-## JAK WSTAWIĆ — kolejność ważna
+## WAŻNE: DOKŁADNIE JEDEN NOWY SQL
 
-1. **Supabase > SQL Editor > New query:** wklej całą zawartość pliku:
-   `supabase/migrations/20261110_lkm_crm_admin_controls.sql`
-   i uruchom **Run**. Migracja jest addytywna; nie czyści zgłoszeń ani ofert.
-   Wymaga wcześniejszych Phase 21.4A, 23.1 i 23.2 (wdrożone według Twoich informacji).
-2. Rozpakuj ten ZIP i wgraj zawartość do głównego folderu repozytorium `LilKangoo/LilKangooMedia` na GitHubie. **Zachowaj ścieżki plików.** Zatwierdź zmiany — Netlify powinien wdrożyć wersję automatycznie.
-3. Otwórz `https://lilkangoomedia.com/admin-crm.html` i zaloguj się administratorem.
+**Uruchom TYLKO:** `supabase/migrations/20261110_lkm_quote_approvals.sql`
 
-**Nie wprowadzaj żadnego sekretu do plików JS/HTML.** W tym etapie nie trzeba ustawiać nowych zmiennych Netlify. Nie uruchamiaj ponownie starszych migracji — dwie starsze są w paczce wyłącznie dla kompletności zestawu.
+**Nie uruchamiaj ponownie żadnego z poprzednich:** `20261110_lkm_sales_crm.sql`, `20261110_lkm_quotations.sql`, `20261110_lkm_crm_admin_controls.sql` ani migracji Stripe, kalendarza i Case Studies.
 
-## CO NOWE
+Ta paczka zawiera **tylko jeden plik .sql**. Nie zawiera żadnych zmienionych starszych migracji.
 
-- **Edycja zgłoszenia bezpośrednio w CRM**: imię, e-mail, telefon, usługa, ID pakietu, preferowana data i oryginalna treść wiadomości. Bezpośredni zapis do istniejącego `public.contact_leads` przez zalogowanego administratora i RLS.
-- **Archiwum**: usuwa z aktywnego lejka, ale zachowuje dane, notatki i ofertę; można przywrócić.
-- **Trwałe usuwanie**: możliwe TYLKO po archiwizacji i ręcznym wpisaniu `DELETE`. Baza blokuje tę operację, jeżeli są powiązane oferty, rezerwacje lub zamówienia Stripe z danym e-mailem. Istniejące notatki i historia CRM dla usuniętego klienta są usuwane razem z nim; log zachowuje tylko identyfikator i rodzaj operacji, bez danych osobowych.
-- **Nienaruszalność potwierdzonej rezerwacji**: nie można edytować jej dnia/usługi bez wcześniejszej zmiany w kalendarzu. Statusy rezerwacji/płatności nie są zmieniane przez CRM.
-- **Historia zmian (audit)**: kto/kiedy/które pola poprawił; bez zapisywania dodatkowych kopii danych osobowych.
-- **Powiązane wyceny w karcie klienta**: otwórz odpowiednią ofertę lub utwórz nową — bez przeszukiwania osobnej listy.
-- **Usuwanie draftów wycen**: możliwe z generatora ofert po wpisaniu `DELETE`; *wysłane oferty są chronione*. Jest to ręczne usunięcie szkicu, nie cofnięcie płatności.
-- **Due now**: szybki filtr zaległych follow-upów w CRM; żadne automatyczne e-maile ani SMS nie są wysyłane.
-- **Link z istniejącego Admin > Enquiries & bookings**: `Edit · archive · manage enquiries` do tego samego CRM.
+## Kolejność wdrożenia
 
-## CO SPRAWDZIĆ PO WDROŻENIU (BEZ KASOWANIA PRAWDZIWYCH DANYCH)
+1. Najpierw w tym samym projekcie Supabase otwórz SQL Editor → New query. Skopiuj **całą** zawartość `supabase/migrations/20261110_lkm_quote_approvals.sql`. Kliknij Run; wynik powinien być bez błędów. Migracja jest addytywna; nie zmienia istniejących zamówień, płatności ani faktur.
+2. Wgraj pozostałe pliki z ZIP do głównego katalogu GitHub `LilKangoo/LilKangooMedia` z zachowaniem ścieżek. Wykonaj Commit/Push. Deploy przez Netlify.
+3. W panelu `https://lilkangoomedia.com/admin-quotes.html` wybierz *już wysłaną* wycenę. Jeśli to jeszcze szkic, zapisz poprawne dane, pobierz PDF i kliknij **Mark sent manually** (nie wysyła wiadomości).
+4. Kliknij **Generate client decision link** → **Copy link**. Prześlij klientowi link ręcznie, np. z załącznikiem PDF. Link prowadzi do `https://lilkangoomedia.com/proposal.html#token=...`. Nie publikuj go w otwartych kanałach.
+5. Klient może zobaczyć ofertę i wybrać **Accept quotation** (podaje imię i zaznacza zgodę na warunki) lub **Decline quotation**. Odpowiedź jest jednokrotna, nieodwracalna z tego linku. Jeśli trzeba skorygować zakres/cenę — tworzysz **Create revised draft** z nowym numerem wyceny.
+6. Odśwież `admin-quotes.html`, aby zobaczyć status *pending / accepted / declined*. W `admin-crm.html` jest lista **Proposals to follow up**, a w karcie klienta status przypisanej oferty.
 
-1. W `admin-crm.html` sprawdź sekcję `Enquiry management` w karcie klienta.
-2. Popraw np. opis **testowego** zgłoszenia przez `Edit enquiry` > `Save enquiry changes`; odśwież stronę i sprawdź zapis.
-3. Rozwiń `Enquiry change history` — powinny być zapisane nazwy zmienionych pól.
-4. `Archive enquiry` > przejdź do `Archived` > `Restore enquiry` > `Active`.
-5. Zobacz `Quotations` w tej samej karcie. Przy wcześniejszej ofercie powinien być link `Open`.
-6. W `admin-quotes.html` tylko robocza oferta posiada `Discard draft`. **Nie testuj na prawdziwej ofercie**, jeśli chcesz ją zachować.
-7. Sprawdź w `admin.html#leads` przycisk prowadzący do CRM.
+## Co już działa po tej aktualizacji
 
-## WAŻNE GRANICE
+- Nowa prywatna strona `proposal.html`: prezentuje tylko konkretną wysłaną wersję wyceny, po weryfikacji sekretnego linku. Zdjęć klientów, notatek CRM i innych ofert nie pobiera.
+- Przechowywany jest wyłącznie SHA-256 linku. Utworzenie nowego linku unieważnia wcześniejszy. Po decyzji klienta nie można go zresetować w tej samej ofercie.
+- Wycena oznaczona jako wysłana jest niemodyfikowalna w Supabase; nową wersję przygotowuje się przez utworzenie kolejnego szkicu.
+- Lista przypomnień **w panelu** dotyczy wysłanych wycen bez odpowiedzi. Nie ma automatycznych e-maili/WhatsApp, brak harmonogramu zewnętrznego.
+- Żadnych wywołań Stripe / checkout / refundacji. **Zwroty wyłącznie w aplikacji Stripe**.
+- Akceptacja wyceny to potwierdzenie proponowanego zakresu i warunków; nie jest uwierzytelnionym podpisem elektronicznym, fakturą, opłaconą usługą ani automatycznie potwierdzoną rezerwacją. To link, który klient musi traktować poufnie.
 
-- Zmiana danych zgłoszenia NIE zmienia już zapisanych danych i kwot w ofertach PDF. To świadoma ochrona historii wyceny. Jeśli trzeba zmienić ofertę, popraw jej draft w Quotation Builder albo utwórz nową wersję.
-- CRM i Quotation Builder są stronami administratorskimi; dostęp do danych wymaga aktualnego tokenu Supabase i wpisu administratora (RLS).
-- Trwałe usuwanie zgłoszeń z historią płatności, zaakceptowanej rezerwacji lub podpiętymi wycenami **jest celowo zablokowane**. Takie zgłoszenia archiwizuj.
-- Obecny moduł nie oferuje klientom akceptacji ofert przez link. To osobny etap 23.3B i wymaga bezpieczeństwa tokenów, podpisów oraz testów.
-- **Zwroty robimy wyłącznie w aplikacji Stripe**; ten ZIP nie ma funkcji refundowania, pobierania pieniędzy ani automatycznego wysyłania.
-- Pełny test produkcyjny Supabase/Netlify/Stripe wykonamy jako Final Audit po ukończeniu roadmapy. Testy lokalne z mockami nie zastępują tego audytu.
-- Jeżeli SQL nie został uruchomiony, nowy CRM nie załaduje się poprawnie. Wykonaj migrację **przed** wgraniem JS/HTML.
+## Bezpieczna kontrola po wdrożeniu
 
-## TESTY W PAKIECIE
+- Użyj **testowej wyceny**. Nie wykonuj akceptacji ani odrzucenia na rzeczywistym zamówieniu klienta w ramach testów.
+- Otwórz wycenę oznaczoną `sent`; sprawdź generowanie linku. Otwórz go w prywatnym oknie, bez logowania do administracji.
+- Zweryfikuj sumę, rabat, opis i warunki. Zatwierdź tylko testowy przykład. Po odświeżeniu w Admin Quotes powinien widnieć status `accepted`.
+- Zwróć uwagę, że tego samego testowego linku nie da się ponownie zaakceptować/odrzucić.
+- Otwórz CRM i sprawdź sekcję `Proposals to follow up` oraz dane oferty w karcie klienta.
 
-- `node --test tests/*.test.mjs`
-- `python tests/test_phase23_3_admin_browser.py`
-- `python tests/test_phase23_3_quotes_browser.py`
+## Testy i ograniczenia
 
-Z testów przeglądarkowych użyto wyłącznie przykładowych rekordów i mockowanego backendu. Testy nie przesyłały żadnych danych do produkcji.
+- Testy struktury/logiki Node: `node --test tests/phase23-approvals.test.mjs`.
+- Test przeglądarkowy izolowany na mock-data: `python3 tests/test_phase23_approvals_browser.py` (wymaga Chromium + Playwright; nie wysyła nic do produkcji).
+- Funkcje SQL i rzeczywisty zapis w Twoim Supabase nie zostały uruchomione z tego środowiska. Zweryfikujemy to po wdrożeniu oraz kompleksowo na końcu roadmapy.
+- W przypadku błędu: przywróć zmienione pliki z poprzedniej paczki Phase 23.3A, nie usuwaj tabeli `lkm_quote_approvals` bez sprawdzenia historii wysłanych wycen.
 
-## JAK COFNĄĆ UI (JEŻELI KONIECZNE)
+## Dokładna lista plików w tej paczce
 
-Przywróć poprzednie pliki UI i JS z repozytorium GitHub (przed tym commitem). Sama migracja dodaje kolumny, funkcje i historię zmian — wycofanie UI nie wymaga kasowania żadnych danych. **Nie usuwaj tabel ani funkcji SQL bez przemyślanego planu migracji**, jeżeli zdążyły pojawić się zapisy.
+- README-START-TUTAJ-PL.md
+- proposal.html
+- assets/lkm-v3/phase23-proposal.js
+- assets/lkm-v3/phase23-proposal.css
+- assets/lkm-v3/phase23-quotes.js
+- assets/lkm-v3/phase23-quotes.css
+- assets/lkm-v3/phase23-crm.js
+- assets/lkm-v3/phase23-crm.css
+- supabase/migrations/20261110_lkm_quote_approvals.sql (**tylko ten SQL**)
+- tests/phase23-approvals.test.mjs
+- tests/test_phase23_approvals_browser.py

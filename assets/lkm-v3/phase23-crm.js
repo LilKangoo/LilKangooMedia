@@ -13,7 +13,7 @@
  const ACTIVE=new Set(['new','qualified','proposal','negotiation']);
  const PRI=[['low','Low'],['normal','Normal'],['high','High']];
  const ACT=[['note','Internal note'],['call','Call completed'],['email','Email sent manually'],['meeting','Meeting held']];
- const state={leads:[],details:new Map(),activities:[],audits:[],quotes:[],locked:new Set(),selected:'',search:'',stage:'all',view:'board',archived:false,dueOnly:false,loading:false,saving:false};
+ const state={leads:[],details:new Map(),activities:[],audits:[],quotes:[],approvals:[],locked:new Set(),selected:'',search:'',stage:'all',view:'board',archived:false,dueOnly:false,loading:false,saving:false};
  const create=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=String(text);return el;};
  const node=(tag,cls,text)=>create(tag,cls,text);
  const add=(parent,...children)=>{parent.append(...children);return parent};
@@ -252,7 +252,7 @@
   if(!quotes.length){box.append(node('p','lkm23-hint','No quotation linked to this enquiry.'));return box}
   for(const q of quotes){const row=node('div','lkm23-quote-mini');const detailBox=node('div');
    const number='LKM-Q-'+String(q.quote_number||0).padStart(6,'0');
-   add(detailBox,node('strong','',number),node('span','',q.title||'Quotation'),node('small','',q.status==='sent'?'Marked sent · '+stamp(q.updated_at):'Editable draft'));
+   add(detailBox,node('strong','',number),node('span','',q.title||'Quotation'),node('small','',q.status==='sent'?('Sent · '+(state.approvals.find(a=>a.quote_id===q.id)?.decision||'no approval link')):'Editable draft'));
    const link=node('a','lkm23-quote-open','Open ↗');link.href='/admin-quotes.html?quote_id='+encodeURIComponent(q.id);
    row.append(detailBox,link);box.append(row)
   }return box;
@@ -343,8 +343,28 @@
    add(card,node('strong','',type+' · '+stamp(entry.created_at)),node('p','',entry.summary));target.append(card)}
  }
  function renderStats(){const old=document.getElementById('lkm23Stats');if(old)old.replaceWith(stats())}
+ function proposalReminders(){
+  const open=state.quotes.filter(q=>q.status==='sent').map(q=>({...q,approval:state.approvals.find(a=>a.quote_id===q.id)}))
+    .filter(q=>!q.approval||q.approval.decision==='pending');
+  if(!open.length)return null;
+  const box=node('section','lkm23-reminders');const head=node('div','lkm23-reminders-heading');
+  add(head,node('h2','','Proposals to follow up'),node('span','',open.length+' awaiting client response'));
+  const list=node('div','lkm23-reminders-list');
+  open.sort((a,b)=>String(a.valid_until||'9999').localeCompare(String(b.valid_until||'9999')));
+  for(const q of open.slice(0,7)){
+    const item=node('div','lkm23-reminder-row');const info=node('div');
+    const lead=state.leads.find(l=>l.id===q.lead_id);const title='LKM-Q-'+String(q.quote_number||0).padStart(6,'0');
+    const exp=q.valid_until||'';
+    add(info,node('strong','',title+' · '+(lead?.customer_name||'Client')),
+      node('small','',!q.approval?'No client link generated':exp&&exp<today()?'Offer expired — prepare revision':exp&&exp<=today()?'Expires today':'Awaiting client response'));
+    const link=node('a','button button-light','Open quotation');link.href='/admin-quotes.html?quote_id='+encodeURIComponent(q.id);
+    item.append(info,link);list.append(item);
+  }
+  box.append(head,list,node('p','lkm23-hint','Manual reminders only. No emails or messages are sent automatically.'));return box;
+ }
  function render(){
   root.replaceChildren();root.append(header(),stats());
+  const reminders=proposalReminders();if(reminders)root.append(reminders);
   const bar=filters(),area=node('div','lkm23-layout'),left=node('section','lkm23-main'),right=node('aside','lkm23-sidebar');
   left.id='lkm23Pipeline';right.id='lkm23Details';
   add(area,left,right);root.append(bar,area);
@@ -355,14 +375,15 @@
   if(state.loading)return;state.loading=true;
   try{
     if(!await store.isAdmin())throw Error('Only an administrator can view the CRM.');
-    const [leads,details,quotes,confirmed]=await Promise.all([
+    const [leads,details,quotes,confirmed,approvals]=await Promise.all([
       paged('contact_leads','select=id,customer_name,customer_email,phone,service_slug,service_type,package_id,preferred_date,message,submission_type,status,archived_at,created_at,edited_at&order=created_at.desc',2000),
       paged('lkm_crm_lead_details','select=*&order=updated_at.desc',2000),
-      paged('lkm_crm_quotes','select=id,lead_id,quote_number,status,title,created_at,updated_at&order=created_at.desc',2000),
-      api('lkm_booking_confirmations?select=source_id&source_type=eq.lead&state=eq.confirmed&limit=2000').catch(()=>[])
+      paged('lkm_crm_quotes','select=id,lead_id,quote_number,status,title,valid_until,created_at,updated_at&order=created_at.desc',2000),
+      api('lkm_booking_confirmations?select=source_id&source_type=eq.lead&state=eq.confirmed&limit=2000').catch(()=>[]),
+      api('lkm_quote_approvals?select=quote_id,decision,decided_at,expires_at&limit=2000')
     ]);
     state.leads=leads;state.details=new Map(details.filter(d=>d.lead_id).map(d=>[d.lead_id,d]));
-    state.quotes=Array.isArray(quotes)?quotes:[];state.locked=new Set((Array.isArray(confirmed)?confirmed:[]).map(c=>c.source_id));
+    state.quotes=Array.isArray(quotes)?quotes:[];state.approvals=Array.isArray(approvals)?approvals:[];state.locked=new Set((Array.isArray(confirmed)?confirmed:[]).map(c=>c.source_id));
     if(!state.leads.find(x=>x.id===state.selected&&Boolean(x.archived_at)===state.archived))state.selected=state.leads.find(x=>Boolean(x.archived_at)===state.archived)?.id||'';
     state.activities=[];state.audits=[];
     render();

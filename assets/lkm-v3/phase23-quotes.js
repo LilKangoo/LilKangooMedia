@@ -9,7 +9,7 @@
  if(!root||!printRoot)return;
  const store=window.LKMStore,cfg=window.LKM_CONFIG||{};
  const base=String(cfg.SUPABASE_URL||'').replace(/\/+$/,'');const key=String(cfg.SUPABASE_ANON_KEY||'');
- const st={leads:[],services:[],quotes:[],current:null,dirty:false,active:false,busy:false,filter:'',lastError:''};
+ const st={leads:[],services:[],quotes:[],approvals:[],current:null,dirty:false,active:false,busy:false,filter:'',lastError:''};
  const el=(t,c='',text)=>{const n=document.createElement(t);if(c)n.className=c;if(text!==undefined)n.textContent=String(text);return n};
  const add=(p,...ch)=>{p.append(...ch);return p};
  const label=(text,element)=>{const w=el('label','lkm23q-label');add(w,el('span','',text),element);return w};
@@ -48,7 +48,7 @@
  add(bar,left,right);return bar;
  }
  function summaryCard(q){const a=el('button','lkm23q-quote-card'+(st.current?.id===q.id?' active':''));a.type='button';
- add(a,el('strong','',quoteCode(q.quote_number)),el('span','',q.customer_name||'No client name'),el('small','',q.title||'Untitled proposal'),el('small','',q.status==='sent'?'Marked as sent manually':'Draft'));
+ add(a,el('strong','',quoteCode(q.quote_number)),el('span','',q.customer_name||'No client name'),el('small','',q.title||'Untitled proposal'),el('small','',q.status==='sent'?(st.approvals.find(a=>a.quote_id===q.id)?.decision||'Sent · awaiting link'):'Draft'));
  a.addEventListener('click',()=>{if(st.dirty&&!confirm('Discard unsaved changes?'))return;st.current=JSON.parse(JSON.stringify(q));st.dirty=false;render();});return a;}
  function aside(){const box=el('aside','lkm23q-side');const top=el('div','lkm23q-side-top');top.append(el('h2','','Saved quotations'));
  const newQuote=el('button','button button-orange','+ New quotation');newQuote.type='button';newQuote.addEventListener('click',()=>{if(st.dirty&&!confirm('Discard unsaved changes?'))return;st.current=null;st.dirty=false;render();});top.append(newQuote);box.append(top);
@@ -114,6 +114,7 @@
  const buttons=el('div','lkm23q-save-actions');const save=el('button','button button-dark','Save quotation');save.type='button';save.id='lkm23qSave';save.addEventListener('click',()=>void persist());buttons.append(save);
  const pdf=el('button','button button-orange','Print / Save as PDF');pdf.id='lkm23qPrint';pdf.type='button';pdf.addEventListener('click',()=>void printQuote());buttons.append(pdf);
  const sent=el('button','button button-light','Mark sent manually');sent.type='button';sent.disabled=!q.id||q.status==='sent';sent.addEventListener('click',()=>void markSent());buttons.append(sent);
+ if(q.id&&q.status==='sent')box.append(approvalControls(q));
  if(q.id&&q.customer_email){const email=el('a','button button-light','Draft email to client');email.href='mailto:'+encodeURIComponent(q.customer_email)+'?subject='+encodeURIComponent(quoteCode(q.quote_number)+' | LilKangooMedia quotation')+'&body='+encodeURIComponent('Hello '+q.customer_name+',\n\nPlease find attached our quotation '+quoteCode(q.quote_number)+' for your project.\n\nKind regards,\nLilKangooMedia');buttons.append(email);}
  if(q.id){
   const duplicate=el('button','button button-light','Create revised draft');duplicate.type='button';duplicate.addEventListener('click',()=>{
@@ -136,6 +137,37 @@
  box.addEventListener('input',()=>{dirty();displayTotals()});box.addEventListener('change',()=>{dirty();displayTotals()});
  const status=el('p','lkm23q-status');status.id='lkm23qStatus';status.setAttribute('role','status');status.setAttribute('aria-live','polite');box.append(status);
  return box;
+ }
+ function approvalControls(q){
+  const area=el('section','lkm23-approval-box');area.id='lkm23ApprovalControls';
+  const saved=st.approvals.find(a=>a.quote_id===q.id);
+  add(area,el('h3','','Client decision link'),el('p','lkm23q-hint',saved?
+    `Status: ${saved.decision.toUpperCase()} · Valid through ${q.valid_until}. The old link cannot be recovered; generating another will invalidate it.`:
+    'Share a private link for this exact sent quotation. No automatic email is sent.'));
+  if(saved&&saved.decision!=='pending'){
+    area.append(el('p','lkm23-approval-status','Client response: '+saved.decision.toUpperCase()+ (saved.decided_at?' · '+new Date(saved.decided_at).toLocaleDateString('en-GB'):'')));
+    return area;
+  }
+  const btn=el('button','button button-light',saved?'Replace expired/lost link':'Generate client decision link');btn.type='button';
+  const link=el('input');link.type='text';link.readOnly=true;link.hidden=true;link.setAttribute('aria-label','Private quotation acceptance link');link.id='lkm23ClientLink';
+  const copy=el('button','button button-light','Copy link');copy.type='button';copy.hidden=true;
+  const reply=el('p','lkm23q-hint');reply.setAttribute('role','status');
+  btn.addEventListener('click',async()=>{
+    if(st.dirty){reply.textContent='Save or discard unsaved changes first.';return;}
+    if(saved&&!confirm('This replaces the previous client link. Continue?'))return;
+    btn.disabled=true;reply.textContent='Creating private link…';
+    try{
+      const result=await api('rpc/lkm_quote_admin_share',{method:'POST',body:{p_quote_id:q.id}});
+      if(!result?.ok||!/^lkm_[a-f0-9]{64}$/.test(result.token||''))throw Error('Share link was not created.');
+      link.value=location.origin+'/proposal.html#token='+result.token;link.hidden=false;copy.hidden=false;
+      st.approvals=st.approvals.filter(x=>x.quote_id!==q.id);
+      st.approvals.push({quote_id:q.id,decision:'pending',expires_at:result.expires_on});
+      reply.textContent='Link ready. Copy it and send it manually along with the PDF. Only the latest generated link works.';
+      btn.textContent='Rotate link';
+    }catch(e){reply.textContent=e.message||'Failed to generate link.'}finally{btn.disabled=false}
+  });
+  copy.addEventListener('click',async()=>{if(!link.value)return;try{await navigator.clipboard.writeText(link.value);reply.textContent='Link copied. Send it manually to the client.'}catch{link.focus();link.select();reply.textContent='Select and copy the link above.'}});
+  area.append(btn,link,copy,reply);return area;
  }
  function renderEditor(){const host=document.getElementById('lkm23qEditorHost');if(!host)return;host.replaceChildren(editor());displayTotals();updateBadge();}
  function pick(){const data=st.current;if(!data)return;const container=el('div','lkm23q-layout');container.append(aside());const host=el('div');host.id='lkm23qEditorHost';container.append(host);root.append(container);renderEditor();}
@@ -202,12 +234,13 @@
  window.addEventListener('beforeunload',e=>{if(st.dirty){e.preventDefault();e.returnValue=''}});
  async function refresh(){st.busy=true;root.replaceChildren(el('p','lkm23q-hint','Loading private enquiries and quotations…'));
  try{if(!store?.configured||!await store.isAdmin())throw Error('Administrator permission required.');
-  const [leads,quotes,services]=await Promise.all([
+  const [leads,quotes,services,approvals]=await Promise.all([
    api('contact_leads?select=id,customer_name,customer_email,phone,service_slug,service_type,message,archived_at,created_at&order=created_at.desc&limit=2000'),
    api('lkm_crm_quotes?select=*&order=created_at.desc&limit=1000'),
-   store.adminServices().catch(()=>[])
+   store.adminServices().catch(()=>[]),
+    api('lkm_quote_approvals?select=quote_id,decision,decided_at,expires_at&order=created_at.desc&limit=1000')
   ]);
-  if(!Array.isArray(leads)||!Array.isArray(quotes))throw Error('Unexpected database response.');st.leads=leads;st.quotes=quotes;st.services=services;
+  if(!Array.isArray(leads)||!Array.isArray(quotes))throw Error('Unexpected database response.');st.leads=leads;st.quotes=quotes;st.services=services;st.approvals=Array.isArray(approvals)?approvals:[];
   const params=new URL(location.href).searchParams;
   const qid=params.get('quote_id');const requested=params.get('lead_id');
   st.current=quotes.find(q=>q.id===qid)||null;

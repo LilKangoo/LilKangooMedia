@@ -127,3 +127,6 @@
 /* Phase 23.3A: safe draft removal; sent offers remain immutable */
 .lkm23q-delete{border:1px solid #e4b5b0;background:#fff7f5;color:#a03f36;font-weight:750}
 .lkm23q-delete:hover{background:#fff0ed}
+
+/* Phase 23.3B: link to specific sent quotation */
+.lkm23-approval-box{margin:22px 0;padding:20px;background:#f2f5ef;border:1px solid #dce5d8;border-radius:15px;display:flex;flex-wrap:wrap;gap:11px;align-items:center}.lkm23-approval-box h3{width:100%;font-size:18px;margin:0}.lkm23-approval-box>p{width:100%;margin:0;font-size:12px;line-height:1.6;color:#65736a}.lkm23-approval-box input{flex:1 1 100%;padding:11px;border:1px solid #b9cdb8;border-radius:9px;min-width:0}.lkm23-approval-box [hidden]{display:none!important}.lkm23-approval-status{font-weight:800!important;color:#264731!important}

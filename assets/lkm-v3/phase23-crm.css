@@ -83,3 +83,6 @@
 .lkm23-due-filter.active{background:#2c4736;color:#fff}
 .lkm23-due-filter:disabled{opacity:.5}
 @media(max-width:560px){.lkm23-lead-edit-fields{grid-template-columns:1fr}.lkm23-inline-heading{display:block}.lkm23-manage-form{padding:12px}}
+
+/* Phase 23.3B — proposal response reminders, no automatic sending */
+.lkm23-reminders{margin:14px 0 22px;background:#fff;border:1px solid #dfe7dc;border-radius:14px;padding:17px}.lkm23-reminders-heading{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center}.lkm23-reminders-heading h2{font-size:17px;margin:0}.lkm23-reminders-heading span{font-size:12px;color:#637366}.lkm23-reminders-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:12px 0}.lkm23-reminder-row{padding:10px;background:#f5f7f3;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}.lkm23-reminder-row>div{display:grid;gap:4px}.lkm23-reminder-row small{color:#657567}.lkm23-reminder-row .button{min-height:36px;padding:8px;font-size:11px}.lkm23-reminders .lkm23-hint{margin:7px 0 0}
