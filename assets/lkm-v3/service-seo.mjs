@@ -24,6 +24,15 @@ export function renderServiceState(container,cta,service,slug){
  }
  container.append(make('p','',service.packages.length?'Packages currently listed in the service catalogue:':'This service is available for a tailored enquiry.'));
  if(service.packages.length){const list=make('ul');for(const p of service.packages){const li=make('li');li.append(make('strong','',p.name));if(p.description)li.append(make('small','',p.description));list.append(li)}container.append(list)}
+ // The faster quote path is offered only after the live catalogue confirms an ACTIVE service.
+ // The original explore link remains available for visitors who want more detail first.
+ if(cta && !document.getElementById('lkm253SeoDirect')){
+  const quick=make('a','lkm25-button lkm25-button-secondary','Build a quote →');
+  quick.id='lkm253SeoDirect';
+  quick.href='/?lkm_service='+encodeURIComponent(slug)+'#/quote';
+  quick.setAttribute('aria-label','Start a quote for '+(service.title||'this service'));
+  cta.parentNode?.append(quick);
+ }
  const link=make('a','','View packages and request details ↗');link.href='/#/service/'+encodeURIComponent(slug);container.append(link);
 }
 if(root){

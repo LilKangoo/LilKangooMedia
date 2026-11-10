@@ -1,0 +1,14 @@
+/* Phase 25.3 — low-distraction one-click quote and small-screen continuation. */
+.lkm253-card-action{display:inline-flex;align-items:center;justify-content:center;min-height:40px;margin:13px 0 0 8px;padding:8px 13px;border:1px solid #29412f;border-radius:9px;background:#25402e;color:#fff;font-size:12px;font-weight:750;text-decoration:none;vertical-align:middle;transition:background .15s ease}
+.lkm253-card-action:hover,.lkm253-card-action:focus-visible{background:#42604a;color:#fff}
+.lkm253-card-action:focus-visible,.lkm253-flow-button:focus-visible{outline:3px solid #cc935d;outline-offset:2px}
+.lkm253-flow{display:none!important}
+@media(max-width:740px){
+ .lkm253-card-action{margin-left:0;margin-right:6px;min-height:43px}
+ body.lkm253-flow-active{padding-bottom:76px}
+ .lkm253-flow:not([hidden]){display:flex!important;position:fixed;z-index:75;bottom:0;left:0;right:0;background:#fffdfafa;backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);padding:12px max(15px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(15px,env(safe-area-inset-left));box-shadow:0 -7px 30px #1b36271d;border-top:1px solid #dce4da}
+ .lkm253-flow.lkm253-flow-dialog{display:none!important}
+ .lkm253-flow-button{display:block;width:100%;min-height:46px;background:#263e30;color:#fff;border:0;border-radius:10px;padding:11px 15px;font-size:14px;font-weight:800;cursor:pointer}
+ .lkm253-flow-button:active{background:#3e6147}
+}
+@media(prefers-reduced-motion:reduce){.lkm253-card-action{transition:none}}

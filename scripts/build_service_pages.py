@@ -190,6 +190,29 @@ def inject_home_links(root):
         text=text.replace(marker,marker+'<a href="/services/index.html">Service Guides</a>',1)
         path.write_text(text,encoding='utf-8')
 
+def inject_conversion_assets(root):
+    """Add small, idempotent Phase 25.3 assets without modifying the core SPA code.
+
+    The synchronous bootstrap must be parsed BEFORE existing deferred SPA scripts.
+    It only handles the public ?lkm_service= slug and never handles payment data.
+    """
+    boot = '<script src="/assets/lkm-v3/phase25-direct-start.js"></script>'
+    css = '<link rel="stylesheet" href="/assets/lkm-v3/phase25-conversion.css">'
+    ui = '<script defer src="/assets/lkm-v3/phase25-conversion.js"></script>'
+    for filename in ('index.html', 'home.html'):
+        path = root / filename
+        if not path.is_file():
+            continue
+        source = path.read_text(encoding='utf-8')
+        if '</head>' not in source:
+            print(f'WARNING: {filename} has no head closing tag; conversion UX not attached')
+            continue
+        tags = [tag for tag in (css, boot, ui) if tag not in source]
+        if tags:
+            source = source.replace('</head>', '\n'.join(tags) + '\n</head>', 1)
+            path.write_text(source, encoding='utf-8')
+
+
 def build(root):
     records=seed_list(root)
     seen=set();active=[]
@@ -212,6 +235,7 @@ def build(root):
     index=root/'assets/lkm-v3/service-seo-index.json';index.parent.mkdir(parents=True,exist_ok=True)
     index.write_text(json.dumps({'version':1,'paths':urls},indent=2)+'\n',encoding='utf-8')
     inject_home_links(root)
+    inject_conversion_assets(root)
     return len(active)
 
 def main():
