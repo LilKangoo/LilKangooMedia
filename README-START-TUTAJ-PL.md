@@ -1,68 +1,64 @@
-# LilKangooMedia — Phase 20.2: Sales Funnel Analytics (GA4)
+# LilKangooMedia — Phase 20.3: Customer UX & Navigation
 
-## Co dodaje aktualizacja
+## Co poprawiliśmy
 
-Ta aktualizacja rozbudowuje GA4 o pomiar ścieżki klienta. Nie zmienia katalogu, cenników, Quick Enquiry, Supabase, Resend ani Stripe.
+- Katalog: działający przycisk **Search** przewijający do widocznych wyników, przycisk **Clear**, skrót `/` do wyszukiwarki (poza polami formularzy).
+- Wyszukiwanie przy włączonym filtrze kategorii: wskazówki dotyczące wyników w **innych kategoriach** i przycisk **Search all categories** zachowujący wpisany tekst.
+- Nazwy usług na kartach są klikalne; pozostają dotychczasowe przyciski Explore i Quick enquiry.
+- Mobile: pasek kategorii przewijany poziomo, wygodniejsze kontrolki wyszukiwarki.
+- Szczegóły usługi: skrót do pakietów/sekcji zapytań i powrót do katalogu; bez ingerencji w ceny.
+- Formularze: data preferowana nie może być z przeszłości; czytelna informacja, że termin musi zostać potwierdzony przez LilKangooMedia.
+- Kontakt: wygodny skrót do istniejącego numeru WhatsApp.
 
-Nowe zdarzenia (tylko po wyrażeniu zgody na analitykę):
+Nie zmienialiśmy Supabase, admina, Netlify Functions, cen, zniżek, Stripe, danych klientów ani URL-i SEO.
 
-| Zdarzenie GA4 | Kiedy powstaje |
-| --- | --- |
-| `select_item` | Kliknięcie w link szczegółów usługi z karty katalogu. |
-| `lkm_cta_click` | Kliknięcie przycisku typu Quick enquiry, Configure package, Continue to enquiry, kontakt/WhatsApp, wniosek o checkout. |
-| `lkm_package_select` | Kliknięcie wariantu cenowego usługi. |
-| `lkm_quote_view` | Przejście do widoku konfiguracji `#/quote`. |
-| `lkm_request_view` | Przejście do formularza `#/request`. |
-| `lkm_form_start` | Pierwsze wejście w pole danego formularza. |
-| `lkm_form_submit_attempt` | Próba wysłania poprawnego formularza. **To nie jest potwierdzony lead.** |
-| `lkm_form_validation_error` | Przeglądarka zgłasza brak wymaganego pola lub błąd walidacji (max raz na 1,5 s). |
+## Instalacja (po zakończeniu Phase 20.2)
 
-**Już istniejące** `page_view`, `view_item`, `generate_lead` pozostają w dotychczasowych plikach. Skrypt Phase 20.2 nie emituje ich ponownie; nie zgłasza też `purchase`, który musi wynikać z potwierdzonej transakcji Stripe.
+### Najłatwiejsza metoda — pełna paczka
 
-## Instalacja — po pomyślnym wdrożeniu Phase 20.1
+1. W Netlify sprawdź, czy Phase 20.2 ma status **Published**.
+2. Rozpakuj `LilKangooMedia_Phase20_3_CUSTOMER_UX_FULL.zip`.
+3. Skopiuj pliki do repozytorium GitHub `LilKangoo/LilKangooMedia` **z zachowaniem ścieżek**:
+   - `index.html` (HTML Phase 20.2 + dwie nowe linie)
+   - `home.html` (HTML Phase 20.2 + dwie nowe linie)
+   - `assets/lkm-v3/phase20-ux.js` (nowy)
+   - `assets/lkm-v3/phase20-ux.css` (nowy)
+4. Commit changes → poczekaj na nowy deploy Netlify → Cmd + Shift + R.
 
-1. Poczekaj, aż Phase 20.1 będzie mieć status **Published** w Netlify.
-2. Rozpakuj tę paczkę i skopiuj pliki do tych samych ścieżek repozytorium `LilKangoo/LilKangooMedia`:
-   - `index.html` (wersja Phase 20.1 + JEDNA linia skryptu)
-   - `home.html` (wersja Phase 20.1 + JEDNA linia skryptu)
-   - `assets/lkm-v3/phase20-funnel.js` (nowy plik)
-3. Wykonaj Commit changes na GitHub. Netlify wdroży aktualizację.
-4. Odśwież stronę przez Cmd + Shift + R.
+### Bezpieczna metoda, jeśli po Phase 20.2 zmieniałeś HTML
 
-**Uwaga na nadpisanie innych zmian:** index.html i home.html w tej paczce powstały z dokładnych plików Phase 20.1. Jeśli wprowadziłeś do nich jakiekolwiek inne zmiany, wgraj wyłącznie nowy `assets/lkm-v3/phase20-funnel.js`, a w obu bieżących plikach HTML dodaj ręcznie, zaraz przed `</head>`, tylko:
+Nie nadpisuj `index.html` ani `home.html`. Rozpakuj `LilKangooMedia_Phase20_3_CUSTOMER_UX_PATCH.zip`, dodaj **dwa nowe pliki** `assets/lkm-v3/phase20-ux.js` i `assets/lkm-v3/phase20-ux.css`. W **obu** obecnych plikach `index.html` i `home.html` dodaj dokładnie raz, tuż przed `</head>`:
 
 ```html
-<script defer src="/assets/lkm-v3/phase20-funnel.js"></script>
+<link rel="stylesheet" href="/assets/lkm-v3/phase20-ux.css">
+<script defer src="/assets/lkm-v3/phase20-ux.js"></script>
 ```
 
-Nie podmieniaj danych Supabase, zmiennych środowiskowych, plików Stripe ani `netlify.toml`.
+Nie usuwaj istniejących skryptów `phase20-conversion.js` ani `phase20-funnel.js`.
 
 ## Test po wdrożeniu
 
-1. Otwórz LilKangooMedia.com w prywatnym oknie, nie wyrażaj zgody na Analytics. Przejdź katalog → usługa → formularz. Nowe zdarzenia **nie powinny** być wysyłane do GA4.
-2. W kolejnym oknie zaakceptuj Analytics. Otwórz kartę usługi, kliknij Quick enquiry, wpisz próbny tekst. W GA4 → Realtime (lub DebugView podczas debugowania) powinny pojawić się zdarzenia pomiarowe.
-3. Przejdź konfigurator → szczegóły. Zobacz `lkm_quote_view`, `lkm_request_view`.
-4. Nie traktuj `lkm_form_submit_attempt` jako konwersji. Dopiero `generate_lead`, wysłany po sukcesie backendu, oznacza lead. Potwierdź także wpis w `contact_leads` i e-mail w Resend.
-5. Na telefonie kliknij pasek „Configure package” / „Ask a question”: `lkm_cta_click` ma właściwe `placement=mobile_sticky`.
-
-Uwaga: zdarzenia GA4 mogą pojawiać się w raportach standardowych z opóźnieniem. Aby raportować parametry `service_id`, `action_type`, `placement`, `form_type`, `package_id`, skonfiguruj **event-scoped custom dimensions** w Administracja → Custom definitions w GA4. Nie dodawaj żadnych danych osobowych jako wymiarów.
-
-## Bezpieczeństwo i prywatność
-
-- Dane osobowe z formularzy (imię, e-mail, telefon, wiadomość) nie są przekazywane do GA4 przez nowy skrypt.
-- Tracking uruchamia się tylko gdy `lkm_analytics_consent === 'yes'` i istnieje funkcja `gtag` dostarczana przez dotychczasowy mechanizm zgody.
-- Skrypt nie ma dostępu do klucza `service_role` i nie dotyka żadnej tabeli ani płatności.
-- Słowo `submit_attempt` nie oznacza pomyślnej wysyłki — zbieramy je wyłącznie do diagnozowania utraty zainteresowanych użytkowników.
+1. Otwórz `https://lilkangoomedia.com/#/services?audience=personal` na telefonie i komputerze.
+2. Wpisz fragment nazwy usługi i kliknij `Search`: strona przewija do wyników. `Clear` usuwa wpis.
+3. Wybierz kategorię i wpisz nazwę usługi z innej kategorii: powinny pokazać się podpowiedzi i `Search all categories`.
+4. Kliknij nazwę dowolnej usługi oraz `Quick enquiry`: oba działania muszą funkcjonować.
+5. Na stronie szczegółów kliknij `Jump to packages`. Sprawdź też mobilny pasek z Phase 20.1.
+6. W konfiguratorze i formularzu Quick enquiry spróbuj wybrać minioną datę: pole nie powinno tego akceptować.
+7. Sprawdź, czy po Phase 20.2 zachowały się zdarzenia GA4, bez podwójnego liczenia. Ten moduł **nie dodaje nowych zdarzeń**.
+8. Jeśli chcesz przetestować zapis zapytania, użyj własnego adresu e-mail, potem sprawdź `contact_leads` oraz Resend. Nie testuj na danych klientów.
 
 ## Cofnięcie zmiany
 
-Usuń linię `phase20-funnel.js` z `index.html` i `home.html` albo przywróć poprzedni deploy Netlify. Sam pozostawiony plik JS nie jest wykonywany, jeśli nie jest dołączony w HTML.
+Usuń tylko powyższe dwie linie HTML z **obu** stron albo wróć do poprzedniego działającego deployu Netlify. Nowe pliki CSS/JS bez linków w HTML nie będą ładowane.
 
-## Testy wykonane przed przekazaniem
+## Testy wykonane
 
-- `node --check assets/lkm-v3/phase20-funnel.js` — PASS.
-- Rzeczywisty Chromium (Playwright): brak wysyłki zdarzeń przed zgodą; select_item, CTA, formularze i etap wyceny po zgodzie; bez danych osobowych; brak duplikatów kroku wyceny — PASS.
-- Archiwum ZIP: kontrola integralności i struktury plików — PASS.
-- Produkcyjny deploy i rzeczywista widoczność raportów GA4: nie zostały jeszcze potwierdzone.
+- `node --check assets/lkm-v3/phase20-ux.js` — PASS.
+- Test w Chromium (Playwright): Clear/Search, wyniki w innych kategoriach, przełączenie na All z zachowaniem wpisanej frazy, formularz z Phase 20.1, walidacja daty, brak pętli DOM — PASS.
+- HTML `index.html` i `home.html` pochodzi z dokładnej paczki Phase 20.2 z dopisanymi tylko dwoma linkami do nowych zasobów.
+- Kontrola integralności ZIP — PASS.
+- **Rzeczywisty deploy produkcyjny, płatności i zapis danych po tej aktualizacji nie były wykonywane**. Te elementy sprawdź na Netlify i Supabase po wdrożeniu.
 
-Kolejny etap: Phase 20.3 — dopracowanie UX katalogu, komunikatów i nawigacji mobilnej bez zmian w cenach i bazie.
+## Kolejny krok
+
+Phase 20.4 — poprawa niezawodności formularzy, komunikatów o częściowym powodzeniu i dostępności, potem Phase 20.5 SEO/performance.
