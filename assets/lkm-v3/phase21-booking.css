@@ -1,0 +1,16 @@
+/* Phase 21.1 — compact booking preferences within existing request form. */
+.lkm21-preferences{margin:20px 0 14px;border:1px solid #dfe7dd;border-radius:14px;background:#f7faf5;padding:20px}
+.lkm21-preferences h3{font:800 19px/1.2 'Manrope','DM Sans',sans-serif;letter-spacing:-.5px;margin:0 0 7px;color:#253b2c}
+.lkm21-subtitle{margin:0 0 18px;font-size:13px;line-height:1.5;color:#5b6b5e}
+.lkm21-preference-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.lkm21-field{min-width:0;margin-bottom:14px}
+.lkm21-field label{display:block;font-size:12px;font-weight:750;margin-bottom:7px}
+.lkm21-field input,.lkm21-field select{display:block;width:100%;min-width:0;max-width:100%;border-radius:9px;border:1px solid #cbd7ca;background:#fff;padding:11px 12px;min-height:45px;color:#1b2f22;font-size:14px}
+.lkm21-field-hint{display:block;font-size:11px;color:#677569;line-height:1.5;margin-top:5px}
+.lkm21-booking-notice{border-left:3px solid #e69b38;background:#fff9f0;color:#5a4a34;border-radius:0 9px 9px 0;padding:11px 13px;font-size:12px;line-height:1.5}
+.lkm21-booking-summary{margin-top:18px;background:#f2f7f0;border:1px solid #dce8d9;border-radius:12px;padding:15px}
+.lkm21-booking-summary h4{font-size:13px;margin:0 0 10px;color:#253b2c}
+.lkm21-booking-summary-text{display:grid;gap:6px;margin:0!important}
+.lkm21-booking-summary-text span{color:#596a5d;font-size:12px;overflow-wrap:anywhere}
+#checkoutButton[data-lkm21-disabled][hidden]{display:none!important}
+@media(max-width:650px){.lkm21-preference-grid{grid-template-columns:1fr;gap:0}.lkm21-preferences{padding:16px 14px}}

@@ -18,6 +18,18 @@ const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g,
   c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const emailValid = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 200;
 const uuidV4 = value => /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+// Strict ISO dates; reject invalid calendar days, not only invalid date formats.
+const validDate = value => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T12:00:00Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0,10) === value;
+};
+const todayCyprus = () => {
+  const parts = new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Nicosia', year:'numeric', month:'2-digit', day:'2-digit'}).formatToParts(new Date());
+  const part = type => parts.find(item => item.type === type)?.value || '';
+  return `${part('year')}-${part('month')}-${part('day')}`;
+};
+const bookingTimes = {flexible:'Flexible — any time', morning:'Morning (08:00–12:00)', afternoon:'Afternoon (12:00–17:00)', evening:'Evening (17:00–22:00)'};
 
 async function verifyTurnstile(secret, token, ip) {
   if (!secret) return true;
@@ -61,18 +73,34 @@ export default async function enquiry(request) {
   const service = str(data.service_slug || data.service_type, 120);
   const packageId = str(data.package_id, 100);
   const preferredDate = str(data.preferred_date, 25);
-  const message = str(data.message, 3000);
+  const userMessage = str(data.message, 3000);
   const submissionType = str(data.type, 40) || 'general_enquiry';
+  const bookingTime = submissionType === 'booking_enquiry' ? str(data.booking_time, 30) : '';
+  const alternativeDate = submissionType === 'booking_enquiry' ? str(data.booking_alternative_date, 25) : '';
+  const bookingLocation = submissionType === 'booking_enquiry' ? str(data.booking_location, 160).replace(/\s+/g,' ') : '';
+  const bookingParts = [];
+  if (bookingTime) bookingParts.push('Preferred time: ' + bookingTimes[bookingTime]);
+  if (alternativeDate) bookingParts.push('Alternative date: ' + alternativeDate);
+  if (bookingLocation) bookingParts.push('Location / area: ' + bookingLocation);
+  // Persist booking preferences in the existing message column; no schema migration needed.
+  const message = userMessage + (bookingParts.length ? '\n\n[BOOKING PREFERENCES]\n' + bookingParts.join('\n') + '\n[END BOOKING PREFERENCES]' : '');
   const consent = data.consent === 'on' || data.consent === true || data.consent === 'true';
   const requestId = str(data.request_id, 80);
   if (requestId && !uuidV4(requestId)) {
     return json({ok: false, error: 'Invalid request identifier.'}, 400);
   }
-  if (!name || !emailValid(email) || message.length < 6 || !consent) {
+  if (!name || !emailValid(email) || userMessage.length < 6 || !consent) {
     return json({ok: false, error: 'Enter your name, valid email, a message of at least 6 characters, and consent.'}, 400);
   }
-  if (preferredDate && !/^\d{4}-\d{2}-\d{2}$/.test(preferredDate)) {
-    return json({ok: false, error: 'Invalid preferred date.'}, 400);
+  if (bookingTime && !Object.hasOwn(bookingTimes, bookingTime)) {
+    return json({ok:false, error:'Invalid preferred time.'},400);
+  }
+  const today = todayCyprus();
+  if (preferredDate && (!validDate(preferredDate) || preferredDate < today)) {
+    return json({ok:false,error:'Choose a valid preferred date today or later.'},400);
+  }
+  if (alternativeDate && (!validDate(alternativeDate) || alternativeDate < today || !preferredDate || alternativeDate === preferredDate)) {
+    return json({ok:false,error:'Choose a different alternative date today or later.'},400);
   }
 
   const env = process.env;
