@@ -8,12 +8,31 @@
   <link rel="canonical" href="https://lilkangoomedia.com/">
   <link rel="icon" href="./assets/lkm-v3/brand/logo-profile.png">
   <meta property="og:type" content="website"><meta property="og:title" content="LilKangooMedia — Creative Media & Marketing in Cyprus"><meta property="og:image" content="https://lilkangoomedia.com/assets/images/home-meta.jpg">
+  <meta property="og:description" content="Professional photography, films, websites and creative marketing for people and businesses throughout Cyprus.">
+  <meta property="og:url" content="https://lilkangoomedia.com/">
+  <meta property="og:site_name" content="LilKangooMedia">
+  <meta property="og:image:alt" content="LilKangooMedia creative photography and video in Cyprus">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://lilkangoomedia.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- The homepage is SPA-rendered. Only prioritize its hero image on actual homepage visits. -->
+  <script>
+  if (!location.hash || location.hash === '#/' || location.hash === '#') {
+    const heroPreload = document.createElement('link');
+    heroPreload.rel = 'preload';
+    heroPreload.as = 'image';
+    heroPreload.href = '/assets/images/wedding-6.jpeg';
+    heroPreload.fetchPriority = 'high';
+    document.head.append(heroPreload);
+  }
+  </script>
   <!-- Google AdSense integration -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1951868717311818" crossorigin="anonymous"></script>
   <!-- Google Analytics 4 loads after analytics consent. -->
   <meta name="google-analytics-measurement-id" content="G-VB93M2KSMX">
 
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"LilKangooMedia","url":"https://lilkangoomedia.com/","image":"https://lilkangoomedia.com/assets/images/home-meta.jpg","logo":"https://lilkangoomedia.com/assets/lkm-v3/brand/logo-profile.png","email":"photo@lilkangoomedia.com","telephone":"+35799005924","areaServed":{"@type":"Country","name":"Cyprus"},"sameAs":["https://www.instagram.com/lilkangoomedia","https://www.facebook.com/Lilkangoomedia/","https://www.youtube.com/channel/UCgIrKPHFpPy6srhdq4SjEtw"]}</script>
   <link rel="stylesheet" href="./assets/lkm-v3/site.css">
   <link rel="stylesheet" href="./assets/lkm-v3/video.css">
   <script src="./lkm-config.js"></script><script src="./assets/lkm-v3/seed.js"></script>

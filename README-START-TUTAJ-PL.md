@@ -1,75 +1,68 @@
-# LilKangooMedia — Phase 20.4: Reliable Enquiries
+# LilKangooMedia — Phase 20.5: SEO & Performance
 
-**Instaluj po Phase 20.3** (Customer UX). Ta poprawka rozwiązuje problem niejednoznacznego wyniku formularza, gdy Supabase zapisze zapytanie, ale e-mail z Resend nie wyjdzie lub klient utraci połączenie.
+**Instaluj po Phase 20.4.** Paczka powstała na bazie `index.html` oraz `home.html` z Phase 20.4 i zachowuje wszystkie wcześniejsze skrypty (`phase20-conversion`, `phase20-funnel`, `phase20-ux`, `phase20-reliability`).
 
-## Co zmienia
+## Co zostało poprawione
 
-1. Każdy formularz (`bookingForm`, `contactForm` i `lkm20-quick-form`) dostaje własny losowy identyfikator `request_id` (UUID v4) **przed** wysłaniem przez istniejącą funkcję. Przy ponowieniu wysyłki tego samego formularza identyfikator pozostaje taki sam; po zmianie wpisanych danych powstaje nowy.
-2. Endpoint Netlify `POST /api/enquiry` wykorzystuje `request_id` jako identyfikator rekordu w istniejącej tabeli `contact_leads` (kolumna `id uuid primary key`). Ponowienie tego samego identyfikatora zwraca potwierdzenie istniejącego zgłoszenia, zamiast tworzyć duplikat lub wysyłać drugi e-mail.
-3. Jeśli Supabase zapisał rekord, ale Resend nie wyśle maila, serwer zwraca `200 {ok:true,saved:true,notification_sent:false}`. Klient otrzymuje potwierdzenie, ponieważ zapytanie rzeczywiście jest w bazie. Błąd trafia do logów Netlify.
-4. Przy braku konfiguracji Resend zapis do Supabase nadal działa; w logach Netlify widoczny jest błąd powiadomienia. Dane kontaktowe pozostają w panelu **Enquiries & bookings**.
-5. Stare formularze bez `request_id` nadal działają.
+1. **Sitemap:** po obecnym `scripts/build_articles.py` Netlify uruchamia `scripts/phase20_rebuild_sitemap.py`. Skrypt odbudowuje mapę na podstawie publicznego `articles-index.json` i istniejących historycznych stron, usuwa oczywiste martwe linki i powtarzające się wpisy strony głównej. Nie zmienia artykułów ani ich adresów. Nie publikuje roboczych wpisów Supabase.
+2. **Aktualne dane:** z mapy usuwane są niezweryfikowane `lastmod` z 2024 r. Daty znaczących zmian będziemy uzupełniać tylko na podstawie rzeczywistych danych.
+3. **robots.txt:** dodaje `Sitemap: https://lilkangoomedia.com/sitemap.xml`, zachowując ogólne `Allow: /`.
+4. **Homepage:** Open Graph `description`, `url`, `site_name`, alternatywny opis zdjęcia i Twitter/X card. Bez duplikowania tagu canonical.
+5. **Portfolio / blog:** dodaje własne Open Graph i Twitter/X card oraz prawidłowe canonical, zachowując istniejącą zawartość, CMS, Analytics i menu.
+6. **JSON-LD:** uporządkowane dane o LilKangooMedia jako `ProfessionalService`: prawdziwe kontakty, strona, oficjalne profile i obszar działania — Cypr. Nie deklaruje nieistniejącej siedziby, ocen ani niepotwierdzonej ceny.
+7. **Szybkość startu:** preconnect do Google Fonts i warunkowy `preload` pierwszego dużego zdjęcia strony głównej. Preload nie jest aktywny przy wejściu od razu na inne widoki `/#/...`.
 
-**Nie zmieniamy:** tabel i polityk RLS Supabase, cen, Stripe, artykułów, SEO, konfiguratora, schematu usług, opinii Google ani poprzednich modułów Phase 20.
+**Nie zmieniamy:** Supabase, Stripe, Resend, schema DB, parametrów płatności, panelu admina, opinii, adresów starych artykułów, galeríi, Netlify Functions ani wszystkich modułów wcześniejszych Phase 20.
 
-## Wariant A — polecany FULL
+## Instalacja — FULL (polecana, jeżeli przed chwilą wgrałeś 20.4)
 
-1. Upewnij się, że Phase 20.3 ma status **Published** w Netlify.
-2. Rozpakuj `LilKangooMedia_Phase20_4_RELIABLE_FORMS_FULL.zip`.
-3. Przekopiuj dokładnie pliki i foldery do głównego katalogu GitHub `LilKangoo/LilKangooMedia`:
+1. Sprawdź Netlify → Deploys: **Phase 20.4 = Published**.
+2. Rozpakuj ZIP `LilKangooMedia_Phase20_5_SEO_PERFORMANCE_FULL.zip`.
+3. Przenieś z paczki do odpowiednich miejsc w repozytorium `LilKangoo/LilKangooMedia`:
    - `index.html`
    - `home.html`
-   - `assets/lkm-v3/phase20-reliability.js` (nowy)
-   - `netlify/functions/enquiry.mjs` (aktualizacja istniejącego endpointu)
-   - `tests/netlify-enquiry.test.mjs` (aktualizacja testów)
-4. W GitHub wykonaj **Commit changes**. Poczekaj na Netlify → Deploys → **Published**.
-5. Otwórz stronę przez Cmd + Shift + R.
+   - `blog.html`
+   - `portfolio.html`
+   - `robots.txt`
+   - `netlify.toml`
+   - `scripts/phase20_rebuild_sitemap.py` (**nowy**)
+   - `tests/test_phase20_5.py` (opcjonalne testy)
+4. **Nie usuwaj** `scripts/build_articles.py` ani żadnych starych plików.
+5. Zrób Commit changes. Netlify powinien uruchomić polecenie:
+   `python3 scripts/build_articles.py && python3 scripts/phase20_rebuild_sitemap.py`.
+6. Po statusie **Published** otwórz `/sitemap.xml`, `/robots.txt`, `/portfolio.html`, `/blog.html`, `/` i sprawdź, czy ładują się prawidłowo.
 
-**Uwaga:** `index.html` oraz `home.html` opierają się dokładnie na Phase 20.3 i mają dodaną tylko jedną linię `<script>`.
+**Ważne:** nie wgrywamy ręcznie `sitemap.xml` z paczki. Tworzy się automatycznie w czasie builda, w oparciu o *aktualną* bazę opublikowanych artykułów. Ręczna statyczna mapa szybko stałaby się nieaktualna.
 
-## Wariant B — PATCH, jeśli edytowałeś HTML po Phase 20.3
+## Wariant CORE PATCH, jeżeli ręcznie edytowałeś HTML
 
-Zamiast nadpisywać `index.html` i `home.html`, skopiuj z PATCH tylko 3 pliki:
-- `assets/lkm-v3/phase20-reliability.js`
-- `netlify/functions/enquiry.mjs`
-- `tests/netlify-enquiry.test.mjs`
+Paczka `LilKangooMedia_Phase20_5_SEO_SITEMAP_CORE_PATCH.zip` zawiera tylko `robots.txt`, nowy generator sitemap i testy. W swoim aktualnym `netlify.toml` zmień **tylko** komendę `build.command`, zachowując inne ustawienia:
 
-Następnie w **obu** własnych plikach `index.html` i `home.html` dodaj dokładnie raz, przed `</head>`:
+**Przed:** `python3 scripts/build_articles.py`
 
-```html
-<script defer src="/assets/lkm-v3/phase20-reliability.js"></script>
-```
+**Po:** `python3 scripts/build_articles.py && python3 scripts/phase20_rebuild_sitemap.py`
 
-Nie usuwaj już istniejących `phase20-conversion.js`, `phase20-funnel.js`, `phase20-ux.js` ani ich CSS.
+Dodatkowe META / JSON-LD / preload możesz scalić ręcznie z odpowiednich czterech HTML z FULL. CORE PATCH bez takiego scalenia poprawia **tylko sitemap i robots.txt**, a nie META/szybkość.
 
 ## Test po instalacji
 
-1. Otwórz `https://lilkangoomedia.com/#/contact` i wyślij **jedno własne testowe zapytanie**. Powinno pojawić się w Supabase → Table editor → `contact_leads` oraz w adminie → Enquiries & bookings.
-2. Sprawdź Resend → Emails i skrzynkę LilKangooMedia. Jeżeli mail nie dotarł, ale zgłoszenie jest w tabeli, **nie wysyłaj go ponownie**; sprawdź Netlify → Logs → Functions → `enquiry`.
-3. Otwórz losową usługę i wyślij test przez **Quick enquiry**. Sprawdź, czy przypisana jest poprawna usługa.
-4. W Network → `/api/enquiry` poprawna odpowiedź powinna zawierać `ok: true`, `saved: true` i `notification_sent: true` (albo `false`, jeśli powiadomienie nie działa).
-5. Sprawdź mobilny pasek CTA, wyszukiwarkę i GA4 — poprawka nie zmienia tych funkcji.
+1. **Build Netlify:** log powinien zawierać `Phase 20.5: sitemap has ... URLs`. Jeśli budowa się nie uda, skopiuj fragment logu. Nie publikuj wadliwej wersji.
+2. **Sitemap:** otwórz `https://lilkangoomedia.com/sitemap.xml`. Sprawdź, czy występują artykuły; nie powinno być starych dat 2024 i pustych adresów.
+3. **Google Search Console:** dodaj/prześlij sitemap `https://lilkangoomedia.com/sitemap.xml`, a później sprawdź indeksowanie, canonical i stan artykułów. Samo przesłanie nie gwarantuje indeksacji.
+4. **Linki usług:** sprawdź bezpośrednie wejścia do `/#/services` i kilku `/#/service/...`, Quick Enquiry, formularz, portfolio i blog. `/#/service/...` **nadal nie jest osobną indeksowalną stroną** — wymaga kolejnej fazy z adresami URL bez `#`.
+5. **Wydajność:** porównaj PageSpeed Insights na telefonie przed/po na `/`, `/portfolio.html` i `/blog.html`. Ta paczka daje optymalizacje pobierania zasobów, ale bez rzeczywistego pomiaru nie deklarujemy poprawy LCP w milisekundach.
+6. **Social sharing:** sprawdź Open Graph w udostępnieniu `/`, `/portfolio.html`, `/blog.html`. Do udostępnienia usług nadal używaj istniejących `/share/service/:slug`.
 
-**Nie testuj na danych prawdziwych klientów.** Nie wyłączaj Resend ani nie zmieniaj produkcyjnych kluczy, aby sztucznie symulować błąd. Automatyczne testy z atrapami API obejmują nieudany Resend i duplikaty.
+## Testy lokalne
 
-### Ważne ograniczenie
+`python3 -m unittest discover -s tests -p test_phase20_5.py -v`
 
-Zapis do Supabase jest źródłem prawdy, ale ta aktualizacja **nie tworzy kolejki ponawiania nieudanych powiadomień e-mail**. Gdy Resend nie działa, zapytania są widoczne w bazie, ale e-mail nie zostanie automatycznie wysłany później. Warto więc kontrolować admin → Enquiries & bookings i logi Netlify do czasu naprawy Resend. Duplikat z tym samym identyfikatorem nie ponawia powiadomienia.
+7 testów: generowanie, powtarzalność, brak manifestu, błędny XML, bezpieczeństwo URL, zgodność z Phase 20.4, META i Netlify. Sprawdzono także 11 testów backendu formularza z Phase 20.4. **Nie przeprowadzono testu rzeczywistego deployu ani Chrome/Lighthouse w tym środowisku**.
 
-## Kontrola techniczna
+## Cofnięcie zmian
 
-- `node --check netlify/functions/enquiry.mjs` — PASS.
-- `node --check assets/lkm-v3/phase20-reliability.js` — PASS.
-- `node --test tests/netlify-enquiry.test.mjs` — 11 PASS.
-- Chromium/Playwright: stały identyfikator przy ponownej próbie, nowy po edycji formularza i przy kolejnym otwarciu Quick enquiry — PASS.
-- Archiwum ZIP: integralność i kontrola ścieżek — PASS.
-
-**Nie testowano realnego zapisu/Resend/Netlify na produkcji.** Potwierdź działanie po wdrożeniu.
-
-## Cofanie zmian
-
-W Netlify wybierz poprzedni działający deploy lub przywróć poprzednią wersję `netlify/functions/enquiry.mjs`, usuń jedną linię skryptu z `index.html` i `home.html`. Sam plik `phase20-reliability.js` nie jest uruchamiany bez odwołania z HTML.
+Przywróć poprzedni działający deploy Netlify lub przywróć stare `netlify.toml`, `robots.txt`, `index.html`, `home.html`, `blog.html`, `portfolio.html`. Sam nowy skrypt nie działa bez odwołania w `netlify.toml`. Nie wymaga wycofywania SQL.
 
 ## Następny etap
 
-Phase 20.5 — audyt SEO, wydajności stron i zgodności linków bez naruszania zachowanych adresów artykułów.
+Phase 21 — zatwierdzanie dostępności i płatności; osobnym zadaniem SEO będzie przygotowanie realnych stron usług z adresami bez `#` i unikalnym META, bez łamania historycznych linków.

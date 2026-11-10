@@ -1,6 +1,6 @@
-# LilKangooMedia — Netlify generated articles and shareable service/gallery previews.
+# LilKangooMedia — existing Netlify config, plus Phase 20.5 sitemap finalization.
 [build]
-  command = "python3 scripts/build_articles.py"
+  command = "python3 scripts/build_articles.py && python3 scripts/phase20_rebuild_sitemap.py"
   publish = "."
   functions = "netlify/functions"
 
