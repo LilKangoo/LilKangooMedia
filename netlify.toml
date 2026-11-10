@@ -1,13 +1,12 @@
-# LilKangooMedia — existing Netlify config, plus Phase 20.5 sitemap finalization.
+# LilKangooMedia — Netlify build with SEO service pages.
 [build]
-  command = "python3 scripts/build_articles.py && python3 scripts/phase20_rebuild_sitemap.py"
+  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py"
   publish = "."
   functions = "netlify/functions"
 
 [build.environment]
   PYTHON_VERSION = "3.12"
 
-# 200-rewrite: social crawlers receive OpenGraph metadata, browsers move to the normal SPA route.
 [[redirects]]
   from = "/share/service/:slug"
   to = "/.netlify/functions/link-preview?kind=service&slug=:slug"

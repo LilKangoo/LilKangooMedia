@@ -76,6 +76,10 @@ def build(root):
     except (ValueError, KeyError, OSError) as exc:
         raise RuntimeError('Invalid articles manifest; not overwriting sitemap') from exc
     html_index = {p.name.lower(): p for p in root.glob('*.html')}
+    # Phase 25.2: include only dedicated /services/ pages, never recurse into admin.
+    services_dir = root / 'services'
+    if services_dir.is_dir():
+        html_index.update({'services/' + p.name.lower(): p for p in services_dir.glob('*.html')})
     urls = set()
     for path in PUBLIC_STATIC:
         if file_backed(path, html_index):
@@ -117,6 +121,22 @@ def build(root):
     # A previously published article removed from the manifest is not necessarily
     # missing from Git (legacy source HTML exists); the legacy URLs are retained.
     urls.update(published_canonical)
+    # Phase 25.2: publish the build-generated canonical service paths, and only
+    # when the exact HTML file exists and is not noindex.
+    service_index = root / 'assets/lkm-v3/service-seo-index.json'
+    if service_index.is_file():
+        try:
+            service_paths = json.loads(service_index.read_text(encoding='utf-8')).get('paths', [])
+            if not isinstance(service_paths, list):
+                raise ValueError('Expected list of service paths')
+        except (ValueError, OSError) as exc:
+            raise RuntimeError('Invalid service SEO manifest; sitemap not written') from exc
+        for item in service_paths:
+            if not isinstance(item, str) or not re.fullmatch(r'/services/(?:index|[a-z0-9-]{1,90})\.html', item):
+                raise RuntimeError('Unsafe service SEO path; sitemap not written')
+            if file_backed(item, html_index):
+                urls.add(BASE + item)
+
     # Remove duplicate aliases for modern canonical static pages.
     urls.discard(BASE + '/portfolio')
     urls.discard(BASE + '/blog')

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": [
+    "/services/index.html",
+    "/services/portrait-photography.html",
+    "/services/personal-videography.html",
+    "/services/wedding-photography-video.html",
+    "/services/cyprus-photo-trips.html",
+    "/services/cyprus-video-trips.html",
+    "/services/private-events.html",
+    "/services/product-brand-photography.html",
+    "/services/commercial-video-reels.html",
+    "/services/social-media-management.html",
+    "/services/graphic-design.html",
+    "/services/website-design.html",
+    "/services/brand-launch-packages.html",
+    "/services/marketing-advertising.html"
+  ]
+}
