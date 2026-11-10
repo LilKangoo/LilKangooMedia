@@ -39,7 +39,7 @@ with sync_playwright() as p:
           const id=new URL(path).searchParams.get('id').replace('eq.','');
           window.__blocks=window.__blocks.filter(b=>b.id!==id);
         }else result=window.__blocks;
-      }else if(path.includes('contact_leads')){
+      }else if(path.includes('lkm_booking_confirmations')){result=[];}else if(path.includes('contact_leads')){
         result=[{id:'lead1',customer_name:'Alice',service_slug:'photo',preferred_date:today,status:'new'}];
       }else if(path.includes('stripe_orders')){
         result=[{id:'order1',customer_name:'Bob',service_slug:'photo',preferred_date:today,status:'test_paid_pending_confirmation',paid_amount_cents:3000}];
@@ -50,7 +50,7 @@ with sync_playwright() as p:
   page.evaluate(admin_js)
   page.wait_for_selector('.lkmcal-days .lkmcal-day')
   assert page.locator('.lkmcal-day').count()>=28
-  assert page.locator('.lkmcal-stat').count()==3
+  assert page.locator('.lkmcal-stat').count()==4
   page.locator(f'[data-date="{today}"]').click()
   assert 'Alice' in page.locator('.lkmcal-aside').inner_text()
   assert 'Bob' in page.locator('.lkmcal-aside').inner_text()

@@ -44,3 +44,6 @@
 .lkmcal-empty{color:#8a9b8c;font-size:12px;padding:12px;border:1px dashed #dfe6dc;border-radius:9px}
 @media(max-width:920px){.lkmcal-layout{grid-template-columns:1fr}.lkmcal-top{grid-template-columns:1fr}.lkmcal-controls{justify-content:space-between}}
 @media(max-width:640px){.lkmcal-container{width:calc(100% - 20px);margin:20px auto}.lkmcal-card{padding:9px}.lkmcal-day{min-height:79px;padding:6px 4px;gap:2px}.lkmcal-days,.lkmcal-weekdays{gap:3px}.lkmcal-tag{font-size:9px;max-width:100%;overflow:hidden;text-overflow:ellipsis}.lkmcal-month-label{min-width:115px;font-size:15px}.lkmcal-top{padding:12px}.lkmcal-btn{padding:8px 10px}.lkmcal-day-num{font-size:12px}}
+
+/* Phase 21.4: confirmed full-day bookings and explicit admin decisions. */
+.lkmcal-tag-confirmed{background:#164e35;color:#fff}.lkmcal-decision-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.lkmcal-entry>.lkmcal-btn{margin-top:10px}.lkmcal-entry .lkmcal-decision-actions .lkmcal-btn{font-size:11px;min-height:36px}.lkmcal-entry small{display:block;line-height:1.6}.lkmcal-card .lkmcal-btn:disabled{opacity:.6;cursor:not-allowed}

@@ -43,7 +43,7 @@ test('quote is calculated on server from fixed package, no client amount can ove
   ready();let stripeBody, stripeHeaders;let count=0;
   globalThis.fetch=async(url,opts)=>{
     count++;
-    if(String(url).includes('lkm_availability_blocks'))return new Response('[]',{status:200});
+    if(String(url).includes('lkm_availability_blocks')||String(url).includes('lkm_booking_confirmations'))return new Response('[]',{status:200});
     if(String(url).includes('supabase.co'))return new Response(JSON.stringify([record]),{status:200});
     if(String(url).includes('api.stripe.com')){stripeBody=new URLSearchParams(opts.body);stripeHeaders=opts.headers;return new Response(JSON.stringify({url:'https://checkout.stripe.com/c/pay/cs_test_123'}),{status:200});}
     throw Error('Unexpected '+url);
@@ -55,7 +55,7 @@ test('quote is calculated on server from fixed package, no client amount can ove
   assert.equal(stripeBody.get('metadata[preferred_date]'),cyprusToday());
   assert.equal(stripeHeaders['Idempotency-Key'],'lkm-'+reqId);
   assert.equal(stripeBody.get('payment_method_types[0]'),'card');
-  assert.equal(count,3);
+  assert.equal(count,4);
 });
 test('malformed dates and bogus payment id are rejected before external calls',async()=>{
   ready();globalThis.fetch=()=>{throw Error('Unexpected call')};

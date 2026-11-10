@@ -1,51 +1,49 @@
-# LilKangooMedia — PHASE 21.3: Availability Calendar
+# LilKangooMedia — Phase 21.4A: potwierdzenia i ochrona przed podwójną rezerwacją
 
-**Jedna kompletna paczka ZIP do wgrania do istniejącego repozytorium GitHub.** Kod HTML, CSS, JavaScript i Netlify Functions jest gotowy. Nie edytujesz ręcznie kodu. Paczka zawiera też wszystkie pliki Phase 21.2 wymagane przez Phase 21.3, więc nie cofa wcześniejszych funkcji Stripe.
+**Jedna kompletna paczka ZIP.** Zawiera wszystkie niezbędne pliki strony, kalendarza, wcześniejsze kompatybilne pliki Phase 21.3, kod backendu i nową migrację Supabase. Nie trzeba ręcznie zmieniać żadnej linijki HTML, CSS ani JavaScript.
 
-## NOWE FUNKCJE
+## Wdrożenie — dokładna kolejność
 
-- Nowy, chroniony kalendarz administratora pod adresem `https://lilkangoomedia.com/admin-calendar.html`.
-- Link **Availability calendar** w istniejącym menu panelu administratora.
-- Widok miesięczny dla wszystkich usług albo jednej wybranej; liczby zapytań, opłaconych zgłoszeń i blokad.
-- Blokowanie lub odblokowywanie pojedynczych dni dla **wszystkich usług** albo jednej usługi. Opcjonalna prywatna notatka administratora.
-- Baza `lkm_availability_blocks`: RLS dopuszcza odczyt i zmianę tylko przez istniejące konta administratorów, a unikalny indeks chroni przed zdublowaniem identycznej blokady.
-- Publiczny endpoint `/api/availability?service=portrait-photography&month=2026-11` pokazuje tylko zablokowane daty (nigdy notatki, e-maila czy imienia klienta).
-- Formularz klienta sprawdza datę i ostrzega o ręcznie zablokowanym terminie.
-- Endpoint `/api/checkout` serwerowo odrzuca płatność dla ręcznie zablokowanej daty; jeśli brakuje tabeli lub połączenia z bazą, płatność jest blokowana (fail-closed).
-- Nie tworzymy automatycznie potwierdzonych rezerwacji. Zapytania i opłacone zgłoszenia **wciąż wymagają Twojej akceptacji**.
+1. Rozpakuj archiwum ZIP na komputerze.
+2. **ZANIM wgrasz nowe pliki na GitHub, uruchom migrację** w swoim projekcie Supabase: SQL Editor > New query > otwórz plik `supabase/migrations/20261110_lkm_booking_confirmations.sql`, skopiuj CAŁĄ jego zawartość, wklej do SQL Editor i kliknij Run. To jednorazowy krok niezbędny do utworzenia bazy potwierdzonych rezerwacji. Nie edytuj SQL. Poprzednia migracja Phase 21.3 musi już działać.
+3. Otwórz GitHub repo `LilKangoo/LilKangooMedia`, wgraj **całą strukturę folderów** z ZIP do katalogu głównego repo. Zatwierdź aktualizację (Commit changes).
+4. Po zakończonym deployu Netlify przejdź do `https://lilkangoomedia.com/admin-calendar.html` i zaloguj się jako administrator.
+5. Wybierz dzień z istniejącym zapytaniem, kliknij **Confirm full day**. Dla tego samego dnia i usługi kolejne zgłoszenie nie będzie mogło zostać potwierdzone. W publicznym kalendarzu dzień pojawi się jako niedostępny.
+6. Dla potwierdzonego zgłoszenia kliknij **Email confirmation to client**: otworzy się Twój program pocztowy z gotowym tematem i treścią. Wysłanie wiadomości nadal wymaga kliknięcia Send przez Ciebie.
+7. Aby anulować potwierdzoną rezerwację, kliknij **Cancel confirmed booking**. Zwolni to dzień dla danej usługi. Jeśli klient już zapłacił, zgłoszenie dostanie status `refund_review_required` (lub `test_refund_review_required`) — SPRAWDŹ, CZY I JAKI ZWROT NALEŻY WYKONAĆ W STRIPE.
 
-## INSTALACJA
+## Zakres i ograniczenia
 
-1. Rozpakuj ZIP. Wgraj **całą jego zawartość** do głównego folderu repozytorium GitHub `LilKangoo/LilKangooMedia`, zachowując ścieżki katalogów. Potwierdź zastąpienie plików `index.html`, `home.html`, `admin.html` i wcześniejszych plików Phase 21.2. Nie usuwaj żadnych plików repozytorium.
-2. Wykonaj **Commit changes**. Netlify automatycznie opublikuje stronę. Żadne ręczne zmiany w plikach kodu nie są potrzebne.
-3. **JEDNORAZOWY KROK SUPABASE — obowiązkowy do działania blokad:** otwórz istniejący projekt Supabase → **SQL Editor → New query**. Otwórz plik `supabase/migrations/20261110_lkm_availability_blocks.sql` z tej samej paczki, skopiuj jego kompletną zawartość do SQL Editor i kliknij **Run**. To jest migracja bazy, nie modyfikacja kodu witryny. Plik w GitHub NIE wykonuje SQL automatycznie. Nie publikuj haseł ani kluczy API.
-4. Zaloguj się do `https://lilkangoomedia.com/admin-calendar.html` tym samym kontem, którego używasz w `/admin.html`. Wybierz usługę i dzień, dodaj testową blokadę oraz odśwież kalendarz.
-5. Sprawdź na stronie klienta wybraną usługę i przejdź do formularza `/#/request`. Po wybraniu zablokowanej daty powinien pojawić się komunikat „Unavailable”. Następnie usuń testową blokadę w panelu administratora.
-6. Jeśli masz włączony **Stripe TEST**, sprawdź, że Checkout nie przyjmuje ręcznie zablokowanej daty, a przy niezablokowanej może tworzyć sesję testową. **Nie włączaj płatności LIVE bez osobnego sprawdzenia terminów i polityki zwrotów.**
+- Potwierdzenie zajmuje **cały dzień** dla jednej usługi. To bezpieczne, konserwatywne zabezpieczenie, nie grafik godzinowy i nie zarządzanie zespołem wielu fotografów. Dokładne sloty godzinowe i przydzielanie personelu to następny etap.
+- Tylko konto zarejestrowane w `admin_users` może zatwierdzać lub anulować rezerwacje.
+- Zatwierdzenie / anulowanie w Supabase jest transakcyjne. Unikalny indeks blokuje jednoczesne zatwierdzenie dwóch różnych zgłoszeń na ten sam dzień dla tej samej usługi. Ręczne globalne blokady dat też są sprawdzane.
+- Płatność (nawet opłacona w Stripe) nadal nie potwierdza automatycznie terminu. Strona klienta i Checkout odczytują potwierdzone dni jako niedostępne.
+- **Uwaga:** klient z otwartą wcześniej sesją Stripe może dokończyć płatność mimo późniejszego zajęcia daty. Zapisana płatność nadal jest tylko `paid_pending_confirmation`; nie powstanie drugi potwierdzony booking. Takie zgłoszenia wymagają Twojej ręcznej decyzji. Nie uruchamiaj Stripe LIVE bez własnego procesu obsługi takich sytuacji.
+- **Żadnych automatycznych zwrotów**: zmiana statusu nie wysyła pieniędzy. Zwróć je ręcznie po weryfikacji w Stripe. Automatyczny kontrolowany refund workflow i timeouty holdów pozostają do Phase 21.4B.
+- Nie są wysyłane automatyczne e-maile potwierdzające. W kalendarzu jest bezpieczny link `mailto` do ręcznego wysłania.
+- Nie dodawaliśmy ani nie zmienialiśmy kluczy Netlify, Stripe i Supabase; nie zmieniliśmy cen usług.
+- SQL jest jedynym nieuniknionym dodatkowym krokiem poza GitHub/Netlify; plik w archiwum jest gotowy i nie wymaga modyfikacji.
+- Migracja została sprawdzona statycznie, ale nie była wykonana na Twojej rzeczywistej bazie. Zrób test na koncie administratora przed obsługą klientów.
 
-### Ważne: SQL to obowiązkowa jednorazowa konfiguracja
-W tej fazie dodajemy **nową tabelę w Supabase**. Same pliki GitHub/Netlify nie mają uprawnień do wykonania migracji schematu bazy; dlatego trzeba uruchomić dostarczony SQL w Supabase SQL Editor. Jeśli wgrasz ZIP, ale pominiesz SQL, kalendarz administratora pokaże błąd i Stripe Checkout nie pozwoli na pobranie płatności (bezpieczne blokowanie błędnej konfiguracji). Zwykłe zapytania e-mail nadal mogą działać.
+## Testy lokalne w archiwum
 
-## OGRANICZENIA — KONIECZNIE PRZECZYTAJ
+`node --test tests/phase21-payments.test.mjs tests/phase21-availability.test.mjs tests/phase21-confirmations.test.mjs`
 
-- **Brak obietnicy „wolny termin = gwarantowana rezerwacja”.** Status zielony oznacza tylko brak wpisanej blokady. Potwierdza go administrator.
-- **Jedna data nie oznacza jeszcze jednego slotu godzinowego.** Przy sesjach tego samego dnia lub wielu fotografach kalendarz wymaga od Ciebie decyzji, co blokować globalnie, a co dla konkretnej usługi.
-- **Ochrona przed dwoma jednoczesnymi płatnościami nie jest jeszcze atomowa.** Checkout sprawdza daty zablokowane przez admina, ale jeśli dwie osoby równocześnie otworzą płatność dla nieblokowanego dnia, system nie tworzy jeszcze transakcyjnego „hold”. Rzeczywiste blokady slotów / zatwierdzanie i zwroty wymagają **Phase 21.4**.
-- Zgłoszenia z płatnością pokazywane na kalendarzu nadal mają status pending, nie confirmed.
-- Publiczne API udostępnia same daty blokad, bez przyczyn i informacji o klientach.
-- Można cofnąć aplikację poprzez poprzedni Netlify deploy/commit GitHub. Nie usuwaj tabeli, jeśli znajdują się w niej już realne blokady.
-- Dla produkcji zalecane: najpierw SQL i konfiguracja na stagingu, testowy Checkout, dopiero później użycie live.
+`python tests/test_phase21_availability_browser.py`
 
-## TESTY (opcjonalnie, dla developera)
+`python tests/test_phase21_confirmations_browser.py`
 
-- `node --test tests/phase21-payments.test.mjs tests/phase21-availability.test.mjs`
-- `python tests/test_phase21_availability_browser.py` (Chromium + Playwright) — komputer i telefon, bez prawdziwego Supabase/Stripe.
-- Stare testy Phase 21.2 również pozostały w paczce.
+Przeglądarka używa mocków Supabase, więc testy nie pobierają pieniędzy i nie zmieniają danych.
 
-## RESZTA ROADMAPY
+## Co dalej — breakdown
 
-- **21.4** — atomowe blokady / hold slotów, potwierdzanie i odrzucanie rezerwacji, bezpieczne zwroty.
-- **22** — portfolio i filmy przy usługach, opinie dopasowane do usługi, case studies, B2B pakiety.
-- **23** — CRM, oferty PDF, akceptacja wycen, automatyczne follow-upy i linki do płatności.
-- **24** — panel klienta, zamówienia, faktury, pliki do pobrania, ponowne rezerwacje.
-- **25** — PL/EN, indeksowalne URL usług, analiza sprzedaży, optymalizacja konwersji.
+- Phase 19–20: katalog, szybkie zapytania, analityka, formularze, SEO — wgrane według informacji właściciela.
+- Phase 21.1: preferencje terminu — wgrane.
+- Phase 21.2: Netlify Stripe — wgrane, produkcyjne płatności nadal zależą od konfiguracji i testu.
+- Phase 21.3: kalendarz ręcznych blokad — wgrane + SQL potwierdzone przez właściciela.
+- **Phase 21.4A: potwierdzenia całodniowe, ochrona przed konfliktami i statusy zwrotów — w paczce.**
+- Phase 21.4B: rzeczywiste godzinowe sloty / holdy przed płatnością, proces zwrotów i komunikacji — plan.
+- Phase 22: portfolio i dowody jakości przy usługach.
+- Phase 23: CRM sprzedaży, oferty PDF i follow-up.
+- Phase 24: panel klienta i dostarczanie materiałów.
+- Phase 25: wielojęzyczność PL/EN i optymalizacja SEO/konwersji.

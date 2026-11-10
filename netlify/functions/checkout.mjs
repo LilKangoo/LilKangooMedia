@@ -29,6 +29,10 @@ export default async function checkout(request){
       'lkm_availability_blocks?select=id&blocked_date=eq.'+date+
       '&or=(service_slug.eq.'+slug+',service_slug.is.null)&limit=1');
     if(blocks.length) return json({ok:false,error:'This date is blocked. Please select another date or send an enquiry.'},409);
+    const reservations=await supabase(process.env,
+      'lkm_booking_confirmations?select=id&booking_date=eq.'+date+
+      '&service_slug=eq.'+slug+'&state=eq.confirmed&limit=1');
+    if(reservations.length) return json({ok:false,error:'This service is already booked on that date. Please choose another day or send an enquiry.'},409);
     const site=siteURL(process.env);
     const form=new URLSearchParams();
     form.set('mode','payment');form.set('payment_method_types[0]','card');

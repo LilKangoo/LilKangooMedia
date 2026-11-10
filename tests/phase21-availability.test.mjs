@@ -25,7 +25,7 @@ test('public endpoint rejects invalid method, service and month',async()=>{
 });
 test('public availability returns only deduplicated dates (never customer/private notes)',async()=>{
   const e=env();const urls=[];
-  globalThis.fetch=async url=>{urls.push(String(url));return new Response(JSON.stringify(String(url).includes('/services?')?[{slug:'photo'}]:[{blocked_date:day,note:'PRIVATE LOCATION',customer_email:'secret@example.com'},{blocked_date:day}]),{status:200})};
+  globalThis.fetch=async url=>{urls.push(String(url));return new Response(JSON.stringify(String(url).includes('/services?')?[{slug:'photo'}]:String(url).includes('lkm_booking_confirmations')?[{booking_date:day,customer_email:'secret@example.com'}]:[{blocked_date:day,note:'PRIVATE LOCATION',customer_email:'secret@example.com'},{blocked_date:day}]),{status:200})};
   const r=await publicAvailability('photo',day.slice(0,7),e);const body=await r.json();
   assert.equal(body.ok,true);assert.deepEqual(body.blocked_dates,[day]);
   assert.equal(JSON.stringify(body).includes('PRIVATE LOCATION'),false);
@@ -61,7 +61,7 @@ test('checkout fails closed when availability table cannot be queried',async()=>
 test('checkout still works for unblocked date after table migration',async()=>{
   env();let stripe=0;
   globalThis.fetch=async(url)=>{
-    if(String(url).includes('lkm_availability_blocks'))return new Response('[]',{status:200});
+    if(String(url).includes('lkm_availability_blocks')||String(url).includes('lkm_booking_confirmations'))return new Response('[]',{status:200});
     if(String(url).includes('/services?'))return new Response(JSON.stringify([service]),{status:200});
     if(String(url).includes('api.stripe.com')){stripe++;return new Response('{"url":"https://checkout.stripe.com/test"}',{status:200})}
     throw Error('Unexpected fetch '+url);

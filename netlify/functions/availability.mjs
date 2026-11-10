@@ -1,6 +1,6 @@
 /** Phase 21.3 — public, read-only availability for ONE service + ONE month.
  * Never disclose admin notes, email addresses, customer details or order metadata.
- * Dates marked unavailable are explicit admin blocks only. Open dates are requests,
+ * Dates marked unavailable include admin blocks and confirmed bookings. Open dates are requests,
  * NOT promised capacity or confirmed reservations.
  */
 import {json, value, validCalendarDate, cyprusToday, supabase} from '../lib/payments.mjs';
@@ -23,7 +23,11 @@ export async function publicAvailability(serviceSlug, month, env){
   const path='lkm_availability_blocks?select=blocked_date&blocked_date=gte.'+start+
     '&blocked_date=lte.'+end+'&or=(service_slug.eq.'+serviceSlug+',service_slug.is.null)&limit=100';
   const rows=await supabase(env,path);
-  const blocked=[...new Set(rows.map(r=>r.blocked_date).filter(validCalendarDate))].sort();
+  // Confirmed reservations are private. Only publish the blocked date, never client data.
+  const confirmed=await supabase(env,
+    'lkm_booking_confirmations?select=booking_date&booking_date=gte.'+start+
+    '&booking_date=lte.'+end+'&service_slug=eq.'+serviceSlug+'&state=eq.confirmed&limit=100');
+  const blocked=[...new Set([...rows.map(r=>r.blocked_date),...confirmed.map(r=>r.booking_date)].filter(validCalendarDate))].sort();
   return json({ok:true,service_slug:serviceSlug,month,blocked_dates:blocked,
     notice:'Availability is provisional. LilKangooMedia confirms each booking manually.'});
 }
