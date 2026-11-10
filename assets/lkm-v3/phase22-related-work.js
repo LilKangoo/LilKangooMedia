@@ -105,7 +105,7 @@
       const list = node('div', 'lkm22-grid');
       for (const project of projects) {
         const card = node('a', 'lkm22-card');
-        card.href = project.hasStory ? `/case-studies.html#/${encodeURIComponent(project.slug)}` : `/portfolio.html#/gallery/${encodeURIComponent(project.slug)}`;
+        card.href = project.hasStory ? `/portfolio.html#/story/${encodeURIComponent(project.slug)}` : `/portfolio.html#/gallery/${encodeURIComponent(project.slug)}`;
         const visual = node('div','lkm22-image-wrap');
         const img = node('img');
         img.src = project.image;

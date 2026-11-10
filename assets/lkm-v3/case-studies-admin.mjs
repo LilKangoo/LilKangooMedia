@@ -105,7 +105,7 @@ function draw(){
   form.append(make('p','lkm-case-fineprint','Publication requires a public portfolio gallery, a meaningful headline, objective and approach. Drafts are not visible to visitors. Do not publish private photos or unverified claims.'));
   const actions=make('div','lkm-case-form-actions');
   const save=make('button','button button-dark','Save case study');save.type='submit';
-  const preview=make('a','button button-light','Preview public story ↗');preview.target='_blank';preview.rel='noopener noreferrer';preview.href='/case-studies.html#/'+encodeURIComponent(g.slug);
+  const preview=make('a','button button-light','Preview public story ↗');preview.target='_blank';preview.rel='noopener noreferrer';preview.href='/portfolio.html#/story/'+encodeURIComponent(g.slug);
   if(prev.is_published!==true||g.visibility!=='public')preview.hidden=true;
   actions.append(save,preview);form.append(actions);editor.append(form);
   grid.append(aside,editor);root.append(grid);

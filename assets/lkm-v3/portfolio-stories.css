@@ -1,0 +1,101 @@
+/* Portfolio stories, integrated with the original CMS. No admin/payment styles affected. */
+#cmsPublic[hidden],#lkmPortfolioStoryView[hidden]{display:none!important}
+#cmsPublic .lkm-ps-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:32px 0 37px;padding:7px;background:#eff3ee;border:1px solid #dde6da;border-radius:20px}
+#cmsPublic .lkm-ps-nav-link{display:flex;align-items:center;gap:16px;min-width:0;padding:19px 21px;border-radius:15px;text-decoration:none!important;color:#2f4435;border:1px solid transparent;transition:background .2s,box-shadow .2s}
+#cmsPublic .lkm-ps-nav-link:hover{background:#fffaf4}
+#cmsPublic .lkm-ps-nav-link.is-current{background:#fff;border-color:#dfe7d9;box-shadow:0 5px 18px #1e3a2810}
+#cmsPublic .lkm-ps-nav-icon{display:grid;place-items:center;flex:0 0 43px;height:43px;border-radius:12px;background:#dfe7de;color:#254433;font-size:22px}
+#cmsPublic .lkm-ps-nav-link.is-current .lkm-ps-nav-icon{background:#254331;color:white}
+#cmsPublic .lkm-ps-nav-copy{display:flex;flex-direction:column;gap:4px;min-width:0}
+#cmsPublic .lkm-ps-nav-copy small{font-size:9px;letter-spacing:.13em;color:#8c6b4c;font-weight:800}
+#cmsPublic .lkm-ps-nav-copy strong{font-size:15px;color:#213a2d;line-height:1.3;letter-spacing:-.025em}
+#cmsPublic .lkm-ps-stories{margin:76px 0 0;padding:48px 0 10px;border-top:1px solid #dfe7da;scroll-margin-top:90px}
+#cmsPublic .lkm-ps-stories.is-full{margin:23px 0 0;border-top:0;padding:24px 0 15px}
+#cmsPublic .lkm-ps-section-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:24px}
+#cmsPublic .lkm-ps-kicker,.lkm-ps-reader .lkm-ps-kicker{color:#a45c2a;font-size:10px;font-weight:850;letter-spacing:.15em;text-transform:uppercase;margin:0 0 11px}
+#cmsPublic .lkm-ps-section-head h2{font-size:clamp(28px,3.5vw,45px);line-height:1.08;letter-spacing:-.045em;margin:0 0 10px;color:#203a2c}
+#cmsPublic .lkm-ps-intro{max-width:610px;color:#627366;font-size:14px;line-height:1.7;margin:0}
+#cmsPublic .lkm-ps-view-all{border:1px solid #cddbcf;border-radius:40px;padding:12px 18px;color:#254832;text-decoration:none;font-size:12px;font-weight:800;white-space:nowrap}
+#cmsPublic .lkm-ps-view-all:hover{background:#ecf4eb}
+#cmsPublic .lkm-ps-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:21px}
+#cmsPublic .lkm-ps-card{display:flex;flex-direction:column;background:#fff;color:#244031;text-decoration:none!important;border:1px solid #dfe7dd;border-radius:17px;overflow:hidden;box-shadow:0 3px 15px #15341b07;transition:transform .2s,box-shadow .2s}
+#cmsPublic .lkm-ps-card:hover{transform:translateY(-4px);box-shadow:0 14px 27px #1c3b2920}
+#cmsPublic .lkm-ps-card:focus-visible,#cmsPublic .lkm-ps-nav-link:focus-visible,#cmsPublic .lkm-ps-view-all:focus-visible{outline:3px solid #b97434;outline-offset:3px}
+#cmsPublic .lkm-ps-card-visual{aspect-ratio:16/10;position:relative;background:linear-gradient(140deg,#d9e5d8,#9ab79e);overflow:hidden;display:flex;align-items:center;justify-content:center}
+#cmsPublic .lkm-ps-card-visual img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+#cmsPublic .lkm-ps-card:hover img{transform:scale(1.04)}
+#cmsPublic .lkm-ps-card-no-image{font-size:15px;font-weight:750;color:#2f523c}
+#cmsPublic .lkm-ps-card-badge{position:absolute;top:14px;left:14px;border-radius:50px;padding:7px 11px;background:#fbfaf5ec;color:#3d533f;font-size:9px;font-weight:850;letter-spacing:.1em}
+#cmsPublic .lkm-ps-card-copy{padding:23px;display:flex;flex-direction:column;gap:9px;flex:1}
+#cmsPublic .lkm-ps-card-category{font-size:10px;letter-spacing:.08em;color:#a16a39;text-transform:uppercase;font-weight:800}
+#cmsPublic .lkm-ps-card h3{font-size:clamp(20px,2vw,25px);line-height:1.23;letter-spacing:-.035em;margin:0;color:#20392c}
+#cmsPublic .lkm-ps-card p{font-size:13px;line-height:1.65;color:#637366;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;margin:0}
+#cmsPublic .lkm-ps-card-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:end;justify-content:space-between;border-top:1px solid #e5ece4;padding-top:15px;margin-top:auto;color:#718075;font-size:11px}
+#cmsPublic .lkm-ps-card-foot strong{color:#9a5c31;font-size:12px}
+#cmsPublic .lkm-ps-empty{color:#617364;font-size:14px;line-height:1.6;padding:21px;background:#f2f5ef;border-radius:11px}
+.lkm-ps-stories-only #cmsPublic>.cms-pub-chips,.lkm-ps-stories-only #cmsPublic>.cms-pub-grid,.lkm-ps-stories-only #cmsPublic>.cms-pub-empty{display:none!important}
+#cmsPublic .lkm-ps-gallery-story{display:flex;justify-content:space-between;align-items:center;gap:15px;border:1px solid #dbe6dc;border-radius:15px;background:#f0f6ef;padding:21px 25px;margin:30px 0 25px}
+#cmsPublic .lkm-ps-gallery-story strong{font-size:18px;color:#244130}
+#cmsPublic .lkm-ps-gallery-story p{margin:6px 0 0;font-size:13px;color:#68796e}
+#cmsPublic .lkm-ps-gallery-story-cta{background:#284535;color:#fff;text-decoration:none;border-radius:30px;padding:12px 19px;font-size:12px;font-weight:800;white-space:nowrap}
+#cmsPublic .lkm-ps-gallery-story-cta:hover{background:#3e5d45}
+/* Story route lives on the same portfolio.html page; existing CMS stays intact but hidden. */
+.lkm-ps-reader{min-height:55vh;background:#f6f8f4;color:#21392b;padding:0 0 75px}
+.lkm-ps-reader .lkm-case-breadcrumb{padding-top:24px;padding-bottom:23px}
+.lkm-ps-reader .lkm-ps-story-hero{padding:0 0 38px}
+.lkm-ps-reader .lkm-ps-story-hero .lkm-case-wrap{padding:46px 35px 42px;background:#e9f0e8;border-radius:17px}
+.lkm-ps-reader .lkm-ps-story-hero h1{font-size:clamp(36px,5.1vw,66px);line-height:1.09;letter-spacing:-.06em;color:#193528;max-width:900px;margin:8px 0 19px}
+.lkm-ps-reader .lkm-ps-story-client{font-size:16px;color:#526c58;margin:0 0 20px}
+.lkm-ps-reader .lkm-ps-story-meta{display:flex;flex-wrap:wrap;gap:9px}
+.lkm-ps-reader .lkm-ps-story-meta span{padding:7px 11px;border-radius:50px;background:#fff;color:#48604d;font-weight:700;font-size:12px}
+.lkm-ps-reader .lkm-ps-story-cover{width:min(1180px,calc(100% - 40px));margin:-20px auto 0;max-height:530px;border-radius:14px;overflow:hidden;background:#dde7db}
+.lkm-ps-reader .lkm-ps-story-cover img{display:block;width:100%;height:100%;max-height:530px;object-fit:cover;aspect-ratio:21/9}
+.lkm-ps-reader .lkm-ps-story-body{padding-top:20px}
+.lkm-ps-reader .lkm-ps-story-media{margin:25px 0 55px}
+.lkm-ps-reader .lkm-ps-story-media h2{font-size:clamp(25px,3vw,37px);letter-spacing:-.035em;margin:0 0 24px;color:#203d2b}
+.lkm-ps-reader .lkm-ps-film-section{margin-bottom:45px}
+.lkm-ps-reader .lkm-ps-film-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.lkm-ps-reader .lkm-ps-film-card{background:#fff;border:1px solid #dce7da;border-radius:16px;overflow:hidden}
+.lkm-ps-reader .lkm-ps-film-poster{width:100%;position:relative;aspect-ratio:16/9;padding:0;border:0;cursor:pointer;background:#16291c;color:#fff;display:block}
+.lkm-ps-reader .lkm-ps-film-poster img{width:100%;height:100%;object-fit:cover;display:block;opacity:.9}
+.lkm-ps-reader .lkm-ps-film-poster:hover img{opacity:.75}
+.lkm-ps-reader .lkm-ps-film-poster:focus-visible{outline:3px solid #ad7542;outline-offset:-4px}
+.lkm-ps-reader .lkm-ps-play-icon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#1b3025e9;color:#fff;padding:11px 17px;border-radius:60px;font-size:13px;font-weight:800;white-space:nowrap}
+.lkm-ps-reader .lkm-ps-film-description{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:17px 20px;color:#2c4936}
+.lkm-ps-reader .lkm-ps-film-description strong{font-size:14px;line-height:1.4}
+.lkm-ps-reader .lkm-ps-film-description a{color:#a06030;font-size:12px;font-weight:800;white-space:nowrap}
+.lkm-ps-reader .lkm-ps-film-player{position:relative;width:100%;aspect-ratio:16/9;background:#18271c}
+.lkm-ps-reader .lkm-ps-film-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lkm-ps-reader .lkm-ps-film-player.is-short{aspect-ratio:9/16;max-width:300px;margin:0 auto}
+.lkm-ps-reader .lkm-ps-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.lkm-ps-reader .lkm-ps-photo-card{display:block;border:1px solid #dfe5da;border-radius:12px;overflow:hidden;background:#fff;color:#405745;text-decoration:none}
+.lkm-ps-reader .lkm-ps-photo-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.lkm-ps-reader .lkm-ps-photo-card span{display:block;padding:9px 12px;font-size:12px;line-height:1.5}
+.lkm-ps-reader .lkm-ps-gallery-link{display:inline-block;color:#9c5b30;font-weight:800;font-size:13px;margin:17px 0;text-decoration:underline}
+.lkm-ps-reader .lkm-case-cta{margin-top:42px}
+.lkm-ps-reader .lkm-ps-reader-empty{width:min(900px,calc(100% - 40px));margin:0 auto;padding:80px 0}
+.lkm-ps-reader .lkm-ps-reader-empty h1{font-size:clamp(31px,4vw,49px);color:#203d2b}
+.lkm-ps-reader .lkm-ps-reader-empty p{color:#667667;margin:18px 0 30px}
+.lkm-ps-reader .lkm-ps-loading{padding:70px 30px;text-align:center;font-size:16px;color:#56765a}
+@media(max-width:900px){
+  #cmsPublic .lkm-ps-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lkm-ps-reader .lkm-ps-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+  #cmsPublic .lkm-ps-nav{grid-template-columns:1fr;gap:5px;margin:23px 0 31px;padding:5px}
+  #cmsPublic .lkm-ps-nav-link{padding:12px 14px;gap:11px}
+  #cmsPublic .lkm-ps-nav-icon{height:35px;flex-basis:35px;font-size:18px}
+  #cmsPublic .lkm-ps-nav-copy strong{font-size:14px}
+  #cmsPublic .lkm-ps-stories{margin-top:52px;padding-top:33px}
+  #cmsPublic .lkm-ps-stories.is-full{margin-top:15px}
+  #cmsPublic .lkm-ps-section-head{align-items:flex-start;flex-direction:column;gap:14px}
+  #cmsPublic .lkm-ps-cards{grid-template-columns:1fr}
+  #cmsPublic .lkm-ps-gallery-story{align-items:flex-start;flex-direction:column;padding:18px}
+  .lkm-ps-reader .lkm-ps-story-hero .lkm-case-wrap{padding:34px 20px 28px}
+  .lkm-ps-reader .lkm-ps-story-cover{width:calc(100% - 30px);max-height:320px}
+  .lkm-ps-reader .lkm-ps-film-grid{grid-template-columns:1fr}
+  .lkm-ps-reader .lkm-ps-film-description{padding:13px 16px}
+  .lkm-ps-reader .lkm-ps-photo-grid{gap:9px}
+}
+@media(max-width:410px){.lkm-ps-reader .lkm-ps-photo-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#cmsPublic .lkm-ps-card,#cmsPublic .lkm-ps-card-visual img,#cmsPublic .lkm-ps-nav-link{transition:none}#cmsPublic .lkm-ps-card:hover,#cmsPublic .lkm-ps-card:hover img{transform:none}}
