@@ -1,64 +1,75 @@
-# LilKangooMedia — Phase 20.3: Customer UX & Navigation
+# LilKangooMedia — Phase 20.4: Reliable Enquiries
 
-## Co poprawiliśmy
+**Instaluj po Phase 20.3** (Customer UX). Ta poprawka rozwiązuje problem niejednoznacznego wyniku formularza, gdy Supabase zapisze zapytanie, ale e-mail z Resend nie wyjdzie lub klient utraci połączenie.
 
-- Katalog: działający przycisk **Search** przewijający do widocznych wyników, przycisk **Clear**, skrót `/` do wyszukiwarki (poza polami formularzy).
-- Wyszukiwanie przy włączonym filtrze kategorii: wskazówki dotyczące wyników w **innych kategoriach** i przycisk **Search all categories** zachowujący wpisany tekst.
-- Nazwy usług na kartach są klikalne; pozostają dotychczasowe przyciski Explore i Quick enquiry.
-- Mobile: pasek kategorii przewijany poziomo, wygodniejsze kontrolki wyszukiwarki.
-- Szczegóły usługi: skrót do pakietów/sekcji zapytań i powrót do katalogu; bez ingerencji w ceny.
-- Formularze: data preferowana nie może być z przeszłości; czytelna informacja, że termin musi zostać potwierdzony przez LilKangooMedia.
-- Kontakt: wygodny skrót do istniejącego numeru WhatsApp.
+## Co zmienia
 
-Nie zmienialiśmy Supabase, admina, Netlify Functions, cen, zniżek, Stripe, danych klientów ani URL-i SEO.
+1. Każdy formularz (`bookingForm`, `contactForm` i `lkm20-quick-form`) dostaje własny losowy identyfikator `request_id` (UUID v4) **przed** wysłaniem przez istniejącą funkcję. Przy ponowieniu wysyłki tego samego formularza identyfikator pozostaje taki sam; po zmianie wpisanych danych powstaje nowy.
+2. Endpoint Netlify `POST /api/enquiry` wykorzystuje `request_id` jako identyfikator rekordu w istniejącej tabeli `contact_leads` (kolumna `id uuid primary key`). Ponowienie tego samego identyfikatora zwraca potwierdzenie istniejącego zgłoszenia, zamiast tworzyć duplikat lub wysyłać drugi e-mail.
+3. Jeśli Supabase zapisał rekord, ale Resend nie wyśle maila, serwer zwraca `200 {ok:true,saved:true,notification_sent:false}`. Klient otrzymuje potwierdzenie, ponieważ zapytanie rzeczywiście jest w bazie. Błąd trafia do logów Netlify.
+4. Przy braku konfiguracji Resend zapis do Supabase nadal działa; w logach Netlify widoczny jest błąd powiadomienia. Dane kontaktowe pozostają w panelu **Enquiries & bookings**.
+5. Stare formularze bez `request_id` nadal działają.
 
-## Instalacja (po zakończeniu Phase 20.2)
+**Nie zmieniamy:** tabel i polityk RLS Supabase, cen, Stripe, artykułów, SEO, konfiguratora, schematu usług, opinii Google ani poprzednich modułów Phase 20.
 
-### Najłatwiejsza metoda — pełna paczka
+## Wariant A — polecany FULL
 
-1. W Netlify sprawdź, czy Phase 20.2 ma status **Published**.
-2. Rozpakuj `LilKangooMedia_Phase20_3_CUSTOMER_UX_FULL.zip`.
-3. Skopiuj pliki do repozytorium GitHub `LilKangoo/LilKangooMedia` **z zachowaniem ścieżek**:
-   - `index.html` (HTML Phase 20.2 + dwie nowe linie)
-   - `home.html` (HTML Phase 20.2 + dwie nowe linie)
-   - `assets/lkm-v3/phase20-ux.js` (nowy)
-   - `assets/lkm-v3/phase20-ux.css` (nowy)
-4. Commit changes → poczekaj na nowy deploy Netlify → Cmd + Shift + R.
+1. Upewnij się, że Phase 20.3 ma status **Published** w Netlify.
+2. Rozpakuj `LilKangooMedia_Phase20_4_RELIABLE_FORMS_FULL.zip`.
+3. Przekopiuj dokładnie pliki i foldery do głównego katalogu GitHub `LilKangoo/LilKangooMedia`:
+   - `index.html`
+   - `home.html`
+   - `assets/lkm-v3/phase20-reliability.js` (nowy)
+   - `netlify/functions/enquiry.mjs` (aktualizacja istniejącego endpointu)
+   - `tests/netlify-enquiry.test.mjs` (aktualizacja testów)
+4. W GitHub wykonaj **Commit changes**. Poczekaj na Netlify → Deploys → **Published**.
+5. Otwórz stronę przez Cmd + Shift + R.
 
-### Bezpieczna metoda, jeśli po Phase 20.2 zmieniałeś HTML
+**Uwaga:** `index.html` oraz `home.html` opierają się dokładnie na Phase 20.3 i mają dodaną tylko jedną linię `<script>`.
 
-Nie nadpisuj `index.html` ani `home.html`. Rozpakuj `LilKangooMedia_Phase20_3_CUSTOMER_UX_PATCH.zip`, dodaj **dwa nowe pliki** `assets/lkm-v3/phase20-ux.js` i `assets/lkm-v3/phase20-ux.css`. W **obu** obecnych plikach `index.html` i `home.html` dodaj dokładnie raz, tuż przed `</head>`:
+## Wariant B — PATCH, jeśli edytowałeś HTML po Phase 20.3
+
+Zamiast nadpisywać `index.html` i `home.html`, skopiuj z PATCH tylko 3 pliki:
+- `assets/lkm-v3/phase20-reliability.js`
+- `netlify/functions/enquiry.mjs`
+- `tests/netlify-enquiry.test.mjs`
+
+Następnie w **obu** własnych plikach `index.html` i `home.html` dodaj dokładnie raz, przed `</head>`:
 
 ```html
-<link rel="stylesheet" href="/assets/lkm-v3/phase20-ux.css">
-<script defer src="/assets/lkm-v3/phase20-ux.js"></script>
+<script defer src="/assets/lkm-v3/phase20-reliability.js"></script>
 ```
 
-Nie usuwaj istniejących skryptów `phase20-conversion.js` ani `phase20-funnel.js`.
+Nie usuwaj już istniejących `phase20-conversion.js`, `phase20-funnel.js`, `phase20-ux.js` ani ich CSS.
 
-## Test po wdrożeniu
+## Test po instalacji
 
-1. Otwórz `https://lilkangoomedia.com/#/services?audience=personal` na telefonie i komputerze.
-2. Wpisz fragment nazwy usługi i kliknij `Search`: strona przewija do wyników. `Clear` usuwa wpis.
-3. Wybierz kategorię i wpisz nazwę usługi z innej kategorii: powinny pokazać się podpowiedzi i `Search all categories`.
-4. Kliknij nazwę dowolnej usługi oraz `Quick enquiry`: oba działania muszą funkcjonować.
-5. Na stronie szczegółów kliknij `Jump to packages`. Sprawdź też mobilny pasek z Phase 20.1.
-6. W konfiguratorze i formularzu Quick enquiry spróbuj wybrać minioną datę: pole nie powinno tego akceptować.
-7. Sprawdź, czy po Phase 20.2 zachowały się zdarzenia GA4, bez podwójnego liczenia. Ten moduł **nie dodaje nowych zdarzeń**.
-8. Jeśli chcesz przetestować zapis zapytania, użyj własnego adresu e-mail, potem sprawdź `contact_leads` oraz Resend. Nie testuj na danych klientów.
+1. Otwórz `https://lilkangoomedia.com/#/contact` i wyślij **jedno własne testowe zapytanie**. Powinno pojawić się w Supabase → Table editor → `contact_leads` oraz w adminie → Enquiries & bookings.
+2. Sprawdź Resend → Emails i skrzynkę LilKangooMedia. Jeżeli mail nie dotarł, ale zgłoszenie jest w tabeli, **nie wysyłaj go ponownie**; sprawdź Netlify → Logs → Functions → `enquiry`.
+3. Otwórz losową usługę i wyślij test przez **Quick enquiry**. Sprawdź, czy przypisana jest poprawna usługa.
+4. W Network → `/api/enquiry` poprawna odpowiedź powinna zawierać `ok: true`, `saved: true` i `notification_sent: true` (albo `false`, jeśli powiadomienie nie działa).
+5. Sprawdź mobilny pasek CTA, wyszukiwarkę i GA4 — poprawka nie zmienia tych funkcji.
 
-## Cofnięcie zmiany
+**Nie testuj na danych prawdziwych klientów.** Nie wyłączaj Resend ani nie zmieniaj produkcyjnych kluczy, aby sztucznie symulować błąd. Automatyczne testy z atrapami API obejmują nieudany Resend i duplikaty.
 
-Usuń tylko powyższe dwie linie HTML z **obu** stron albo wróć do poprzedniego działającego deployu Netlify. Nowe pliki CSS/JS bez linków w HTML nie będą ładowane.
+### Ważne ograniczenie
 
-## Testy wykonane
+Zapis do Supabase jest źródłem prawdy, ale ta aktualizacja **nie tworzy kolejki ponawiania nieudanych powiadomień e-mail**. Gdy Resend nie działa, zapytania są widoczne w bazie, ale e-mail nie zostanie automatycznie wysłany później. Warto więc kontrolować admin → Enquiries & bookings i logi Netlify do czasu naprawy Resend. Duplikat z tym samym identyfikatorem nie ponawia powiadomienia.
 
-- `node --check assets/lkm-v3/phase20-ux.js` — PASS.
-- Test w Chromium (Playwright): Clear/Search, wyniki w innych kategoriach, przełączenie na All z zachowaniem wpisanej frazy, formularz z Phase 20.1, walidacja daty, brak pętli DOM — PASS.
-- HTML `index.html` i `home.html` pochodzi z dokładnej paczki Phase 20.2 z dopisanymi tylko dwoma linkami do nowych zasobów.
-- Kontrola integralności ZIP — PASS.
-- **Rzeczywisty deploy produkcyjny, płatności i zapis danych po tej aktualizacji nie były wykonywane**. Te elementy sprawdź na Netlify i Supabase po wdrożeniu.
+## Kontrola techniczna
 
-## Kolejny krok
+- `node --check netlify/functions/enquiry.mjs` — PASS.
+- `node --check assets/lkm-v3/phase20-reliability.js` — PASS.
+- `node --test tests/netlify-enquiry.test.mjs` — 11 PASS.
+- Chromium/Playwright: stały identyfikator przy ponownej próbie, nowy po edycji formularza i przy kolejnym otwarciu Quick enquiry — PASS.
+- Archiwum ZIP: integralność i kontrola ścieżek — PASS.
 
-Phase 20.4 — poprawa niezawodności formularzy, komunikatów o częściowym powodzeniu i dostępności, potem Phase 20.5 SEO/performance.
+**Nie testowano realnego zapisu/Resend/Netlify na produkcji.** Potwierdź działanie po wdrożeniu.
+
+## Cofanie zmian
+
+W Netlify wybierz poprzedni działający deploy lub przywróć poprzednią wersję `netlify/functions/enquiry.mjs`, usuń jedną linię skryptu z `index.html` i `home.html`. Sam plik `phase20-reliability.js` nie jest uruchamiany bez odwołania z HTML.
+
+## Następny etap
+
+Phase 20.5 — audyt SEO, wydajności stron i zgodności linków bez naruszania zachowanych adresów artykułów.
