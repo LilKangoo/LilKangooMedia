@@ -23,12 +23,20 @@ export async function publicAvailability(serviceSlug, month, env){
   const path='lkm_availability_blocks?select=blocked_date&blocked_date=gte.'+start+
     '&blocked_date=lte.'+end+'&or=(service_slug.eq.'+serviceSlug+',service_slug.is.null)&limit=100';
   const rows=await supabase(env,path);
-  // Confirmed reservations are private. Only publish the blocked date, never client data.
-  const confirmed=await supabase(env,
-    'lkm_booking_confirmations?select=booking_date&booking_date=gte.'+start+
-    '&booking_date=lte.'+end+'&service_slug=eq.'+serviceSlug+'&state=eq.confirmed&limit=100');
-  const blocked=[...new Set([...rows.map(r=>r.blocked_date),...confirmed.map(r=>r.booking_date)].filter(validCalendarDate))].sort();
-  return json({ok:true,service_slug:serviceSlug,month,blocked_dates:blocked,
+  // Only full-day confirmed bookings and checkout holds block the whole day.
+  // Hourly confirmations expose intervals without customer identity or notes.
+  const confirmations=await supabase(env,
+    'lkm_booking_confirmations?select=booking_date,start_min,end_min&booking_date=gte.'+start+
+    '&booking_date=lte.'+end+'&service_slug=eq.'+serviceSlug+'&state=eq.confirmed&limit=1000');
+  const holds=await supabase(env,
+    'lkm_booking_checkout_holds?select=booking_date&service_slug=eq.'+serviceSlug+
+    '&booking_date=gte.'+start+'&booking_date=lte.'+end+'&state=in.(holding,paid)&limit=1000');
+  const blocked=[...new Set([...rows.map(r=>r.blocked_date),
+    ...confirmations.filter(c=>c.start_min===null).map(c=>c.booking_date),
+    ...holds.map(h=>h.booking_date)].filter(validCalendarDate))].sort();
+  const occupied_slots=confirmations.filter(c=>c.start_min!==null&&Number.isInteger(c.start_min)&&Number.isInteger(c.end_min))
+    .map(c=>({date:c.booking_date,start_min:c.start_min,end_min:c.end_min}));
+  return json({ok:true,service_slug:serviceSlug,month,blocked_dates:blocked,occupied_slots,
     notice:'Availability is provisional. LilKangooMedia confirms each booking manually.'});
 }
 export default async function availability(request){

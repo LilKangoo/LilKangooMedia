@@ -12,7 +12,7 @@
     const value=t=>p.find(x=>x.type===t)?.value||'';
     return `${value('year')}-${value('month')}-${value('day')}`;
   };
-  const state={month:currentDate().slice(0,7),day:currentDate(),scope:'*',services:[],blocks:[],leads:[],orders:[],confirmations:[],loading:false,notice:'',noticeType:'',configured:true};
+  const state={month:currentDate().slice(0,7),day:currentDate(),scope:'*',services:[],blocks:[],leads:[],orders:[],confirmations:[],holds:[],loading:false,notice:'',noticeType:'',configured:true};
   const monthBounds=(ym)=>{const [y,m]=ym.split('-').map(Number);return {first:`${ym}-01`,last:new Date(Date.UTC(y,m,0)).toISOString().slice(0,10),days:new Date(Date.UTC(y,m,0)).getUTCDate()}};
   const monthTitle=ym=>new Intl.DateTimeFormat('en-GB',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(ym+'-01T12:00:00Z'));
   const shiftMonth=(ym,n)=>{const [y,m]=ym.split('-').map(Number);return new Date(Date.UTC(y,m-1+n,1)).toISOString().slice(0,7)};
@@ -50,14 +50,15 @@
     try{
       const {first,last}=monthBounds(state.month);
       const params='preferred_date=gte.'+first+'&preferred_date=lte.'+last;
-      const [blocks,leads,orders,confirmations]=await Promise.all([
+      const [blocks,leads,orders,confirmations,holds]=await Promise.all([
         rest('lkm_availability_blocks?select=id,service_slug,blocked_date,note,created_at&blocked_date=gte.'+first+'&blocked_date=lte.'+last+'&order=blocked_date.asc&limit=1000'),
         rest('contact_leads?select=id,customer_name,customer_email,service_slug,service_type,preferred_date,status,submission_type,created_at&'+params+'&order=preferred_date.asc&limit=1000'),
         rest('stripe_orders?select=id,customer_name,customer_email,service_slug,preferred_date,status,paid_amount_cents,created_at&'+params+'&order=preferred_date.asc&limit=1000'),
-        rest('lkm_booking_confirmations?select=id,source_type,source_id,service_slug,booking_date,state&state=eq.confirmed&booking_date=gte.'+first+'&booking_date=lte.'+last+'&limit=1000')
+        rest('lkm_booking_confirmations?select=id,source_type,source_id,service_slug,booking_date,state,start_min,end_min&state=eq.confirmed&booking_date=gte.'+first+'&booking_date=lte.'+last+'&limit=1000'),
+        rest('lkm_booking_checkout_holds?select=request_id,service_slug,booking_date,state,stripe_session_id,expires_at&booking_date=gte.'+first+'&booking_date=lte.'+last+'&state=in.(holding,paid)&limit=1000')
       ]);
-      state.blocks=blocks;state.leads=leads;state.orders=orders;state.confirmations=confirmations;state.notice='';
-    }catch(error){state.notice=error.message;state.noticeType='error';state.blocks=[];state.leads=[];state.orders=[];state.confirmations=[]}
+      state.blocks=blocks;state.leads=leads;state.orders=orders;state.confirmations=confirmations;state.holds=holds;state.notice='';
+    }catch(error){state.notice=error.message;state.noticeType='error';state.blocks=[];state.leads=[];state.orders=[];state.confirmations=[];state.holds=[]}
     finally{state.loading=false;draw()}
   }
   function counts(date){
@@ -65,7 +66,8 @@
     const orders=state.orders.filter(x=>x.preferred_date===date&&activeScope(x.service_slug));
     const blocks=state.blocks.filter(x=>x.blocked_date===date&&activeScope(x.service_slug));
     const confirmations=state.confirmations.filter(x=>x.booking_date===date&&activeScope(x.service_slug));
-    return {leads,orders,blocks,confirmations};
+    const holds=state.holds.filter(x=>x.booking_date===date&&activeScope(x.service_slug));
+    return {leads,orders,blocks,confirmations,holds};
   }
   function dayButton(day){
     const date=`${state.month}-${String(day).padStart(2,'0')}`;
@@ -74,8 +76,13 @@
     if(x.leads.length)tags.push(`<span class="lkmcal-tag">${x.leads.length} enquir${x.leads.length===1?'y':'ies'}</span>`);
     if(x.orders.length)tags.push(`<span class="lkmcal-tag lkmcal-tag-paid">${x.orders.length} paid</span>`);
     if(x.confirmations.length)tags.push(`<span class="lkmcal-tag lkmcal-tag-confirmed">${x.confirmations.length} confirmed</span>`);
+    if(x.holds.length)tags.push(`<span class="lkmcal-tag lkmcal-tag-hold">${x.holds.length} Checkout hold</span>`);
     return `<button class="lkmcal-day ${x.blocks.length?'lkmcal-day-blocked':''} ${date===currentDate()?'lkmcal-day-today':''} ${date===state.day?'lkmcal-day-selected':''}" type="button" data-date="${date}" aria-pressed="${date===state.day}" aria-label="${esc(dateLabel(date))}, ${x.blocks.length} blocks, ${x.leads.length} enquiries, ${x.orders.length} paid requests, ${x.confirmations.length} confirmed bookings"><span class="lkmcal-day-num">${day}</span><span class="lkmcal-day-tags">${tags.join('')}</span></button>`;
   }
+  const slotText=c=>c.start_min===null||c.start_min===undefined?'Full day':
+    [c.start_min,c.end_min].map(m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')).join('–');
+  const timeOptions=(selected)=>Array.from({length:31},(_,i)=>i*30+7*60).filter(n=>n<=22*60)
+    .map(n=>`<option value="${n}" ${selected===n?'selected':''}>${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}</option>`).join('');
   const entry=(title,text,meta)=>`<article class="lkmcal-entry"><strong>${esc(title)}</strong><div>${esc(text)}</div>${meta?`<small>${esc(meta)}</small>`:''}</article>`;
   function detail(){
     const d=state.day,x=counts(d),past=d<currentDate();
@@ -92,8 +99,10 @@
         return `<div class="lkmcal-decision-actions">${safeEmail?`<a class="lkmcal-btn" href="${esc(mail)}">Email confirmation to client ↗</a>`:''}<button class="lkmcal-btn lkmcal-btn-danger" data-decision="cancel" data-source="${source}" data-source-id="${esc(row.id)}" type="button">Cancel confirmed booking</button></div>`;
       }
       if(closed)return '<small>Closed — for paid requests, verify any refund separately in Stripe.</small>';
-      return `<div class="lkmcal-decision-actions"><button class="lkmcal-btn lkmcal-btn-dark" data-decision="confirm" data-source="${source}" data-source-id="${esc(row.id)}" type="button">Confirm full day</button><button class="lkmcal-btn" data-decision="decline" data-source="${source}" data-source-id="${esc(row.id)}" type="button">Decline</button></div>`;
+      return `<div class="lkmcal-slot-selectors" data-slot-source="${source}" data-slot-id="${esc(row.id)}"><label>From<select name="start_min">${timeOptions(9*60)}</select></label><label>To<select name="end_min">${timeOptions(10*60)}</select></label></div>
+       <div class="lkmcal-decision-actions"><button class="lkmcal-btn lkmcal-btn-dark" data-decision="confirm-slot" data-source="${source}" data-source-id="${esc(row.id)}" type="button">Confirm time slot</button><button class="lkmcal-btn" data-decision="confirm" data-source="${source}" data-source-id="${esc(row.id)}" type="button">Confirm full day</button><button class="lkmcal-btn" data-decision="decline" data-source="${source}" data-source-id="${esc(row.id)}" type="button">Decline</button></div>`;
     };
+    const holds=x.holds.map(h=>`<article class="lkmcal-entry"><strong>${esc(scopeLabel(h.service_slug))}</strong><div>${h.state==='paid'?'Paid request awaiting admin decision':'Stripe Checkout not finished'}</div><small>Hold state: ${esc(h.state)} · Created session expires: ${esc(h.expires_at||'unknown')}</small>${h.state==='holding'?`<button class="lkmcal-btn lkmcal-btn-danger" type="button" data-release-hold="${esc(h.request_id)}">Release stale hold (after checking Stripe)</button>`:''}</article>`).join('')||'<p class="lkmcal-empty">No ongoing Checkout holds.</p>';
     const paid=x.orders.map(o=>`<article class="lkmcal-entry"><strong>${esc(o.customer_name||'Paid request')}</strong><div>${esc(scopeLabel(o.service_slug))}</div><small>${esc(o.status||'pending')} · €${((Number(o.paid_amount_cents)||0)/100).toFixed(2)}</small>${actionButtons('order',o)}</article>`).join('')||'<p class="lkmcal-empty">No paid requests.</p>';
     const pending=x.leads.map(l=>`<article class="lkmcal-entry"><strong>${esc(l.customer_name||'Enquiry')}</strong><div>${esc(scopeLabel(l.service_slug||l.service_type))}</div><small>${esc(l.status||'new')}</small>${actionButtons('lead',l)}</article>`).join('')||'<p class="lkmcal-empty">No enquiries.</p>';
     return `<aside class="lkmcal-card lkmcal-aside"><h2>${esc(dateLabel(d))}</h2><p class="lkmcal-muted">${esc(state.scope==='*'?'All services':scopeLabel(state.scope))} · Dates are manually confirmed with clients.</p>
@@ -105,7 +114,8 @@
         <button class="lkmcal-btn lkmcal-btn-dark" type="submit" ${past?'disabled':''}>Block ${esc(dateLabel(d))}</button>
         ${past?'<small class="lkmcal-muted">Past dates cannot be blocked.</small>':''}
       </form>
-      <h3>Confirmed bookings (${x.confirmations.length})</h3><p class="lkmcal-muted">Confirmations reserve the whole day for that service. No other request can be confirmed for the same service and date.</p>${x.confirmations.length?x.confirmations.map(c=>entry(scopeLabel(c.service_slug),'Reserved for '+(c.source_type==='order'?'paid order':'enquiry'),'Full-day confirmation')).join(''):'<p class="lkmcal-empty">No confirmed bookings.</p>'}
+      <h3>Confirmed bookings (${x.confirmations.length})</h3><p class="lkmcal-muted">Confirmed time slots may share a day if they do not overlap. Full-day confirmations reserve the whole service/day.</p>${x.confirmations.length?x.confirmations.map(c=>entry(scopeLabel(c.service_slug),'Reserved for '+(c.source_type==='order'?'paid order':'enquiry'),slotText(c))).join(''):'<p class="lkmcal-empty">No confirmed bookings.</p>'}
+      <h3>Checkout holds (${x.holds.length})</h3><p class="lkmcal-muted">For safety, paid Checkout currently holds the entire service/day until Stripe reports expiry or you handle the booking. Refunds are managed only in the Stripe app.</p>${holds}
       <h3>Paid booking requests (${x.orders.length})</h3>${paid}
       <h3>Enquiries (${x.leads.length})</h3>${pending}
       <p class="lkmcal-muted"><a href="/admin.html#leads">View and manage enquiries and payments in Admin ↗</a></p>
@@ -119,11 +129,12 @@
     const allOrders=state.orders.filter(x=>activeScope(x.service_slug)).length;
     const allBlocks=state.blocks.filter(x=>activeScope(x.service_slug)).length;
     const allConfirmed=state.confirmations.filter(x=>activeScope(x.service_slug)).length;
+    const allHolds=state.holds.filter(x=>activeScope(x.service_slug)).length;
     root.innerHTML=`<div class="lkmcal-heading"><div><p class="lkmcal-eyebrow">ADMIN / AVAILABILITY</p><h1>Booking calendar</h1><p>Review incoming enquiries and paid requests, then block unavailable dates for individual services or the whole team.</p></div><a href="/admin.html#leads" class="lkmcal-btn">View all enquiries ↗</a></div>
       <div class="lkmcal-top"><label>Show service<select id="lkmcal-filter"><option value="*">All services</option>${state.services.map(s=>`<option value="${esc(s.slug)}" ${state.scope===s.slug?'selected':''}>${esc(s.title)}</option>`).join('')}</select></label>
         <div class="lkmcal-controls"><button class="lkmcal-btn" id="lkmcal-prev" type="button" aria-label="Previous month">←</button><strong class="lkmcal-month-label">${esc(monthTitle(state.month))}</strong><button class="lkmcal-btn" id="lkmcal-next" type="button" aria-label="Next month">→</button><button class="lkmcal-btn" id="lkmcal-today" type="button">Today</button><button class="lkmcal-btn" id="lkmcal-reload" type="button">Refresh</button></div></div>
-      <div class="lkmcal-stats"><div class="lkmcal-stat"><strong>${allLeads}</strong><small>Enquiries this month</small></div><div class="lkmcal-stat"><strong>${allOrders}</strong><small>Paid requests this month</small></div><div class="lkmcal-stat"><strong>${allBlocks}</strong><small>Blocked dates this month</small></div><div class="lkmcal-stat"><strong>${allConfirmed}</strong><small>Confirmed full days</small></div></div>
-      <div class="lkmcal-layout"><section class="lkmcal-card" aria-label="Booking calendar"><div class="lkmcal-weekdays">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<span>${x}</span>`).join('')}</div><div class="lkmcal-days">${firstWeek+Array.from({length:days},(_,i)=>dayButton(i+1)).join('')}</div><div class="lkmcal-legend"><span>Green: enquiry</span><span>Violet: paid request</span><span>Red: blocked</span><span>Dark green: confirmed</span></div><p class="lkmcal-muted">Paid requests are not automatically confirmed. Only a manual confirmation reserves that service for the full day. Payment refunds are always a separate Stripe process.</p></section>${detail()}</div>`;
+      <div class="lkmcal-stats"><div class="lkmcal-stat"><strong>${allLeads}</strong><small>Enquiries this month</small></div><div class="lkmcal-stat"><strong>${allOrders}</strong><small>Paid requests this month</small></div><div class="lkmcal-stat"><strong>${allBlocks}</strong><small>Blocked dates this month</small></div><div class="lkmcal-stat"><strong>${allConfirmed}</strong><small>Confirmed bookings</small></div><div class="lkmcal-stat"><strong>${allHolds}</strong><small>Checkout holds</small></div></div>
+      <div class="lkmcal-layout"><section class="lkmcal-card" aria-label="Booking calendar"><div class="lkmcal-weekdays">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<span>${x}</span>`).join('')}</div><div class="lkmcal-days">${firstWeek+Array.from({length:days},(_,i)=>dayButton(i+1)).join('')}</div><div class="lkmcal-legend"><span>Green: enquiry</span><span>Violet: paid request</span><span>Red: blocked</span><span>Dark green: confirmed</span></div><p class="lkmcal-muted">Paid requests are not automatically confirmed. Only a manual confirmation reserves a full day or an hourly interval. During paid Checkout the full day is held temporarily. Any refund is handled ONLY in the Stripe app, never on this website.</p></section>${detail()}</div>`;
   }
   root.addEventListener('submit',async e=>{
     if(e.target.id==='lkmcal-login'){
@@ -149,17 +160,33 @@
     if(btn.id==='lkmcal-reload'){await load();return}
     if(btn.dataset.decision){
       const decision=btn.dataset.decision,source=btn.dataset.source,id=btn.dataset.sourceId;
-      if(!['confirm','decline','cancel'].includes(decision)||!['lead','order'].includes(source)||!/^[-a-f0-9]{36}$/i.test(id||''))return;
-      const explanation=decision==='confirm'?`Confirm this ${source==='order'?'paid order':'enquiry'} and reserve the ENTIRE day for this service?`:
+      if(!['confirm','confirm-slot','decline','cancel'].includes(decision)||!['lead','order'].includes(source)||!/^[-a-f0-9]{36}$/i.test(id||''))return;
+      const selector=root.querySelector(`[data-slot-source="${source}"][data-slot-id="${id}"]`);
+      const start=Number(selector?.querySelector('[name="start_min"]')?.value);
+      const end=Number(selector?.querySelector('[name="end_min"]')?.value);
+      if(decision==='confirm-slot'&&(!Number.isInteger(start)||!Number.isInteger(end)||end<=start||end>1440||start<0)){
+        notice('Choose a valid time interval. End time must be later than start time.','error');return;
+      }
+      const explanation=decision==='confirm-slot'?`Confirm the ${slotText({start_min:start,end_min:end})} time slot for this ${source==='order'?'paid order':'enquiry'}?`:
+        decision==='confirm'?`Confirm this ${source==='order'?'paid order':'enquiry'} and reserve the ENTIRE day for this service?`:
         `${decision==='cancel'?'Cancel':'Decline'} this ${source==='order'?'paid order':'enquiry'}? ${source==='order'?'This will flag a refund review. NO refund is issued automatically.':''}`;
       if(!confirm(explanation))return;
       btn.disabled=true;
       try{
-        await rest('rpc/lkm_admin_booking_decision','POST',{p_source_type:source,p_source_id:id,p_decision:decision});
+        await rest('rpc/lkm_admin_booking_decision','POST',{p_source_type:source,p_source_id:id,p_decision:decision==='confirm-slot'?'confirm':decision,...(decision==='confirm-slot'?{p_start_min:start,p_end_min:end}:{})});
         await load();
-        state.notice=decision==='confirm'?'Booking confirmed. Entire service/day reserved. Contact client to confirm details.':source==='order'?'Request closed. IMPORTANT: review paid amount and any refund manually in Stripe.':'Request updated.';
+        state.notice=decision==='confirm-slot'?'Time slot confirmed. Contact client to confirm details.':decision==='confirm'?'Booking confirmed. Entire service/day reserved. Contact client to confirm details.':source==='order'?'Request closed. IMPORTANT: review paid amount and any refund manually in Stripe.':'Request updated.';
         state.noticeType='good';draw();
       }catch(err){notice(err.message,'error')}
+      return;
+    }
+    if(btn.dataset.releaseHold){
+      const requestId=btn.dataset.releaseHold;
+      if(!/^[-a-f0-9]{36}$/i.test(requestId||''))return;
+      if(!confirm('IMPORTANT: Did you check this payment in the STRIPE APP and verify the Checkout session is NOT paid and is expired? This action DOES NOT issue a refund.'))return;
+      btn.disabled=true;
+      try{await rest('rpc/lkm_admin_release_stale_hold','POST',{p_request_id:requestId});await load();state.notice='Stale unpaid Checkout hold released after manual Stripe verification.';state.noticeType='good';draw()}
+      catch(err){notice(err.message,'error')}
       return;
     }
     if(btn.dataset.unblock){

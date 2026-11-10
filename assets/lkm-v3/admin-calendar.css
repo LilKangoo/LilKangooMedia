@@ -47,3 +47,10 @@
 
 /* Phase 21.4: confirmed full-day bookings and explicit admin decisions. */
 .lkmcal-tag-confirmed{background:#164e35;color:#fff}.lkmcal-decision-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.lkmcal-entry>.lkmcal-btn{margin-top:10px}.lkmcal-entry .lkmcal-decision-actions .lkmcal-btn{font-size:11px;min-height:36px}.lkmcal-entry small{display:block;line-height:1.6}.lkmcal-card .lkmcal-btn:disabled{opacity:.6;cursor:not-allowed}
+
+/* Phase 21.4B — slot confirmation and Checkout hold management */
+.lkmcal-slot-selectors{display:grid;grid-template-columns:repeat(2,minmax(100px,1fr));gap:8px;margin:10px 0}
+.lkmcal-slot-selectors label{font-size:11px;color:#567060;font-weight:750;display:grid;gap:5px}
+.lkmcal-slot-selectors select{width:100%;border:1px solid #d0dfd1;border-radius:8px;min-height:38px;background:white;color:#23382a;padding:8px}
+.lkmcal-tag-hold{background:#f9e6b9;color:#755323}
+@media(max-width:480px){.lkmcal-slot-selectors{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -11,12 +11,13 @@
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n};
   async function unavailable(service,month){
     const key=service+'/'+month,cache=memo.get(key);
-    if(cache&&Date.now()-cache.at<30000)return cache.dates;
+    if(cache&&Date.now()-cache.at<30000)return cache.snapshot;
     const response=await fetch('/api/availability?service='+encodeURIComponent(service)+'&month='+month,{cache:'no-store'});
     const payload=await response.json().catch(()=>({}));
     if(!response.ok||!payload.ok||!Array.isArray(payload.blocked_dates))throw Error('Calendar not currently available');
     const dates=new Set(payload.blocked_dates.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x)));
-    memo.set(key,{at:Date.now(),dates});return dates;
+    const slots=Array.isArray(payload.occupied_slots)?payload.occupied_slots.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x.date)&&Number.isInteger(x.start_min)&&Number.isInteger(x.end_min)):[];
+    const snapshot={dates,slots};memo.set(key,{at:Date.now(),snapshot});return snapshot;
   }
   function attach(){
     if(!/^#\/request(?:[?]|$)/.test(location.hash))return;
@@ -35,7 +36,7 @@
       if(!validMonth(chosen.slice(0,7)))return;
       status.className='lkm21-availability-status';status.textContent='Checking unavailable dates…';
       try{
-        const dates=await unavailable(service,chosen.slice(0,7));
+        const {dates,slots}=await unavailable(service,chosen.slice(0,7));
         if(turn!==generation||!root.contains(date)||date.value!==chosen)return;
         if(dates.has(chosen)){
           date.setCustomValidity('This date is blocked. Please select another preferred date.');
@@ -43,7 +44,8 @@
           status.textContent='Unavailable: this date is blocked. Please choose another day.';
         }else{
           status.className='lkm21-availability-status is-open';
-          status.textContent='No date block recorded. We will still confirm your booking manually.';
+          const busy=slots.filter(x=>x.date===chosen).map(x=>String(Math.floor(x.start_min/60)).padStart(2,'0')+':'+String(x.start_min%60).padStart(2,'0')+'–'+String(Math.floor(x.end_min/60)).padStart(2,'0')+':'+String(x.end_min%60).padStart(2,'0'));
+          status.textContent=busy.length?'Already reserved hours: '+busy.join(', ')+'. Other times require manual confirmation.':'No date block recorded. We will still confirm your booking manually.';
         }
       }catch{
         if(turn!==generation||!root.contains(date))return;

@@ -48,7 +48,7 @@ export async function supabase(env, path, init={}){
   const base=new URL(env.SUPABASE_URL);
   if(base.protocol!=='https:'||!base.hostname.endsWith('.supabase.co'))throw Error('Invalid database origin');
   const response=await fetch(base.origin+'/rest/v1/'+path,{...init,headers:headers(env,init.headers)});
-  if(!response.ok){console.error('LKM payments: database request failed', response.status);throw Error('Database unavailable')}
+  if(!response.ok){console.error('LKM payments: database request failed', response.status);const err=new Error('Database unavailable');err.status=response.status;throw err;}
   const data=await response.text();
   return data?JSON.parse(data):[];
 }

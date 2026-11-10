@@ -7,13 +7,29 @@ export default async function stripeWebhook(request){
   let raw;try{raw=await request.text();if(raw.length>102400)return json({ok:false},413)}catch{return json({ok:false},400)}
   if(!validSignature(raw,request.headers.get('stripe-signature')||'',process.env.STRIPE_WEBHOOK_SECRET))return json({ok:false,error:'Invalid signature'},400);
   let event;try{event=JSON.parse(raw)}catch{return json({ok:false,error:'Invalid payload'},400)}
-  if(!['checkout.session.completed','checkout.session.async_payment_succeeded'].includes(event.type))return json({ok:true,ignored:true});
+  const handled=['checkout.session.completed','checkout.session.async_payment_succeeded',
+    'checkout.session.expired','checkout.session.async_payment_failed'];
+  if(!handled.includes(event.type))return json({ok:true,ignored:true});
   const session=event?.data?.object;
-  if(!session||session.object!=='checkout.session'||session.mode!=='payment'||session.payment_status!=='paid')return json({ok:true,ignored:true});
+  if(!session||session.object!=='checkout.session'||session.mode!=='payment')return json({ok:true,ignored:true});
   if(session.livemode !== (mode==='live'))return json({ok:false,error:'Wrong Stripe mode'},400);
   const meta=session.metadata||{};
   // Same Stripe account may process other brands. Ignore Checkout events not created by LKM.
   if(meta.lkm_project!=='lilkangoomedia')return json({ok:true,ignored:true});
+  const holdRequest=value(meta.request_id,50);
+  if(!/^[-a-f0-9]{36}$/i.test(holdRequest)||!/^cs_(test|live)_[A-Za-z0-9]+$/.test(session.id||''))
+    return json({ok:false,error:'Invalid hold identifier'},400);
+  if(event.type==='checkout.session.expired'||event.type==='checkout.session.async_payment_failed'){
+    // A signed, Stripe-confirmed expiry/failure is the only automatic release.
+    // Never release a paid hold here. Never issue a refund.
+    try{
+      await supabase(process.env,'rpc/lkm_checkout_hold_expired',{method:'POST',
+        body:JSON.stringify({p_request_id:holdRequest,p_session_id:session.id})});
+      return json({ok:true,hold_released:true});
+    }catch(e){console.error('LKM webhook: failed to release hold',e.message);
+      return json({ok:false,error:'Unable to release hold'},500)}
+  }
+  if(session.payment_status!=='paid')return json({ok:true,ignored:true});
   const quoted=Number(meta.quoted_total_cents), paid=Number(session.amount_total);
   const customerEmail=value(session.customer_details?.email||session.customer_email,200);
   const service=value(meta.service_slug,90),pkg=value(meta.package_id,100),date=value(meta.preferred_date,25);
@@ -23,6 +39,10 @@ export default async function stripeWebhook(request){
   if(meta.payment_kind==='full'&&paid!==quoted)return json({ok:false,error:'Invalid payment amount'},400);
   const order={stripe_session_id:session.id,stripe_event_id:event.id,customer_email:customerEmail,customer_name:value(meta.customer_name,100),service_slug:service,package_id:pkg,preferred_date:date,paid_amount_cents:paid,quoted_total_cents:quoted,payment_kind:meta.payment_kind,status:mode==='test'?'test_paid_pending_confirmation':'paid_pending_confirmation'};
   try{
+    // Block remains active while an order is awaiting staff confirmation.
+    // This call is idempotent for repeat Stripe events.
+    await supabase(process.env,'rpc/lkm_checkout_hold_paid',{method:'POST',
+      body:JSON.stringify({p_request_id:holdRequest,p_session_id:session.id})});
     // PostgreSQL unique(stripe_session_id), atomic insert-ignore. Only newly inserted orders send notification.
     const inserted=await supabase(process.env,'stripe_orders?on_conflict=stripe_session_id',{method:'POST',headers:{Prefer:'resolution=ignore-duplicates,return=representation'},body:JSON.stringify(order)});
     if(!Array.isArray(inserted))throw Error('Unexpected database response');
