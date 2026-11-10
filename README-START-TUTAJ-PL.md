@@ -1,70 +1,66 @@
-# LilKangooMedia — Phase 22.4: Business Solutions
+# LilKangooMedia — Phase 23.1 Sales CRM
 
-Jedna paczka nakładkowa do istniejącego repozytorium `LilKangoo/LilKangooMedia`.
-Przygotowana po Phase 22.3. **To nie jest kopia całego repozytorium:** podmień tylko pliki zawarte w ZIP-ie. Zachowaj katalogi.
+Aktualizacja dla `LilKangoo/LilKangooMedia` (GitHub + Netlify + Supabase).
 
-## 1. Wdrożenie
+## Co otrzymujesz
 
-1. Rozpakuj `LKM_22_4.zip` na komputerze.
-2. Skopiuj **całą zawartość rozpakowanego ZIP-a**, nie sam folder ZIP, do katalogu głównego repozytorium na GitHub. Zgódź się na nadpisanie `index.html`, `home.html` oraz `scripts/phase20_rebuild_sitemap.py`.
-3. Zapisz zmiany przyciskiem **Commit changes** (lub wyślij commit w swoim edytorze).
-4. Poczekaj na **zakończenie** deployu Netlify i dopiero potem sprawdź nowe podstrony.
+- Prywatny panel `/admin-crm.html` dostępny po zalogowaniu istniejącym kontem admina Supabase.
+- Etapy sprzedaży: New, Qualified, Proposal sent, Negotiating, Won, Lost.
+- Widok kolumnowy oraz lista; wyszukiwanie i filtrowanie.
+- Priorytet i szacowana wartość zlecenia w EUR (NIE przychód).
+- Data kolejnego kontaktu, lista terminów przypadających dziś i zaległych.
+- Prywatne notatki oraz dziennik ręcznie wykonanych kontaktów.
+- Przyciski otwierające aplikację poczty, telefonu i WhatsApp. Nic nie wysyła się automatycznie.
+- Zgłoszenia są pobierane z dotychczasowej `public.contact_leads` — również formularze B2B z Phase 22.4.
+- Dodatkowy link „Sales CRM & follow-ups” w starym panelu `/admin.html`.
 
-**Brak migracji SQL**, brak nowych tabel, brak zmian kluczy Stripe/Resend i brak zmian webhooków. Wszystkie ceny pozostają w istniejącym katalogu usług Supabase. Nowe zestawy to sugestie usług, nie fixed-price packages ani produkty Stripe.
+## Instalacja — poprawna kolejność
 
-## 2. Nowe strony
+1. Zrób kopię danych lub snapshot projektu Supabase, jeśli to możliwe.
+2. W projekcie Supabase używanym przez LilKangooMedia otwórz **SQL Editor → New query**.
+3. Wklej BEZ ZMIAN całą zawartość pliku `supabase/migrations/20261110_lkm_sales_crm.sql` i kliknij **Run**. SQL tworzy **dwie nowe tabele**, z dostępem ograniczonym do administratorów poprzez istniejące `public.lkm_is_admin()`.
+4. Rozpakuj ZIP. Wgraj pliki z folderów i katalogu głównego do repozytorium **LilKangoo/LilKangooMedia**, z zachowaniem ścieżek. Nie wgrywaj ich w dodatkowy podfolder. Dla istniejącego `admin.html` wybierz zastąpienie pliku.
+5. Wykonaj **Commit changes**; poczekaj na zakończony deploy Netlify.
+6. Otwórz `https://lilkangoomedia.com/admin.html`, kliknij „Sales CRM & follow-ups” albo przejdź na `https://lilkangoomedia.com/admin-crm.html`.
+7. Zaloguj się tym samym kontem Supabase Admin. Po załadowaniu powinna się pojawić lista rzeczywistych zapytań.
 
-- https://lilkangoomedia.com/business-solutions.html — centralny katalog B2B
-- https://lilkangoomedia.com/business-restaurants.html — restauracje i kawiarnie
-- https://lilkangoomedia.com/business-hotels.html — hotele i noclegi
-- https://lilkangoomedia.com/business-retail.html — retail i e-commerce
-- https://lilkangoomedia.com/business-brands.html — marki i inne firmy
+**Żadne nowe klucze środowiskowe nie są potrzebne.** Nie zapisuj hasła ani kluczy service-role w HTML/JS.
 
-W nagłówku i stopce głównego `index.html` / `home.html` dodano link **For Business / Business Solutions**. Podstrony mają odrębny tytuł, opis i canonical. Generator sitemap po deployu dopisuje nowe istniejące strony (oraz `case-studies.html`), zachowując wcześniejsze reguły filtrowania.
+## Szybkie sprawdzenie (nie pełny audyt)
 
-## 3. Jak działają oferty
+- Czy administrator widzi tablicę z zapytaniami (nazwiska i e-maile znane z poprzedniego panelu)?
+- Czy otwarcie klienta pokazuje jego oryginalny brief?
+- Czy zapis zmiany statusu, wartości i terminu follow-up pozostaje po odświeżeniu strony?
+- Czy dodana notatka typu „Internal note” pojawia się w historii?
+- Czy użytkownik niezalogowany widzi ekran logowania, a nie prywatne dane?
+- Czy wcześniejsze `/admin.html`, kalendarz i formularze pozostają dostępne?
 
-Na stronach branżowych pokazujemy trzy **proponowane kombinacje** opublikowanych usług. Nazwy usług pochodzą z istniejącej tabeli `services` przez `LKMStore.publicServices()`. Ukryte, nieaktywne lub prywatne usługi nie są przedstawiane w zestawach. Kliknięcie **Request this mix** zaznacza odpowiednie usługi w formularzu.
+W razie komunikatu o braku tabeli CRM sprawdź, czy uruchomiono SQL w PRAWIDŁOWYM projekcie Supabase. Nie przenoś danych ani nie zmieniaj reguł bezpieczeństwa na `anon`.
 
-Nie dodano nowych cenników, deklaracji rabatów, fikcyjnych projektów, wyników ani opinii.
+## Granice etapu 23.1
 
-## 4. Formularz zapytania B2B
+- Przyciski kontaktu są ręczne. **Brak automatycznych przypomnień, wysyłania e-maili, akceptacji ofert czy generowania PDF**; te funkcje należą do kolejnych etapów.
+- `Won` w CRM **nie jest potwierdzeniem terminu ani zaksięgowaniem płatności**. Statusy Stripe i rezerwacji pozostają odrębne.
+- Nie ma API zwrotów, przycisków refundacji ani automatycznych zwrotów. **Refundacje wyłącznie w aplikacji Stripe.**
+- Pełny audyt produkcyjny całego serwisu wykonamy po zakończeniu Phase 23–25.
+- Pierwsze case study powstanie dopiero na końcu projektu z materiałów i informacji dostarczonych przez właściciela, bez wymyślonych wyników.
 
-Klient podaje imię, e-mail, firmę, cel projektu, a opcjonalnie lokalizację, telefon, terminy, zainteresowane usługi i orientacyjny budżet. Wysyłka trafia do **istniejącego** `/api/enquiry` (Netlify), typu `business_enquiry`, a nie do Stripe. Brief jest zapisywany w `contact_leads` (kolumna `message`) i dostępny w panelu **Enquiries & bookings**. Resend wysyła powiadomienie tylko wtedy, gdy istniejąca integracja działa. Mechanizm `request_id` chroni przed przypadkowym duplikatem przy ponowieniu tej samej wiadomości.
+## Pliki
 
-- Zgłoszenie **nie** pobiera płatności.
-- Zgłoszenie **nie** potwierdza rezerwacji.
-- Strona **nie** robi refundów: ewentualne zwroty nadal wyłącznie w aplikacji Stripe.
-- Jeżeli skonfigurowano po stronie serwera `TURNSTILE_SECRET`, formularz wymaga również poprawnego, publicznego `TURNSTILE_SITE_KEY` w `lkm-config.js`, zgodnie z dotychczasową konfiguracją wszystkich formularzy.
+```
+admin.html
+admin-crm.html
+assets/lkm-v3/phase23-crm.js
+assets/lkm-v3/phase23-crm.css
+assets/lkm-v3/phase23-crm-admin-nav.js
+supabase/migrations/20261110_lkm_sales_crm.sql
+tests/phase23-crm-structure.test.mjs
+tests/test_phase23_crm_browser.py
+README-START-TUTAJ-PL.md
+```
 
-## 5. Co sprawdzić po deployu (krótka lista)
+## Testy lokalne
 
-1. Wejdź na https://lilkangoomedia.com/ i sprawdź nowy link **For Business** na komputerze oraz telefonie.
-2. Otwórz każdą z 5 nowych stron. Sprawdź, czy są czytelne i czy linki między branżami prowadzą na właściwe adresy.
-3. Na stronie restauracji kliknij **Request this mix**. Powinien przewinąć do formularza i zaznaczyć rzeczywiście aktywne usługi (np. fotografię produktową, filmy), jeśli istnieją w CMS.
-4. Sprawdź, czy żadne ceny nie są nadpisane. Kliknięcie nazwy usługi powinno prowadzić na jej aktualną stronę i prawdziwą konfigurację.
-5. Wyślij **jedno oznaczone zgłoszenie testowe** (np. w polu firma: `TEST - Phase 22.4`, w opisie: `To jest tylko test formularza`). Sprawdź w `https://lilkangoomedia.com/admin.html#leads`, czy zapisano właściwy sektor, firmę i zakres, oraz czy dotarł e-mail Resend, jeżeli jest skonfigurowany. Po teście oznacz lub usuń testowe zgłoszenie zgodnie z obecną procedurą administratora.
-6. Otwórz `https://lilkangoomedia.com/sitemap.xml` i znajdź nowe adresy `business-*.html`.
-
-**Pełny audyt produkcyjny**, w tym bezpieczeństwo, wydajność, Stripe, Supabase, rezerwacje i SEO, wykonamy po zakończeniu Phase 25, zgodnie z ustaloną roadmapą. Lokalny test przeglądarki jest odizolowany i nie oznacza zweryfikowania strony produkcyjnej.
-
-## 6. Testy techniczne
-
-- `node --test tests/phase22-business-solutions.test.mjs` — 14 testów z prawdziwymi plikami tej paczki, bez połączenia z siecią.
-- `python3 tests/test_phase22_business_sitemap.py` — próba generatora sitemap w tymczasowym katalogu.
-- `python3 tests/test_phase22_business_browser.py` — odizolowany Chromium z syntetyczną listą usług i symulowanym sukcesem zapytania; NIE korzysta z prawdziwego `/api/enquiry`.
-
-## 7. Pliki paczki
-
-- `index.html` i `home.html`: nowe linki nawigacji, z zachowaniem dotychczasowych assetów Phase 19–22.3
-- `business-solutions.html`, `business-restaurants.html`, `business-hotels.html`, `business-retail.html`, `business-brands.html`
-- `assets/lkm-v3/business-data.mjs`: jawnie oznaczone sugestie kombinacji i bezpieczna logika danych
-- `assets/lkm-v3/business-solutions.mjs`: dynamiczne opcje z Supabase i formularz `/api/enquiry`
-- `assets/lkm-v3/business-solutions.css`: responsywny design
-- `scripts/phase20_rebuild_sitemap.py`: dopisanie publicznych stron do istniejącej mapy
-- `tests/*`: testy
-- `README-START-TUTAJ-PL.md`: ta instrukcja
-
-## Następne etapy
-
-Phase 23 — CRM, oferty PDF i follow-upy; Phase 24 — panel klienta; Phase 25 — PL/EN, SEO usług i optymalizacja konwersji; Final Audit na końcu.
+- `node --test tests/phase23-crm-structure.test.mjs` — 6/6 PASS.
+- `python tests/test_phase23_crm_browser.py` — PASS komputer 1400 px, telefon 390 px, kontrola niezalogowanego użytkownika, na *symulowanych odpowiedziach bazy*.
+- Testy nie łączą się z produkcją i nie zmieniają rzeczywistych danych.
