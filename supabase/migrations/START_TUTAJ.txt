@@ -1,0 +1,40 @@
+LILKANGOOMEDIA - ELEA GOLF CLUB - AUTOMATYCZNY IMPORT CASE STUDY
+
+Wymagane: dotychczasowa baza Supabase LilKangooMedia z CMS / media_videos / lkm_case_studies.
+
+1. Otworz Supabase projektu LilKangooMedia -> SQL Editor -> New query.
+2. Otworz plik LKM_Elea_Import.sql, skopiuj cala zawartosc i wklej do SQL Editor.
+3. Kliknij Run JEDEN RAZ. Nie uruchamiaj ponownie starych migracji.
+4. Oczekiwany wynik: wiersz z gallery_slug = elea-golf-club,
+   gallery_visibility = public, case_study_published = true,
+   public_video_count = 2, public_photo_count = 0.
+5. Otworz:
+   https://lilkangoomedia.com/case-studies.html#/elea-golf-club
+   oraz /portfolio.html#/gallery/elea-golf-club
+
+CO SIE DODA AUTOMATYCZNIE
+- Galeria: Elea Golf Club - Photography & Film Production (public).
+- Case Study EN z celem, przebiegiem prac, lista dostaw (w tym ponad 300 zdjec),
+  faktycznie zaobserwowanym wykorzystaniem materialow.
+- 2 filmy YouTube: y1CB22Z-Qm4 (pelny przelot), kU3ACgDkxDo (Short).
+- Polaczenie z aktualna usluga Commercial Video & Reels, jesli istnieje.
+
+ZDJECIA POZNIEJ
+- Admin -> Portfolio / Galleries -> wybierz elea-golf-club -> Upload photos.
+- Ustaw zdjecia na Public; wybierz Cover.
+- Zapisane zdjecia pojawia sie w tej samej galerii i w Case Study.
+- System wyswietla maksymalnie 12 zdjec wewnatrz widoku Case Study; reszta w galerii.
+
+UWAGI
+- Case Study bedzie widoczne OD RAZU po pomyslnym Run. Nie trzeba czekac na zdjecia.
+- Dopoki nie dodasz zdjec, miniatura pierwszego filmu YouTube posluzy jako okladka Case Study.
+- Filmow nie wyswietla sie jako odtwarzaczy osadzonych w Case Study:
+  obecny interfejs pokazuje miniatury otwierajace wideo na YouTube.
+- Nie ruszamy GitHub, plikow strony, Stripe, rezerwacji, ani innych SQL.
+- Import mozna powtorzyc, jesli potrzebujesz odswiezyc tresc; nadpisze wlasne
+  pola tej historii i dwoch filmow, ale nie usunie fotografii.
+- Import zatrzyma sie bez zmian, jesli elea-golf-club jest sluga innego
+  klienta albo galeria zawiera juz inne PUBLIC filmy.
+- Skrypt jest sprawdzony wzgledem schematu z GitHub, ale nie zostal wykonany
+  na Twojej produkcyjnej bazie. Jesli SQL Editor zwroci blad, nie probuj
+  losowych zmian; wyslij tresc bledu.
