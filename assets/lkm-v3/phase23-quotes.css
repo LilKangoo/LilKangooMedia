@@ -1,0 +1,126 @@
+/* LilKangooMedia Phase 23.2 — quotation editor and A4 PDF print layout */
+.lkm23-quote-page{background:#f4f5f1;color:#223026;min-height:100vh}
+.lkm23-quote-page .site-header{background:#fff}
+.lkm23-quotes-shell{width:min(1520px,calc(100% - 40px));margin:0 auto;padding:28px 0 110px}
+.lkm23q-overline{letter-spacing:.17em;text-transform:uppercase;color:#a75e23;font-size:10px;font-weight:900;margin:0 0 8px}
+.lkm23q-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:24px}
+.lkm23q-header h1{font-family:Manrope,system-ui,sans-serif;font-size:clamp(29px,3.5vw,44px);letter-spacing:-.055em;margin:0 0 7px;line-height:1.1}
+.lkm23q-hint{color:#687469;font-size:13px;line-height:1.6;margin:0}
+.lkm23q-actions,.lkm23q-save-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lkm23q-header .button{min-height:43px}
+.lkm23q-layout{display:grid;grid-template-columns:minmax(255px,300px) minmax(0,1fr);gap:22px;align-items:start}
+.lkm23q-side,.lkm23q-editor,.lkm23q-start,.lkm23q-login,.lkm23q-error{background:white;border:1px solid #e1e7dc;border-radius:17px;padding:24px;box-shadow:0 5px 22px rgba(25,41,25,.035)}
+.lkm23q-side{position:sticky;top:99px;max-height:calc(100vh - 120px);overflow-y:auto}
+.lkm23q-side-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}
+.lkm23q-side-top h2{margin:0;font-size:16px;letter-spacing:-.02em}
+.lkm23q-side-top .button{padding:10px 13px;min-height:38px}
+.lkm23q-side>input{width:100%;height:43px;border:1px solid #d5ded1;background:#fbfcfa;border-radius:9px;padding:10px 12px;font-size:12px}
+.lkm23q-quote-list{margin-top:14px;display:grid;gap:9px}
+.lkm23q-quote-card{border:1px solid #e2e8df;background:#fafcf9;text-align:left;padding:13px;border-radius:11px;display:flex;flex-direction:column;gap:3px;width:100%;color:#29372b;cursor:pointer}
+.lkm23q-quote-card:hover,.lkm23q-quote-card.active{border-color:#bd804c;background:#fff9f3}
+.lkm23q-quote-card strong{font-size:12px;letter-spacing:.02em;color:#a2511a}
+.lkm23q-quote-card span{font-weight:800;font-size:13px}
+.lkm23q-quote-card small{font-size:11px;color:#6f786e}
+.lkm23q-start{padding:35px}
+.lkm23q-start h2{margin:0 0 10px;font-size:24px;letter-spacing:-.03em}
+.lkm23q-start .button{margin-top:13px}
+.lkm23q-editor{padding:28px 30px}
+.lkm23q-editor-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #e9eee6;padding-bottom:17px;margin-bottom:22px}
+.lkm23q-code{font-size:17px;font-weight:900;letter-spacing:-.03em;margin:0;color:#1f3326}
+.lkm23q-badge{border-radius:100px;background:#eaf1e6;padding:7px 12px;color:#346346;font-size:11px;font-weight:800}
+.lkm23q-badge.dirty{background:#fff2d6;color:#945b14}
+.lkm23q-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:21px}
+.lkm23q-label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:800;color:#38503e;min-width:0}
+.lkm23q-label>span{line-height:1.35}
+.lkm23q-label input,.lkm23q-label select,.lkm23q-label textarea{width:100%;border:1px solid #d5ddd4;background:#fff;color:#202f23;border-radius:9px;padding:11px 12px;min-height:44px;font-size:13px;font-weight:500;box-shadow:none;outline-offset:2px}
+.lkm23q-label textarea{line-height:1.6;resize:vertical}
+.lkm23q-editor>.lkm23q-label{margin:14px 0}
+.lkm23q-section-title{font-size:19px;letter-spacing:-.03em;margin:28px 0 15px;border-top:1px solid #edf0e8;padding-top:20px}
+.lkm23q-items{display:grid;gap:10px}
+.lkm23q-item{display:grid;grid-template-columns:minmax(0,2.7fr) minmax(75px,.65fr) minmax(100px,.85fr) minmax(95px,.85fr) auto;gap:9px;align-items:end;background:#f6f8f4;border:1px solid #e6ebe2;border-radius:11px;padding:12px}
+.lkm23q-item .lkm23q-label{font-size:11px}
+.lkm23q-item input{min-height:43px;padding:9px 10px}
+.lkm23q-line-total{font-size:13px;padding-bottom:13px;white-space:nowrap;color:#284334;text-align:right}
+.lkm23q-remove{background:#fff;border:1px solid #ddc8c0;border-radius:9px;color:#924c39;font-size:11px;font-weight:800;min-height:43px;padding:0 12px}
+.lkm23q-add{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:13px 0 12px}
+.lkm23q-add select{flex:1 1 280px;min-height:43px;min-width:0;border:1px solid #d7dfd5;border-radius:9px;padding:8px 10px;background:#fff;font-size:12px}
+.lkm23q-add .button{min-height:43px}
+.lkm23q-discount{display:grid;grid-template-columns:minmax(180px,1fr) minmax(220px,1fr);gap:22px;align-items:start;background:#f3f6ef;border-radius:12px;padding:15px;margin-bottom:22px}
+.lkm23q-totals{display:grid;gap:7px;align-content:center}
+.lkm23q-totals-line{display:flex;justify-content:space-between;font-size:13px;color:#56645a;gap:10px}
+.lkm23q-totals-line:last-child{font-size:17px;color:#264232;font-weight:900;border-top:1px solid #d5dfd1;padding-top:7px}
+.lkm23q-totals.is-invalid{color:#a33320;font-weight:800;font-size:12px}
+.lkm23q-save-actions{margin-top:24px;border-top:1px solid #e9ede5;padding-top:20px}
+.lkm23q-save-actions .button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.lkm23q-status{min-height:24px;padding:6px 0;margin:9px 0 0;color:#426b4d;font-weight:800;font-size:12px}
+.lkm23q-status.is-error{color:#a33320}
+.lkm23q-login,.lkm23q-error{width:min(500px,100%);margin:8vh auto}
+.lkm23q-login h1,.lkm23q-error h1{font-size:32px;letter-spacing:-.04em;margin:0 0 9px}
+.lkm23q-login-form{display:grid;gap:10px;margin-top:20px}
+.lkm23q-login-form input{width:100%;height:48px;border:1px solid #dce3d7;border-radius:9px;padding:10px 14px}
+.lkm23q-login-form p{color:#ab4734;font-size:13px}
+/* Print view is created only from a saved, admin-only quotation. */
+#lkm23PrintRoot[hidden]{display:none}
+.lkm23q-print{background:#fff;color:#1c2820;font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.45}
+.lkm23q-print-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #283d30;padding-bottom:13mm;gap:14mm}
+.lkm23q-print-brand{display:flex;align-items:center;gap:4mm}
+.lkm23q-print-brand img{width:26mm;height:26mm;object-fit:contain}
+.lkm23q-print-brand>div{display:flex;flex-direction:column;gap:1mm}
+.lkm23q-print-brand strong{font-size:15pt;font-family:Arial,sans-serif}
+.lkm23q-print-brand span{font-size:8.3pt;color:#5b6960}
+.lkm23q-print-doc{font-size:10pt;font-weight:800;letter-spacing:.16em;padding-top:2mm;color:#b46522}
+.lkm23q-print-title{padding:11mm 0 9mm}
+.lkm23q-print-kicker{font-size:8pt;font-weight:900;letter-spacing:.19em;color:#b36a2b;margin:0 0 2mm}
+.lkm23q-print-title h1{font-size:23pt;line-height:1.17;letter-spacing:-.045em;margin:0}
+.lkm23q-print-columns{display:grid;grid-template-columns:1fr 1fr;gap:8mm;border-top:1px solid #e0e5df;border-bottom:1px solid #e0e5df;padding:7mm 0}
+.lkm23q-print-columns>div:first-child{display:flex;flex-direction:column;gap:2mm}
+.lkm23q-print-columns h2{font-size:8pt;letter-spacing:.16em;margin:0 0 2mm;color:#b46522}
+.lkm23q-print-columns>div:first-child strong{font-size:12pt}
+.lkm23q-print-columns>div:first-child span{font-size:9pt;color:#516253}
+.lkm23q-print-meta{display:flex;justify-content:space-between;gap:8mm;font-size:9pt;padding:1mm 0}
+.lkm23q-print-meta>span{color:#647069}
+.lkm23q-print-meta strong{text-align:right}
+.lkm23q-print-intro{white-space:pre-wrap;color:#3f5044;margin:9mm 0;font-size:10pt}
+.lkm23q-print-heading{margin:10mm 0 4mm;font-size:14pt;letter-spacing:-.02em}
+.lkm23q-print-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9pt}
+.lkm23q-print-table th{background:#284235;color:#fff;text-align:left;font-weight:800;padding:3mm 3mm;font-size:8pt;letter-spacing:.03em}
+.lkm23q-print-table th:first-child{width:56%}
+.lkm23q-print-table th:not(:first-child){text-align:right}
+.lkm23q-print-table td{padding:4mm 3mm;border-bottom:1px solid #e6ebe4;vertical-align:top;overflow-wrap:anywhere}
+.lkm23q-print-table td.right{text-align:right;white-space:nowrap}
+.lkm23q-print-table tr{break-inside:avoid}
+.lkm23q-print-totals{margin:6mm 0 10mm auto;width:min(85mm,65%);display:flex;flex-direction:column;gap:2mm}
+.lkm23q-print-totals>div{display:flex;justify-content:space-between;gap:8mm;padding:2mm 0;font-size:9.5pt}
+.lkm23q-print-totals>div.grand{font-size:13pt;font-weight:900;color:#263d30;border-top:2px solid #284235;padding-top:5mm}
+.lkm23q-print-section{margin:9mm 0;break-inside:avoid}
+.lkm23q-print-section h2{font-size:12pt;margin:0 0 3mm;color:#2e493a}
+.lkm23q-print-section p{font-size:9.2pt;color:#475449;white-space:pre-wrap;margin:0;overflow-wrap:anywhere}
+.lkm23q-print-footer{display:flex;justify-content:space-between;gap:12mm;align-items:center;border-top:1px solid #dce4d9;padding-top:5mm;margin-top:14mm;break-inside:avoid}
+.lkm23q-print-footer strong{font-size:10pt;color:#b66c29}
+.lkm23q-print-footer span{font-size:7.8pt;color:#67756a;text-align:right}
+@media(max-width:1050px){.lkm23q-layout{grid-template-columns:235px minmax(0,1fr)}.lkm23q-editor{padding:21px}.lkm23q-item{grid-template-columns:minmax(0,2fr) 75px 90px}.lkm23q-line-total{align-self:center;padding:0;text-align:left}.lkm23q-remove{align-self:center}}
+@media(max-width:780px){.lkm23-quotes-shell{width:calc(100% - 24px);padding:20px 0 60px}.lkm23q-layout{grid-template-columns:1fr}.lkm23q-side{position:static;max-height:none}.lkm23q-header{align-items:flex-start;flex-direction:column}.lkm23q-grid{grid-template-columns:1fr 1fr}.lkm23q-item{grid-template-columns:1fr 1fr}.lkm23q-item .lkm23q-label:first-child{grid-column:1/-1}.lkm23q-discount{grid-template-columns:1fr}.lkm23q-editor{padding:20px}}
+@media(max-width:520px){.lkm23-quote-page .header-inner{min-height:70px;padding:8px 15px}.lkm23-quote-page .identity{font-size:14px;letter-spacing:-.5px}.lkm23-quote-page .identity img{width:34px;height:34px}.lkm23-quote-page .header-cta .button{padding:8px;font-size:11px;min-height:35px}.lkm23q-grid{grid-template-columns:1fr}.lkm23q-editor,.lkm23q-side{padding:16px}.lkm23q-add .button{width:100%}.lkm23q-add select{flex-basis:100%}.lkm23q-save-actions .button{width:100%}.lkm23q-item{gap:10px}}
+@media print{
+ @page{size:A4 portrait;margin:16mm 15mm 17mm}
+ html,body,.lkm23-quote-page{background:#fff!important;margin:0!important;color:#1d281e!important}
+ .lkm23-no-print,.skip-link{display:none!important}
+ #lkm23PrintRoot{display:block!important;margin:0!important;padding:0!important}
+ #lkm23PrintRoot .lkm23q-print{margin:0!important;padding:0!important;width:auto!important;box-shadow:none!important}
+ .lkm23q-print-header,.lkm23q-print-columns,.lkm23q-print-section,.lkm23q-print-footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .lkm23q-print-table th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+/* Compact A4 rhythm avoids a footer-only second page for normal 1–5 line quotations. */
+@media print{
+ @page{size:A4 portrait;margin:12mm 13mm 12mm}
+ .lkm23q-print-header{padding-bottom:5mm}
+ .lkm23q-print-brand img{width:18mm;height:18mm}
+ .lkm23q-print-title{padding:6mm 0 5mm}
+ .lkm23q-print-columns{padding:4mm 0}
+ .lkm23q-print-intro{margin:5mm 0}
+ .lkm23q-print-heading{margin:6mm 0 3mm}
+ .lkm23q-print-table td{padding:3mm}
+ .lkm23q-print-totals{margin:4mm 0 5mm auto}
+ .lkm23q-print-section{margin:5mm 0}
+ .lkm23q-print-footer{padding-top:3mm;margin-top:5mm}
+}

@@ -168,6 +168,7 @@
    const intl=digits.startsWith('+')?digits.slice(1):digits.startsWith('00')?digits.slice(2):'';
    if(/^\d{8,15}$/.test(intl)){const wa=node('a','button button-light','WhatsApp');wa.href='https://wa.me/'+intl;wa.target='_blank';wa.rel='noopener noreferrer';links.append(wa)}
   }
+  const quoteLink=node('a','button button-light','Create quotation');quoteLink.href='/admin-quotes.html?lead_id='+encodeURIComponent(l.id);links.append(quoteLink);
   if(links.children.length)target.append(links);
   if(l.message){const brief=node('details','lkm23-brief');const summary=node('summary','','Original customer brief');brief.append(summary,node('p','',l.message));target.append(brief)}
   const section=node('section','lkm23-edit');section.append(node('h3','','Sales details'));
