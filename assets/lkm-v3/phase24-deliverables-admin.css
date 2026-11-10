@@ -1,0 +1,17 @@
+/* Phase 24.3 — restrained CRM deliverables workspace, namespaced */
+.lkm243-section{margin-top:22px;border:1px solid #dde6dd;background:#fff;border-radius:16px;padding:clamp(14px,2vw,22px);color:#26392e;min-width:0}
+.lkm243-section *{box-sizing:border-box}.lkm243-section h3{margin:0 0 7px;font-size:21px;letter-spacing:-.035em}.lkm243-section h4{font-size:14px;margin:5px 0 10px}
+.lkm243-hint{margin:5px 0 13px;color:#68796a;font-size:12px;line-height:1.65}.lkm243-status{margin:12px 0 0;color:#376346;font-size:12px;min-height:1.5em}.lkm243-status.error{color:#aa4130}
+.lkm243-empty{background:#f5f7f3;border-radius:11px;padding:16px;color:#667567;font-size:13px;line-height:1.6}
+.lkm243-overview{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:12px 0}.lkm243-overview strong{font-size:12px}
+.lkm243-list{display:grid;gap:10px;margin-bottom:18px}.lkm243-card{border:1px solid #e0e8df;border-radius:12px;padding:13px;background:#fbfdfa;min-width:0}
+.lkm243-card-title{display:flex;align-items:start;justify-content:space-between;gap:12px}.lkm243-card-title>div{display:flex;flex-direction:column;gap:4px;min-width:0}.lkm243-card-title strong{font-size:14px;overflow-wrap:anywhere}.lkm243-card-title small{color:#748276;font-size:11px;overflow-wrap:anywhere}
+.lkm243-pill{white-space:nowrap;color:#6b7669;border-radius:99px;background:#eef1eb;padding:5px 9px;font-size:10px;font-weight:750}.lkm243-pill.live{background:#dfefdf;color:#306c3d}
+.lkm243-desc{color:#6b786d;font-size:12px;margin:10px 0;white-space:pre-wrap}
+.lkm243-buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.lkm243-section .button{min-height:36px;padding:8px 11px;border-radius:8px;font-size:11px}.lkm243-destructive{background:#fff7f3;color:#973f32;border:1px solid #efd5cb}.lkm243-destructive:hover{background:#ffe9e2}
+.lkm243-create{margin:14px 0 0;border:1px solid #e4ebe1;border-radius:12px;background:#f8faf6;padding:16px}
+.lkm243-entry,.lkm243-inline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.lkm243-inline{border-top:1px solid #e4e8df;margin-top:12px;padding-top:12px}
+.lkm243-label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:750;color:#435b47;min-width:0}.lkm243-label input:not([type=checkbox]),.lkm243-label select,.lkm243-label textarea{width:100%;min-width:0;max-width:100%;background:#fff;border:1px solid #d5e0d4;border-radius:8px;padding:10px 11px;min-height:41px;font:inherit;font-size:12px;color:#233527}
+.lkm243-label textarea{resize:vertical}.lkm243-label input[type=file]{padding:8px 6px}.lkm243-label input:focus-visible,.lkm243-label textarea:focus-visible,.lkm243-label select:focus-visible{outline:2px solid #b97847;outline-offset:1px}
+.lkm243-checkbox{flex-direction:row;gap:10px;align-items:center;grid-column:1/-1}.lkm243-checkbox input{width:17px;height:17px;accent-color:#2c523a;order:-1}.lkm243-entry>button,.lkm243-inline>button{justify-self:start}
+@media(max-width:760px){.lkm243-entry,.lkm243-inline{grid-template-columns:1fr}.lkm243-create{padding:13px}.lkm243-card-title{flex-direction:column}.lkm243-buttons{gap:6px}}

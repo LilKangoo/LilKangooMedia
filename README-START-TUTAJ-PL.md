@@ -1,65 +1,61 @@
-# LilKangooMedia — Phase 24.2: Projects & Order Tracking
+# LilKangooMedia — Phase 24.3: Client Deliverables
 
-Paczka **LKM_24_2.zip** to kompletna *aktualizacja przyrostowa* (overlay) do aktualnie wdrożonej strony (Phase 24.1). Zawiera wszystkie nowe i zmodyfikowane pliki tego etapu, z poprawnymi ścieżkami. **Nie zastępuje całego repozytorium.** Nie usuwaj z GitHub żadnych innych plików.
+Jedna paczka `LKM_24_3.zip` to **aktualizacja nakładkowa**: wgraj zawartość do korzenia repozytorium `LilKangoo/LilKangooMedia`, zachowując foldery. Nie kasuj innych plików projektu.
 
-## 1. SQL — DOKŁADNIE JEDEN NOWY PLIK
+## 1. SQL — TYLKO TEN JEDEN PLIK
 
-| Nazwa | Co zrobić |
-| --- | --- |
-| `supabase/migrations/20261110_lkm_client_projects.sql` | **URUCHOM TERAZ** w Supabase SQL Editor w projekcie LilKangooMedia. Najpierw SQL, potem GitHub. |
-| Wszystkie starsze migracje | **NIE uruchamiaj ponownie.** Nie są dołączone, nie zostały zmodyfikowane. |
+**URUCHOM:** `supabase/migrations/20261110_lkm_client_deliverables.sql`.
 
-SQL tworzy `public.lkm_client_projects` oraz `public.lkm_client_project_updates`, zabezpieczenia RLS, kontrolę powiązania z opłaconym zamówieniem i tylko-do-odczytu RPC `public.lkm_client_project_dashboard()`. Nie aktualizuje istniejących zgłoszeń, zamówień Stripe, rezerwacji, wycen ani transakcji. Nie wymaga nowych kluczy API.
+Supabase → SQL Editor → New query → wklej cały plik → Run. **Zrób ten krok PRZED wdrożeniem GitHub/Netlify.**
 
-Jeżeli poprzednia migracja `20261110_lkm_client_portal_foundation.sql` (Phase 24.1) nie została wykonana, wykonaj ją najpierw; zgodnie z ostatnią informacją od Ciebie została już wykonana.
+**NIE URUCHAMIAJ:** wszystkich poprzednich plików SQL, w szczególności:
+- `20261110_lkm_client_portal_foundation.sql`
+- `20261110_lkm_client_projects.sql`
+- `20261110_lkm_quotations.sql`
+- `20261110_lkm_crm_admin_controls.sql`
 
-## 2. GitHub i Netlify
+**Starsze SQL zmienione w tej paczce: BRAK.** W ZIP jest tylko jeden plik `.sql`. Nowy SQL tworzy prywatny bucket `lkm-client-deliverables`, jedną tabelę metadanych i niezbędne zasady RLS i funkcję read-only dla klienta.
 
-1. Rozpakuj `LKM_24_2.zip`.
-2. Wgraj jego pliki **z zachowaniem ścieżek** do istniejącego `LilKangoo/LilKangooMedia` (`main`): folder `assets/lkm-v3/` ma pozostać pod `assets/lkm-v3/`.
-3. Commit / Push i poczekaj na poprawne zakończenie deployu Netlify.
-4. Nie zmieniaj ręcznie istniejących plików. Nie dodawaj nowych Netlify environment variables.
+## 2. GitHub
 
-## 3. Co admin może robić w jednym panelu CRM
+Rozpakuj `LKM_24_3.zip`, wgraj zawartość do istniejącego repozytorium i wykonaj Commit/Push. Netlify powinien uruchomić deploy. Nie dodawaj nowych kluczy i nie zmieniaj `lkm-config.js`.
 
-Adres: `https://lilkangoomedia.com/admin-crm.html`.
+Zmodyfikowane istniejące pliki: `admin-crm.html`, `client.html`, `assets/lkm-v3/phase24-client.mjs`.
 
-- Otwórz zapytanie klienta. Bez przełączania ekranów zobaczysz sekcję **Project & delivery tracking** obok **Client portal access**.
-- **Create project**: tytuł, opis, etap, postęp (0–100%), przewidywana data, kolejny krok. Początkowo projekt jest **Private — admin only**.
-- **Client visibility**: przełącz na **Visible to granted client**, gdy informacje są gotowe. Klient nadal musi mieć aktywny grant dostępu z Phase 24.1 i poprawnie zweryfikowany e-mail.
-- **Optional matching Stripe order**: możesz wskazać jedno rzeczywiste zamówienie powiązane z tym samym adresem e-mail. Nie jest dopasowywane automatycznie i nie jest tworzone nowe zamówienie. W menu ładowane są najnowsze wpisy; gdy właściwy nie jest dostępny, pozostaw pole puste.
-- **Add project update**: publikuj informację o postępie lub zapisz jako prywatny szkic. Wpisy można edytować, ukryć i usunąć. Nie dodawaj tutaj prywatnych notatek CRM.
-- Projekt można usunąć tylko, gdy **nie był opublikowany i nie ma aktualizacji**. Inne projekty należy ukryć zamiast kasować historię.
+Nowe moduły i style w `assets/lkm-v3/phase24-deliverables-*` oraz migracja SQL. Formularze, CRM, Stripe, rezerwacje, wcześniejsze migracje i dane nie są modyfikowane.
 
-Projekt ma status realizacji **niezależny** od statusu rezerwacji, CRM, wycen i płatności. Zmiana `Delivered` na projekcie nie potwierdza rezerwacji, nie wystawia faktury i nie uruchamia przelewu.
+## 3. Jak używać
 
-## 4. Co zobaczy klient
+**Admin:** otwórz `/admin-crm.html`, wybierz klienta, przewiń do `Project & delivery tracking` (Phase 24.2) i utwórz/zapisz projekt. Poniżej pojawia się `Files & client deliveries`:
 
-Adres: `https://lilkangoomedia.com/client.html`.
+- `Add a private file`: maksymalnie 20 plików w jednej paczce (JPG, PNG, WebP, HEIC, MP4, MOV, PDF lub ZIP), każdy do 45 MB, upload do **prywatnego** Supabase Storage. Ustaw tytuł, typ i opis.
+- `Add an external delivery link`: dla dużych filmów i całych galerii z Adobe/Drive itd., z własnym HTTPS URL (uprawnienia na zewnętrznej platformie należy kontrolować osobno).
+- `Publish` / `Unpublish`, `Edit`, `Download` / `Open external link`, `Remove` (wymaga wpisania `DELETE`).
+- Każdy nowy materiał jest **domyślnie nieopublikowany**. Aby klient go widział, muszą być jednocześnie aktywne: dostęp klienta z Phase 24.1, publikacja projektu z Phase 24.2 oraz publikacja tego konkretnego materiału z Phase 24.3.
 
-Dopiero po zalogowaniu zweryfikowanym e-mailem i ręcznym przyznaniu dostępu klient zobaczy:
+**Klient:** zaloguje się do `/client.html` przez e-mail i poniżej postępu projektu zobaczy `Your files & downloads`. Bez udostępnienia nie zobaczy listy ani plików. Prywatne pliki pobiera za pomocą JWT i Storage RLS; nie udostępniamy publicznych URL.
 
-- Swoje udostępnione wcześniej zgłoszenia z Phase 24.1.
-- **Project progress** — opublikowane projekty, etap, procent realizacji, termin i następny krok.
-- Opublikowane **Project updates**, ułożone od najnowszych.
-- Informację o **jednym ręcznie przypisanym opłaconym zamówieniu**, jeśli administrator dokona takiego powiązania i e-mail jest zgodny. Kwota to zapisana kwota brutto, nie saldo po zwrotach ani faktura.
+Jeżeli dodasz projekt już w otwartym CRM, kliknij `Refresh files` w sekcji dostarczania materiałów.
 
-Klient **nie** widzi prywatnych notatek CRM, innych zgłoszeń, innych zamówień, wersji roboczych projektów i aktualizacji, danych innych klientów ani nie może zmieniać statusów projektu. Bez aktywnego grantu nic nie zostanie udostępnione. Brak SQL Phase 24.2 nie powinien blokować wyświetlania starszych zgłoszeń — sekcja projektów pokaże tylko informację o chwilowej niedostępności.
+## 4. Ograniczenia / bezpieczeństwo
 
-## 5. Czego ta faza celowo nie robi
+- Supabase Storage ma ograniczenia rozmiaru wynikające z planu i ustawień projektu. Limit tej funkcji to **45 MB na plik** (bucket ma limit 50 MiB). Jeśli plan Supabase ma niższy limit, użyj zewnętrznej usługi udostępniania.
+- Linki zewnętrzne mogą być używane również poza panelem. Cofnięcie dostępu w CRM **nie unieważnia** linku u dostawcy — rozważ hasło, ograniczone uprawnienia i datę wygaśnięcia w usłudze zewnętrznej.
+- Prywatny plik w Supabase podlega nowej kontroli RLS przy każdym pobraniu. Nie tworzymy trwałych ani publicznych linków i nie udostępniamy ścieżek storage innym klientom.
+- `Remove` najpierw usuwa rekord dostępu, potem obiekt Storage. Jeżeli sam Storage zwróci błąd, obiekt pozostaje prywatny i niedostępny przez portal, ale administrator musi go wyczyścić w panelu Storage.
+- Brak automatycznych e-maili, skanowania antywirusowego, szyfrowania end-to-end i automatycznych masowych transferów. Nie umieszczaj plików wykonawczych ani danych szczególnie wrażliwych bez dodatkowych procedur bezpieczeństwa.
+- Dokumenty finansowe/faktury nie są generowane. **Zwroty wyłącznie w aplikacji Stripe**. Brak kodu API zwrotów lub płatności w tej aktualizacji.
+- Żadne testy nie są wykonywane na produkcji; końcowy audyt zgodnie z ustaleniem użytkownika po zakończeniu pozostałych faz.
 
-- Brak automatycznych e-maili, przypomnień i aktualizacji statusów płatności.
-- Brak jakichkolwiek zwrotów z aplikacji LilKangooMedia — **zwroty wyłącznie w aplikacji Stripe**.
-- Brak automatycznego przypisywania zamówień po samym e-mailu.
-- Brak załączników, galerii prywatnych, faktur i plików do pobrania — to Phase 24.3.
-- Brak kompleksowego testu produkcyjnego; zgodnie z ustaleniem wykonamy go po Phase 25, razem z pierwszym prawdziwym Case Study.
+## 5. Co powinno działać po wdrożeniu (do audytu na koniec)
 
-## 6. Testy lokalne wykonane przed spakowaniem
+1. SQL działa bez błędów i bucket Storage ma `Public = false`.
+2. W CRM projekt może otrzymać prywatny upload i zewnętrzny link; publikację można cofnąć.
+3. Klient widzi tylko udostępnione pliki przypisane do jego projektu, a jego e-mail jest zweryfikowany.
+4. Cofnięcie dostępu, archiwizacja zgłoszenia, ukrycie projektu lub pliku blokuje dostęp do prywatnego Storage.
+5. Zdjęcia/filmy można podejrzeć na komputerze i telefonie, a pliki pobrać; dokumenty/ZIP są pobierane bez osadzania w stronie.
+6. Edycja i usunięcie innych zgłoszeń, rezerwacji, wycen i Stripe nie są dotknięte aktualizacją.
 
-- `node --test tests/phase24-projects.test.mjs` — weryfikacja uprawnień, sanitacji, powiązań Stripe i regresji.
-- Playwright/Chromium `tests/test_phase24_projects_browser.py` — symulowany backend, desktop + mobile, panel klienta i admina oraz odmowa dostępu użytkownikowi bez roli admina.
-- Testy produkcyjne (prawdziwe maile Supabase, RLS RPC i rzeczywiste rekordy) **nie zostały wykonane**.
+## 6. Rollback
 
-## 7. Rollback
-
-Usuń/skomentuj odnośnik do `phase24-admin-projects.js` i CSS w `admin-crm.html` oraz cofnij `phase24-client.mjs` i `client.html` do Phase 24.1. Nie usuwaj danych z nowo utworzonych tabel bez ich wcześniejszego wyeksportowania. Zapisane w bazie projekty nie wpływają na istniejące zamówienia.
+W GitHub cofnij tylko pliki Phase 24.3: trzy zmienione pliki HTML/JS do ich wersji Phase 24.2 i usuń nowe `phase24-deliverables-*` moduły. **Nie usuwaj automatycznie bucketu ani tabeli SQL**: zawierają potencjalne dane klientów. W razie konieczności pozostaw je zabezpieczone RLS i ustal plan retencji/archiwizacji.

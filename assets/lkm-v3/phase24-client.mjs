@@ -4,6 +4,7 @@
  */
 import {validEmail,cleanEmail,validOtp,sessionFromFragment,cleanItems,statusLabel} from './phase24-client-core.mjs';
 import {showProjectTracking} from './phase24-project-tracking.mjs';
+import {showClientDeliverables} from './phase24-deliverables-client.mjs';
 const root=document.getElementById('lkm24Workspace');
 if(root){
  const cfg=window.LKM_CONFIG||{},base=String(cfg.SUPABASE_URL||'').replace(/\/+$/,''),key=String(cfg.SUPABASE_ANON_KEY||'');
@@ -80,7 +81,9 @@ if(root){
    const list=node('div','lkm24-requests');for(const item of items)list.append(card(item));root.append(list);
    const projects=node('section','lkm242-client-zone');projects.id='lkm242ProjectTracking';root.append(projects);
    await showProjectTracking(projects,t,api);
-   root.append(node('p','lkm24-help','Files, media deliverables and invoices will be available in a later update. Payment details appear only when our team explicitly links the matching order.'));
+   const deliveries=node('section','lkm243-client-zone');deliveries.id='lkm243ClientDeliverables';root.append(deliveries);
+   await showClientDeliverables(deliveries,api,()=>token());
+   root.append(node('p','lkm24-help','Only published deliveries appear here. Invoices are not available in this phase. Recorded payment amounts are informational and do not show live Stripe refunds or fees.'));
   }catch(err){saveSession(null);pendingEmail='';sessionStorage.removeItem(emailKey);userEmail='';signIn('Your session has expired, or your request could not be loaded. Sign in again.');notice(err.message||'Unable to load secure client portal.',true)}
  }
  async function init(){

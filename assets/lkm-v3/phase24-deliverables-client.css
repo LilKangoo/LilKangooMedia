@@ -1,0 +1,20 @@
+/* Phase 24.3 client files — responsive and private by default */
+.lkm243-client-zone{margin-top:28px;border-top:1px solid #e2e8df;padding-top:24px}
+.lkm243-client-zone *{box-sizing:border-box}
+.lkm243-client-kicker{font-size:10px;color:#a47752;font-weight:800;letter-spacing:.16em;margin:0 0 9px}
+.lkm243-client-zone h2{font-size:clamp(24px,3vw,33px);margin:0 0 8px;letter-spacing:-.04em}
+.lkm243-client-subtitle,.lkm243-client-smallprint{font-size:12px;line-height:1.7;color:#768679;max-width:700px;margin:0 0 20px}
+.lkm243-client-group{margin:18px 0 26px}.lkm243-client-group h3{font-size:18px;letter-spacing:-.03em;margin:0 0 12px;color:#294132}
+.lkm243-client-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lkm243-client-item{display:flex;flex-direction:column;align-items:stretch;border:1px solid #e0e8df;border-radius:13px;padding:18px;background:#fbfdfb;min-width:0}
+.lkm243-client-item-top{display:flex;align-items:center;gap:9px}.lkm243-client-type{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#e8efe7;color:#305a3c;font-size:17px}
+.lkm243-client-item-top small{color:#808c81;font-size:11px}.lkm243-client-item h4{font-size:16px;margin:12px 0 6px;letter-spacing:-.02em;overflow-wrap:anywhere}
+.lkm243-client-desc{color:#657767;font-size:12px;white-space:pre-wrap;margin:0 0 10px;line-height:1.6}
+.lkm243-client-fileinfo{font-size:11px;color:#859185;margin:0 0 15px;overflow-wrap:anywhere}
+.lkm243-client-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}.lkm243-client-actions .button{font-size:11px;padding:10px 13px;min-height:39px;border:1px solid #d9e4da;border-radius:8px;cursor:pointer}.lkm243-client-actions button:disabled{opacity:.5;cursor:progress}
+.lkm243-client-status{font-size:11px;margin:8px 0 0;color:#56725c;min-height:1em}.lkm243-client-warning{font-size:10px;line-height:1.5;color:#8b6b50;margin:0 0 11px}
+.lkm243-client-empty{font-size:13px;color:#64786a;background:#f2f5ef;border-radius:11px;padding:18px;line-height:1.6}
+.lkm243-viewer{border:0;border-radius:15px;padding:18px;background:#152118;color:#fff;max-width:min(94vw,1100px);max-height:94vh;box-shadow:0 15px 65px #0007}
+.lkm243-viewer::backdrop{background:#0b1a0be8}.lkm243-viewer-bar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:10px}.lkm243-viewer-bar strong{font-size:14px;overflow-wrap:anywhere}.lkm243-viewer-bar button{background:#f4f6f2;border:0;padding:8px 12px;border-radius:8px;font-size:12px;color:#202b22;cursor:pointer}
+.lkm243-viewer img,.lkm243-viewer video{display:block;max-height:calc(94vh - 90px);max-width:100%;margin:auto}
+@media(max-width:720px){.lkm243-client-grid{grid-template-columns:1fr}.lkm243-client-item{padding:15px}.lkm243-viewer{padding:10px}}
