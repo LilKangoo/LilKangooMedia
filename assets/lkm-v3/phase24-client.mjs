@@ -3,6 +3,7 @@
  * Session is tab-scoped (sessionStorage), not the admin LKMStore session.
  */
 import {validEmail,cleanEmail,validOtp,sessionFromFragment,cleanItems,statusLabel} from './phase24-client-core.mjs';
+import {showProjectTracking} from './phase24-project-tracking.mjs';
 const root=document.getElementById('lkm24Workspace');
 if(root){
  const cfg=window.LKM_CONFIG||{},base=String(cfg.SUPABASE_URL||'').replace(/\/+$/,''),key=String(cfg.SUPABASE_ANON_KEY||'');
@@ -77,7 +78,9 @@ if(root){
    logout.addEventListener('click',async()=>{const t=session?.access_token;saveSession(null);pendingEmail='';sessionStorage.removeItem(emailKey);userEmail='';signIn('You have signed out of the client portal.');if(t)void api('/auth/v1/logout',{method:'POST',token:t}).catch(()=>{});});
    if(!items.length){root.append(node('p','lkm24-empty','There are no project requests shared with this email yet. If you have already enquired, please contact LilKangooMedia so we can enable access to your request.'));return;}
    const list=node('div','lkm24-requests');for(const item of items)list.append(card(item));root.append(list);
-   root.append(node('p','lkm24-help','This first version shows basic request information only. Project files, documents and payments are not displayed here yet.'));
+   const projects=node('section','lkm242-client-zone');projects.id='lkm242ProjectTracking';root.append(projects);
+   await showProjectTracking(projects,t,api);
+   root.append(node('p','lkm24-help','Files, media deliverables and invoices will be available in a later update. Payment details appear only when our team explicitly links the matching order.'));
   }catch(err){saveSession(null);pendingEmail='';sessionStorage.removeItem(emailKey);userEmail='';signIn('Your session has expired, or your request could not be loaded. Sign in again.');notice(err.message||'Unable to load secure client portal.',true)}
  }
  async function init(){

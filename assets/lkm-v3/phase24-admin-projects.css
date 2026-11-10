@@ -1,0 +1,16 @@
+/* Phase 24.2 — admin controls inside CRM; match existing minimalist interface. */
+.lkm242-section,.lkm242-section *{box-sizing:border-box}
+.lkm242-section{background:#fff;border:1px solid #dfe7db;border-radius:15px;padding:20px;margin:20px 0;color:#26362c;box-shadow:0 5px 22px #152a1d08}
+.lkm242-section h3{font-size:19px;letter-spacing:-.03em;margin:0 0 6px}.lkm242-section h4{font-size:15px;margin:0 0 6px}
+.lkm242-note{font-size:12px;color:#68786b;line-height:1.65;margin:3px 0 18px}.lkm242-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.lkm242-field{display:flex;flex-direction:column;gap:6px;min-width:0;color:#526352;font-size:11px;font-weight:760}
+.lkm242-field input,.lkm242-field textarea,.lkm242-field select{width:100%;min-width:0;background:#fff;color:#243a29;border:1px solid #d7e1d4;border-radius:9px;padding:11px 12px;font:inherit;font-size:13px;min-height:43px}
+.lkm242-field textarea{resize:vertical;line-height:1.5;min-height:78px}.lkm242-field small{font-size:10px;color:#758371;font-weight:400;line-height:1.5}
+.lkm242-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.lkm242-actions .button,.lkm242-post .button{font-size:12px;min-height:41px}
+.lkm242-status{font-size:12px;padding:10px 12px;background:#edf3ea;color:#345e3d;border-radius:9px;line-height:1.5;margin:17px 0 0}.lkm242-status.is-error,.lkm242-warning{background:#fff0ea;color:#9a4430}
+.lkm242-warning{padding:9px 12px;border-radius:8px;font-size:12px}.lkm242-timeline{border-top:1px solid #e0e9dd;padding-top:20px;margin-top:25px}
+.lkm242-post{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:end;background:#f7f8f5;border:1px solid #e6ece3;border-radius:11px;padding:15px}
+.lkm242-post .lkm242-field:nth-child(2){grid-column:span 2}.lkm242-post button{width:max-content}
+.lkm242-update-list{display:grid;gap:10px;margin-top:16px}.lkm242-update{border:1px solid #e3eae1;border-radius:11px;padding:13px;background:#fff}.lkm242-update-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.lkm242-update-top strong{font-size:13px}.lkm242-update p{font-size:12px;line-height:1.55;color:#5d6d61;white-space:pre-wrap}.lkm242-pill{font-size:10px;padding:5px 8px;border-radius:999px;color:#66716a;background:#e9ede7}.lkm242-pill.is-visible{background:#e3f0df;color:#286139}
+.lkm242-update-actions{display:flex;flex-wrap:wrap;gap:8px}.lkm242-update-actions button{border:1px solid #d8e2d6;background:#fff;border-radius:7px;padding:6px 10px;color:#39513d;font-size:11px;font-weight:750}.lkm242-inline-edit{display:grid;gap:10px;background:#f6f8f3;padding:10px;border-radius:10px;margin-top:12px}.lkm242-inline-edit button{justify-self:start}
+@media(max-width:800px){.lkm242-grid,.lkm242-post{grid-template-columns:1fr}.lkm242-post .lkm242-field:nth-child(2){grid-column:auto}.lkm242-section{padding:16px}.lkm242-update-top{align-items:start}}
