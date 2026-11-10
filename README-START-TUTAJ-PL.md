@@ -1,83 +1,55 @@
-# LilKangooMedia — Phase 19 · Links library
+# LilKangooMedia — Phase 20.1: Conversion & Quick Enquiry
 
-## Poprawka błędu Netlify (9 listopada 2026)
+## Co jest w tej aktualizacji
 
-- Funkcja `netlify/functions/link-preview.js` została przepisana z `exports.handler` (CommonJS) na `export const handler` (ES Modules). W repozytorium ustawiono `"type": "module"`, dlatego wcześniejsza wersja nie przechodziła budowania funkcji.
-- Nazwa i ścieżka funkcji pozostają bez zmian; reguły `/share/service/:slug` oraz `/share/gallery/:slug` w `netlify.toml` są zachowane.
-- Test sprawdza teraz faktyczny import `link-preview.js` w katalogu z `package.json` ustawionym na `"type": "module"`.
-- Po podmianie plików w GitHub wykonaj nowy deploy; sam `Retry` starej wersji może pobrać stary commit.
-- Testy lokalne nie są potwierdzeniem sukcesu Netlify, który wymaga nowego deployu.
+- Przycisk „Quick enquiry” na każdej karcie usługi (Personal i Business).
+- Szybki formularz otwierany bez opuszczania katalogu. Automatycznie przypisuje service_slug i korzysta z istniejącej funkcji POST /api/enquiry, bazy contact_leads, powiadomień Resend i istniejącego Turnstile (jeśli skonfigurowany).
+- Mobilny, przyklejony pasek na szczegółach usługi: „Configure package” (dotychczasowa wycena) i „Ask a question” (szybki formularz).
+- Zdarzenia GA4: lkm_quick_enquiry_open oraz generate_lead, wysyłane tylko po udzieleniu zgody na Analytics.
+- Bez zmian w bazie danych, tabelach, cenach, pakietach, checkout Stripe, adminie, artykułach, meta i przekierowaniach SEO.
 
-## Cel
+## Instalacja w GitHub
 
-Nowa pozycja **↗ Links library** w panelu administratora LilKangooMedia. Umożliwia szybkie znalezienie i wysłanie właściwego publicznego linku do usługi, artykułu, galerii, recenzji lub innej ważnej strony.
+1. Otwórz repozytorium `LilKangoo/LilKangooMedia`.
+2. Rozpakuj ZIP i **skopiuj cztery pliki** do tej samej struktury katalogów, nadpisując tylko istniejące `index.html` i `home.html`:
+   - `index.html`
+   - `home.html`
+   - `assets/lkm-v3/phase20-conversion.js` (nowy plik)
+   - `assets/lkm-v3/phase20-conversion.css` (nowy plik)
+3. Najlepiej zapisz zmiany w osobnej gałęzi i utwórz pull request; jeśli korzystasz z głównej gałęzi, dopilnuj, aby repo było aktualne.
+4. Po zakończonym deployu Netlify odśwież stronę skrótem `Cmd + Shift + R`.
 
-**Uwaga:** to paczka DO WDROŻENIA. Nie wprowadzono żadnych zmian do Twojej strony produkcyjnej ani bazy Supabase.
+**Ważne:** indeks został oparty dokładnie na pliku GitHub `main` w momencie przygotowania paczki (blob SHA `625e21862a0ee2bc143ed204d5dc033bd83fb199`); jeśli od tego czasu zmieniłeś stronę główną, nie nadpisuj jej w ciemno. Dodaj do aktualnego `index.html` i `home.html` tylko dwie linie tuż przed `</head>`:
 
-## Co zawiera
+```html
+<link rel="stylesheet" href="/assets/lkm-v3/phase20-conversion.css">
+<script defer src="/assets/lkm-v3/phase20-conversion.js"></script>
+```
 
-- `/admin.html` — dołączony **jeden** nowy skrypt w istniejącym panelu; reszta bez zmian.
-- `/admin-reviews.html` — nowy link do Links library w menu recenzji; reszta bez zmian.
-- `/admin-links.html` — osobna podstrona biblioteki wewnątrz administracji, wymagająca istniejącego logowania admina.
-- `/assets/lkm-v3/admin-links-nav.js` — wpis w bocznym menu panelu.
-- `/assets/lkm-v3/admin-links.js` — pobieranie aktualnych danych usług, galerii i artykułów; wyszukiwanie; filtrowanie; kopiowanie.
-- `/assets/lkm-v3/admin-links.css` — wygląd kart i responsywny układ.
-- `/netlify/functions/link-preview.js` — indywidualny podgląd do udostępniania (Open Graph) dla usług i galerii; bez nowych uprawnień ani tabel.
-- `/netlify.toml` — istniejące ustawienia Netlify z dopisanymi dwoma regułami rewrites.
-- `/tests/test_phase19.cjs` — testy jednostkowe logiki i metadanych (Node 18+).
+## Testy po deployu (5 minut)
 
-## Skąd bierzemy linki?
+1. Otwórz `https://lilkangoomedia.com/#/services?audience=personal`. Na kartach powinien być „Quick enquiry”.
+2. Kliknij go i sprawdź, czy formularz pokazuje właściwą nazwę usługi.
+3. Wyślij testowe zapytanie z własnym e-mailem i słowem `TEST` w treści (minimum 6 znaków). **Nie wysyłaj danych prawdziwego klienta na etapie testowym.**
+4. Sprawdź nowy rekord w Supabase `contact_leads` (`submission_type = quick_enquiry`, poprawny `service_slug`) oraz e-mail z Resend.
+5. Na telefonie otwórz szczegóły usługi i sprawdź dolny pasek. „Configure package” powinno otworzyć istniejącą wycenę, a „Ask a question” — szybki formularz.
+6. Sprawdź, czy użytkownik bez zgody analytics nie uruchamia zdarzeń GA4.
+7. Sprawdź zwykły formularz, konfigurator i galerię, żeby potwierdzić brak regresji.
 
-- **Services / Personal** i **Services / Business**: z aktualnej publicznej tabeli `services` w Supabase; wyłącznie `active = true`.
-- **Portfolio galleries**: z `portfolio_galleries` i zdjęć publicznych `portfolio_images` w Supabase.
-- **Articles & guides**: z `assets/lkm-v3/articles-index.json` generowanego podczas wdrożenia Netlify; jeśli indeks jest pusty — z opublikowanych `blog_posts`. Zachowujemy oryginalne istniejące `permalink`/`legacy_path` i SEO `seo_title`/`seo_description`.
-- **Main pages**: homepage, usługi, wersje Personal/Business, About, Contact, Portfolio, Articles, Customer reviews, FAQ. Dla zwykłych stron HTML katalog odczytuje rzeczywisty `<title>`, meta description i OG image, jeśli są obecne.
-- **Social & contact**: oficjalne linki do Google Reviews, Leave a Google review, WhatsApp, Facebook, Instagram i YouTube podane wcześniej na stronie.
+## Przywrócenie poprzedniej wersji
 
-**Nie wymyślamy** nowych linków do niewydanych usług czy artykułów. Liczba dostępnych linków i folderów zależy od tego, co jest rzeczywiście opublikowane w CMS/Supabase.
+Usuń z `index.html` i `home.html` dwie powyższe linie (`phase20-conversion`), albo przywróć poprzedni commit/deploy w Netlify. Pliki JS/CSS mogą pozostać w repo bez wpływu na stronę, jeśli nie są dołączone w HTML.
 
-## Jak działa wysyłanie linków?
+## Weryfikacja techniczna
 
-W każdej karcie jest obraz, tytuł, SEO/meta title, meta description, slug, gotowy adres, przyciski:
+- `node --check assets/lkm-v3/phase20-conversion.js` — PASS.
+- Porównanie oryginalnego `index.html` z bazą GitHub po odjęciu dwóch linijek — identyczny blob SHA.
+- Lokalny browser smoke test Chromium nie powiódł się z powodu ograniczeń środowiska; działania produkcyjnego nie uznajemy za przetestowane przed sprawdzeniem w Netlify.
+- Nie wykonywano z tego środowiska żadnych operacji na działającej bazie Supabase ani produkcyjnych płatności.
 
-- **Copy link** — kopiuje publiczny link do przesłania klientowi.
-- **Copy text** — kopiuje tytuł, krótki opis i link, gotowe do wklejenia w WhatsApp, e-mail lub Messenger.
-- **Open** — otwiera link w nowej karcie.
-- **Copy direct page URL** — dodatkowa opcja przy usługach i galeriach. Kopiuje standardowy adres strony z `#`, bez indywidualnej karty Open Graph.
+## Następne etapy
 
-### Dlaczego usługi i galerie mają specjalny link?
-
-Standardowy adres usługi `https://lilkangoomedia.com/#/service/<slug>` działa u odwiedzających, ale `#` nie dociera do serwera i Facebook/WhatsApp może wyświetlić ogólne zdjęcie oraz tytuł strony głównej. Dlatego **Copy link** kopiuje dla usługi:
-
-`https://lilkangoomedia.com/share/service/<slug>`
-
-Dla galerii:
-
-`https://lilkangoomedia.com/share/gallery/<slug>`
-
-Netlify Functions odczytuje **publiczne** dane z Supabase i zwraca HTML z własnym `og:title`, `og:description`, `og:image` i `og:url` dla danej pozycji. Przeglądarka klienta automatycznie przechodzi na istniejącą stronę usługi lub galerii. Nie zmieniamy dotychczasowych ścieżek SPA ani konfiguratora. Nowe lub edytowane usługi w Supabase mogą aktualizować podgląd bez zmiany kodu (serwery społecznościowe mogą cache'ować wcześniejszy podgląd).
-
-Przy artykułach używamy ich **oryginalnych osobnych stron SEO**, a przy zwykłych podstronach — rzeczywistych publicznych adresów. Podgląd z indywidualnym zdjęciem nie jest obiecywany dla zewnętrznych platform, na których LilKangooMedia nie ma kontroli nad metadanymi.
-
-## Instalacja — 5 kroków
-
-1. Rozpakuj ZIP. Skopiuj zawartość do repozytorium `LilKangoo/LilKangooMedia`, zachowując ścieżki. Nowe pliki dodaj, a trzy istniejące (`admin.html`, `admin-reviews.html`, `netlify.toml`) zaktualizuj. Pozostałe pliki zostaw bez zmian.
-2. Najlepiej wykonaj zmiany na gałęzi testowej i uruchom **Netlify Deploy Preview**. W środowisku Preview otwórz `/admin-links.html` i zaloguj się istniejącym kontem administratora.
-3. Sprawdź foldery, wyszukiwanie po tytule/slugu, **Copy link** i **Copy text**, poprawność zdjęć oraz liczbę usług, galerii i artykułów.
-4. Zweryfikuj nowy endpoint **na domenie deploy preview**: `https://TWOJ-PREVIEW.netlify.app/share/service/portrait-photography`. Po odczytaniu metadanych link powinien otworzyć właściwą podstronę (po stronie produkcyjnej link będzie na `lilkangoomedia.com`). Można zweryfikować nagłówki `og:title` / `og:image` narzędziem Facebook Sharing Debugger, jeśli URL preview jest dostępny publicznie.
-5. Po udanych testach zmerguj do `main`, poczekaj na Netlify deploy i sprawdź właściwy produkcyjny adres `/share/service/portrait-photography`. Teraz przyciski **Copy link** będą gotowe do wysyłania klientom.
-
-**Nie uruchamiamy żadnego SQL.** Moduł korzysta z istniejącej sesji Supabase Auth i wymaga uprawnienia administratora. Nie edytuje żadnych rekordów i nie wpływa na Phase 17 (Google Reviews) lub Phase 18 (Pricing & Custom Quotes).
-
-## Ważne uwagi
-
-- Share pages wymagają **Netlify Functions** — nie zadziałają na innej usłudze hostingowej bez osobnej adaptacji. Obecne repo zawiera `netlify.toml` i używa Netlify Functions jako systemu docelowego tej paczki.
-- W `netlify/functions/link-preview.js` jako fallback wstawiony jest istniejący publiczny klucz Supabase z `lkm-config.js` (to **publishable key**, nie `service_role`); preferowane są zmienne Netlify `SUPABASE_URL` i `SUPABASE_ANON_KEY`, jeśli istnieją. Jeśli zmienisz projekt Supabase, dostosuj również ten fallback lub ustaw zmienne środowiskowe.
-- Share URL skierowany na domenę produkcyjną zacznie działać **dopiero po publicznym deployu**. Testuj wersję preview przez domenę Netlify Preview.
-- Jeśli witryna przez jakiś czas nie może pobrać kategorii CMS, moduł pokaże ostrzeżenie, ale nadal udostępni załadowane linki.
-- Część platform społecznościowych buforuje poprzednie miniatury; w razie potrzeby odśwież ich cache za pomocą narzędzia debuggera danej platformy.
-- Archiwum zawiera jedynie pliki panelu i endpointu; **nie zawiera** prywatnych danych klientów ani kluczy `service_role`.
-
-## Testy
-
-Z lokalnej kopii paczki: `node tests/test_phase19.cjs` (bez instalowania zależności). Testy sprawdzają generowanie metadanych, bezpieczny slug, zachowanie nieopublikowanej strony, awarię bazy, automatyczne linki do usług i galerii, filtrowanie i kopiowanie. Pełny wizualny test Netlify Preview pozostaje do wykonania — uruchamianie lokalnej przeglądarki jest blokowane w środowisku przygotowania paczki.
+Phase 20.2 — analityka całego lejka, uproszczenie komunikatów błędów i pomiar mobilnego CTA.
+Phase 21 — kalendarz i potwierdzanie terminów, serwerowe walidacje Stripe i dopłaty/zadatek.
+Phase 22 — przypisanie portfolio/opinii do usług i landing pages branżowe.
+Phase 23–25 — wyceny PDF, automatyzacja, panel klienta, rozbudowa SEO/PL/EN oraz optymalizacja na podstawie danych.
