@@ -1,0 +1,27 @@
+/* Phase 22.1 — real published portfolio associated with a service */
+.lkm22-projects{padding:clamp(28px,4vw,58px) 0;border-top:1px solid rgba(30,35,28,.12);margin-top:12px}
+.lkm22-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:25px}
+.lkm22-eyebrow{font-size:11px!important;letter-spacing:.16em;font-weight:800;text-transform:uppercase;color:#bb6528;margin:0 0 9px}
+.lkm22-head h2{font-size:clamp(27px,3vw,42px);line-height:1.14;letter-spacing:-.04em;margin:0 0 9px}
+.lkm22-muted{color:#646a61;max-width:580px;margin:0!important;font-size:15px;line-height:1.6}
+.lkm22-browse{color:#2f352b;text-decoration:underline;text-underline-offset:4px;white-space:nowrap;font-size:13px;font-weight:700}
+.lkm22-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.lkm22-card{display:block;color:inherit!important;text-decoration:none!important;border:1px solid #e7e9e4;border-radius:17px;overflow:hidden;background:#fff;transition:transform .18s,border-color .18s,box-shadow .18s}
+.lkm22-card:focus-visible{outline:3px solid #de752c;outline-offset:3px}
+.lkm22-card:hover{transform:translateY(-3px);border-color:#d3b7a1;box-shadow:0 12px 30px rgba(20,30,16,.08)}
+.lkm22-image-wrap{position:relative;aspect-ratio:16/10;background:#eceee9;overflow:hidden}
+.lkm22-image-wrap img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .3s}
+.lkm22-card:hover img{transform:scale(1.035)}
+.lkm22-video-tag{position:absolute;left:12px;bottom:12px;border-radius:999px;background:rgba(22,24,20,.84);color:#fff;padding:7px 12px;font-size:12px;font-weight:700}
+.lkm22-info{padding:17px 18px 19px;display:flex;flex-direction:column;gap:7px}
+.lkm22-type{color:#ba6028;text-transform:uppercase;letter-spacing:.12em;font-weight:800;font-size:10px}
+.lkm22-info h3{font-size:clamp(18px,2vw,22px);line-height:1.25;margin:0;letter-spacing:-.02em}
+.lkm22-info p{color:#656c63;margin:0;font-size:13px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lkm22-client{color:#5a6058;font-size:12px;font-weight:600}
+.lkm22-view{margin-top:6px;font-size:12px;font-weight:800;color:#a84b16}
+.lkm22-trust{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;background:#f3f5f1;border-radius:12px;padding:16px 19px;margin-top:19px}
+.lkm22-trust p{font-size:13px;color:#444b41;margin:0;line-height:1.5}
+.lkm22-trust a{font-size:13px;font-weight:750;text-decoration:underline;text-underline-offset:3px;color:#2a3028}
+@media(max-width:700px){.lkm22-projects{padding:30px 0}.lkm22-head{align-items:flex-start}.lkm22-grid{grid-template-columns:1fr}.lkm22-browse{margin-top:4px}.lkm22-info{padding:15px}.lkm22-trust{align-items:flex-start}}
+@media(max-width:400px){.lkm22-head{flex-wrap:wrap;gap:7px}}
+@media(prefers-reduced-motion:reduce){.lkm22-card,.lkm22-image-wrap img{transition:none}.lkm22-card:hover,.lkm22-card:hover img{transform:none}}
