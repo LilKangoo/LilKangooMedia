@@ -23,6 +23,12 @@ export default async function checkout(request){
     const rows=await supabase(process.env,'services?slug=eq.'+encodeURIComponent(slug)+'&active=eq.true&select=slug,title,packages,addons,booking_mode,deposit_percent');
     const service=rows?.[0];
     const price=quotePrice(service,pkgId,ids);
+    // Phase 21.3: server-side calendar check. Never rely on a browser date picker.
+    // A missing/corrupt availability table fails closed for payments, not enquiries.
+    const blocks=await supabase(process.env,
+      'lkm_availability_blocks?select=id&blocked_date=eq.'+date+
+      '&or=(service_slug.eq.'+slug+',service_slug.is.null)&limit=1');
+    if(blocks.length) return json({ok:false,error:'This date is blocked. Please select another date or send an enquiry.'},409);
     const site=siteURL(process.env);
     const form=new URLSearchParams();
     form.set('mode','payment');form.set('payment_method_types[0]','card');

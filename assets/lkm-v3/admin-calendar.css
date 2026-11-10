@@ -1,0 +1,46 @@
+/* Phase 21.3 — readable availability calendar (only in authenticated admin area). */
+.lkmcal-container{width:min(1370px,calc(100% - 44px));margin:36px auto 85px;color:#1c3025}
+.lkmcal-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:23px;flex-wrap:wrap}
+.lkmcal-heading h1{font-size:clamp(30px,3vw,45px);letter-spacing:-1.6px;line-height:1.08;margin:7px 0 4px}
+.lkmcal-heading p{margin:0;color:#667769;max-width:690px}
+.lkmcal-eyebrow{color:#b27729!important;font-weight:800;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+.lkmcal-top{display:grid;grid-template-columns:1fr auto;align-items:end;gap:15px;background:#fff;border:1px solid #e0e8dd;border-radius:16px;padding:19px;margin-bottom:16px}
+.lkmcal-top label,.lkmcal-form label{font-size:12px;font-weight:750;color:#46594c;display:grid;gap:6px}
+.lkmcal-top select,.lkmcal-form select,.lkmcal-form input{border:1px solid #d1dcd2;border-radius:9px;min-height:44px;padding:9px 11px;background:white;color:#1e3425;width:100%}
+.lkmcal-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.lkmcal-btn{border:1px solid #d4dfd5;background:white;color:#213b28;border-radius:9px;min-height:40px;padding:9px 15px;font-size:12px;font-weight:800;cursor:pointer}
+.lkmcal-btn:hover,.lkmcal-btn:focus-visible{background:#f1f5ef}
+.lkmcal-btn-dark{background:#264231;color:#fff;border-color:#264231}.lkmcal-btn-dark:hover{background:#365943}
+.lkmcal-btn-danger{color:#a83b35;border-color:#e4c4c1}
+.lkmcal-month-label{min-width:150px;font-size:19px;font-weight:850;letter-spacing:-.4px;text-align:center}
+.lkmcal-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.lkmcal-stat{flex:1;min-width:130px;background:#fff;border:1px solid #e0e8dd;border-radius:12px;padding:12px 15px}
+.lkmcal-stat strong{display:block;font-size:23px;line-height:1.2}.lkmcal-stat small{font-size:11px;color:#667769}
+.lkmcal-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(305px,.85fr);gap:18px;align-items:start}
+.lkmcal-card{background:#fff;border:1px solid #e0e8dd;border-radius:15px;padding:18px;min-width:0}
+.lkmcal-weekdays,.lkmcal-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.lkmcal-weekdays{margin-bottom:8px;color:#697a6b;text-transform:uppercase;font-size:10px;font-weight:850;text-align:center}
+.lkmcal-day{position:relative;min-height:91px;border:1px solid #e2e9e0;border-radius:10px;background:#fbfcfa;text-align:left;display:flex;flex-direction:column;gap:4px;padding:9px 7px;cursor:pointer;color:#263b2c}
+.lkmcal-day[disabled]{opacity:.52;cursor:default}.lkmcal-day.lkmcal-day-selected{border-color:#c6771d;box-shadow:0 0 0 2px #efab4e75}
+.lkmcal-day.lkmcal-day-today{background:#f4faf4}.lkmcal-day.lkmcal-day-blocked{background:#fff0ed;border-color:#edb1a5}
+.lkmcal-day-num{font-size:14px;font-weight:850}
+.lkmcal-day-tags{display:flex;flex-direction:column;align-items:start;gap:3px}
+.lkmcal-tag{border-radius:5px;padding:2px 5px;font-size:10px;line-height:1.2;font-weight:750;background:#e7efe8;color:#355840}
+.lkmcal-tag-paid{background:#e9e8fb;color:#574f95}.lkmcal-tag-blocked{background:#c94638;color:white}
+.lkmcal-legend{font-size:12px;color:#617466;display:flex;gap:15px;flex-wrap:wrap;margin-top:15px}
+.lkmcal-aside h2{font-size:23px;margin:0 0 9px;letter-spacing:-.5px}
+.lkmcal-muted{font-size:12px;color:#667769}
+.lkmcal-aside h3{font-size:14px;margin:21px 0 7px}
+.lkmcal-entry{border:1px solid #e1e9df;border-radius:10px;padding:11px;margin:7px 0;font-size:12px;background:#fbfcfa;overflow-wrap:anywhere}
+.lkmcal-entry strong{display:block;font-size:13px;margin-bottom:3px}.lkmcal-entry small{color:#718173}
+.lkmcal-form{display:grid;gap:12px;margin-top:13px;padding-top:13px;border-top:1px solid #e5e9e2}
+.lkmcal-form .lkmcal-btn{width:100%}
+.lkmcal-alert{font-size:13px;margin:14px 0;border-radius:10px;padding:13px;background:#fff6df;color:#65502d}
+.lkmcal-alert.error{background:#fff0ee;color:#9e352f}
+.lkmcal-alert.good{background:#eef8ef;color:#24572c}
+.lkmcal-auth{background:#fff;border:1px solid #dde6db;border-radius:18px;padding:26px;width:min(450px,100%);margin:50px auto}
+.lkmcal-auth input{width:100%;min-height:44px;border:1px solid #d1ded1;border-radius:9px;padding:10px;margin-top:5px}
+.lkmcal-auth label{display:block;font-weight:800;font-size:12px;margin:14px 0}
+.lkmcal-empty{color:#8a9b8c;font-size:12px;padding:12px;border:1px dashed #dfe6dc;border-radius:9px}
+@media(max-width:920px){.lkmcal-layout{grid-template-columns:1fr}.lkmcal-top{grid-template-columns:1fr}.lkmcal-controls{justify-content:space-between}}
+@media(max-width:640px){.lkmcal-container{width:calc(100% - 20px);margin:20px auto}.lkmcal-card{padding:9px}.lkmcal-day{min-height:79px;padding:6px 4px;gap:2px}.lkmcal-days,.lkmcal-weekdays{gap:3px}.lkmcal-tag{font-size:9px;max-width:100%;overflow:hidden;text-overflow:ellipsis}.lkmcal-month-label{min-width:115px;font-size:15px}.lkmcal-top{padding:12px}.lkmcal-btn{padding:8px 10px}.lkmcal-day-num{font-size:12px}}
