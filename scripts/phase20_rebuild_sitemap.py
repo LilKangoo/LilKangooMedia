@@ -18,7 +18,11 @@ from pathlib import Path
 
 BASE = 'https://lilkangoomedia.com'
 NS = '{http://www.sitemaps.org/schemas/sitemap/0.9}'
-PUBLIC_STATIC = ('/', '/portfolio.html', '/blog.html')
+PUBLIC_STATIC = (
+    '/', '/portfolio.html', '/blog.html', '/case-studies.html',
+    '/business-solutions.html', '/business-restaurants.html',
+    '/business-hotels.html', '/business-retail.html', '/business-brands.html',
+)
 BLOCKED_PREFIX = ('/admin', '/cms', '/api/', '/.netlify/', '/share/', '/confirmation', '/payment-return')
 
 
