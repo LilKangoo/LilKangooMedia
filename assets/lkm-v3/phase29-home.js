@@ -1,4 +1,4 @@
-/* LilKangooMedia Phase 29.2 — homepage navy/gold presentation and navigation.
+/* LilKangooMedia Phase 29.3 — homepage navy/gold presentation and navigation.
  * Additive only. Moves existing HOME sections into one continuous stage; original
  * routes, service cards, Supabase pricing, review carousel and forms are preserved.
  */
@@ -13,6 +13,8 @@
   const isHome = () => !location.hash || location.hash === '#' || location.hash === '#/' || location.hash === '#/home';
   let queued = false;
   let rafScroll = false;
+  let motionObserver = null;
+  const observed = new WeakSet();
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // Keep the already-existing, verified href values of ALL original navigation links.
@@ -112,26 +114,32 @@
     const proof = [...root.children].find(el => el.classList?.contains('proof-strip'));
     const hero = [...root.children].find(el => el.classList?.contains('hero'));
     if (!isHome() || !proof || !hero) {
-      document.body.classList.remove('lkm29-home');
+      document.body.classList.remove('lkm29-home', 'lkm29-motion-ready');
+      motionObserver?.disconnect();
+      motionObserver = null;
       return;
     }
     document.body.classList.add('lkm29-home');
     compactHeroTitle(hero);
+    // One real kangaroo watermark spanning the whole Home, from HERO through CTA.
+    // The white proof strip and navigation are layered in front of it.
+    if (!root.querySelector(':scope > .lkm29-global-watermark')) {
+      const mark = create('div', 'lkm29-global-watermark');
+      mark.setAttribute('aria-hidden', 'true');
+      const logoImage = document.createElement('img');
+      logoImage.src = '/assets/lkm-v3/brand/logo-orange.png';
+      logoImage.alt = '';
+      logoImage.decoding = 'async';
+      mark.append(logoImage);
+      root.prepend(mark);
+    }
     let stage = root.querySelector(':scope > .lkm29-stage');
     if (!stage) {
       stage = create('div', 'lkm29-stage');
       stage.id = 'lkm29-stage';
       const bokeh = create('div', 'lkm29-bokeh');
       bokeh.setAttribute('aria-hidden', 'true');
-      const logo = create('div', 'lkm29-watermark');
-      logo.setAttribute('aria-hidden', 'true');
-      const img = document.createElement('img');
-      // The actual LilKangooMedia footer mark — never a substitute monogram.
-      img.src = '/assets/lkm-v3/brand/logo-orange.png';
-      img.alt = '';
-      img.decoding = 'async';
-      logo.append(img);
-      stage.append(bokeh, logo);
+      stage.append(bokeh);
       proof.after(stage);
     }
     // Review module inserts the real reviews after the existing portfolio section.
@@ -144,6 +152,7 @@
     const reviews = root.querySelector('#lkmReviewsHome');
     const cta = stage.querySelector(':scope > section.dark-panel');
     if (reviews && cta && reviews.nextElementSibling !== cta) cta.before(reviews);
+    setupMotion(hero, stage);
     scheduleScroll();
   }
   function render() {
@@ -156,18 +165,48 @@
     queued = true;
     requestAnimationFrame(render);
   }
+  // Entrance animations use only opacity & transforms; repeat in both directions.
+  // One observer handles the existing sections and asynchronous review cards.
+  function setupMotion(hero, stage) {
+    if (!('IntersectionObserver' in window) || reduced.matches) {
+      document.body.classList.remove('lkm29-motion-ready');
+      motionObserver?.disconnect();
+      motionObserver = null;
+      return;
+    }
+    if (!motionObserver) {
+      motionObserver = new IntersectionObserver(entries => {
+        for (const entry of entries) {
+          entry.target.classList.toggle('lkm29-inview', entry.isIntersecting);
+        }
+      }, { threshold: 0.09, rootMargin: '0px 0px -5% 0px' });
+    }
+    const targets = [
+      ...hero.querySelectorAll('.audience-card'),
+      ...stage.querySelectorAll('.section-head, .service-card, .feature-wide > .wide-media, .feature-wide > .wide-copy, .portfolio-tile, #lkmReviewsHome .lkm-review-heading, #lkmReviewsHome .lkm-review-rating, #lkmReviewsHome .lkm-review-card, #lkmReviewsHome .lkm-review-actions, .dark-panel .section-head')
+    ];
+    for (const [i, node] of targets.entries()) {
+      if (observed.has(node)) continue;
+      observed.add(node);
+      node.classList.add('lkm29-entrance');
+      node.style.setProperty('--lkm29-delay', (i % 3) * 55 + 'ms');
+      node.classList.add(i % 3 === 0 ? 'lkm29-rise' : i % 3 === 1 ? 'lkm29-from-left' : 'lkm29-from-right');
+      // Content already inside the viewport should stay immediately accessible.
+      if (node.getBoundingClientRect().top < innerHeight * .75 && node.getBoundingClientRect().bottom > 0) {
+        node.classList.add('lkm29-inview');
+      }
+      motionObserver.observe(node);
+    }
+    document.body.classList.add('lkm29-motion-ready');
+  }
   function animate() {
     rafScroll = false;
-    const stage = root.querySelector(':scope > .lkm29-stage');
-    const mark = stage?.querySelector('.lkm29-watermark');
-    if (!stage || !mark) return;
+    const mark = root.querySelector(':scope > .lkm29-global-watermark');
+    if (!mark || !isHome()) return;
     if (reduced.matches) { mark.style.transform = 'none'; return; }
-    const y = stage.getBoundingClientRect().top + window.scrollY;
-    const travel = Math.max(0, stage.offsetHeight - mark.offsetHeight - 110);
-    const progress = Math.max(0, Math.min(1, (window.scrollY + window.innerHeight * .48 - y) / Math.max(1, stage.offsetHeight - mark.offsetHeight)));
-    const dy = progress * travel;
-    const degrees = (progress - .5) * 11;
-    mark.style.transform = `translate3d(0, ${dy.toFixed(1)}px, 0) rotate(${degrees.toFixed(2)}deg)`;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    const progress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+    mark.style.transform = `translate3d(${((progress - .5) * 22).toFixed(1)}px, ${((progress - .5) * 110).toFixed(1)}px, 0) rotate(${((progress - .5) * 22).toFixed(2)}deg)`;
   }
   function scheduleScroll() {
     if (rafScroll) return;
@@ -178,6 +217,6 @@
   window.addEventListener('hashchange', schedule);
   window.addEventListener('scroll', scheduleScroll, {passive:true});
   window.addEventListener('resize', scheduleScroll, {passive:true});
-  reduced.addEventListener?.('change', scheduleScroll);
+  reduced.addEventListener?.('change', () => { motionObserver?.disconnect(); motionObserver = null; document.body.classList.remove('lkm29-motion-ready'); schedule(); scheduleScroll(); });
   schedule();
 })();

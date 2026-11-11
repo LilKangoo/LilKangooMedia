@@ -1,58 +1,59 @@
-# LilKangooMedia — Phase 29.2: Navy & Gold Homepage + Navigation
+# LilKangooMedia — Phase 29.3
+## Poprawka Home: mobile overlay, granatowa stopka, kangur w tle i animacje przy przewijaniu
 
-Paczka jest przeznaczona do strony działającej już na Phase 28.2 (czyli takiej jak na zrzutach z 11 listopada 2026). **Nie podmieniaj innych plików.**
+Paczka jest przygotowana **dla strony mającej już wdrożoną Phase 29.2**. Zawiera dokładnie trzy pliki JavaScript/CSS oraz tę instrukcję. Nie modyfikuje cennika, zapytań, kalendarza, danych i Supabase.
 
-## 1. Gdzie skopiować pliki
+### 1. Podmień pliki
 
-W lokalnym repozytorium projektu `LilKangooMedia` przejdź do:
+W lokalnym repozytorium LilKangooMedia otwórz `assets/lkm-v3/`.
 
-`assets/lkm-v3/`
+Zrób kopię dotychczasowych trzech plików, potem skopiuj z ZIP i **PODMIEŃ**:
 
-Skopiuj z ZIP dokładnie:
+| Plik z ZIP | Docelowa ścieżka | Operacja |
+| --- | --- | --- |
+| `assets/lkm-v3/phase28-catalog.js` | `assets/lkm-v3/phase28-catalog.js` | PODMIEŃ |
+| `assets/lkm-v3/phase29-home.js` | `assets/lkm-v3/phase29-home.js` | PODMIEŃ |
+| `assets/lkm-v3/phase29-home.css` | `assets/lkm-v3/phase29-home.css` | PODMIEŃ |
 
-1. `assets/lkm-v3/phase28-catalog.js` — **PODMIEŃ** plik istniejący. Zachowuje wszystkie wcześniejsze zmiany Phase 28.2, dodaje tylko ładowanie nowego modułu Phase 29.2.
-2. `assets/lkm-v3/phase29-home.js` — **DODAJ** nowy plik.
-3. `assets/lkm-v3/phase29-home.css` — **DODAJ** nowy plik.
+**Nie ruszaj:** `index.html`, `site.js`, `site.css`, `service-detail-v14.js`, `reviews-public.js`, plików panelu administratora i bazy danych. Nie dodawaj żadnych tagów `<script>` ani `<link>` — loader w `phase28-catalog.js` załaduje dwa pozostałe pliki z parametrem `v=29-3`.
 
-**Nie zmieniaj:** `site.js`, `site.css`, `index.html`, `service-detail-v14.js`, plików administracyjnych ani `reviews-public.js`.
+### 2. Co zostało naprawione
 
-## 2. Publikacja
+- **Mobile, Real moments / Remarkable stories:** zdjęcie i jego kontener mają tę samą wysokość; tekst nie nakłada się na obraz. Naprawa działa przy 320–760 px.
+- **Stopka tylko na Home:** granatowa zamiast ciemnozielonej, czytelne teksty i linki, nie dotyczy osobnych stron publicznych.
+- **Oryginalny kangur LilKangooMedia:** użyty istniejący `/assets/lkm-v3/brand/logo-orange.png` (bez monogramu „LK”). Znak wyświetlany w tle od pierwszego ekranu do końca Home, za treścią i za zachowanym białym paskiem z zaletami.
+- **Scroll obu kierunków:** znak porusza się i delikatnie obraca w oparciu o pozycję scroll; ruch dokładnie odwraca się przy przewijaniu w górę.
+- **Sekcje i kafelki:** szybkie, krótkie animacje pojawiania z dołu, z lewej i prawej, powtarzane przy ponownym wejściu w viewport. Animowane są jedynie `opacity` i `transform`, bez zmiany wysokości lub układu.
+- **Dostępność:** animacje są wyłączane przy `prefers-reduced-motion: reduce`; fokus klawiatury utrzymuje widoczność aktywnego elementu.
+- **Nawigacja:** wszystkie dotychczasowe linki pozostają niezmienione; nie modyfikujemy ich logiki ani routera.
 
-1. Zrób kopię istniejącego `phase28-catalog.js` przed podmianą.
-2. Skopiuj powyższe trzy pliki z zachowaniem folderów.
-3. W GitHub Desktop sprawdź tylko te trzy zmienione/dodane pliki, wykonaj Commit oraz Push.
-4. Poczekaj na status Published odpowiedniego wdrożenia Netlify.
-5. Otwórz `https://lilkangoomedia.com/#/` i odśwież w Chrome: Shift + Command + R.
+### 3. Wdrożenie
 
-## 3. Co działa i co zostało zmienione
+1. W GitHub Desktop sprawdź, że zmodyfikowane są **tylko trzy pliki** z tabeli.
+2. Wykonaj Commit i Push.
+3. Sprawdź status `Published` we wdrożeniu Netlify powiązanym z repozytorium.
+4. Otwórz `https://lilkangoomedia.com/#/` i wykonaj twarde odświeżenie na Macu: `Shift + Command + R`.
 
-- Zachowane: hero z dwoma kafelkami Personal/Business, 4 zalety w białym pasku, 6 usług z Supabase, aktualne ceny, krótkie opisy, portfolio, prawdziwe recenzje, końcowe CTA, formularze, płatności, SEO i osobne strony usług.
-- Hero: `CREATE. CAPTURE. GROW.` w zwięzłym układzie; podpis agencji na środku; mniejsze pionowe odstępy.
-- Poniżej białego paska jedna spójna, granatowa powierzchnia z delikatnym statycznym bokeh.
-- Kafelki Featured Services na Home: czarny fade zostaje zastąpiony granatowym. Katalog `#/services` pozostaje bez zmian.
-- Sekcje: Find exactly..., Real moments..., Our work..., Words that matter..., Ready to create... są na tym samym tle, bez oddzielnych pasów.
-- Logo: oryginalny plik **`/assets/lkm-v3/brand/logo-orange.png`** używany też w obecnej stopce; półprzezroczysty i przesuwany razem z przewijaniem w obie strony. Nie używamy „LK”. Przy `prefers-reduced-motion: reduce` animacja jest wyłączona.
-- Menu: istniejące odnośniki pozostają bez zmian, dodana jest pozycja Home i rozwijany podział Services -> Personal / Business także w menu mobilnym. Źródłowe adresy pozostałych stron nie są przepisywane.
+### 4. Co koniecznie sprawdzić na stronie
 
-## 4. Kontrola po opublikowaniu
+1. Telefon (np. 390 px): `Real moments. Remarkable stories.` nie zachodzi na zdjęcie. Powinno być oddzielne, równe kadrowanie i tekst pod zdjęciem.
+2. Stopka Home: widoczna ciemnogranatowa zamiast zielonej; linki czytelne.
+3. Na górze strony kangur jest subtelnie widoczny za treścią; biały pasek `Based in Cyprus...` pozostaje biały i zakrywa dekorację.
+4. Podczas przewijania w dół i w górę znak pozostaje w tle, a karty i sekcje płynnie wchodzą w widok ponownie.
+5. Rozwiń menu `Services`, kliknij Personal i Business; sprawdź również portfolio, opinie, artykuły, About i Contact.
+6. Wybierz usługę i pakiet oraz otwórz zapytanie — żadne funkcje biznesowe nie powinny się zmienić.
+7. Przetestuj na komputerze i telefonie; jeśli widać starsze style, sprawdź czy Netlify rzeczywiście opublikowało nową wersję.
 
-1. Home, desktop i mobile: nagłówek, białe zalety, 6 kafelków, 5 projektów portfolio, opinie i CTA.
-2. Przewiń w dół i w górę: animowane **prawdziwe logo** pod treścią, płynny gradient bez nagłych pasów.
-3. Otwórz menu i sprawdź: Home, Services, Personal, Business, For Business, Our Work, Reviews, Articles, About Us, Contact.
-4. Kliknij usługę i wybierz pakiet — to wciąż istniejący proces z Phase 27/28, bez zmian.
-5. Sprawdź także `https://lilkangoomedia.com/#/services?audience=business` i `...audience=personal` — nie powinny być wizualnie zmienione przez tę poprawkę.
-6. Jeśli Chrome pokaże starszą wersję, użyj Shift + Command + R po zakończeniu publikacji.
+### 5. SQL
 
-## 5. SQL
+**NIE JEST POTRZEBNY.** Żadnych migracji Supabase.
 
-**ŻADEN.** Nie zmieniamy Supabase ani baz danych. Nie uruchamiaj migracji SQL.
+### 6. Cofnięcie zmian
 
-## 6. Przywrócenie poprzedniego wyglądu
+Przywróć te same trzy pliki z poprzedniej kopii (Phase 29.2), wykonaj Commit i Push. Pozostałych plików nie trzeba dotykać.
 
-Przywróć kopię `phase28-catalog.js` sprzed Phase 29.2, wykonaj Commit/Push. Nowe pliki `phase29-home.js` i `phase29-home.css` można pozostawić niewykorzystane lub skasować; bez ładowarki nie będą działać.
+### 7. Zakres wykonanych testów
 
-## 7. Sprawdzenia wykonane lokalnie
+Testy w lokalnym, odtworzonym DOM w Chromium: **10 szerokości** (320, 360, 375, 390, 430, 620, 760, 1024, 1280, 1440 px), brak nachodzenia zdjęcia i tekstu, prawidłowy kolor stopki, biała belka, zachowane menu/odnośniki, logo z właściwego pliku, odwracalne transformacje przy scroll up/down, powtarzalne wejście sekcji do widoku, `prefers-reduced-motion`, brak poziomego overflow i błędów JavaScript.
 
-Testy w Chromium na **8 szerokościach**: 320, 375, 390, 430, 760, 1024, 1280, 1440 px. Obejmowały: strukturę i przenoszenie opóźnionego modułu opinii, brak odciętych pasów tła, gradient usług, niezmienione adresy nawigacji, podmenu desktop/mobile, zmianę transformacji logo podczas przewijania, brak JS pageerror i poziomego overflow w odtworzonym widoku.
-
-**Uwaga:** są to testy lokalnego odtworzenia DOM z istniejących selektorów projektu. Rzeczywisty serwis i Supabase wymagają potwierdzenia po wdrożeniu. Nie została wykonana publikacja na produkcji.
+**Uwaga:** testy są lokalne na odtworzonych komponentach, nie zastępują kontroli zalogowanej/produkcyjnej witryny. Paczka nie publikuje plików samodzielnie.

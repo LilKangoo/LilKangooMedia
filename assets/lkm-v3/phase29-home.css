@@ -1,4 +1,4 @@
-/* LilKangooMedia Phase 29.2 — approved continuous Navy & Gold homepage.
+/* LilKangooMedia Phase 29.3 — approved continuous Navy & Gold homepage.
    Cosmetic and layout layer only. Never affects the separate public reviews page,
    admin interface, service-detail package selection or checkout flows. */
 :root{--lkm29-navy:#101d30;--lkm29-panel:#243b57;--lkm29-gold:#f5ac42;--lkm29-ivory:#f5f8fd;--lkm29-text:#d7e5f4}
@@ -191,3 +191,74 @@
  .lkm29-home .audience-card{min-width:0}
  .lkm29-home .audience-card strong{font-size:clamp(23px,6.3vw,29px);overflow-wrap:anywhere}
 }
+
+
+/* PHASE 29.3 — fixes from desktop/mobile production screenshots, 11 Nov 2026. */
+/* Fix the mobile hero-photo overlap: image and its containing row have the SAME height. */
+@media (max-width:760px){
+ .lkm29-home .lkm29-stage .feature-wide {display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;}
+ .lkm29-home .lkm29-stage .feature-wide > .wide-media {
+   position:relative;display:block;width:100%;min-width:0;min-height:0;
+   height:clamp(210px,59vw,355px);overflow:hidden;
+ }
+ .lkm29-home .lkm29-stage .feature-wide .wide-media img {
+   position:absolute;inset:0;display:block;width:100%;height:100%;max-height:100%;object-fit:cover;
+ }
+ .lkm29-home .lkm29-stage .feature-wide > .wide-copy {
+   position:relative;min-width:0;z-index:1;padding:24px 25px 28px;
+ }
+ .lkm29-home .lkm29-stage .feature-wide .wide-copy h2 {
+   margin-top:0;line-height:1.13;font-size:clamp(27px,7.4vw,37px);
+ }
+}
+/* An uninterrupted navy footer, restricted to the Home route only. */
+.lkm29-home .footer {background:linear-gradient(155deg,#111e32,#0c1728 70%,#091321);color:#f6f9ff;border-top:1px solid rgba(151,178,210,.27)}
+.lkm29-home .footer-inner {border-bottom:1px solid rgba(151,178,210,.25)}
+.lkm29-home .footer-brand p,.lkm29-home .footer-columns a{color:#d8e4f2}
+.lkm29-home .footer-brand a,.lkm29-home .footer-columns a:hover{color:#ffd08a}
+.lkm29-home .footer-columns h3,.lkm29-home .footer-brand h2{color:#f7f9ff}
+.lkm29-home .footer-bottom{color:#c4d4e8}
+.lkm29-home .footer-bottom a{color:#f4d49f}
+/* Real company kangaroo as a fixed translucent visual layer from top of the HERO.
+   Fixed above backgrounds, below content, navigation and the WHITE proof strip. */
+#main > .lkm29-global-watermark {display:none}
+.lkm29-home #main {position:relative}
+.lkm29-home #main > .lkm29-global-watermark{
+ display:block;position:fixed;z-index:2;right:clamp(-105px,-6vw,-30px);top:19vh;
+ width:clamp(210px,32vw,440px);aspect-ratio:1;opacity:.11;
+ pointer-events:none;transform-origin:center;will-change:transform;contain:paint;
+}
+.lkm29-home #main > .lkm29-global-watermark img{width:100%;height:100%;object-fit:contain;display:block}
+.lkm29-home #main > .hero{position:relative;z-index:auto}
+.lkm29-home #main > .hero .hero-inner{position:relative;z-index:3}
+.lkm29-home #main > .proof-strip{position:relative;z-index:5;background:#fff}
+.lkm29-home #main > .lkm29-stage{isolation:auto;z-index:auto}
+.lkm29-home #main > .lkm29-stage > .lkm29-bokeh {z-index:0}
+.lkm29-home #main > .lkm29-stage > section{position:relative;z-index:3}
+/* Header is already above all decorative layers; same stacking for SPA nav. */
+#siteHeader{z-index:90}
+/* Reversible scroll entrances: subtle rather than theatrical, no layout shifts. */
+.lkm29-home.lkm29-motion-ready #main .lkm29-entrance{
+ opacity:0;transition:opacity .43s ease,transform .54s cubic-bezier(.22,.75,.22,1);
+ transform:translate3d(0,18px,0);
+}
+.lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-from-left{transform:translate3d(-22px,0,0)}
+.lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-from-right{transform:translate3d(22px,0,0)}
+.lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-inview{
+ opacity:1;transform:translate3d(0,0,0);
+}
+.lkm29-home.lkm29-motion-ready #main .lkm29-entrance:focus-within {opacity:1;transform:none}
+@media (max-width:760px){
+ .lkm29-home #main > .lkm29-global-watermark {right:-72px;top:22vh;width:clamp(190px,52vw,290px);opacity:.08}
+ .lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-from-left{transform:translate3d(-14px,0,0)}
+ .lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-from-right{transform:translate3d(14px,0,0)}
+ .lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-inview{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+ .lkm29-home #main > .lkm29-global-watermark {will-change:auto;transform:none!important}
+ .lkm29-home.lkm29-motion-ready #main .lkm29-entrance{opacity:1!important;transform:none!important;transition:none!important}
+}
+
+.lkm29-home .footer{position:relative;z-index:3}
+.lkm29-home.lkm29-motion-ready #main .lkm29-entrance{transition-delay:var(--lkm29-delay,0ms)}
+@media (prefers-reduced-motion:reduce){.lkm29-home.lkm29-motion-ready #main .lkm29-entrance{transition-delay:0ms!important}}
