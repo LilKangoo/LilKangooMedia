@@ -134,7 +134,7 @@
  schedule();
 })();
 
-/* Phase 29.4 — additive Navy & Gold homepage + linked header presentation.
+/* Phase 29.6 — additive Graphite & Gold homepage + linked header presentation.
  * Loaded here because Phase 28.2 is already the site's shared public loader;
  * this avoids overwriting the working Phase 27 service-detail module. */
 (()=>{
@@ -142,7 +142,7 @@
  if(document.querySelector('script[data-lkm29-home]'))return;
  const stylesheet=document.createElement('link');
  stylesheet.rel='stylesheet';
- stylesheet.href='/assets/lkm-v3/phase29-home.css?v=29-5';
+ stylesheet.href='/assets/lkm-v3/phase29-home.css?v=29-6';
  stylesheet.dataset.lkm29HomeStyle='1';
  document.head.append(stylesheet);
  const script=document.createElement('script');
