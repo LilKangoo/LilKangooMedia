@@ -282,3 +282,179 @@ html.lkm-legacy-embed a:focus-visible,html.lkm-legacy-embed button:focus-visible
  }
  html.lkm-unified-embedded .lkm-link-cover--symbol :is(span,strong){color:#acdabe!important}
 }
+
+/* Phase 26.4 — scoped contrast hotfix for actual article rows and Phase 24 CRM add-ons.
+   The source modules have light-surface defaults; earlier embedded overrides missed
+   .lkm-blog-item, .lkm24-admin-section, .lkm242-section and .lkm243-section.
+   Applies only to admin iframes, screen only. Public pages and printable quotes stay intact. */
+@media screen {
+  /* Articles: these are .lkm-blog-item buttons (NOT .cms-item). */
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-item {
+    background:#1b3228!important;
+    color:#eff8f1!important;
+    border:1px solid #43634e!important;
+    box-shadow:none!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-item:hover {
+    background:#264634!important;
+    border-color:#77b88b!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-item[aria-current="true"] {
+    background:#294633!important;
+    border-color:#efcb77!important;
+    box-shadow:inset 3px 0 #efcb77!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-item:focus-visible {
+    outline:2px solid #efcb77!important;
+    outline-offset:2px!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-item strong {
+    color:#f0faf2!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-item small {
+    color:#bbd3c1!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-status {
+    background:#294634!important;
+    color:#e0f3e4!important;
+    border:1px solid #53735b!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-status.published {
+    background:#174b31!important;
+    color:#b5ffcb!important;
+    border-color:#45875e!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-status.review {
+    background:#4a371d!important;
+    color:#ffe3a5!important;
+    border-color:#927342!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-status.archived {
+    background:#44282b!important;
+    color:#ffc9cd!important;
+    border-color:#9a5962!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root :is(.lkm-blog-preview-modal,.lkm-blog-photo-modal) {
+    background:#172b21!important;
+    color:#ebf6ed!important;
+    border:1px solid #41614b!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root :is(.lkm-blog-preview-modal>button,.lkm-blog-modal-head button,.lkm-blog-photo-grid button) {
+    background:#203b2c!important;
+    color:#eaf7ed!important;
+    border-color:#53725b!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-photo-grid button:hover {
+    background:#2c533b!important;
+    border-color:#edc979!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root .lkm-blog-cover>span {
+    background:#213a2c!important;
+    color:#c7dbcd!important;
+    border-color:#58745e!important;
+  }
+
+  /* CRM: Phase 24 modules were introduced after the earlier dark theme audit. */
+  html.lkm-unified-embedded :is(.lkm24-admin-section,.lkm242-section,.lkm243-section) {
+    background:#192e24!important;
+    color:#edf8f0!important;
+    border-color:#46654f!important;
+    box-shadow:none!important;
+  }
+  html.lkm-unified-embedded :is(.lkm24-admin-section,.lkm242-section,.lkm243-section) :is(h2,h3,h4,strong) {
+    color:#f0faf1!important;
+  }
+  html.lkm-unified-embedded :is(
+    .lkm24-admin-description,.lkm24-admin-email,.lkm24-admin-email span,
+    .lkm24-admin-hint,.lkm24-admin-status:not(.is-error),
+    .lkm242-note,.lkm242-field,.lkm242-field small,
+    .lkm243-hint,.lkm243-label,.lkm243-card-title small,
+    .lkm243-desc,.lkm243-status:not(.error)
+  ) {
+    color:#c2d9c8!important;
+  }
+  html.lkm-unified-embedded :is(.lkm24-admin-email,.lkm24-admin-email span) {
+    overflow-wrap:anywhere;
+  }
+  html.lkm-unified-embedded :is(
+    .lkm24-admin-pill,.lkm242-status,.lkm242-post,.lkm242-update,
+    .lkm242-inline-edit,.lkm242-pill,.lkm243-empty,.lkm243-card,
+    .lkm243-create,.lkm243-pill
+  ) {
+    background:#243e2f!important;
+    color:#e6f4e9!important;
+    border-color:#4e7158!important;
+  }
+  html.lkm-unified-embedded :is(.lkm242-update p,.lkm243-empty,.lkm243-card-title small,.lkm243-desc) {
+    color:#c2d9c8!important;
+  }
+  html.lkm-unified-embedded :is(
+    .lkm24-admin-pill.is-active,.lkm242-pill.is-visible,.lkm243-pill.live
+  ) {
+    background:#1d5034!important;
+    color:#baffcf!important;
+    border-color:#4d9365!important;
+  }
+  html.lkm-unified-embedded :is(
+    .lkm24-admin-status.is-error,.lkm242-status.is-error,.lkm242-warning,
+    .lkm243-status.error
+  ) {
+    background:#492a2c!important;
+    color:#ffcbcc!important;
+    border-color:#a26366!important;
+  }
+  html.lkm-unified-embedded .lkm24-admin-link {
+    color:#aeffd0!important;
+    text-decoration-color:#8bdeb0!important;
+    text-underline-offset:3px;
+  }
+  html.lkm-unified-embedded .lkm24-admin-link:hover {
+    color:#f5de9e!important;
+    text-decoration-color:#f5de9e!important;
+  }
+  html.lkm-unified-embedded :is(.lkm242-field,.lkm243-label) :is(input:not([type=checkbox]),textarea,select) {
+    background:#10271c!important;
+    color:#eff9f1!important;
+    border:1px solid #54765c!important;
+  }
+  html.lkm-unified-embedded :is(.lkm242-field,.lkm243-label) :is(input,textarea)::placeholder {
+    color:#b0c9b6!important;
+    opacity:1;
+  }
+  html.lkm-unified-embedded .lkm242-update-actions button {
+    background:#214631!important;
+    color:#eef8ef!important;
+    border-color:#56775f!important;
+  }
+  html.lkm-unified-embedded .lkm242-update-actions button:hover {
+    background:#305e40!important;
+  }
+  html.lkm-unified-embedded .lkm243-destructive {
+    background:#452a2d!important;
+    color:#ffcdd0!important;
+    border-color:#985860!important;
+  }
+  html.lkm-unified-embedded .lkm243-destructive:hover {
+    background:#633439!important;
+  }
+  html.lkm-unified-embedded :is(.lkm242-timeline,.lkm243-inline) {
+    border-color:#47644f!important;
+  }
+  html.lkm-unified-embedded :is(.lkm24-admin-section,.lkm242-section,.lkm243-section) :is(button,a,input,textarea,select):focus-visible {
+    outline:2px solid #efcb77!important;
+    outline-offset:2px!important;
+  }
+  @media(max-width:600px) {
+    html.lkm-unified-embedded :is(.lkm24-admin-section,.lkm242-section,.lkm243-section) {
+      min-width:0!important;
+      max-width:100%!important;
+      overflow-wrap:anywhere;
+    }
+    html.lkm-unified-embedded :is(.lkm242-actions,.lkm243-buttons,.lkm24-admin-controls) {
+      gap:8px;
+    }
+    html.lkm-unified-embedded .lkm242-post button {
+      max-width:100%;
+    }
+  }
+}

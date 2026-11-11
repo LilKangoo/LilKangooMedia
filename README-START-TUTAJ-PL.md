@@ -1,44 +1,52 @@
-# LilKangooMedia — Phase 26.3: Remove assignments + kontrast całego Admin
+# LilKangooMedia — Phase 26.4: Admin Contrast Hotfix
 
-Ta aktualizacja naprawia problemy wskazane na zrzutach z 11.11.2026:
-- „Remove” w **Master Media Library → Asset Inspector → Assignments & Usage**. „Hide” jedynie ukrywa użycie; „× Remove” całkowicie odłącza je od wskazanego projektu/kategorii/usługi i usuwa z listy. Oryginalny plik w Master Library, plik w Storage/GitHub i przypisania do INNYCH miejsc pozostają nietknięte.
-- Jeśli zdjęcie nadal jest okładką galerii lub usługi, usuwanie przypisania jest BLOKOWANE. Najpierw wybierz inną okładkę.
-- Kontrast: ciemne panele i czytelny tekst w osadzonych **Enquiries, CRM, Articles, Reviews, Services, Quotes, Calendar, Reports, Links**. Poprawka jest ograniczona do panelu administratora w iframe, bez zmian w publicznej stronie oraz logice sprzedaży.
-- Świadomie zachowujemy **biały podgląd dokumentu wyceny i druk/PDF**. To dokument dla klienta, a nie karta interfejsu.
+**Poprawka uzupełniająca do LKM 26.3.** Dotyczy błędów widocznych na dwóch zrzutach z 11 listopada 2026, bez zmian w bazie danych, formularzach ani logice aplikacji.
 
-## Wdrożenie — WAŻNA KOLEJNOŚĆ
+## Co naprawia
 
-1. Zalecane: wykonaj backup projektu Supabase przed zmianą funkcji bazodanowej (opcjonalnie przetestuj na kopii).
-2. Otwórz właściwy projekt w Supabase Dashboard → SQL Editor → New query.
-3. Otwórz plik `supabase/migrations/20261111_lkm_studio_unassign.sql`, skopiuj jego zawartość i kliknij **Run**.
-   - **To JEDYNY nowy SQL w tej aktualizacji.**
-   - Wymagana jest wcześniej wdrożona Phase 26 (`20261111_lkm_portfolio_studio.sql`).
-   - **NIE uruchamiaj ponownie** żadnych starych migracji, w tym Phase 26.
-4. Po poprawnym wyniku SQL wgraj do `LilKangoo/LilKangooMedia` **TYLKO 3 zmienione pliki aplikacji**, zachowując ścieżki:
-   - `assets/lkm-v3/studio.mjs`
-   - `assets/lkm-v3/studio.css`
-   - `assets/lkm-v3/studio-embedded.css`
-5. Commit/Push, sprawdź **Published** w Netlify. Otwórz `https://lilkangoomedia.com/admin.html#media` i odśwież `Shift + Command + R` (Mac Chrome).
-6. Wybierz zdjęcie używane w co najmniej dwóch miejscach. W Inspector → **× Remove** usuń tylko jedno przypisanie i potwierdź, że drugie nadal jest widoczne. Aby usunąć okładkę, najpierw ustaw nową przez **Set as cover photo**.
-7. Sprawdź `#inquiries`, `#crm`, `#articles`, `#reviews`, `#quotes`, `#calendar`, `#reports`, `#links`, `#services`. Tekst i formularze w panelu powinny być czytelne.
+1. **Sales CRM → Client portal access:** biały prostokąt, niewidoczne opisy, teksty stanu, adres e-mail, linki i etykiety. Teraz karta jest ciemnozielona i czytelna.
+2. **Sales CRM → Project & delivery tracking:** biały panel z jasnymi nagłówkami/opisami. Poprawiono także podrzędne pola, stany, notatki i komunikaty.
+3. **Sales CRM → Files & deliverables:** profilaktyczna poprawka analogicznych jasnych kart w module dostarczania plików.
+4. **Articles & SEO:** dotychczasowa poprawka stylowała `.cms-item`, ale prawdziwe wiersze artykułów to `.lkm-blog-item`. Poprawiono tła, tytuły, ścieżki, statusy Published/Review/Draft/Archived, hover, wybór i focus. Wewnętrzne okna edytora zachowują ciemny motyw.
 
-## Semantyka i bezpieczeństwo
+**Dlaczego pozostały błędy po 26.3:** pliki źródłowe `article-admin.css`, `phase24-admin-portal.css`, `phase24-admin-projects.css` i `phase24-deliverables-admin.css` mają własne, jasne domyślne style. Poprzedni arkusz tematu nie obejmował wszystkich ich klas.
 
-- **Hide:** pozostawia relację w bazie i Inspectorze; można przywrócić Publish.
-- **Remove:** po potwierdzeniu usuwa relację ze wskazanym miejscem, a dla istniejącego publicznego Portfolio odłącza kompatybilny rekord galerii lub wpis filmu. Dla zdjęć w galerii oryginalny rekord `portfolio_images` jest zachowany jako *nieprzypisany* i nieopublikowany; dla filmu znika pojedynczy wiersz docelowy, **nie film na YouTube**.
-- Blokada okładki chroni przed przypadkową utratą głównego zdjęcia. Przypisania gdzie indziej pozostają.
-- Operacja używa oddzielnego `SECURITY DEFINER` RPC `lkm_studio_unassign`, sprawdza `lkm_is_admin()` i zapisuje zdarzenie w audycie. Brak nowych publicznych uprawnień do DELETE.
-- **Brak zmian** w Stripe, refundach, rezerwacjach, CRM, klientach, zdjęciach fizycznych oraz starych SQL.
-- Ciemny motyw dotyczy wyłącznie osadzonych ekranów wewnątrz `/admin.html`; klasyczna strona `/admin-legacy.html` pozostaje dostępna.
+## Wdrożenie — tylko JEDEN plik
 
-## Co zostało zweryfikowane
+1. **Warunek:** najpierw musi być zainstalowana wersja **LKM 26.3**. Ta paczka jest poprawką do niej, a nie kompletnym projektem.
+2. Rozpakuj ZIP **LKM_26_4_Admin_Contrast_Hotfix.zip**.
+3. Otwórz swój katalog projektu / repozytorium **LilKangoo/LilKangooMedia** i przejdź do folderu:
 
-- Zgodność zmian z aktualną wersją repo GitHub przed przygotowaniem aktualizacji.
-- 12 testów lokalnych Chromium (Supabase/RPC i Storage symulowane): różne przypisania, anulowanie, usunięcie jednego przypisania, pozostawienie oryginału, blokada okładki, widok mobilny, CRM, Enquiries, Reviews, Articles, Quotes, Reports, Calendar i Links.
-- Przedstawione w testach komponenty i selektory CSS pochodzą z aktualnych plików źródłowych. Testy NIE zastępują kontroli produkcyjnych danych i nie uruchamiają prawdziwego PostgreSQL ani prywatnego Supabase.
+   `assets/lkm-v3/`
 
-## Plan awaryjny
+4. Dla bezpieczeństwa zrób lokalną kopię dotychczasowego `studio-embedded.css`.
+5. Z ZIP skopiuj **TYLKO**:
 
-Jeśli aplikacja nie może użyć nowej funkcji (404 / RPC not found), sprawdź uruchomienie tylko nowego SQL i odśwież schemat Supabase. Jeśli funkcja zgłasza `This photograph is the gallery cover`, to oczekiwane zabezpieczenie — wybierz inną okładkę. Jeśli wystąpi nieoczekiwany błąd, NIE odpalaj ponownie poprzednich migracji. Prześlij komunikat SQL/RPC.
+   `assets/lkm-v3/studio-embedded.css`
 
-Ten ZIP nie wykonuje sam żadnych zmian w bazie ani repozytorium. 
+   **Podmień** dokładnie plik o tej samej nazwie we wskazanym folderze. Nie twórz dodatkowego podfolderu `assets` wewnątrz `assets/lkm-v3`.
+6. Zapisz zmianę w GitHub (**Commit / Push**), następnie sprawdź w **Netlify → Deploys**, czy nowa wersja ma status **Published**.
+7. W Chrome na Macu otwórz:
+   - `https://lilkangoomedia.com/admin#crm` — sprawdź prawy panel „Client portal access”, „Project & delivery tracking” i „Files & deliverables”.
+   - `https://lilkangoomedia.com/admin#articles` — sprawdź listę artykułów, statusy, zaznaczenie i wyszukiwanie.
+
+   Po każdej stronie odśwież `Shift + Command + R` (hard refresh). Jeśli nadal widać stare style, otwórz stronę w oknie incognito, aby wykluczyć cache przeglądarki.
+
+## Ważne — czego NIE robić
+
+- **SQL: NIE JEST POTRZEBNY.** Nie otwieraj SQL Editora. Nie uruchamiaj ponownie migracji z LKM 26.3.
+- **Nie podmieniaj** `studio.mjs`, `studio.css`, `admin.html`, `admin-crm.html`, `cms.js` ani plików `phase24-*` — nie były zmieniane.
+- **Nie zmieniaj** ustawień Supabase, RLS, Stripe, cen, treści artykułów ani bazy danych.
+- ZIP zawiera tylko zmieniony arkusz CSS i tę instrukcję. Rozpakowanie ZIP-a **nie wdraża** aktualizacji automatycznie.
+
+## Kontrola i zakres testów
+
+- Porównano pliki wersji 26.3 z repozytorium LilKangoo/LilKangooMedia (zgodne SHA).
+- Potwierdzono rzeczywiste nazwy klas w kodzie repozytorium i kolejność podłączanych arkuszy.
+- CSS przeszedł kontrolę składni.
+- Lokalny test przeglądarkowy Chromium na makietach **odtwarzających rzeczywiste klasy i istotne reguły CSS**: szerokości 1400, 390 i 320 px. Zmierzony kontrast 15 reprezentatywnych elementów: **minimum 7,79:1**, czyli powyżej 4,5:1.
+- **Nie testowano zalogowanej produkcyjnej aplikacji na prawdziwych danych Supabase.** Potwierdź rezultat na wskazanych ekranach po publikacji Netlify.
+
+## Cofnięcie
+
+Jeżeli zobaczysz nieoczekiwane zachowanie wizualne, przywróć kopię poprzedniego `assets/lkm-v3/studio-embedded.css` (z wersji 26.3), wykonaj Commit / Push i sprawdź Netlify Published. Brak migracji do cofania.
