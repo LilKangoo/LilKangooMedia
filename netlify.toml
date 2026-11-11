@@ -1,6 +1,6 @@
-# LilKangooMedia — Netlify build with SEO service pages.
+# LilKangooMedia — Netlify build with SEO service pages and shared public theme.
 [build]
-  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py"
+  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py && python3 scripts/phase30_apply_theme.py"
   publish = "."
   functions = "netlify/functions"
 

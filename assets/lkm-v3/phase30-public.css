@@ -1,0 +1,238 @@
+/* LilKangooMedia Phase 30.0 | Public-site Graphite & Gold.
+   Runs AFTER existing page styles. Does not modify administration, client portal,
+   payment workflows or Supabase. White form fields and long-form reading surfaces
+   are intentionally retained where they improve readability. */
+body.lkm30-public {
+  --lkm30-bg:#1b1b1a; --lkm30-charcoal:#242321; --lkm30-panel:#302d28;
+  --lkm30-panel-2:#38342e; --lkm30-line:#80705b;
+  --lkm30-gold:#f5ac42; --lkm30-gold-soft:#ffc97a;
+  --lkm30-text:#f8f5ef; --lkm30-sub:#e3dace;
+  background-color:var(--lkm30-bg); color:var(--lkm30-text);
+}
+body.lkm30-public:not(.lkm29-home) {
+  background-image:
+    radial-gradient(ellipse 67% 21% at 8% 8%,rgba(169,126,60,.16),transparent 98%),
+    radial-gradient(ellipse 52% 23% at 92% 48%,rgba(142,103,52,.13),transparent 99%),
+    radial-gradient(ellipse 67% 25% at 15% 90%,rgba(128,89,42,.1),transparent 95%),
+    radial-gradient(circle at 78% 19%,rgba(255,185,93,.15) 0 4px,transparent 19px),
+    radial-gradient(circle at 13% 53%,rgba(255,197,113,.12) 0 8px,transparent 29px),
+    linear-gradient(155deg,#292824 0%,#1b1b1a 37%,#292621 72%,#171716 100%);
+  background-attachment:scroll;
+  min-height:100vh;
+}
+body.lkm30-public :is(a,button,input,select,textarea,summary):focus-visible {
+  outline:3px solid #ffca78;outline-offset:3px;
+}
+body.lkm30-public .lkm30-watermark {
+  position:absolute;top:90px;right:calc(29vw - clamp(112.5px,16vw,222.5px));
+  width:clamp(225px,32vw,445px);aspect-ratio:1;z-index:0;
+  opacity:.085;pointer-events:none;transform:translate3d(0,0,0);
+  will-change:transform;contain:paint;
+}
+body.lkm30-public .lkm30-watermark img {width:100%;height:100%;display:block;object-fit:contain}
+/* The page watermark lives beneath text and card layers. */
+body.lkm30-public:not(.lkm29-home) {position:relative;isolation:isolate}
+body.lkm30-public:not(.lkm29-home)>:not(.lkm30-watermark):not(script):not(.lkm30-decor):not(header) {position:relative;z-index:1}
+body.lkm30-public:not(.lkm29-home) :is(main,.public-cms-page,.lkm25-hero,.lkm25-hub) {background-color:transparent}
+/* Header: identical on SPA, CMS, Business, Reviews, SEO guides, articles. */
+body.lkm30-public :is(.site-header,.lkm25-header,.lkm-review-page-header,.topbar) {
+  position:sticky;top:0;z-index:99;background:rgba(255,255,255,.98);
+  border-bottom:1px solid #dedbd5;box-shadow:0 3px 13px rgba(5,5,5,.08);
+  color:#292824;backdrop-filter:blur(10px);
+}
+body.lkm30-public .lkm30-header-content {max-width:1360px;margin:auto;min-height:64px;padding:7px clamp(14px,2.5vw,28px);display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:12px}
+body.lkm30-public :is(.site-header .header-inner,.lkm25-navwrap,.lkm-review-page-nav,.topbar) {min-height:64px}
+body.lkm30-public :is(.site-header .identity,.lkm25-brand,.topbar .identity,.lkm-review-page-nav .identity){color:#22221e;text-decoration:none;font-weight:850;letter-spacing:-.055em;font-size:clamp(16px,1.3vw,20px);display:inline-flex;align-items:center;gap:8px;white-space:nowrap;flex:none}
+body.lkm30-public :is(.site-header .identity img,.lkm25-brand img,.topbar .identity img,.lkm-review-page-nav .identity img){width:39px;height:39px;object-fit:contain;flex:none;border-radius:50%}
+body.lkm30-public .lkm30-nav {display:flex;align-items:center;gap:clamp(9px,1.3vw,19px);margin-left:auto;min-width:0}
+body.lkm30-public .lkm30-nav a,body.lkm30-public .lkm30-services>button {color:#464139;text-decoration:none;white-space:nowrap;font-size:clamp(11px,.78vw,12px);font-weight:750;line-height:1.3;font-family:inherit;letter-spacing:0;min-height:39px;display:inline-flex;align-items:center;padding:9px 0;border:0;background:transparent;cursor:pointer}
+body.lkm30-public .lkm30-nav a:hover,body.lkm30-public .lkm30-nav a[aria-current=page],body.lkm30-public .lkm30-services>button:hover {color:#866021}
+body.lkm30-public .lkm30-nav a[aria-current=page] {box-shadow:inset 0 -2px #efa53d}
+body.lkm30-public .lkm30-services{display:flex;align-items:center;position:relative;gap:3px}
+body.lkm30-public .lkm30-services>button{font-size:13px;min-width:23px;justify-content:center}
+body.lkm30-public .lkm30-submenu {display:none;position:absolute;top:100%;left:-9px;min-width:210px;z-index:110;background:#fff;border:1px solid #ddd5c8;box-shadow:0 13px 35px #16130d24;border-radius:10px;padding:7px}
+body.lkm30-public .lkm30-services:is(:hover,:focus-within) .lkm30-submenu,body.lkm30-public .lkm30-services.lkm30-open .lkm30-submenu{display:grid}
+body.lkm30-public .lkm30-submenu a{display:block;padding:12px;color:#342f27;border-radius:6px;font-size:12px;min-height:0}
+body.lkm30-public .lkm30-submenu a:hover{background:#f6f0e5;color:#7e5016}
+body.lkm30-public .lkm30-header-cta{background:#292825;color:#fff;border-radius:8px;font-size:11px;font-weight:850;min-height:40px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:10px 13px;text-decoration:none;flex:none}
+body.lkm30-public .lkm30-header-cta:hover{background:#40382c;color:#fff}
+body.lkm30-public .lkm30-nav-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;background:white;border:1px solid #d7d1c5;border-radius:8px;color:#292824;font-size:21px;cursor:pointer}
+body.lkm30-public .lkm30-mobile-nav{display:none;background:#fff;border-top:1px solid #dedbd4;padding:7px 14px 13px;box-shadow:0 12px 23px #0002}
+body.lkm30-public .lkm30-mobile-nav:not([hidden]){display:grid;grid-template-columns:1fr}
+body.lkm30-public .lkm30-mobile-nav a{display:block;text-decoration:none;font-size:13px;color:#34312b;font-weight:750;padding:11px 12px;min-height:42px;border-radius:7px}
+body.lkm30-public .lkm30-mobile-nav a[aria-current=page],body.lkm30-public .lkm30-mobile-nav a:hover{background:#f4eddf;color:#785017}
+body.lkm30-public .lkm30-mobile-nav .lkm30-sub-link{padding-left:28px;font-size:12px;background:#faf7f1}
+/* Main SPA other than Home: charcoal canvas, but forms stay warm ivory on purpose. */
+body.lkm30-public:not(.lkm29-home) #main{background:transparent}
+body.lkm30-public:not(.lkm29-home) #main :is(.page-title,.catalog-intro h1,.detail-copy h1,.detail-copy h2){color:#faf7f1}
+body.lkm30-public:not(.lkm29-home) #main :is(.catalog-intro p,.catalog-count,.crumbs,.detail-copy>p){color:#e4dace}
+body.lkm30-public:not(.lkm29-home) #main .crumbs a{color:#ffc67c}
+body.lkm30-public:not(.lkm29-home) #main :is(.search-bar,.panel,.notice,.form-grid .field,.package-choice){color:#292824}
+body.lkm30-public:not(.lkm29-home) #main .catalog-intro .segmented{background:#32302b;border-color:#8b7860}
+body.lkm30-public:not(.lkm29-home) #main .catalog-intro .segmented button:not(.active){color:#f5ede2}
+body.lkm30-public:not(.lkm29-home) #main .chip:not(.active){background:#37332d;color:#f6eee3;border:1px solid #8f806e}
+body.lkm30-public:not(.lkm29-home) #main .chip.active{background:#f5ac42;border-color:#f5ac42;color:#231d14}
+body.lkm30-public:not(.lkm29-home) #main .status-empty{color:#f8f5ef}
+body.lkm30-public:not(.lkm29-home) #main .service-card{border-color:#867762}
+body.lkm30-public:not(.lkm29-home) #main .button-dark{background:#f5ac42;color:#241e14;border-color:#f5ac42}
+body.lkm30-public:not(.lkm29-home) #main .button-light{background:#f5eee3;color:#242321;border-color:#d6c8b3}
+/* B2B sector hub & pages: dark outer canvas, readable cards, ivory inputs. */
+body.lkm30-public.lkm-biz{color:var(--lkm30-text)}
+body.lkm30-public.lkm-biz :is(.lkm-biz-hero,.lkm-biz-hero-art){background:linear-gradient(135deg,#35302a,#171717 80%);color:#fff}
+body.lkm30-public.lkm-biz .lkm-biz-hero-intro{color:#eee3d2}
+body.lkm30-public.lkm-biz :is(.lkm-biz-section-title h2,.lkm-biz-proof h2,.lkm-biz-contact h2,.lkm-biz-contact-lead h2){color:#fff}
+body.lkm30-public.lkm-biz :is(.lkm-biz-section-title>p:not(.lkm-biz-kicker),.lkm-biz-proof p:not(.lkm-biz-kicker),.lkm-biz-contact-lead p:not(.lkm-biz-kicker),.lkm-biz-contact-lead ul){color:#e6dace}
+body.lkm30-public.lkm-biz :is(.lkm-biz-industry,.lkm-biz-offer,.lkm-biz-steps article,.lkm-biz-proof){background:rgba(51,48,43,.92);border:1px solid #81715b;color:#f8f5ef}
+body.lkm30-public.lkm-biz :is(.lkm-biz-industry h3,.lkm-biz-offer h3,.lkm-biz-steps h3){color:#fff}
+body.lkm30-public.lkm-biz :is(.lkm-biz-industry p,.lkm-biz-offer-intro,.lkm-biz-steps p,.lkm-biz-offer-foot>span,.lkm-biz-muted){color:#e2d8ca}
+body.lkm30-public.lkm-biz :is(.lkm-biz-industry-no,.lkm-biz-mini,.lkm-biz-kicker,.lkm-biz-arrow){color:#ffc378}
+body.lkm30-public.lkm-biz .lkm-biz-sectornav a{background:#342f28;border-color:#8e7a60;color:#fff}
+body.lkm30-public.lkm-biz .lkm-biz-sectornav a[aria-current=page],body.lkm30-public.lkm-biz .lkm-biz-sectornav a:hover{background:#f5ac42;color:#292115}
+body.lkm30-public.lkm-biz .lkm-biz-service-link{background:#514333;border-color:#847258;color:#fff}
+body.lkm30-public.lkm-biz :is(.lkm-biz-offer-select,.lkm-biz-button-main){background:#f5ac42;color:#231c12;border-color:#f5ac42}
+body.lkm30-public.lkm-biz .lkm-biz-proof-links a{color:#ffce8c}
+body.lkm30-public.lkm-biz .lkm-biz-form{background:#faf7f1;border:1px solid #ccbda6;color:#292824}
+body.lkm30-public.lkm-biz .lkm-biz-form :is(h2,h3,legend,label,fieldset){color:#27231e}
+body.lkm30-public.lkm-biz .lkm-biz-form :is(input,select,textarea){background:#fff;color:#242321;border-color:#aaa092}
+body.lkm30-public.lkm-biz .lkm-biz-form :is(p,small){color:#574d42}
+/* CMS portfolio, blog and article detail – not CMS editors. */
+body.lkm30-public .public-cms-page{color:#f8f5ef;background:transparent}
+body.lkm30-public .public-cms-page :is(h1,h2,h3,.cms-pub-title){color:#fff}
+body.lkm30-public .public-cms-page :is(.cms-pub-intro,.cms-pub-copy p,.cms-pub-breadcrumb,.cms-pub-copy small){color:#e5d9c9}
+body.lkm30-public .public-cms-page .cms-pub-eyebrow{color:#ffc27d}
+body.lkm30-public .public-cms-page .cms-pub-card{background:#312e29;border:1px solid #887863;color:#fff}
+body.lkm30-public .public-cms-page .cms-pub-card:hover{border-color:#f3ae54}
+body.lkm30-public .public-cms-page .cms-pub-chips button{background:#332f29;border:1px solid #8e7c64;color:#fff}
+body.lkm30-public .public-cms-page .cms-pub-chips button[aria-pressed=true]{background:#f5ac42;border-color:#f5ac42;color:#271d11}
+body.lkm30-public .public-cms-page :is(.cms-gallery-grid figure,.cms-article){background:#302d29;border-color:#877762;color:#fff}
+body.lkm30-public .public-cms-page .cms-article-body{color:#f4eee5}
+body.lkm30-public .public-cms-page :is(.cms-pub-breadcrumb a,.cms-pub-copy a){color:#ffcb83}
+body.lkm30-public :is(.cms-public-footer,.lkm-case-footer,.lkm-biz-footer,.lkm-review-page-footer,.lkm25-footer,.article-footer){background:#171716;color:#e4dace;border-color:#81715e}
+body.lkm30-public :is(.cms-public-footer,.lkm-case-footer,.lkm-biz-footer,.lkm-review-page-footer,.lkm25-footer,.article-footer) a{color:#ffcb83}
+/* Public case studies only (administration has a different class and keeps its theme). */
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-hero,.lkm-case-section){background:transparent;color:#f8f5ef}
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-hero h1,.lkm-case-prose h2,.lkm-case-deliverables h2,.lkm-case-visuals h2){color:#fff}
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-hero p:not(.lkm-case-kicker),.lkm-case-empty,.lkm-case-breadcrumb,.lkm-case-meta){color:#e6dcce}
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-card,.lkm-case-prose,.lkm-case-deliverables){background:#302d29;border-color:#84725c;color:#faf7f1}
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-card-info p,.lkm-case-prose p,.lkm-case-card-foot){color:#e5d9c9}
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-card-info h2,.lkm-case-card-foot strong){color:#fff}
+body.lkm30-public.lkm-case-public-page .lkm-case-deliverables li{background:#42382d;border-color:#8d775d;color:#fff}
+body.lkm30-public.lkm-case-public-page .lkm-case-cta{background:linear-gradient(130deg,#3b3329,#242321);border:1px solid #8a7557}
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-breadcrumb a,.lkm-case-meta a){color:#ffcb83}
+/* SEO services: accessible long-form pages and call-to-action panels. */
+body.lkm30-public.lkm25-page{--lkm-text:#faf7f1;--lkm-muted:#dfd4c5;--lkm-sage:#302e2a;--lkm-line:#746755;--lkm-accent:#f5ac42;--lkm-dark:#24221e;color:#faf7f1}
+body.lkm30-public.lkm25-page :is(.lkm25-hero,.lkm25-content,.lkm25-available,.lkm25-faq,.lkm25-hub){background:transparent;color:#f9f5ef}
+body.lkm30-public.lkm25-page :is(.lkm25-hero h1,.lkm25-hero h2,.lkm25-content h2,.lkm25-available h2,.lkm25-hub h1,.lkm25-faq h2){color:#fff}
+body.lkm30-public.lkm25-page :is(.lkm25-crumbs,.lkm25-crumbs a,.lkm25-hero p,.lkm25-content p,.lkm25-available p,.lkm25-faq p){color:#e5dccc}
+body.lkm30-public.lkm25-page :is(.lkm25-service-card,.lkm25-next,.lkm25-panel){background:#302d29;border-color:#81715c;color:#fff}
+body.lkm30-public.lkm25-page .lkm25-service-card:hover{border-color:#f5ac42}
+body.lkm30-public.lkm25-page :is(.lkm25-hero a,.lkm25-next a,.lkm25-hub a){color:#ffcf86}
+/* Article pages: graphite surroundings, warm ivory body for comfortable reading. */
+body.lkm30-public:has(.topbar){color:#f5eee5}
+body.lkm30-public :is(.article-hero,.article-index-hero){background:linear-gradient(145deg,#332f29,#171717 85%);color:#fff}
+body.lkm30-public :is(.article-hero h1,.article-hero h2,.article-index-hero h1){color:#fff}
+body.lkm30-public .article-hero :is(p,.back){color:#eee1d0}
+body.lkm30-public .article-prose{background:#faf7f1;color:#302a22;padding:clamp(18px,3vw,36px);border-radius:15px;border:1px solid #cdbda7;min-width:0}
+body.lkm30-public .article-prose :is(h1,h2,h3,h4,p,li,blockquote){color:#302a22}
+body.lkm30-public .article-prose a{color:#895614;text-decoration:underline}
+body.lkm30-public .article-aside .aside-sticky{background:#332f29;color:#fff;border:1px solid #80705a}
+body.lkm30-public .article-aside .aside-sticky :is(h2,p){color:#f1e9df}
+body.lkm30-public .article-aside .aside-sticky a{background:#f5ac42;color:#242017}
+body.lkm30-public :is(.article-card,.article-index-links a){background:#34312b;border-color:#82715b;color:#fff}
+body.lkm30-public .article-card :is(h2,p,small,span){color:#f3e9dd}
+body.lkm30-public .article-card:hover{border-color:#f5ac42}
+/* Reviews directory retains data, sorting, filters and search, only changes color. */
+body.lkm30-public #reviewsMain{background:transparent;color:#faf7f1}
+body.lkm30-public .lkm-review-directory{color:#faf7f1}
+body.lkm30-public .lkm-review-dir-hero{background:#302d29;border:1px solid #85725a;color:#fff}
+body.lkm30-public .lkm-review-dir-hero h1{color:#fff}
+body.lkm30-public .lkm-review-dir-hero p:not(.lkm-review-eyebrow){color:#e8ddce}
+body.lkm30-public .lkm-review-hero-stats>div,body.lkm30-public #reviewsMain .lkm-review-card{background:#332f29;border-color:#8a775c;color:#f9f5ef}
+body.lkm30-public #reviewsMain .lkm-review-card :is(.lkm-review-quote,.lkm-review-date,.lkm-review-author strong,.lkm-review-author small){color:#f4ebdf}
+body.lkm30-public #reviewsMain .lkm-review-avatar{background:#f2dfbf;color:#3a2c1d}
+body.lkm30-public #reviewsMain .lkm-review-read{color:#ffcf91}
+body.lkm30-public .lkm-review-count,body.lkm30-public .lkm-review-source{color:#e3d7c6}
+body.lkm30-public #reviewsMain .lkm-review-filter button{background:#353129;color:#f8f2e8;border-color:#837158}
+body.lkm30-public #reviewsMain .lkm-review-filter button.active{background:#f5ac42;border-color:#f5ac42;color:#2b2419}
+body.lkm30-public #reviewsMain .lkm-review-dir-tools label{color:#e8dbcc}
+body.lkm30-public #reviewsMain .lkm-review-dir-tools input{background:#fff;color:#242321;border-color:#b1a18b}
+body.lkm30-public #reviewsMain .lkm-review-more{background:#f5ac42;color:#292016}
+/* Shared forms/inputs: keep contrast where a light surface is used. */
+body.lkm30-public :is(.form-grid,.public-cms-page,.lkm-biz-contact,.lkm-review-directory) :is(input,textarea,select){accent-color:#b77b28}
+body.lkm30-public input::placeholder,body.lkm30-public textarea::placeholder{color:#776f65;opacity:1}
+body.lkm30-public .lkm25-page a:focus-visible,body.lkm30-public .lkm30-nav a:focus-visible{outline:3px solid #f5ad48}
+@media(max-width:1050px){
+  body.lkm30-public .lkm30-nav{gap:8px}
+  body.lkm30-public .lkm30-nav a{font-size:10px}
+  body.lkm30-public .lkm30-header-cta{padding:9px;font-size:10px}
+}
+@media(max-width:850px){
+  body.lkm30-public .lkm30-nav,body.lkm30-public .lkm30-header-cta{display:none}
+  body.lkm30-public .lkm30-nav-toggle{display:inline-flex;margin-left:auto}
+}
+@media(max-width:600px){
+  body.lkm30-public .lkm30-header-content{min-height:57px;padding:7px 13px}
+  body.lkm30-public .lkm30-watermark{width:clamp(180px,54vw,250px);right:calc(28vw - 100px);opacity:.065}
+  body.lkm30-public .public-cms-page{padding:31px 15px 60px}
+  body.lkm30-public .lkm-biz-form-grid{grid-template-columns:1fr}
+  body.lkm30-public .lkm-biz-hero{margin-top:14px}
+  body.lkm30-public .lkm25-wrap{width:calc(100% - 30px)}
+  body.lkm30-public .article-prose{border-radius:10px;padding:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.lkm30-public .lkm30-watermark{transform:none!important;will-change:auto}
+  body.lkm30-public *{scroll-behavior:auto}
+}
+
+body.lkm30-public .topbar .lkm30-mobile-nav{position:absolute;left:0;right:0;top:100%;width:100%}
+/* SEO guide panels: the original theme uses white cards plus dark text.
+   Apply the new surface AND text together to avoid light-on-light failures. */
+body.lkm30-public.lkm25-page :is(.lkm25-scope,.lkm25-live,.lkm25-next>div:last-child){background:#302d29;color:#f8f5ef;border-color:#81715c}
+body.lkm30-public.lkm25-page :is(.lkm25-scope h3,.lkm25-scope li,.lkm25-live p,.lkm25-live li,.lkm25-next h2,.lkm25-service-card h2){color:#fff}
+body.lkm30-public.lkm25-page :is(.lkm25-live small,.lkm25-service-card p,.lkm25-lead,.lkm25-small,.lkm25-next p){color:#e4dace}
+body.lkm30-public.lkm25-page :is(.lkm25-live a,.lkm25-next>div:last-child a,.lkm25-card-action){color:#ffcb86}
+body.lkm30-public.lkm25-page .lkm25-scope li{border-color:#655b4c}
+body.lkm30-public.lkm25-page .lkm25-scope li:before{color:#f5ac42}
+body.lkm30-public.lkm25-page .lkm25-button-primary{background:#f5ac42;color:#292017}
+body.lkm30-public.lkm25-page .lkm25-button-secondary{background:#39332b;color:#fff;border-color:#8b765c}
+body.lkm30-public.lkm25-page :is(.lkm25-category,.lkm25-eyebrow){color:#ffc47d}
+body.lkm30-public :is(.article-index-hero p,.related h2){color:#f5eee5}
+body.lkm30-public .topbar .lkm30-mobile-nav a{display:block}
+body.lkm30-public .cms-pub-empty{background:#353129;color:#e8dbce;border-color:#84715c}
+/* Site catalogue: match the Home service-card fade without changing cropping. */
+body.lkm30-public .lkm28-catalog{--lkm28-ink:#f8f5ef;--lkm28-accent:#f5ac42}
+body.lkm30-public #main .lkm28-catalog .segmented{background:#322e28;border-color:#806d53}
+body.lkm30-public #main .lkm28-catalog .segmented button.active{background:#51402b;color:#fff;border-color:#f5ac42}
+body.lkm30-public #main .lkm28-catalog .lkm28-switch-caption{color:#e4dacd!important}
+body.lkm30-public #main .lkm28-catalog #catalogGrid .service-card{background:#22211f;border-color:#80715d}
+body.lkm30-public #main .lkm28-catalog #catalogGrid .service-photo{background:#22211f}
+body.lkm30-public #main .lkm28-catalog #catalogGrid .service-photo::after{background:linear-gradient(90deg,transparent 0%,transparent 34%,rgba(34,33,31,.2) 40%,rgba(34,33,31,.82) 48%,rgba(34,33,31,.96) 54%,#22211f 61%,#22211f 100%)}
+body.lkm30-public #main .lkm28-catalog #catalogGrid :is(.service-body>p,.lkm28-benefits li,.service-price small){color:#e6ddd1}
+body.lkm30-public #main .lkm28-catalog #catalogGrid .service-badge{color:#36302a}
+body.lkm30-public #main .lkm28-catalog #catalogGrid .lkm28-arrow{background:#f5ac42;color:#292017}
+/* About Us standalone: originally green/cream editorial blocks. */
+body.lkm30-public.lkm-about-standalone .lkm-about-hero{background:linear-gradient(135deg,#2e2923,#191919 75%);color:#fff}
+body.lkm30-public.lkm-about-standalone :is(.lkm-about-story,.lkm-about-team-section,.lkm-about-disciplines){background:transparent;color:#f7f2e9}
+body.lkm30-public.lkm-about-standalone :is(.lkm-about-story h2,.lkm-about-team-heading h2,.lkm-about-disciplines-head h2,.lkm-about-story h3,.lkm-about-person-body h3,.lkm-about-discipline h3){color:#fff}
+body.lkm30-public.lkm-about-standalone :is(.lkm-about-story-copy p,.lkm-about-value p,.lkm-about-team-heading>p,.lkm-about-disciplines-head>p,.lkm-about-person-body>p,.lkm-about-discipline p,.lkm-about-small-note,.lkm-about-person-role){color:#e5dbce}
+body.lkm30-public.lkm-about-standalone :is(.lkm-about-person,.lkm-about-discipline){background:#322e29;border-color:#80705b;color:#fff}
+body.lkm30-public.lkm-about-standalone :is(.lkm-about-inline-link,.lkm-about-person-link,.lkm-about-discipline>b){color:#ffc784}
+body.lkm30-public.lkm-about-standalone .lkm-about-cta{background:linear-gradient(145deg,#393125,#1d1b19);border:1px solid #8c7352}
+body.lkm30-public.lkm-about-standalone .lkm-about-cta p:not(.lkm-about-kicker){color:#e9ded0}
+/* SPA non-Home and standalone About footer use graphite, no green background. */
+body.lkm30-public:not(.lkm29-home) .footer{background:#171716;color:#fff}
+body.lkm30-public:not(.lkm29-home) .footer :is(.footer-brand p,.footer-columns a,.footer-bottom){color:#e2d8ca}
+body.lkm30-public:not(.lkm29-home) .footer :is(.footer-brand a,.footer-columns a:hover){color:#ffca80}
+/* Preserve comfortable inline reading contrast on light cards and forms. */
+body.lkm30-public :is(.lkm-biz-form,.article-prose) :is(input,select,textarea){background:#fff;color:#292620;border:1px solid #aa9b85}
+
+body.lkm30-public .lkm30-mobile-nav .lkm30-mobile-action{background:#f5ac42;color:#292017;font-weight:850;margin-top:7px;text-align:center}
+/* Finish matching old evergreen/mint accents on the public templates. */
+body.lkm30-public.lkm-biz .lkm-biz-shape-b{background:linear-gradient(150deg,rgba(247,196,120,.43),rgba(38,35,31,.9))}
+body.lkm30-public.lkm-biz .lkm-biz-offer-foot{border-color:#716450}
+body.lkm30-public.lkm-biz .lkm-biz-contact-lead>a{color:#ffca7d}
+body.lkm30-public.lkm-case-public-page .lkm-case-media-item{background:#322e29;border-color:#80715d;color:#f8f4ec}
+body.lkm30-public.lkm-case-public-page :is(.lkm-case-gallery-link,.lkm-case-kicker){color:#ffbd6e!important}
+body.lkm30-public #reviewsMain .lkm-review-response{border-color:#746656}
+body.lkm30-public #reviewsMain .lkm-review-response summary{color:#ffca82}
+body.lkm30-public .lkm25-hub h2{color:#fff}

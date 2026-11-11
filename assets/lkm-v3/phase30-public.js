@@ -1,0 +1,151 @@
+/* LilKangooMedia Phase 30.0. Public pages only.
+ * Standardizes the navigation without changing verified destination URLs.
+ * SPA Home retains its existing Phase 29 header and background animation.
+ */
+(()=>{
+ 'use strict';
+ if(window.__LKM30PublicReady)return;
+ window.__LKM30PublicReady=true;
+ const body=document.body;
+ if(!body?.classList.contains('lkm30-public'))return;
+ const HOME='/';
+ const SERVICES='/#/services';
+ const PERSONAL='/#/services?audience=personal';
+ const BUSINESS_SERVICES='/#/services?audience=business';
+ const BUSINESS='/business-solutions.html';
+ const PORTFOLIO='/portfolio.html';
+ const REVIEWS='/reviews.html';
+ const ARTICLES='/blog.html';
+ const ABOUT='/#/about';
+ const CONTACT='/#/contact';
+ const items=[
+   ['Home',HOME],['Services',SERVICES],['For Business',BUSINESS],
+   ['Our Work',PORTFOLIO],['Reviews',REVIEWS],['Articles',ARTICLES],
+   ['About Us',ABOUT],['Contact',CONTACT]
+ ];
+ const create=(tag,cls)=>{const el=document.createElement(tag);if(cls)el.className=cls;return el};
+ const addLink=(root,label,href,active=false,cls='')=>{
+   const a=create('a',cls);a.href=href;a.textContent=label;
+   if(active)a.setAttribute('aria-current','page');root.append(a);return a;
+ };
+ function currentKey(){
+   const path=window.location.pathname.toLowerCase();
+   if(path==='/'||path==='/index.html'||path==='/home.html')return 'Home';
+   if(path.startsWith('/business-'))return 'For Business';
+   if(path.includes('portfolio')||path.includes('case-stud'))return 'Our Work';
+   if(path.includes('review'))return 'Reviews';
+   if(path==='/blog.html'||path.startsWith('/blog/')||body.querySelector('.topbar'))return 'Articles';
+   if(path.includes('aboutus')||path.includes('about us'))return 'About Us';
+   if(path.startsWith('/services/'))return 'Services';
+   return 'Home';
+ }
+ function normalizeHeader(){
+   // Home SPA owns this header via Phase 29; never create a second menu.
+   if(document.getElementById('siteHeader'))return;
+   const header=document.querySelector('.site-header,.lkm25-header,.lkm-review-page-header,.topbar');
+   if(!header)return;
+   const container=header.matches('.topbar')?header:header.querySelector('.header-inner,.lkm25-navwrap,.lkm-review-page-nav');
+   if(!container||container.querySelector('.lkm30-nav'))return;
+   const brand=container.querySelector(':scope > .identity,:scope > .lkm25-brand');
+   if(!brand)return;
+   const existingAction=container.querySelector('.header-cta a[href]');
+   const actionHref=existingAction?.getAttribute('href')||SERVICES;
+   const actionLabel=existingAction?.textContent?.trim()||'Explore Services ↗';
+   const original=Array.from(container.children).filter(node=>node!==brand);
+   const nav=create('nav','lkm30-nav');nav.setAttribute('aria-label','Main navigation');
+   const key=currentKey();
+   items.forEach(([title,href])=>{
+     if(title==='Services'){
+       const wrapper=create('div','lkm30-services');
+       addLink(wrapper,title,href,key==='Services');
+       const toggle=create('button');toggle.type='button';toggle.textContent='⌄';
+       toggle.setAttribute('aria-label','Choose personal or business services');
+       toggle.setAttribute('aria-expanded','false');
+       const sub=create('div','lkm30-submenu');
+       addLink(sub,'Personal Services',PERSONAL);
+       addLink(sub,'Business Services',BUSINESS_SERVICES);
+       toggle.addEventListener('click',()=>{
+         const open=wrapper.classList.toggle('lkm30-open');toggle.setAttribute('aria-expanded',String(open));
+       });
+       wrapper.append(toggle,sub);nav.append(wrapper);
+     }else if(title==='Our Work'){
+       const wrapper=create('div','lkm30-services');
+       addLink(wrapper,title,href,key==='Our Work');
+       const toggle=create('button');toggle.type='button';toggle.textContent='⌄';
+       toggle.setAttribute('aria-label','Explore portfolio or project stories');
+       toggle.setAttribute('aria-expanded','false');
+       const sub=create('div','lkm30-submenu');
+       addLink(sub,'Portfolio galleries',PORTFOLIO);
+       addLink(sub,'Project Stories','/portfolio.html#/stories');
+       toggle.addEventListener('click',()=>{
+         const open=wrapper.classList.toggle('lkm30-open');toggle.setAttribute('aria-expanded',String(open));
+       });
+       wrapper.append(toggle,sub);nav.append(wrapper);
+     }else addLink(nav,title,href,key===title);
+   });
+   const cta=addLink(create('div'), actionLabel, actionHref);
+   cta.className='lkm30-header-cta';
+   const mobileToggle=create('button','lkm30-nav-toggle');mobileToggle.type='button';
+   mobileToggle.setAttribute('aria-label','Open navigation');mobileToggle.setAttribute('aria-expanded','false');mobileToggle.textContent='☰';
+   const mobile=create('nav','lkm30-mobile-nav');mobile.hidden=true;mobile.setAttribute('aria-label','Mobile navigation');
+   items.forEach(([title,href])=>{
+     addLink(mobile,title,href,key===title);
+     if(title==='Services'){
+       addLink(mobile,'Personal Services',PERSONAL,false,'lkm30-sub-link');
+       addLink(mobile,'Business Services',BUSINESS_SERVICES,false,'lkm30-sub-link');
+     }
+     if(title==='Our Work')addLink(mobile,'Project Stories','/portfolio.html#/stories',false,'lkm30-sub-link');
+   });
+   if(existingAction&&actionHref!==SERVICES) addLink(mobile,actionLabel,actionHref,false,'lkm30-mobile-action');
+   mobileToggle.addEventListener('click',()=>{
+     mobile.hidden=!mobile.hidden;
+     mobileToggle.textContent=mobile.hidden?'☰':'✕';
+     mobileToggle.setAttribute('aria-expanded',String(!mobile.hidden));
+     mobileToggle.setAttribute('aria-label',mobile.hidden?'Open navigation':'Close navigation');
+   });
+   document.addEventListener('keydown',event=>{
+     if(event.key!=='Escape')return;
+     mobile.hidden=true;mobileToggle.setAttribute('aria-expanded','false');mobileToggle.textContent='☰';
+     nav.querySelectorAll('.lkm30-services').forEach(s=>s.classList.remove('lkm30-open'));
+     nav.querySelectorAll('[aria-expanded]').forEach(b=>b.setAttribute('aria-expanded','false'));
+   });
+   document.addEventListener('click',event=>{
+     if(!header.contains(event.target)){
+       mobile.hidden=true;mobileToggle.setAttribute('aria-expanded','false');mobileToggle.textContent='☰';
+       nav.querySelectorAll('.lkm30-services').forEach(s=>s.classList.remove('lkm30-open'));
+       nav.querySelectorAll('[aria-expanded]').forEach(b=>b.setAttribute('aria-expanded','false'));
+     }
+   });
+   original.forEach(node=>node.remove());
+   container.classList.add('lkm30-header-content');
+   container.append(nav,cta,mobileToggle);
+   header.append(mobile);
+ }
+ function watermark(){
+   // The accepted kangaroo on the homepage is already animated by Phase 29.
+   if(document.getElementById('siteHeader'))return;
+   if(document.querySelector('.lkm30-watermark'))return;
+   const mark=create('div','lkm30-watermark');mark.setAttribute('aria-hidden','true');
+   const img=create('img');img.src='/assets/lkm-v3/brand/logo-orange.png';img.alt='';
+   img.decoding='async';img.loading='lazy';mark.append(img);
+   body.insertBefore(mark,body.firstChild);
+   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+   let ticking=false;
+   function paint(){
+     ticking=false;
+     if(reduce.matches){mark.style.transform='none';return;}
+     const total=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+     const doc=Math.max(0,document.documentElement.scrollHeight);
+     const room=Math.max(0,doc-mark.getBoundingClientRect().width-170);
+     const ratio=Math.max(0,Math.min(1,window.scrollY/total));
+     mark.style.transform='translate3d(0,'+Math.round(room*ratio)+'px,0)';
+   }
+   function schedule(){if(ticking)return;ticking=true;window.requestAnimationFrame(paint)}
+   window.addEventListener('scroll',schedule,{passive:true});
+   window.addEventListener('resize',schedule,{passive:true});
+   reduce.addEventListener?.('change',schedule);
+   schedule();
+ }
+ normalizeHeader();
+ watermark();
+})();
