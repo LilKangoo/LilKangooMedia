@@ -224,8 +224,10 @@
 #main > .lkm29-global-watermark {display:none}
 .lkm29-home #main {position:relative}
 .lkm29-home #main > .lkm29-global-watermark{
- display:block;position:fixed;z-index:2;right:clamp(-60px,-3.5vw,-18px);top:0;
- width:clamp(158px,24vw,330px);aspect-ratio:1;opacity:.11;
+ display:block;position:fixed;z-index:2;
+ /* Place the kangaroo 29% from the right viewport edge (centered in the right-center zone). */
+ width:clamp(225px,32vw,445px);right:calc(29vw - clamp(112.5px,16vw,222.5px));top:0;
+ aspect-ratio:1;opacity:.11;
  pointer-events:none;transform-origin:center;will-change:transform;contain:paint;
 }
 .lkm29-home #main > .lkm29-global-watermark img{width:100%;height:100%;object-fit:contain;display:block}
@@ -249,7 +251,9 @@
 }
 .lkm29-home.lkm29-motion-ready #main .lkm29-entrance:focus-within {opacity:1;transform:none}
 @media (max-width:760px){
- .lkm29-home #main > .lkm29-global-watermark {right:-34px;top:0;width:clamp(146px,40vw,220px);opacity:.085}
+ .lkm29-home #main > .lkm29-global-watermark {
+   width:clamp(200px,55vw,290px);right:calc(29vw - clamp(100px,27.5vw,145px));top:0;opacity:.085;
+ }
  .lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-from-left{transform:translate3d(-14px,0,0)}
  .lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-from-right{transform:translate3d(14px,0,0)}
  .lkm29-home.lkm29-motion-ready #main .lkm29-entrance.lkm29-inview{transform:none}
@@ -270,3 +274,5 @@ body.lkm29-home .footer{background:linear-gradient(155deg,rgba(15,30,51,.74),rgb
 @media(prefers-reduced-motion:reduce){
  .lkm29-home #main > .lkm29-global-watermark{top:12vh;will-change:auto;transform:none!important}
 }
+
+/* Phase 29.5: only background kangaroo scale and horizontal focal position changed. */

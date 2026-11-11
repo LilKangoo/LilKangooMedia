@@ -1,54 +1,50 @@
-# LilKangooMedia — Phase 29.4
-## Mniejszy kangur i ruch na całej długości Home (aż do stopki)
+# LilKangooMedia — Phase 29.5
+## Większy kangur bliżej środka strony — bez zmian animacji
 
-Ta paczka zakłada **wdrożoną Phase 29.3**. Zmienia wyłącznie ruch dekoracyjnego logo i jego wielkość oraz przepuszczalność granatowej stopki, aby logo było widoczne również za nią. Pozostałe funkcje są bez zmian.
+Ta paczka zakłada, że na stronie jest już wdrożona **Phase 29.4**.
 
-### 1. Podmiana plików
+### 1. Podmień dwa pliki
 
-W lokalnym folderze projektu `LilKangooMedia` przejdź do `assets/lkm-v3/`. Najpierw utwórz kopię bezpieczeństwa. Następnie **podmień trzy pliki** z ZIP:
+1. Pobierz i rozpakuj ZIP.
+2. Otwórz lokalny folder projektu `LilKangooMedia`.
+3. Wejdź do folderu `assets/lkm-v3/`.
+4. Zrób kopię bezpieczeństwa, a potem podmień **tylko** poniższe pliki:
 
-| Plik | Docelowe miejsce | Czynność |
-| --- | --- | --- |
-| `phase29-home.js` | `assets/lkm-v3/phase29-home.js` | PODMIEŃ |
-| `phase29-home.css` | `assets/lkm-v3/phase29-home.css` | PODMIEŃ |
-| `phase28-catalog.js` | `assets/lkm-v3/phase28-catalog.js` | PODMIEŃ (tylko aktualizacja wersji cache) |
+| Plik w ZIP | Miejsce docelowe | Czynność |
+|---|---|---|
+| `assets/lkm-v3/phase29-home.css` | `assets/lkm-v3/phase29-home.css` | **PODMIEŃ** |
+| `assets/lkm-v3/phase28-catalog.js` | `assets/lkm-v3/phase28-catalog.js` | **PODMIEŃ** (wersja CSS w cache: 29-5) |
 
-**Nie podmieniaj** `index.html`, `site.js`, `site.css`, `service-detail-v14.js`, `reviews-public.js` i plików Supabase. Nowe pliki CSS/JS są ładowane automatycznie przez istniejący loader.
+**Nie zmieniaj** `phase29-home.js`, `site.js`, `site.css`, `index.html`, `service-detail-v14.js`, `phase28-catalog.css`, plików Supabase ani panelu administracyjnego.
 
-### 2. Co zostało zmienione
+### 2. Co się zmieniło
 
-- Oryginalne logo: `/assets/lkm-v3/brand/logo-orange.png`, bez liter „LK” i bez nowej grafiki.
-- Kangur około 25% mniejszy. W wersji mobilnej nie wychodzi tak daleko poza prawą krawędź.
-- Przesunięcie pionowe obejmuje teraz ruch od górnej części pierwszego ekranu do dolnej części viewportu przy stopce — zależnie od rzeczywistego końca stopki.
-- Ten sam ruch odtwarza się dokładnie w odwrotnym kierunku przy przewijaniu w górę.
-- Biały pasek z czterema zaletami nadal pozostaje ponad dekoracją.
-- Stopka pozostaje granatowa, ale jest lekko przezroczysta, aby znak mógł być subtelnie widoczny również za jej treścią.
-- Przy `prefers-reduced-motion: reduce` ruch logo jest wyłączony.
-- Ceny, oferty, formularze, menu, opis i reszta animacji pozostają bez zmian.
+- Oryginalne logo kangura (`/assets/lkm-v3/brand/logo-orange.png`) jest większe: na desktopie maksymalnie ok. **445 px**, na telefonie maksymalnie **290 px**. Jest to wzrost około 30–40%, zależnie od szerokości ekranu.
+- Logo zostało przesunięte w lewo do pozycji, w której środek znaku znajduje się około **71% szerokości ekranu**, licząc od lewej strony — mniej więcej w połowie drogi między prawą krawędzią a środkiem.
+- Nadal przesuwa się od początku strony aż do stopki; przewijanie w górę odwraca jego ruch.
+- Warstwy, przezroczystość, biała belka z zaletami, menu, animacje sekcji, oferty, ceny i formularze pozostały bez zmian.
+- Ograniczenie ruchu (`prefers-reduced-motion`) nadal działa.
 
-### 3. Wdrożenie
+### 3. Publikacja
 
-1. Otwórz GitHub Desktop i sprawdź listę zmienionych plików (powinny to być tylko trzy z tabeli).
-2. Wykonaj Commit oraz Push.
-3. Sprawdź w Netlify, czy wdrożenie ma status **Published**.
-4. Otwórz `https://lilkangoomedia.com/#/` i odśwież `Shift + Command + R`.
+1. W GitHub Desktop sprawdź, czy zmieniły się tylko **dwa** wymienione pliki.
+2. Zrób **Commit** i **Push**.
+3. Sprawdź status **Published** w Netlify.
+4. Otwórz `https://lilkangoomedia.com/#/` i odśwież: **Shift + Command + R**.
 
-### 4. Test po wdrożeniu
+### 4. Sprawdź po wdrożeniu
 
-- Na komputerze przewiń od pierwszego ekranu do stopki: kangur powinien być mniejszy i poruszać się w dół zgodnie ze scrollem. Przy powrocie porusza się do góry.
-- Przy białym pasku **Based in Cyprus** znak pozostaje za paskiem i nie utrudnia czytania.
-- W stopce znak jest widoczny delikatnie za tłem i nie zakrywa linków.
-- Sprawdź telefon; ani logo, ani tekst nie powinny tworzyć poziomego przewijania.
-- Sprawdź menu, wybór usługi, pakietu i formularz; nie były modyfikowane.
+- Na desktopie kangur powinien być bardziej w centrum strony, ale nadal po prawej stronie.
+- Na telefonie logo powinno być większe, ale nie może powodować poziomego scrolla.
+- Przewiń aż do stopki i z powrotem: pozycja kangura powinna zmieniać się płynnie.
+- Biała belka, kafelki i opisy muszą pozostać czytelne.
 
 ### 5. SQL
 
-**NIE JEST POTRZEBNY.** Nie uruchamiaj żadnych migracji Supabase.
+**Nie jest potrzebny.** Bez zmian danych Supabase.
 
 ### 6. Cofnięcie
 
-Przywróć trzy wcześniejsze pliki z Phase 29.3 i wykonaj Commit/Push.
+Przywróć te dwa pliki z poprzedniej paczki `LKM_29_4_Kangaroo_Smaller_Full_Page_Scroll.zip` i wykonaj Commit/Push.
 
-### 7. Testy lokalne
-
-Wyniki testów dotyczą odtworzonego DOM w Chromium, a nie zalogowanej strony produkcyjnej. Wersję produkcyjną należy sprawdzić po opublikowaniu.
+Testy przeprowadzone na lokalnym odtworzonym widoku — potwierdź zachowanie na działającej stronie po wdrożeniu.

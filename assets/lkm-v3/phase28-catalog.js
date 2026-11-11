@@ -142,7 +142,7 @@
  if(document.querySelector('script[data-lkm29-home]'))return;
  const stylesheet=document.createElement('link');
  stylesheet.rel='stylesheet';
- stylesheet.href='/assets/lkm-v3/phase29-home.css?v=29-4';
+ stylesheet.href='/assets/lkm-v3/phase29-home.css?v=29-5';
  stylesheet.dataset.lkm29HomeStyle='1';
  document.head.append(stylesheet);
  const script=document.createElement('script');
