@@ -26,7 +26,7 @@ const ALLOWED_TABS=new Set([...CORE_TABS,...Object.keys(TOOL_PANELS)]);
 function tabFromLocation(){const val=String(location.hash||'').replace(/^#\/?/,'');return ALLOWED_TABS.has(val)?val:'dashboard'}
 const state={tab:tabFromLocation(),ready:false,busy:false,error:'',toast:'',galleries:[],services:[],stories:[],audit:[],
  assets:[],assetCount:0,assetPage:0,mediaType:'all',search:'',folder:'',assetById:new Map(),selected:new Set(),activeAsset:'',placements:[],
- projectId:'',newProject:null,studioCatalog:null,catalogSearch:'',catalogCount:0,uploadStatus:''};
+ projectId:'',newProject:null,studioCatalog:null,catalogSearch:'',catalogCount:0,uploadStatus:'',uploadFiles:[]};
 
 function h(value){return esc(value)}
 function pill(value){const kind=String(value||'review').toLowerCase();return `<span class="studio-pill ${['public','published','success'].includes(kind)?'public':['hidden','private'].includes(kind)?'hidden':'review'}">${h(value||'review')}</span>`}
@@ -101,6 +101,7 @@ function mediaView(){const active=state.assetById.get(state.activeAsset);
  `<div class="studio-workspace">
  <section class="studio-panel studio-pad studio-folders"><div class="studio-card-head"><h3>Folders & Projects</h3></div><div class="folder-scroll">${folderButton('','All media',null,'▧')}${state.galleries.map(g=>folderButton(g.id,g.title,null,g.portfolio_kind==='project'?'▱':'▣')).join('')}</div><p class="studio-help">Folders are logical assignments, not copies of your original images.</p></section>
  <section class="studio-panel studio-pad studio-media-main"><div class="studio-card-head"><h2>${state.folder?h(state.galleries.find(g=>g.id===state.folder)?.title||'Folder'):'All media assets'}</h2><span class="studio-pill">${countTitle(state.assetCount)} results</span></div>
+ <div class="studio-media-quickdrop" id="studioMediaQuickDrop" data-action="quick-upload" tabindex="0" role="button" aria-label="Drop one or multiple photos to upload"><span aria-hidden="true">⇧</span><strong>Drop photos here to upload</strong><small>Or click to browse · 1–15 JPG, PNG or WebP</small></div>
  <div class="studio-media-controls"><input id="studioSearch" class="studio-search" type="search" placeholder="Search titles, image URLs or YouTube IDs…" value="${h(state.search)}" aria-label="Search media"><div class="studio-segments" role="group" aria-label="Media type">${['all','image','youtube'].map(t=>`<button data-action="media-type" data-type="${t}" class="${state.mediaType===t?'active':''}">${t==='all'?'All':t==='image'?'Photos':'Videos'}</button>`).join('')}</div></div>
  <div class="studio-bulk"><label><input id="studioSelectAll" type="checkbox" ${state.assets.length&&state.assets.every(a=>state.selected.has(a.id))?'checked':''}> Select page</label><b>${state.selected.size} selected</b><div class="studio-buttons"><button class="studio-btn primary" data-action="assign" ${state.selected.size||active?'':'disabled'}>⇄ Assign to…</button><button class="studio-btn" data-action="clear-selected">Clear</button></div></div>
  <div class="studio-media-grid">${state.assets.map(a=>`<article class="studio-asset ${state.selected.has(a.id)?'selected':''} ${state.activeAsset===a.id?'active':''}"><input type="checkbox" class="asset-check" data-media-select="${a.id}" aria-label="Select ${h(a.title)}" ${state.selected.has(a.id)?'checked':''}><button class="studio-asset-button" data-action="inspect" data-id="${a.id}" type="button">${mediaPreview(a)}${a.media_type==='youtube'?'<span class="studio-video-badge">▶ VIDEO</span>':''}<span class="asset-name" title="${h(a.title)}">${h(a.title||a.youtube_id||a.image_url)}</span><span class="asset-meta">${a.media_type==='image'?'PHOTO':'YOUTUBE'} · ${humanDate(a.created_at)}</span></button></article>`).join('')||'<div class="studio-empty" style="grid-column:1/-1">No matching assets. Add an image, import an existing website file or change filters.</div>'}</div>
@@ -116,7 +117,7 @@ function inspector(a){if(!a)return `<p class="studio-eyebrow">INSPECTOR</p><h2>S
  <label class="studio-field">Tags (comma-separated)<input class="studio-input" name="tags" value="${h((a.tags||[]).join(', '))}" maxlength="450"></label>
  <label class="studio-field">Internal description<textarea class="studio-textarea" name="description" maxlength="1500">${h(a.description||'')}</textarea></label><p class="studio-help">These are master-library metadata. Existing per-gallery captions, ALT text and video titles stay independent. Edit them in the current gallery editor when needed.</p>
  <button class="studio-btn gold" type="submit" data-busy-lock>Save metadata</button></form><hr class="studio-form-divider">
- <div class="studio-card-head"><h3>Assignments & usage</h3><button type="button" class="studio-btn primary" data-action="assign">+ Assign</button></div>
+ <div class="studio-card-head"><h3>Assignments & usage</h3><div class="studio-buttons">${a.media_type==='image'?`<button type="button" class="studio-btn gold" data-action="choose-cover" data-id="${a.id}">★ Set as cover photo</button>`:''}<button type="button" class="studio-btn primary" data-action="assign">+ Assign</button></div></div>
  ${uses.length?uses.map(p=>{const dest=p.gallery_id?state.galleries.find(g=>g.id===p.gallery_id)?.title:state.services.find(s=>s.slug===p.service_slug)?.title;
  return `<div class="studio-placement"><div style="flex:1;min-width:0"><strong>${h(dest||p.service_slug||'Gallery')}</strong><small>${p.gallery_id?'Gallery / Project':'Service'} · ${h(p.visibility)}</small><div class="studio-place-tools"><label>Order <input class="studio-place-order" data-place-order="${p.id}" type="number" value="${Number(p.display_order||100)}" min="0" max="100000"></label><button type="button" class="studio-btn ghost" data-action="save-order" data-asset="${a.id}" data-place-id="${p.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${h(p.visibility)}">Save</button>${a.media_type==='image'&&p.gallery_id&&p.legacy_photo_id&&p.visibility==='public'?`<button type="button" class="studio-btn gold" data-action="set-cover" data-gallery="${p.gallery_id}" data-photo="${p.legacy_photo_id}">Set cover</button>`:''}</div></div><button class="studio-btn ${p.visibility==='public'?'danger':'primary'}" data-action="toggle-place" data-asset="${a.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${p.visibility==='public'?'hidden':'public'}" data-order="${p.display_order||100}">${p.visibility==='public'?'Hide':'Publish'}</button></div>`}).join(''):'<p class="studio-help">No assignments yet. Add this asset to a collection, project or service.</p>'}
  <p class="studio-help">Hiding a placement does not delete its source file or the other places where it is used.</p>`;
@@ -222,7 +223,54 @@ function assignModal(){
  <button class="studio-btn primary" type="submit" data-busy-lock>Apply assignments</button></form>`));
 }
 function addSourceModal(){openDialog(dialog('Add media to master library',`<form id="studioSourceForm"><p class="studio-help">An image URL or YouTube ID is indexed once. You can then attach it to as many folders or projects as needed.</p><label class="studio-field">Media type<select class="studio-select" name="media_type"><option value="image">Image (HTTPS or /assets/ URL)</option><option value="youtube">YouTube Video / Short</option></select></label><label class="studio-field">Image URL or YouTube link / ID<input class="studio-input" name="source" required placeholder="https://... or https://youtube.com/shorts/..." maxlength="1700"></label><label class="studio-field">Title<input class="studio-input" name="title" maxlength="180" placeholder="Portfolio photograph or film title"></label><button class="studio-btn primary" type="submit" data-busy-lock>Add to library</button></form>`));}
-function uploadModal(){openDialog(dialog('Upload new photographs',`<form id="studioUploadForm"><p class="studio-help">JPG, PNG or WebP · maximum 8 MB each · up to 15 files per batch. Stored once in the existing public portfolio bucket; unpublished until added to a public placement.</p><label class="studio-field">Select images<input class="studio-input" type="file" name="files" accept="image/jpeg,image/png,image/webp" multiple required></label><label class="studio-field">Initial visibility<input class="studio-input" value="Library only — not published" disabled></label><button type="submit" class="studio-btn primary" data-busy-lock>Upload into master library</button></form>`));}
+// Keep the upload queue separate from input.files: FileList is read-only in several browsers.
+// Dropping and browsing may be mixed, and neither automatically publishes images.
+const UPLOAD_TYPES=new Set(['image/jpeg','image/png','image/webp']);
+const MAX_UPLOAD_FILES=15, MAX_UPLOAD_BYTES=8*1048576;
+function queueUploads(files){
+ const incoming=Array.from(files||[]);if(!incoming.length)return;
+ const merged=[...state.uploadFiles];const rejected=[];
+ for(const file of incoming){
+  if(!UPLOAD_TYPES.has(file.type)||file.size>MAX_UPLOAD_BYTES||!file.size){rejected.push(file.name||'Unsupported file');continue;}
+  if(merged.some(x=>x.name===file.name&&x.size===file.size&&x.lastModified===file.lastModified))continue;
+  if(merged.length===MAX_UPLOAD_FILES){rejected.push(file.name);continue;}
+  merged.push(file);
+ }
+ state.uploadFiles=merged;displayUploadQueue();
+ if(rejected.length)toast(`${rejected.length} file(s) skipped. Use JPG, PNG or WebP under 8 MB, maximum 15 per batch.`,true);
+}
+function displayUploadQueue(){
+ const el=document.getElementById('studioUploadQueue');if(!el)return;
+ const files=state.uploadFiles;
+ const size=files.reduce((sum,f)=>sum+f.size,0)/1048576;
+ el.replaceChildren();
+ const summary=document.createElement('strong');summary.textContent=files.length?`${files.length} photo(s) ready · ${size.toFixed(1)} MB`:'No photos selected';el.append(summary);
+ if(files.length){const names=document.createElement('span');names.textContent=files.map(f=>f.name).join(' · ');el.append(names);}
+ const submit=document.querySelector('#studioUploadForm button[type="submit"]');if(submit)submit.disabled=!files.length||state.busy;
+}
+function uploadModal(){
+ state.uploadFiles=[];
+ openDialog(dialog('Upload photographs',`<form id="studioUploadForm"><p class="studio-help">Drop one or multiple photos here or browse your computer. JPG, PNG, WebP · up to 8 MB per file · maximum 15 per batch. Photos remain library-only until you publish an assignment.</p>
+ <div class="studio-dropzone" id="studioUploadDropzone" data-action="choose-upload" tabindex="0" role="button" aria-label="Drop photos here or press Enter to browse" aria-describedby="studioUploadInstructions">
+ <span class="studio-dropzone-icon" aria-hidden="true">⇧</span><strong>Drag & drop photos here</strong><span>One photo or a batch of up to 15</span>
+ <span class="studio-btn gold" aria-hidden="true">Browse photos</span>
+ <input class="studio-file-input" type="file" id="studioUploadInput" name="files" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple aria-label="Select one or more photos">
+ </div><p class="studio-help" id="studioUploadInstructions">Dropping files will not upload them until you click Upload.</p>
+ <div class="studio-upload-queue" id="studioUploadQueue" role="status" aria-live="polite"><strong>No photos selected</strong></div>
+ <div class="studio-form-actions"><button class="studio-btn ghost" type="button" data-action="clear-upload">Clear selection</button><button type="submit" class="studio-btn primary" data-busy-lock disabled>Upload into master library</button></div></form>`));
+}
+function coverModal(assetId){
+ const asset=state.assetById.get(assetId);
+ if(!asset||asset.media_type!=='image'){toast('Select one photograph to use as cover.',true);return;}
+ const galleries=state.galleries;
+ if(!galleries.length){toast('Create a project or collection before assigning a cover.',true);return;}
+ openDialog(dialog('Set project / collection cover',`<form id="studioCoverForm"><input type="hidden" name="asset_id" value="${asset.id}">
+ <div class="studio-cover-choice">${mediaPreview(asset)}<div><strong>${h(asset.title||'Selected photograph')}</strong><p class="studio-help">Use this existing photo as a cover; the original file is not copied.</p></div></div>
+ <label class="studio-field">Choose project or collection<select class="studio-select" name="gallery_id" required>${galleries.map(g=>`<option value="${g.id}" ${g.id===state.folder?'selected':''}>${h(g.title)} (${h(g.visibility)})</option>`).join('')}</select></label>
+ <p class="studio-help">Setting a cover also makes this photo a <strong>public media placement</strong> in the selected gallery. A hidden/draft gallery stays hidden. No other gallery covers are changed.</p>
+ <button class="studio-btn gold" type="submit" data-busy-lock>★ Set cover photo</button></form>`));
+}
+
 function websiteCatalogModal(){state.catalogSearch='';openDialog(dialog('Import existing website photographs',`<div><label class="studio-field">Search indexed filenames<input id="studioCatalogSearch" class="studio-search" placeholder="e.g. golf, nature, portrait" autocomplete="off"></label><p class="studio-help" id="studioCatalogStatus">Loading original website assets…</p><div class="studio-media-grid" id="studioCatalogGrid"></div></div>`));void loadWebsiteCatalog()}
 function renderCatalogGrid(){const target=document.getElementById('studioCatalogGrid'),status=document.getElementById('studioCatalogStatus');if(!target)return;
  if(!state.studioCatalog){status.textContent='Original media catalog is unavailable.';return}
@@ -275,6 +323,10 @@ async function handleAction(action,element){if(state.busy&&action!=='close-dialo
  if(action==='assign'){assignModal();return}
  if(action==='add-source'){addSourceModal();return}
  if(action==='upload'){uploadModal();return}
+ if(action==='choose-upload'){document.getElementById('studioUploadInput')?.click();return}
+ if(action==='quick-upload'){uploadModal();document.getElementById('studioUploadInput')?.click();return}
+ if(action==='clear-upload'){state.uploadFiles=[];const input=document.getElementById('studioUploadInput');if(input)input.value='';displayUploadQueue();return}
+ if(action==='choose-cover'){coverModal(element.dataset.id);return}
  if(action==='browse-index'){websiteCatalogModal();return}
  if(action==='set-cover'){
   const gallery=element.dataset.gallery,photo=element.dataset.photo;
@@ -385,8 +437,29 @@ async function handleForm(form){
    await loadBase();shell();toast(payload.is_published?'Case Study published inside Portfolio.':'Case Study saved as a private draft.');
   }catch(e){toast(safeError(e),true)}finally{setBusy(false)}return;
  }
+ if(form.getAttribute('id')==='studioCoverForm'){
+  const formData=new FormData(form),assetId=String(formData.get('asset_id')||''),galleryId=String(formData.get('gallery_id')||'');
+  if(!uuidOK(assetId)||!uuidOK(galleryId)||state.assetById.get(assetId)?.media_type!=='image'){
+   toast('Choose a valid photo and destination gallery.',true);return;
+  }
+  if(!state.galleries.some(g=>g.id===galleryId)){toast('Destination gallery not found.',true);return;}
+  setBusy(true);try{
+   // Public placement and cover are separate legacy writes. Both use the existing admin RLS.
+   // Reuse the existing placement order instead of unexpectedly changing a curated gallery.
+   const placements=await api('lkm_studio_placements?select=display_order&asset_id=eq.'+assetId+'&gallery_id=eq.'+galleryId+'&limit=1');
+   const order=placements.rows[0]?.display_order??100;
+   await assignOne(assetId,'gallery:'+galleryId,'public',order);
+   const photos=await api('lkm_studio_placements?select=legacy_photo_id,visibility&asset_id=eq.'+assetId+'&gallery_id=eq.'+galleryId+'&limit=1');
+   const photoId=photos.rows[0]?.legacy_photo_id;
+   if(!uuidOK(photoId)||photos.rows[0]?.visibility!=='public')throw Error('Could not resolve the published photo placement. No cover was changed.');
+   await api('portfolio_galleries?id=eq.'+galleryId,{method:'PATCH',data:{cover_image_id:photoId}});
+   const verified=await api('portfolio_galleries?select=id,cover_image_id&id=eq.'+galleryId+'&limit=1');
+   if(verified.rows[0]?.cover_image_id!==photoId)throw Error('The cover update was not confirmed by Supabase. Please check permissions.');
+   closeDialog();await loadBase();await loadPlacements();shell();toast('Cover photo updated. The original asset was reused.');
+  }catch(e){toast(safeError(e),true)}finally{setBusy(false)}return;
+ }
  if(form.getAttribute('id')==='studioUploadForm'){
-  const input=form.querySelector('[name=files]');const files=Array.from(input?.files||[]);
+  const files=[...state.uploadFiles];
   if(!files.length||files.length>15){toast('Choose 1–15 photos.',true);return}
   setBusy(true);let done=0;const failed=[];
   try{
@@ -400,7 +473,7 @@ async function handleForm(form){
     const src=base+'/storage/v1/object/public/portfolio/'+path;
     await registerAsset('image',src,file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '));done++;
    }catch(e){failed.push(file.name+': '+safeError(e));}}
-   closeDialog();state.folder='';state.assetPage=0;state.mediaType='all';state.search='';await loadAssets();shell();
+   closeDialog();state.uploadFiles=[];state.folder='';state.assetPage=0;state.mediaType='all';state.search='';await loadAssets();shell();
    toast(`${done} photo(s) uploaded to master library.${failed.length?' '+failed.length+' failed: '+failed[0]:''}`,!!failed.length);
   }catch(e){toast(safeError(e),true)}finally{setBusy(false)}return;
  }
@@ -459,6 +532,41 @@ app.addEventListener('change',event=>{
  if(event.target.id==='studioSelectAll'){
   if(event.target.checked)state.assets.forEach(a=>state.selected.add(a.id));
   else state.assets.forEach(a=>state.selected.delete(a.id));shell();return;
+ }
+});
+app.addEventListener('change',event=>{
+ if(event.target.id==='studioUploadInput'){
+  queueUploads(event.target.files);
+  // Allows re-selecting the same file after the queue was cleared.
+  event.target.value='';
+ }
+});
+app.addEventListener('dragenter',event=>{
+ const zone=event.target.closest?.('#studioUploadDropzone,#studioMediaQuickDrop');
+ if(!zone)return;
+ event.preventDefault();zone.classList.add('is-dragging');
+});
+app.addEventListener('dragover',event=>{
+ const zone=event.target.closest?.('#studioUploadDropzone,#studioMediaQuickDrop');
+ if(!zone)return;
+ event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect='copy';zone.classList.add('is-dragging');
+});
+app.addEventListener('dragleave',event=>{
+ const zone=event.target.closest?.('#studioUploadDropzone,#studioMediaQuickDrop');
+ if(zone&&!zone.contains(event.relatedTarget))zone.classList.remove('is-dragging');
+});
+app.addEventListener('drop',event=>{
+ const zone=event.target.closest?.('#studioUploadDropzone,#studioMediaQuickDrop');
+ if(!zone)return;
+ event.preventDefault();event.stopPropagation();zone.classList.remove('is-dragging');
+ const files=event.dataTransfer?.files;
+ if(zone.id==='studioMediaQuickDrop')uploadModal();
+ queueUploads(files);
+});
+app.addEventListener('keydown',event=>{
+ const zone=event.target.closest?.('#studioUploadDropzone,#studioMediaQuickDrop');
+ if(zone&&event.target===zone&&(event.key==='Enter'||event.key===' ')){
+  event.preventDefault();if(zone.id==='studioMediaQuickDrop')uploadModal();document.getElementById('studioUploadInput')?.click();
  }
 });
 app.addEventListener('input',event=>{

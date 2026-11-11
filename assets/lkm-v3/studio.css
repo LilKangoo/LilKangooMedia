@@ -24,3 +24,20 @@
 .studio-tool-frame{display:block;width:100%;min-height:820px;height:calc(100vh - 245px);border:1px solid #315343;background:#0d1715;border-radius:15px;box-shadow:0 15px 50px #0005}
 .studio-tool-footnote{margin:11px 4px 0}
 @media(max-width:740px){.studio-tool-heading{flex-direction:column;align-items:stretch;padding:16px}.studio-tool-frame{min-height:720px;height:85vh}.studio-tool-heading .studio-btn{width:max-content;max-width:100%}}
+
+/* Phase 26.2 — accessible drop-to-upload, with clear keyboard and focus affordances. */
+.studio-dropzone{min-height:214px;border:2px dashed #537b61;border-radius:17px;background:linear-gradient(135deg,#172c23,#11211b);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px;padding:24px 20px;text-align:center;cursor:copy;color:#e5faea;transition:background .15s,border-color .15s,box-shadow .15s}
+.studio-dropzone strong{font-size:18px;font-weight:780;letter-spacing:-.03em}.studio-dropzone>span:not(.studio-dropzone-icon){font-size:12px;color:#adc6b4}.studio-dropzone-icon{font-size:35px;line-height:1;color:var(--green);border:1px solid #426c51;border-radius:13px;padding:11px 17px;margin-bottom:4px}
+.studio-dropzone:hover,.studio-dropzone.is-dragging{background:linear-gradient(135deg,#244a30,#193827);border-color:var(--green);box-shadow:0 0 0 3px #80f0ab25,0 12px 35px #0003}
+.studio-dropzone:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.studio-dropzone .studio-btn{cursor:pointer;min-width:150px}.studio-file-input{position:absolute;width:1px;height:1px;padding:0;opacity:0;overflow:hidden;clip-path:inset(50%);pointer-events:none}
+.studio-upload-queue{display:flex;flex-direction:column;gap:5px;padding:13px 15px;margin:11px 0 17px;border:1px solid #325442;border-radius:11px;background:#12241c;overflow-wrap:anywhere;color:#cfe7d6}
+.studio-upload-queue strong{color:#d8fddd;font-size:12px}.studio-upload-queue span{color:#9bb7a5;font-size:11px;line-height:1.7;max-height:65px;overflow:auto}
+.studio-cover-choice{display:flex;gap:15px;align-items:center;background:#152a20;border:1px solid #32533e;border-radius:12px;padding:12px;margin:0 0 16px;color:#f3fbf5}
+.studio-cover-choice img{width:112px;height:86px;border-radius:9px;object-fit:cover;flex-shrink:0}.studio-cover-choice>div{min-width:0;overflow-wrap:anywhere}
+@media(max-width:500px){.studio-dropzone{min-height:180px;padding:18px 12px}.studio-dropzone strong{font-size:16px}.studio-cover-choice{align-items:flex-start}.studio-cover-choice img{width:90px;height:75px}}
+.studio-media-quickdrop{display:flex;justify-content:flex-start;align-items:center;gap:10px;border:1px dashed #41664e;background:#14271d;border-radius:10px;padding:12px 15px;margin:0 0 15px;cursor:pointer;color:#e9f8eb;transition:background .15s,border-color .15s}
+.studio-media-quickdrop>span{font-size:19px;color:var(--green)}.studio-media-quickdrop strong{font-size:12px;font-weight:760}.studio-media-quickdrop small{font-size:11px;color:#a2b8a9}
+.studio-media-quickdrop:hover,.studio-media-quickdrop.is-dragging{background:#23452d;border-color:#94f7b3;box-shadow:inset 0 0 0 1px #80f0ab58}
+.studio-media-quickdrop:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@media(max-width:580px){.studio-media-quickdrop{flex-wrap:wrap;gap:5px 9px}.studio-media-quickdrop small{flex-basis:100%;padding-left:23px}}

@@ -33,3 +33,116 @@ html.lkm-legacy-embed a:focus-visible,html.lkm-legacy-embed button:focus-visible
  html.lkm-unified-embedded :is(.button-light,.cms-btn.secondary){background:#203d2c!important;border-color:#527b5b!important;color:#e3fce7!important}
  html.lkm-unified-embedded :is(a,button,input,textarea,select):focus-visible{outline:2px solid #f0cc71!important;outline-offset:2px}
 }
+
+/* Phase 26.2 — deliberate dark surfaces with readable foregrounds.
+   Legacy editors retain their business logic; only styles in embedded iframes change.
+   Native full-screen pages and print/PDF layout are not affected. */
+@media screen {
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded){color-scheme:dark}
+ /* Eliminate duplicated navigation on the Reviews and other admin-style screens. */
+ html.lkm-unified-embedded :is(.admin-sidebar,.cms-tabs),
+ html.lkm-unified-embedded .admin-nav-label{display:none!important}
+ html.lkm-unified-embedded .admin-shell{display:block!important;max-width:none!important;width:100%!important;margin:0!important;padding:0!important}
+ html.lkm-unified-embedded .admin-main{min-width:0!important;width:100%!important;max-width:none!important;margin:0!important;padding:12px 12px 35px!important;background:#0d1715!important;color:#e9f4ea!important}
+ html.lkm-unified-embedded :is(.admin-header,.lkm-reviews-admin-main){background:transparent!important}
+ html.lkm-unified-embedded :is(.admin-header h1,.admin-header h2,.admin-header h3){color:#f0fff1!important}
+
+ /* Articles: restore accessible text on the rich-content editing canvas. */
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-rich-body{
+   background:#12271f!important;color:#eaf5ed!important;border:1px solid #466c54!important;
+   border-radius:0 0 10px 10px!important;caret-color:#80f0ab!important;
+   -webkit-text-fill-color:#eaf5ed!important
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-rich-body :is(h1,h2,h3,h4,h5,h6,p,div,span,blockquote,li,strong,em,b,i,small){
+   color:#edf7ef!important;-webkit-text-fill-color:#edf7ef!important
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-rich-body a{color:#f3d889!important;-webkit-text-fill-color:#f3d889!important;text-decoration:underline}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-toolbar{background:#1e3329!important;border:1px solid #41604a!important;color:#ecf7ed!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-toolbar :is(button,select){background:#203f2b!important;color:#e9f6ea!important;border:1px solid #52745a!important;border-radius:5px!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-toolbar :is(button,select):hover{background:#31573b!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-editor :is(.cms-note,.cms-muted,p,small,label,summary){color:#c7e0ce!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-editor :is(.lkm-seo-preview,.lkm-blog-cover){background:#172d22!important;border-color:#3f624b!important;color:#f2faf3!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-editor .lkm-seo-preview :is(h3,p,span){color:#e3f5e8!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root :is(.cms-item,.cms-photo,.lkm-gallery-thumb,.lkm-media-card,.lkm-batchbar,.lkm-media-actions){background:#1b3026!important;color:#e6f4e9!important;border-color:#345a42!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root :is(.cms-item strong,.cms-item small,.lkm-gallery-thumb small,.lkm-media-info strong,.lkm-media-info span,.lkm-media-actions strong,.lkm-batchbar strong,.cms-photo small){color:#d8efe0!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root :is(.cms-panel,.cms-grid,.cms-list,.lkm-media-card,.lkm-gallery-manager,.lkm-blog-list) :is(h1,h2,h3,h4){color:#eef8ef!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root :is(.cms-item[aria-current=true],.lkm-media-card.is-selected){border-color:#f3cb67!important;outline-color:#f3cb67!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-root :is(.cms-note,#lkmMediaFeedback){background:#293425!important;color:#f7df9e!important;border:1px solid #75603e!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-field :is(input,textarea,select){color:#eaf6ed!important;background:#13291f!important;border-color:#41634c!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .cms-field :is(input,textarea)::placeholder{color:#a2bfa9!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.cms-btn.secondary,.cms-tabs button){color:#e6f5e8!important;background:#20432f!important;border-color:#537b5b!important}
+
+ /* Customer Reviews: the existing cards were WHITE with pale inherited text. */
+ html.lkm-unified-embedded :is(.lkm-review-admin-stats>div,.lkm-review-admin-row,.lkm-reviews-edit,.lkm-review-admin-import){
+   background:#1a3025!important;color:#ecf6ee!important;border:1px solid #3b5b45!important;box-shadow:none!important
+ }
+ html.lkm-unified-embedded :is(.lkm-review-admin-row-main,.lkm-review-admin-row-main strong,.lkm-review-admin-row-main p,.lkm-review-admin-row-main small,
+  .lkm-review-admin-stats strong,.lkm-review-admin-stats small,.lkm-reviews-edit h2,.lkm-reviews-edit .field label,.lkm-review-admin-tools label span,
+  .lkm-review-admin-import label,.lkm-review-admin-import small){color:#dcece0!important}
+ html.lkm-unified-embedded .lkm-review-admin-stats strong{color:#8af0ac!important}
+ html.lkm-unified-embedded .lkm-review-admin-row-main p{line-height:1.65!important}
+ html.lkm-unified-embedded .lkm-review-admin-badges span{background:#275338!important;color:#c9ffdb!important}
+ html.lkm-unified-embedded :is(.lkm-reviews-edit input,.lkm-reviews-edit textarea,.lkm-reviews-edit select,
+  .lkm-review-admin-tools input,.lkm-review-admin-tools select){background:#10251a!important;color:#eef8ee!important;border-color:#47694f!important}
+ html.lkm-unified-embedded .lkm-reviews-note{background:#3a311f!important;color:#ffe5a6!important;border:1px solid #80663a!important}
+ html.lkm-unified-embedded .lkm-review-admin-row .button{min-height:35px}
+ html.lkm-unified-embedded .lkm-review-admin-row .button-dark{background:#276542!important;color:#eaffeb!important}
+ html.lkm-unified-embedded .lkm-reviews-save .lkm-review-delete{background:#3f2225!important;color:#ffabb1!important;border-color:#8b4447!important}
+
+ /* CRM, Quotes, Calendar, Sales Reports: dark cards and high-contrast text. */
+ html.lkm-unified-embedded :is(.lkm23-card,.lkm23-stat,.lkm23-column,.lkm23-detail,.lkm23-manage-form,.lkm23-quote-mini,.lkm23-reminders,
+  .lkm23-reminder-row,.lkm23-empty,.lkm23-login,.lkm23q-side,.lkm23q-editor,.lkm23q-start,.lkm23q-login,.lkm23q-error,.lkm23q-quote-card,
+  .lkm23q-item,.lkm23q-discount,.lkm23-approval-box,.lkmcal-top,.lkmcal-stat,.lkmcal-card,.lkmcal-day,.lkmcal-entry,.lkmcal-auth,
+  .lkm24-kpi,.lkm24-panel,.lkm24-toolbar,.lkm24-task,.lkm24-decision,.lkm24-disclaimer){background:#172d23!important;color:#eaf4ec!important;border-color:#3a5b47!important;box-shadow:none!important}
+ html.lkm-unified-embedded :is(.lkm23-card,.lkm23-stat,.lkm23-column,.lkm23-detail,.lkm23-manage-form,.lkm23-quote-mini,.lkm23-reminders,
+  .lkm23-reminder-row,.lkm23-empty,.lkm23q-side,.lkm23q-editor,.lkm23q-start,.lkm23q-quote-card,.lkm23q-item,.lkm23q-discount,
+  .lkm23-approval-box,.lkmcal-top,.lkmcal-stat,.lkmcal-card,.lkmcal-day,.lkmcal-entry,.lkm24-kpi,.lkm24-panel,.lkm24-task,.lkm24-decision,.lkm24-disclaimer)
+  :is(h1,h2,h3,h4,p,strong,small,span,label){color:#e3f2e7!important}
+ html.lkm-unified-embedded :is(.lkm23-stat strong,.lkm24-kpi>strong,.lkm24-figure,.lkm24-decision strong,.lkmcal-stat strong){color:#96f4b6!important}
+ html.lkm-unified-embedded :is(.lkm23-filters input,.lkm23-filters select,.lkm23q-label input,.lkm23q-label textarea,.lkm23q-label select,
+  .lkm24-toolbar select,.lkmcal-top select,.lkmcal-form input,.lkmcal-form select){background:#11271d!important;color:#f2fbf2!important;border-color:#47694f!important}
+ html.lkm-unified-embedded :is(.lkm23q-quote-card.active,.lkm23q-quote-card:hover,.lkmcal-day-selected){background:#25432e!important;border-color:#f3cb67!important}
+ html.lkm-unified-embedded .lkm23q-print,
+ html.lkm-unified-embedded .lkm23q-print *{background-color:#fff!important;color:#1e3024!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ html.lkm-unified-embedded .lkmcal-tag-blocked{background:#a52e30!important;color:#fff!important}
+ html.lkm-unified-embedded .lkmcal-tag-confirmed{background:#246b49!important;color:#fff!important}
+ html.lkm-unified-embedded :is(.lkm23-status.is-error,.lkm24-message.is-error,.lkmcal-alert.error){background:#3e2223!important;color:#ffb8b7!important}
+ html.lkm-unified-embedded :is(.lkm23-status:not(.is-error),.lkmcal-alert.good){background:#173b28!important;color:#a2f5b7!important}
+ html.lkm-unified-embedded :is(.lkm23q-remove,.lkm23q-delete,.lkmcal-btn-danger){background:#3d2021!important;color:#ffb1ac!important;border-color:#8a4645!important}
+ html.lkm-unified-embedded :is(.lkm23q-head,.lkmcal-heading,.lkm24-top) :is(p,small){color:#b3c9b9!important}
+ html.lkm-unified-embedded button:disabled{opacity:.62}
+ @media(max-width:690px){
+  html.lkm-unified-embedded .admin-main{padding:10px 7px 25px!important}
+  html.lkm-unified-embedded :is(.lkm-reviews-fields,.lkm23q-grid,.lkm23-fields){grid-template-columns:1fr!important}
+ }
+}
+
+/* 26.2 — smaller legacy components: no dark ink on dark cards. */
+@media screen {
+ html.lkm-legacy-embed :is(.lkm-service-summary strong,.lkm-price-row-head strong,.lkm-feature-title strong,.lkm-feature-title small,.lkm-service-thumb small,.lkm-price-addon strong,.lkm-feature-row label,.lkm-editor-head h3){color:#ebf5ec!important}
+ html.lkm-legacy-embed :is(.lkm-service-summary small,.lkm-service-badge,.lkm-media-info span,.lkm-media-pager,.lkm-service-urls summary,.lkm-service-thumb small){color:#bfd8c7!important}
+ html.lkm-legacy-embed :is(.lkm-service-badge,.lkm-service-badge.is-hidden){background:#284637!important;border:1px solid #476a50!important}
+ html.lkm-legacy-embed :is(.lkm-service-thumb,.lkm-gallery-upload,.lkm-service-urls,.lkm-feature-actions button,.lkm-service-thumb button,.lkm-feature-row input){background:#1c3528!important;color:#eaf7ee!important;border-color:#416d51!important}
+ html.lkm-legacy-embed .lkm-picker-dialog{background:#13251d!important;color:#edf8ef!important;border:1px solid #497052!important}
+ html.lkm-legacy-embed .lkm-picker-dialog :is(h1,h2,h3,small,label,strong){color:#ebf6eb!important}
+ html.lkm-legacy-embed .lkm-picker-dialog :is(button,input,select){background:#213d2c!important;color:#ecf8ee!important;border:1px solid #50785b!important}
+ html.lkm-legacy-embed .lkm-picker-dialog :is(button:hover,button:focus-visible){border-color:#ecca76!important}
+ html.lkm-legacy-embed :is(.cms-item,.cms-row,.lkm-gallery-thumb,.lkm-media-card){border-color:#3a6049!important}
+ html.lkm-legacy-embed :is(.lkm-media-card,.lkm-media-info,.lkm-gallery-thumb,.lkm-media-actions,.lkm-batchbar){color:#e6f4e9!important}
+ html.lkm-legacy-embed :is(.lkm-price-addon,.lkm-price-row,.lkm-feature-editor) :is(p,span,small,label,strong){color:#e1f1e6!important}
+}
+
+/* Links Library also lives inside Command Center: remove the last bright cards. */
+@media screen {
+ html.lkm-unified-embedded :is(.lkm-link-stats span,.lkm-folder,.lkm-link-card,.lkm-links-empty){background:#1b3026!important;border-color:#3c5d49!important;color:#e9f6eb!important;box-shadow:none!important}
+ html.lkm-unified-embedded :is(.lkm-links-top p,.lkm-links-result-head span,.lkm-links-section-head small,.lkm-links-toolbar label span,
+  .lkm-link-content h3,.lkm-link-stats strong,.lkm-link-desc,.lkm-link-meta-title,.lkm-link-meta-label,.lkm-link-route span,.lkm-link-route code,
+  .lkm-link-url,.lkm-link-direct,.lkm-link-category span,.lkm-links-empty,.lkm-links-note){color:#d6ebdd!important}
+ html.lkm-unified-embedded .lkm-link-stats strong{color:#92f3b4!important}
+ html.lkm-unified-embedded .lkm-folder.is-active{background:#28563a!important;color:#f2fff3!important;border-color:#80f0ab!important}
+ html.lkm-unified-embedded .lkm-links-toolbar input{background:#11251b!important;color:#eff8f0!important;border-color:#4a6b53!important}
+ html.lkm-unified-embedded .lkm-links-toolbar input::placeholder{color:#a6c2ac!important}
+ html.lkm-unified-embedded .lkm-link-cover{background:#233e30!important}
+ html.lkm-unified-embedded .lkm-links-warnings{background:#3b301f!important;color:#ffe2a8!important;border-color:#7c633c!important}
+ html.lkm-unified-embedded .lkm-link-direct button{color:#9af3b6!important}
+}
