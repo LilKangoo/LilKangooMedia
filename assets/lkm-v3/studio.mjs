@@ -119,8 +119,8 @@ function inspector(a){if(!a)return `<p class="studio-eyebrow">INSPECTOR</p><h2>S
  <button class="studio-btn gold" type="submit" data-busy-lock>Save metadata</button></form><hr class="studio-form-divider">
  <div class="studio-card-head"><h3>Assignments & usage</h3><div class="studio-buttons">${a.media_type==='image'?`<button type="button" class="studio-btn gold" data-action="choose-cover" data-id="${a.id}">★ Set as cover photo</button>`:''}<button type="button" class="studio-btn primary" data-action="assign">+ Assign</button></div></div>
  ${uses.length?uses.map(p=>{const dest=p.gallery_id?state.galleries.find(g=>g.id===p.gallery_id)?.title:state.services.find(s=>s.slug===p.service_slug)?.title;
- return `<div class="studio-placement"><div style="flex:1;min-width:0"><strong>${h(dest||p.service_slug||'Gallery')}</strong><small>${p.gallery_id?'Gallery / Project':'Service'} · ${h(p.visibility)}</small><div class="studio-place-tools"><label>Order <input class="studio-place-order" data-place-order="${p.id}" type="number" value="${Number(p.display_order||100)}" min="0" max="100000"></label><button type="button" class="studio-btn ghost" data-action="save-order" data-asset="${a.id}" data-place-id="${p.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${h(p.visibility)}">Save</button>${a.media_type==='image'&&p.gallery_id&&p.legacy_photo_id&&p.visibility==='public'?`<button type="button" class="studio-btn gold" data-action="set-cover" data-gallery="${p.gallery_id}" data-photo="${p.legacy_photo_id}">Set cover</button>`:''}</div></div><button class="studio-btn ${p.visibility==='public'?'danger':'primary'}" data-action="toggle-place" data-asset="${a.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${p.visibility==='public'?'hidden':'public'}" data-order="${p.display_order||100}">${p.visibility==='public'?'Hide':'Publish'}</button></div>`}).join(''):'<p class="studio-help">No assignments yet. Add this asset to a collection, project or service.</p>'}
- <p class="studio-help">Hiding a placement does not delete its source file or the other places where it is used.</p>`;
+ return `<div class="studio-placement"><div style="flex:1;min-width:0"><strong>${h(dest||p.service_slug||'Gallery')}</strong><small>${p.gallery_id?'Gallery / Project':'Service'} · ${h(p.visibility)}</small><div class="studio-place-tools"><label>Order <input class="studio-place-order" data-place-order="${p.id}" type="number" value="${Number(p.display_order||100)}" min="0" max="100000"></label><button type="button" class="studio-btn ghost" data-action="save-order" data-asset="${a.id}" data-place-id="${p.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${h(p.visibility)}">Save</button>${a.media_type==='image'&&p.gallery_id&&p.legacy_photo_id&&p.visibility==='public'?`<button type="button" class="studio-btn gold" data-action="set-cover" data-gallery="${p.gallery_id}" data-photo="${p.legacy_photo_id}">Set cover</button>`:''}</div></div><div class="studio-placement-actions"><button type="button" class="studio-btn ${p.visibility==='public'?'danger':'primary'}" data-action="toggle-place" data-asset="${a.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${p.visibility==='public'?'hidden':'public'}" data-order="${p.display_order||100}">${p.visibility==='public'?'Hide':'Publish'}</button><button type="button" class="studio-btn danger studio-unassign-btn" data-action="remove-place" data-place-id="${p.id}" data-asset="${a.id}" aria-label="Remove assignment from ${h(dest||p.service_slug||'gallery')}">× Remove</button></div></div>`}).join(''):'<p class="studio-help">No assignments yet. Add this asset to a collection, project or service.</p>'}
+ <p class="studio-help">Hide keeps an assignment for later. Remove disconnects it from this destination (and its public gallery or service) but never deletes the original file, YouTube video or other assignments. Cover photos must be replaced before removal.</p>`;
 }
 function projectView(collectionsOnly=false){
  const list=state.galleries.filter(g=>collectionsOnly?galleryKind(g.portfolio_kind)==='collection':true);
@@ -321,6 +321,20 @@ async function handleAction(action,element){if(state.busy&&action!=='close-dialo
  if(action==='inspect'){if(!uuidOK(element.dataset.id))return;state.activeAsset=element.dataset.id;await loadPlacements();shell();return}
  if(action==='clear-selected'){state.selected.clear();shell();return}
  if(action==='assign'){assignModal();return}
+ if(action==='remove-place'){
+  const placementId=String(element.dataset.placeId||''),assetId=String(element.dataset.asset||'');
+  const place=state.placements.find(p=>p.id===placementId&&p.asset_id===assetId);
+  if(!uuidOK(placementId)||!uuidOK(assetId)||!place){toast('Select a valid assignment to remove.',true);return;}
+  const label=place.gallery_id?state.galleries.find(g=>g.id===place.gallery_id)?.title:state.services.find(t=>t.slug===place.service_slug)?.title;
+  if(!window.confirm(`Remove this assignment from "${label||place.service_slug||'selected destination'}"?\n\nThis removes the item from that gallery or service, including its public display. The original photo/video and assignments elsewhere are preserved.\n\nIf it is the gallery cover, choose another cover first.`))return;
+  setBusy(true);
+  try{
+    const removed=await rpcValue('lkm_studio_unassign',{p_placement_id:placementId});
+    if(removed!==true)throw Error('This assignment was not found. Refresh the page and try again.');
+    await loadAssets();await loadPlacements();shell();
+    toast('Assignment removed. Original media and other destinations are unchanged.');
+  }catch(e){toast(safeError(e),true)}finally{setBusy(false)}return;
+ }
  if(action==='add-source'){addSourceModal();return}
  if(action==='upload'){uploadModal();return}
  if(action==='choose-upload'){document.getElementById('studioUploadInput')?.click();return}

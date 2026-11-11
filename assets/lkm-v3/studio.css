@@ -41,3 +41,14 @@
 .studio-media-quickdrop:hover,.studio-media-quickdrop.is-dragging{background:#23452d;border-color:#94f7b3;box-shadow:inset 0 0 0 1px #80f0ab58}
 .studio-media-quickdrop:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 @media(max-width:580px){.studio-media-quickdrop{flex-wrap:wrap;gap:5px 9px}.studio-media-quickdrop small{flex-basis:100%;padding-left:23px}}
+
+/* Phase 26.3 — detach a placement without touching the master source */
+.studio-placement-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:flex-end;flex:none}
+.studio-placement-actions .studio-btn{min-width:59px;white-space:nowrap}
+.studio-unassign-btn{border:1px solid #98505b!important;background:#442328!important;color:#ffd0d4!important}
+.studio-unassign-btn:hover,.studio-unassign-btn:focus-visible{background:#682f38!important;color:white!important;border-color:#ff8994!important}
+@media(max-width:590px){.studio-placement{flex-wrap:wrap}.studio-placement-actions{width:100%;justify-content:flex-end}}
+/* Inspector is intentionally narrow at desktop widths; actions occupy their own row. */
+.studio-placement{flex-wrap:wrap;align-items:flex-start}
+.studio-placement>div:first-child{flex:1 1 100%!important;min-width:0}
+.studio-placement-actions{width:100%;justify-content:flex-end;padding-top:8px;border-top:1px solid #2b4a37}

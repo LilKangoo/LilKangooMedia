@@ -146,3 +146,139 @@ html.lkm-legacy-embed a:focus-visible,html.lkm-legacy-embed button:focus-visible
  html.lkm-unified-embedded .lkm-links-warnings{background:#3b301f!important;color:#ffe2a8!important;border-color:#7c633c!important}
  html.lkm-unified-embedded .lkm-link-direct button{color:#9af3b6!important}
 }
+
+/* Phase 26.3 — exhaustive surface + foreground compatibility for the real embedded
+   legacy modules. Scoped to *iframe HTML classes only*, not the public website.
+   Exact selectors from site.css / phase23-crm.css / CMS / Quotes / Calendar / Reports.
+   Screen-only: PDF and browser print styling are deliberately preserved. */
+@media screen {
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded){
+  --ink:#ebf6ee;--muted:#b6cdbd;--paper:#172a21;--cream:#0c1914;
+  --line:#3a5b45;--olive:#80f0ab;--sage:#1b3427;
+  color-scheme:dark;
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) body{color:#e7f4ea!important;background:#0d1715!important}
+ /* The site.css .panel component is used heavily by Enquiries, bookings and Stripe
+    requests. It was pure WHITE with inherited WHITE typography in the iframe. */
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(
+  .panel,.admin-item,.admin-auth,.status-empty,.package-editor,.success-panel,
+  .lkm23-sidebar,.lkm23-brief,.lkm23-toggle,.lkm23-toggle button.is-active,
+  .lkm23-priority,.lkm23-archived-chip,.lkm23-light-count,.lkm23-due-filter,
+  .lkm23-authform,.lkm23-activity-entry,.lkm23-audit-row,.lkm23-quote-summary,
+  .lkm23q-add,.lkm23q-totals,.lkm23q-print-preview,
+  .lkmcal-slot-selectors,.lkmcal-slot,.lkmcal-tag,
+  .lkm24-disclaimer,.lkm24-rail,.lkm24-chart-bar,
+  .lkm-reviews-note,.lkm-review-admin-check,
+  .lkm-link-details,.lkm-link-cover--symbol,.lkm-links-note
+ ){
+  background:#192e24!important;color:#eaf5ec!important;border-color:#40644d!important;
+  box-shadow:none!important;
+ }
+ /* These elements inherit colors from many legacy CSS rules and inline spans.
+    Explicitly restore readable ink without changing data or interactions. */
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(
+  .panel,.admin-item,.admin-main,.cms-root,
+  .lkm23-sidebar,.lkm23-brief,.lkm23-card,.lkm23-toggle,.lkm23-priority,
+  .lkm23-light-count,.lkm23-archived-chip,.lkm23-detail-meta,.lkm23-detail-line,
+  .lkm23-activity,.lkm23-activity-entry,.lkm23-manage-form,
+  .lkm23q-editor,.lkm23q-side,.lkm23q-discount,
+  .lkmcal-card,.lkmcal-top,.lkmcal-day,.lkmcal-entry,
+  .lkm24-kpi,.lkm24-panel,.lkm24-toolbar,.lkm24-task,
+  .lkm-reviews-admin-main,.lkm-review-admin-row,.lkm-reviews-edit,
+  .lkm-links-main,.lkm-link-card,.lkm-link-details
+ ) :is(h1,h2,h3,h4,h5,h6,p,span,strong,small,label,summary,em,li,dt,dd){
+  color:#e5f3e8!important;
+ }
+ /* Specific secondary text and metadata for hierarchy. */
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(
+  .admin-main,.panel,.lkm23-sidebar,.lkm23-card,.lkm23-detail-line,
+  .lkm23-detail-title,.lkm23-activity,.lkm23-top,
+  .lkmcal-heading,.lkmcal-card,.lkm24-toolbar,.lkm24-panel,
+  .lkm-reviews-admin-main,.cms-root
+ ) :is(.hint,.cms-muted,.lkm23-hint,.lkm23-muted,.lkm23-service,.lkm23-card-foot,.lkm23-due,
+       .lkm23-detail-title>span,.lkm23-detail-line>span,.lkm23-count,.lkm23-column-empty,
+       .lkmcal-muted,.lkmcal-legend,.lkm24-muted,.lkm24-footnote){color:#afcab7!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.panel,.lkm23-sidebar,.lkm23-card,.lkm23-brief,
+       .lkm23-activity,.lkm23-detail-meta,.lkm23-detail-line,.lkm23-quote-summary,.lkm23-audit-row,
+       .lkm-reviews-edit,.lkm23-manage-form){border-color:#3c5b48!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.panel,.admin-item,.lkm23-sidebar,.lkm23-brief,
+       .lkm23-detail-meta,.lkm23-activity-entry,.lkm23-audit-row) a{
+  color:#b0f6c5!important;text-decoration-color:#78ce90!important
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.panel,.admin-item,.lkm23-sidebar) a:hover{color:#f5d888!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.feature-label,.lkm23-priority,.lkm23-archived-chip,
+       .lkm23-light-count,.lkmcal-tag,.lkm23-due-filter,.lkm23-toggle button){
+  background:#244131!important;color:#dcf7e3!important;border-color:#416c4d!important;
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm23-priority.high,.lkm23-due.is-overdue,
+       .lkm23-status.is-error,.lkmcal-tag-blocked){color:#ffd6c9!important}
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm23-toggle button.is-active{
+  background:#327149!important;color:#f2fff2!important;border:1px solid #6abc7d!important
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm23-due-filter.active,.lkmcal-tag-confirmed){
+  background:#276c46!important;color:#f1fff1!important
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.panel,.admin-main,.lkm23-shell,.lkm23q-editor,
+       .lkm24-shell,.lkmcal-container,.lkm-reviews-admin-main) :is(
+       input:not([type=checkbox]):not([type=radio]),select,textarea){
+  background:#10281c!important;color:#f0f9f1!important;border:1px solid #477355!important;
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.panel,.admin-main,.lkm23-shell,
+       .lkm23q-editor,.lkm24-shell,.lkmcal-container,.lkm-reviews-admin-main) :is(input,textarea)::placeholder{
+  color:#a7c5af!important;opacity:1
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.panel,.admin-main,.lkm23-shell,
+       .lkm23q-editor,.lkm24-shell,.lkmcal-container,.lkm-reviews-admin-main) :is(button,.button){
+  border-color:#466d50;
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.button-light,.lkmcal-btn:not(.lkmcal-btn-danger),.lkm24-actions .button){
+  background:#214330!important;color:#e9f8ed!important;border-color:#507b5c!important;
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.button-light,.lkmcal-btn):hover{
+  background:#2b5c3b!important;color:#f7fff7!important;
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) .notice.good{
+  background:#1b422e!important;color:#b0f8c4!important;border-color:#4a9461!important;
+ }
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.status-empty,.admin-item,.lkm23-login,.lkm23-error){
+  color:#e7f4e9!important;background:#1c3428!important;border:1px solid #44644d!important
+ }
+ /* Keep badges/controls distinct from destructive actions. */
+ html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm23-danger,.lkm23q-delete,.lkm23q-remove,.lkm-review-delete){
+  background:#42272a!important;color:#ffc2c5!important;border-color:#98505b!important
+ }
+ /* Preserve legible light PDF/quotation preview, as it is a print artifact. */
+ html.lkm-unified-embedded .lkm23q-print,
+ html.lkm-unified-embedded .lkm23q-print *{
+  background:#fff!important;color:#203026!important;
+ }
+ @media(max-width:800px){
+  html.lkm-unified-embedded .lkm23-sidebar{position:static!important;max-height:none!important}
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .panel{padding:16px!important}
+ }
+}
+
+/* Final audit of bright surfaces in the original 2026-11-11 module stylesheets. */
+@media screen {
+ html.lkm-unified-embedded :is(.lkm24-login,.lkm-reviews-error,.lkm23q-badge,.lkmcal-alert,
+  .lkm23q-add select,.lkm23q-side>input,.lkmcal-tag-paid,.lkmcal-tag-hold,.lkm-link-cover){
+  background:#1d3628!important;color:#eaf6ed!important;border-color:#46664c!important;
+ }
+ html.lkm-unified-embedded :is(.lkm24-login,.lkm-reviews-error,.lkm23q-badge,.lkmcal-alert) :is(h1,h2,h3,p,strong,small,span,label){
+  color:#e8f5ea!important;
+ }
+ html.lkm-unified-embedded .lkm23q-badge.dirty,
+ html.lkm-unified-embedded .lkmcal-tag-hold{
+  background:#49361e!important;color:#ffe2a1!important;border:1px solid #8d713e!important;
+ }
+ html.lkm-unified-embedded .lkmcal-tag-paid{
+  background:#303054!important;color:#e9e4ff!important;border-color:#6564a4!important;
+ }
+ html.lkm-unified-embedded .lkmcal-alert.error{
+  background:#43272a!important;color:#ffb9b9!important;border-color:#92535b!important;
+ }
+ html.lkm-unified-embedded .lkmcal-alert.good{
+  background:#21452d!important;color:#b9fbc8!important;border-color:#558e5e!important;
+ }
+ html.lkm-unified-embedded .lkm-link-cover--symbol :is(span,strong){color:#acdabe!important}
+}
