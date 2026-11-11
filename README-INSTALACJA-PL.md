@@ -1,29 +1,33 @@
-# LilKangooMedia — Phase 30.2 — Portfolio Graphite & Gold Hotfix
+# LilKangooMedia — Phase 30.3 — About Us Matte Graphite & Gold
 
-## Problem / przyczyna
-Moduł `assets/lkm-v3/portfolio-stories.css` posiadał bardziej szczegółowe reguły CSS (selektory `#cmsPublic .lkm-ps-*`) z zielonymi wartościami. Wspólny motyw 30.0 nie nadpisywał ich na stronie `portfolio.html`.
+## Co jest poprawione
+- Cała strona About Us: sekcja hero, Our Approach, Michael i Lilyanna, What We Do, CTA i stopka w jednolitym motywie Matte Graphite & Gold.
+- Białe nagłówki, jasne opisy, złote wyróżnienia i przyciski o właściwym kontraście.
+- Dawny okrąg z napisem „LKM” pokazuje prawdziwe logo LilKangooMedia z `/assets/lkm-v3/brand/logo-profile.png`. Podczas buildu Netlify skrypt dodatkowo podmienia stare znaczniki HTML na obrazek logo.
+- Zachowane oryginalne fotografie, treści, linki, galeria, nawigacja Phase 30, formularze i baner zgód.
+- Oryginalny animowany kangur z Phase 30 pozostaje pod sekcjami. Lekka animacja pojawiania się treści (również podczas przewijania w górę) jest ograniczona do About Us i respektuje preferencję ograniczenia ruchu.
 
-## Instalacja
-1. Zrób kopię bezpieczeństwa aktualnego `assets/lkm-v3/phase30-public.css` i `scripts/phase30_apply_theme.py`.
-2. Wklej dwa pliki z tej paczki do folderu głównego repozytorium LilKangooMedia, zachowując ich ścieżki.
-3. W GitHub Desktop potwierdź, że zmieniane są WYŁĄCZNIE `assets/lkm-v3/phase30-public.css` oraz `scripts/phase30_apply_theme.py`.
-4. Wykonaj Commit / Push origin, a następnie sprawdź, czy Netlify osiąga `Published`.
-5. W przeglądarce otwórz `https://lilkangoomedia.com/portfolio.html` oraz `https://lilkangoomedia.com/portfolio.html#/stories`. Odśwież `Shift + Command + R`.
+## Instrukcja instalacji
+1. Upewnij się, że Phase 30.2 (Portfolio Fix) działa i skrypt `scripts/phase30_apply_theme.py` jest już w repozytorium.
+2. Rozpakuj ZIP do katalogu projektu LilKangooMedia, zachowując strukturę folderów.
+3. Podmień dwa pliki i dodaj jeden nowy:
+   - `assets/lkm-v3/phase30-public.css`
+   - `scripts/phase30_apply_theme.py` (podmień)
+   - `assets/lkm-v3/phase30-about.js` (dodaj)
+4. Zrób Commit + Push origin w GitHub Desktop.
+5. Sprawdź w Netlify, czy deploy ma status **Published**.
+6. Otwórz `https://lilkangoomedia.com/AboutUs.html`, wykonaj Shift + Command + R i sprawdź na desktop i telefonie.
 
-## Co poprawiono
-- `Stories behind the work`: nagłówek biały, opis jasny, link `View all stories` złoty.
-- Przełącznik `Visual galleries` / `Stories behind the work`: grafit i złoto.
-- Karty projektów, etykiety, statusy, komunikaty, odnośnik z galerii do story.
-- Pojedyncze story `#/story/...`: hero, narracja, deliverables, galerie zdjęć, filmy, linki i kolor komunikatów.
-- Odświeżenie query string motywu `v=30-2` także na stronach generowanych przez Netlify; odporność na wcześniejsze tagi.
+Nie podmieniaj `site.css`, `phase30-public.js`, `AboutUs.html`, `About Us.html`, `index.html` ani `netlify.toml`. Zmiany w HTML wykonuje obecny skrypt buildu i dotyczy to wyłącznie okręgu logo.
 
-## Czego nie zmieniono
-Bez zmian w `portfolio.html`, `portfolio-stories.mjs`, `portfolio-stories.css`, adresach URL, panelu admina, Supabase, cenach i bazie danych. Nie ma migracji SQL.
+## Sprawdzenie po deploy
+- Hero i prawdziwe logo zamiast tekstu LKM.
+- Zespół i 4 karty usług bez zielonych/jasnych tłowych bloków.
+- Menu mobilne rozwija się prawidłowo.
+- CTA prowadzi do istniejących adresów, a formularz i polityka cookies działają.
+- Kangur pozostaje w tle na całej stronie i przy przewijaniu.
 
-## Co przetestować po deploy
-- Portfolio: Visual galleries i Stories, na desktop i telefonie.
-- `View all stories` nadal otwiera `#/stories`.
-- Karta projektu nadal otwiera `#/story/<slug>` i czytelną zawartość.
-- Formularze, admin i inne strony pozostają bez zmian.
+SQL: niepotrzebny. Nie zmieniano Supabase, cen, linków, klientów ani panelu admina.
 
-Weryfikacja lokalna używa odtworzonych reprezentatywnych komponentów; nie zastępuje sprawdzenia autentycznych danych w środowisku produkcyjnym.
+## Cofnięcie
+Przywróć dwie kopie poprzednich plików Phase 30.2 i usuń `phase30-about.js`, wykonaj Commit/Push i redeploy.

@@ -10,7 +10,7 @@ import argparse
 import re
 from pathlib import Path
 
-STYLE='/assets/lkm-v3/phase30-public.css?v=30-2'
+STYLE='/assets/lkm-v3/phase30-public.css?v=30-3'
 SCRIPT='/assets/lkm-v3/phase30-public.js?v=30-0'
 CSS_TAG=f'<link rel="stylesheet" href="{STYLE}" data-lkm30="theme">'
 JS_TAG=f'<script defer src="{SCRIPT}" data-lkm30="navigation"></script>'
@@ -49,6 +49,19 @@ def patch(source:str)->str:
     if 'data-lkm30="navigation"' not in changed:
         changed=re.sub(r'</head\s*>',JS_TAG+'\n</head>',changed,count=1,flags=re.I)
     changed=re.sub(r'<body\b[^>]*>',add_class,changed,count=1,flags=re.I)
+    # About Us only: replace legacy LKM initials with the real official logo.
+    # Source text remains intact until a successful Netlify build; idempotent.
+    if 'lkm-about-standalone' in changed:
+        changed=re.sub(
+            r'<div class="lkm-about-hero-stamp" aria-hidden="true">\s*<span>LKM</span>\s*<small>CYPRUS<br>CREATIVE<br>STUDIO</small>\s*</div>',
+            '<div class="lkm-about-hero-stamp" aria-hidden="true"><img src="/assets/lkm-v3/brand/logo-profile.png" alt="" width="117" height="117" loading="lazy"></div>',
+            changed,count=1
+        )
+    # The real About page is already marked with lkm-about-standalone.
+    if 'lkm-about-standalone' in changed:
+        motion='<script defer src="/assets/lkm-v3/phase30-about.js?v=30-3" data-lkm30-about="motion"></script>'
+        if 'data-lkm30-about="motion"' not in changed:
+            changed=re.sub(r'</head\s*>',motion+'\n</head>',changed,count=1,flags=re.I)
     # Match graphite browser bar without changing canonical or SEO metadata.
     changed=re.sub(r'(<meta\s+name=["\']theme-color["\']\s+content=["\'])[#a-zA-Z0-9]+(["\'])',r'\g<1>#22201d\2',changed,count=1,flags=re.I)
     return changed
