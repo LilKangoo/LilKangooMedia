@@ -1,4 +1,4 @@
-/* LilKangooMedia Phase 28 — compact gradient catalogue.
+/* LilKangooMedia Phase 28.1 — compact black gradient catalogue.
  * Presentation-only enhancement on #/services. Original Supabase services,
  * category/search, route handlers, quote and enquiry flows stay authoritative.
  */
@@ -8,7 +8,7 @@
  window.__lkm28CatalogLoaded=true;
  const root=document.getElementById('main');
  if(!root)return;
- const path='/assets/lkm-v3/phase28-catalog.css?v=28-0';
+ const path='/assets/lkm-v3/phase28-catalog.css?v=28-1';
  if(!document.querySelector('link[data-lkm28-style]')){
   const css=document.createElement('link');css.rel='stylesheet';css.href=path;css.dataset.lkm28Style='1';document.head.append(css);
  }

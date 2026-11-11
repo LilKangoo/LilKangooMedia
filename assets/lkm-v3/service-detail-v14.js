@@ -221,7 +221,7 @@ schedule();
  'use strict';
  if(document.querySelector('script[data-lkm28-catalog]'))return;
  const script=document.createElement('script');
- script.src='/assets/lkm-v3/phase28-catalog.js?v=28-0';
+ script.src='/assets/lkm-v3/phase28-catalog.js?v=28-1';
  script.dataset.lkm28Catalog='1';
  document.head.append(script);
 })();
