@@ -214,3 +214,14 @@ ensureStyles();
 (async()=>{try{catalogue=await window.LKMStore?.publicServices?.()||[];catalogueLoaded=true;}catch(_){catalogue=[];catalogueLoaded=true;}schedule()})();
 schedule();
 })();
+
+/* Phase 28 — load compact photo/gradient service catalogue, without modifying site.js.
+ * This loader is intentionally separated from the Phase 27 individual-service layout. */
+(()=>{
+ 'use strict';
+ if(document.querySelector('script[data-lkm28-catalog]'))return;
+ const script=document.createElement('script');
+ script.src='/assets/lkm-v3/phase28-catalog.js?v=28-0';
+ script.dataset.lkm28Catalog='1';
+ document.head.append(script);
+})();
