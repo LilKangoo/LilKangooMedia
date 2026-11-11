@@ -146,6 +146,55 @@
    reduce.addEventListener?.('change',schedule);
    schedule();
  }
+
+ /* Phase 30.4 — The main application renders About via /#/about, not AboutUs.html.
+    Watch its existing #main root and upgrade the logo on every route render.
+    No change to routing, pricing, forms, navigation destinations or admin. */
+ function watchSpaAbout(){
+   const root=document.getElementById('main');
+   if(!root||!document.getElementById('siteHeader'))return;
+   const reduce=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+   let queued=false,paintQueued=false;
+   function paint(){
+     paintQueued=false;
+     const mark=root.querySelector(':scope > .lkm30-about-spa-mark');
+     if(!mark)return;
+     if(reduce?.matches){mark.style.transform='none';return;}
+     const scrollMax=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+     const progress=Math.max(0,Math.min(1,scrollY/scrollMax));
+     const room=Math.max(0,root.scrollHeight-mark.offsetWidth-190);
+     mark.style.transform='translate3d(0,'+Math.round(room*progress)+'px,0) rotate('+Math.round((progress-.5)*13)+'deg)';
+   }
+   function paintLater(){if(paintQueued)return;paintQueued=true;requestAnimationFrame(paint)}
+   function sync(){
+     queued=false;
+     const stamp=root.querySelector('.lkm-about-hero .lkm-about-hero-stamp');
+     const about=Boolean(stamp);
+     body.classList.toggle('lkm30-about-active',about);
+     if(!about)return;
+     if(!stamp.querySelector('img')){
+       const img=document.createElement('img');
+       img.src='/assets/lkm-v3/brand/logo-profile.png';
+       img.alt='';img.width=117;img.height=117;img.decoding='async';
+       stamp.replaceChildren(img);
+     }
+     if(!root.querySelector(':scope > .lkm30-about-spa-mark')){
+       const mark=document.createElement('div');mark.className='lkm30-about-spa-mark';mark.setAttribute('aria-hidden','true');
+       const pic=document.createElement('img');pic.src='/assets/lkm-v3/brand/logo-orange.png';pic.alt='';pic.loading='lazy';
+       mark.append(pic);root.prepend(mark);
+     }
+     paintLater();
+   }
+   function schedule(){if(queued)return;queued=true;requestAnimationFrame(sync)}
+   const observer=new MutationObserver(schedule);
+   observer.observe(root,{childList:true});
+   window.addEventListener('scroll',paintLater,{passive:true});
+   window.addEventListener('resize',paintLater,{passive:true});
+   reduce?.addEventListener?.('change',paintLater);
+   sync();
+ }
+
  normalizeHeader();
  watermark();
+ watchSpaAbout();
 })();

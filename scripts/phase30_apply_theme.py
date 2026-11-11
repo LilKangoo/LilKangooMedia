@@ -10,8 +10,8 @@ import argparse
 import re
 from pathlib import Path
 
-STYLE='/assets/lkm-v3/phase30-public.css?v=30-3'
-SCRIPT='/assets/lkm-v3/phase30-public.js?v=30-0'
+STYLE='/assets/lkm-v3/phase30-public.css?v=30-4'
+SCRIPT='/assets/lkm-v3/phase30-public.js?v=30-4'
 CSS_TAG=f'<link rel="stylesheet" href="{STYLE}" data-lkm30="theme">'
 JS_TAG=f'<script defer src="{SCRIPT}" data-lkm30="navigation"></script>'
 EXCLUDE_NAMES={'cms.html','client.html','proposal.html','shop.html','admin-legacy.html','admin.html','admin-crm.html','admin-quotes.html','admin-calendar.html','admin-reviews.html','admin-reports.html','admin-case-studies.html'}
@@ -44,6 +44,9 @@ def patch(source:str)->str:
     if 'data-lkm30="theme"' in changed:
         # Update a checked-in older version of the theme instead of caching v=30-0.
         changed=re.sub(r'/assets/lkm-v3/phase30-public\.css(?:\?v=[\w.-]+)?',STYLE,changed,count=1)
+    # Refresh JS cache too: old builds may still serve the 30.0 runtime.
+    if 'data-lkm30="navigation"' in changed:
+        changed=re.sub(r'/assets/lkm-v3/phase30-public\.js(?:\?v=[\w.-]+)?',SCRIPT,changed,count=1)
     if 'data-lkm30="theme"' not in changed:
         changed=re.sub(r'</head\s*>',CSS_TAG+'\n</head>',changed,count=1,flags=re.I)
     if 'data-lkm30="navigation"' not in changed:

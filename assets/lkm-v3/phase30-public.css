@@ -211,14 +211,14 @@ body.lkm30-public #main .lkm28-catalog #catalogGrid :is(.service-body>p,.lkm28-b
 body.lkm30-public #main .lkm28-catalog #catalogGrid .service-badge{color:#36302a}
 body.lkm30-public #main .lkm28-catalog #catalogGrid .lkm28-arrow{background:#f5ac42;color:#292017}
 /* About Us standalone: originally green/cream editorial blocks. */
-body.lkm30-public.lkm-about-standalone .lkm-about-hero{background:linear-gradient(135deg,#2e2923,#191919 75%);color:#fff}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-story,.lkm-about-team-section,.lkm-about-disciplines){background:transparent;color:#f7f2e9}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-story h2,.lkm-about-team-heading h2,.lkm-about-disciplines-head h2,.lkm-about-story h3,.lkm-about-person-body h3,.lkm-about-discipline h3){color:#fff}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-story-copy p,.lkm-about-value p,.lkm-about-team-heading>p,.lkm-about-disciplines-head>p,.lkm-about-person-body>p,.lkm-about-discipline p,.lkm-about-small-note,.lkm-about-person-role){color:#e5dbce}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-person,.lkm-about-discipline){background:#322e29;border-color:#80705b;color:#fff}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-inline-link,.lkm-about-person-link,.lkm-about-discipline>b){color:#ffc784}
-body.lkm30-public.lkm-about-standalone .lkm-about-cta{background:linear-gradient(145deg,#393125,#1d1b19);border:1px solid #8c7352}
-body.lkm30-public.lkm-about-standalone .lkm-about-cta p:not(.lkm-about-kicker){color:#e9ded0}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero{background:linear-gradient(135deg,#2e2923,#191919 75%);color:#fff}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-story,.lkm-about-team-section,.lkm-about-disciplines){background:transparent;color:#f7f2e9}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-story h2,.lkm-about-team-heading h2,.lkm-about-disciplines-head h2,.lkm-about-story h3,.lkm-about-person-body h3,.lkm-about-discipline h3){color:#fff}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-story-copy p,.lkm-about-value p,.lkm-about-team-heading>p,.lkm-about-disciplines-head>p,.lkm-about-person-body>p,.lkm-about-discipline p,.lkm-about-small-note,.lkm-about-person-role){color:#e5dbce}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-person,.lkm-about-discipline){background:#322e29;border-color:#80705b;color:#fff}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-inline-link,.lkm-about-person-link,.lkm-about-discipline>b){color:#ffc784}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-cta{background:linear-gradient(145deg,#393125,#1d1b19);border:1px solid #8c7352}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-cta p:not(.lkm-about-kicker){color:#e9ded0}
 /* SPA non-Home and standalone About footer use graphite, no green background. */
 body.lkm30-public:not(.lkm29-home) .footer{background:#171716;color:#fff}
 body.lkm30-public:not(.lkm29-home) .footer :is(.footer-brand p,.footer-columns a,.footer-bottom){color:#e2d8ca}
@@ -409,7 +409,7 @@ body.lkm30-public[data-cms-page="portfolio"] :is(#cmsPublic,.lkm-ps-reader) :is(
    The accepted Home design is the source of truth. Scoped only to the
    standalone About Us page. Preserve real content, links, consent and photos.
    =========================================================================== */
-body.lkm30-public.lkm-about-standalone {
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) {
   --lkm-about-gold: #f5ac42;
   --lkm-about-gold-light: #ffd08c;
   --lkm-about-text: #faf7f2;
@@ -417,21 +417,21 @@ body.lkm30-public.lkm-about-standalone {
   --lkm-about-border: #85735c;
   color:var(--lkm-about-text);
 }
-body.lkm30-public.lkm-about-standalone #main{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) #main{
   position:relative;
   background:transparent;
   color:var(--lkm-about-text);
 }
 /* Keep the entire About Us page on one continuous graphite-gold canvas. */
-body.lkm30-public.lkm-about-standalone :is(
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(
   .lkm-about-hero,.lkm-about-story,.lkm-about-team-section,
   .lkm-about-disciplines,.lkm-about-cta-wrap
 ){background:transparent;color:var(--lkm-about-text)}
-body.lkm30-public.lkm-about-standalone .lkm-about-hero{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero{
   position:relative;isolation:isolate;
   border-bottom:1px solid #806e563b;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-hero::before{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero::before{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   height:auto;border:0;border-radius:0;
   background:
@@ -439,31 +439,31 @@ body.lkm30-public.lkm-about-standalone .lkm-about-hero::before{
    radial-gradient(ellipse 35% 46% at 14% 80%,rgba(255,193,105,.09),transparent 80%);
   box-shadow:none;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-hero-grid{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-grid{
   min-height:0;align-items:center;gap:clamp(25px,4vw,63px);
   padding-top:clamp(48px,5.5vw,78px);
   padding-bottom:clamp(47px,5vw,76px);
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-intro h1{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-intro h1{
   color:#fff;font-size:clamp(38px,5.1vw,68px);line-height:1.08;
   letter-spacing:-.057em;margin:22px 0;
 }
-body.lkm30-public.lkm-about-standalone :is(
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(
   .lkm-about-intro h1 em,.lkm-about-story h2 em,
   .lkm-about-team-heading h2 em,.lkm-about-disciplines-head h2 em
 ){color:var(--lkm-about-gold);font-style:normal}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-eyebrow,.lkm-about-kicker){color:var(--lkm-about-gold-light)}
-body.lkm30-public.lkm-about-standalone .lkm-about-eyebrow-line{background:var(--lkm-about-gold)}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-intro-copy,.lkm-about-loc){color:var(--lkm-about-muted)}
-body.lkm30-public.lkm-about-standalone .lkm-about-loc-dot{background:var(--lkm-about-gold)}
-body.lkm30-public.lkm-about-standalone .lkm-about-hero-art:after{border-color:#f2bd755c}
-body.lkm30-public.lkm-about-standalone .lkm-about-hero-photo{background:#332c25;border:1px solid #85745e77}
-body.lkm30-public.lkm-about-standalone .lkm-about-hero-photo figcaption{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-eyebrow,.lkm-about-kicker){color:var(--lkm-about-gold-light)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-eyebrow-line{background:var(--lkm-about-gold)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-intro-copy,.lkm-about-loc){color:var(--lkm-about-muted)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-loc-dot{background:var(--lkm-about-gold)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-art:after{border-color:#f2bd755c}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-photo{background:#332c25;border:1px solid #85745e77}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-photo figcaption{
   color:#fff;background:linear-gradient(0deg,rgba(17,16,14,.95),transparent);
 }
 /* Phase 30.3 replaces the previous LKM text circle with THE REAL BRAND LOGO.
    CSS fallback works even before the Netlify build-time markup replacement. */
-body.lkm30-public.lkm-about-standalone .lkm-about-hero-stamp{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-stamp{
   display:grid;place-items:center;
   width:clamp(76px,8.5vw,117px);height:clamp(76px,8.5vw,117px);
   border:3px solid rgba(255,202,125,.85);
@@ -472,165 +472,204 @@ body.lkm30-public.lkm-about-standalone .lkm-about-hero-stamp{
   color:transparent;box-shadow:0 12px 37px #0008,0 0 0 7px #f7b75a26;
   overflow:hidden;isolation:isolate;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-hero-stamp :is(span,small){display:none}
-body.lkm30-public.lkm-about-standalone .lkm-about-hero-stamp img{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-stamp :is(span,small){display:none}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-stamp img{
   width:100%;height:100%;object-fit:cover;display:block;
 }
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-hero-actions .button-orange,.lkm-about-cta .button-orange){
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-hero-actions .button-orange,.lkm-about-cta .button-orange){
   background:var(--lkm-about-gold);border:1px solid var(--lkm-about-gold);
   color:#241a10;border-radius:9px;font-weight:850;box-shadow:0 8px 27px #0003;
 }
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-hero-actions .button-orange,.lkm-about-cta .button-orange):hover{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-hero-actions .button-orange,.lkm-about-cta .button-orange):hover{
   background:var(--lkm-about-gold-light);border-color:var(--lkm-about-gold-light);color:#251b12;
 }
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-hero-textlink,.lkm-about-inline-link,.lkm-about-person-link,.lkm-about-cta-mail){
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-hero-textlink,.lkm-about-inline-link,.lkm-about-person-link,.lkm-about-cta-mail){
   color:var(--lkm-about-gold-light);text-decoration-color:var(--lkm-about-gold);
 }
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-hero-textlink,.lkm-about-inline-link,.lkm-about-person-link,.lkm-about-cta-mail):hover{color:#ffe2ad}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-hero-textlink,.lkm-about-inline-link,.lkm-about-person-link,.lkm-about-cta-mail):hover{color:#ffe2ad}
 /* Editorial approach: make each step a premium card instead of a green rule. */
-body.lkm30-public.lkm-about-standalone .lkm-about-story{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-story{
   padding-top:clamp(49px,5vw,78px);padding-bottom:clamp(49px,5vw,78px);
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-story h2,
-body.lkm30-public.lkm-about-standalone .lkm-about-team-heading h2,
-body.lkm30-public.lkm-about-standalone .lkm-about-disciplines-head h2{color:#fff}
-body.lkm30-public.lkm-about-standalone :is(
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-story h2,
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-team-heading h2,
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-disciplines-head h2{color:#fff}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(
   .lkm-about-small-note,.lkm-about-story-copy p,.lkm-about-value p,
   .lkm-about-team-heading>p,.lkm-about-disciplines-head>p,
   .lkm-about-person-body>p,.lkm-about-discipline p
 ){color:var(--lkm-about-muted)}
-body.lkm30-public.lkm-about-standalone .lkm-about-values{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-values{
   margin-top:clamp(27px,3vw,43px);gap:14px;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-value{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-value{
   padding:22px 21px 24px;
   border:1px solid var(--lkm-about-border);border-top:2px solid var(--lkm-about-gold);
   background:linear-gradient(150deg,rgba(57,52,45,.96),rgba(39,37,33,.94));
   border-radius:14px;min-width:0;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-value-num{color:var(--lkm-about-gold-light)}
-body.lkm30-public.lkm-about-standalone .lkm-about-value h3{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-value-num{color:var(--lkm-about-gold-light)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-value h3{
   color:#fff;margin:15px 0 9px;font-size:20px;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-value p{margin:0;line-height:1.7}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-value p{margin:0;line-height:1.7}
 /* Team: dark photograph-led cards over the same continuous background. */
-body.lkm30-public.lkm-about-standalone .lkm-about-team-section{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-team-section{
   padding:clamp(45px,5vw,80px) 0;
   border-block:1px solid #a78a5c32;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-team-heading{margin-bottom:clamp(23px,3vw,38px)}
-body.lkm30-public.lkm-about-standalone .lkm-about-person{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-team-heading{margin-bottom:clamp(23px,3vw,38px)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person{
   background:linear-gradient(135deg,rgba(56,51,44,.96),rgba(40,38,35,.96));
   color:#fff;border:1px solid var(--lkm-about-border);
   border-radius:17px;box-shadow:0 17px 38px #0002;
   min-height:390px;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-person-image{background:#39342c;min-height:390px}
-body.lkm30-public.lkm-about-standalone .lkm-about-person-index{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-image{background:#39342c;min-height:390px}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-index{
   background:rgba(30,27,23,.93);color:var(--lkm-about-gold-light);
   border:1px solid #be9865a6;border-radius:7px;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-person-body{padding:clamp(23px,4vw,49px);min-width:0}
-body.lkm30-public.lkm-about-standalone :is(.lkm-about-person-body h3,.lkm-about-person-role){color:#fff}
-body.lkm30-public.lkm-about-standalone .lkm-about-person-label{color:var(--lkm-about-gold-light)}
-body.lkm30-public.lkm-about-standalone .lkm-about-person-role{opacity:.95}
-body.lkm30-public.lkm-about-standalone .lkm-about-person-body>p:not(.lkm-about-person-role):not(.lkm-about-person-label){
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-body{padding:clamp(23px,4vw,49px);min-width:0}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) :is(.lkm-about-person-body h3,.lkm-about-person-role){color:#fff}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-label{color:var(--lkm-about-gold-light)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-role{opacity:.95}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-body>p:not(.lkm-about-person-role):not(.lkm-about-person-label){
   color:var(--lkm-about-muted);line-height:1.75;
 }
 /* Creative disciplines: no green/mint surfaces, full readable cards. */
-body.lkm30-public.lkm-about-standalone .lkm-about-disciplines{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-disciplines{
   padding-top:clamp(47px,5vw,78px);padding-bottom:clamp(47px,5vw,78px);
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-disciplines-head{margin-bottom:clamp(23px,3vw,35px)}
-body.lkm30-public.lkm-about-standalone .lkm-about-discipline{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-disciplines-head{margin-bottom:clamp(23px,3vw,35px)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline{
   background:linear-gradient(145deg,#36312b,#262522);color:#f8f5ef;
   border:1px solid var(--lkm-about-border);border-radius:13px;
   min-height:245px;padding:22px 20px 54px;box-shadow:0 10px 24px #0001;
   transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-discipline:hover{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline:hover{
   transform:translateY(-4px);border-color:var(--lkm-about-gold);
   box-shadow:0 16px 30px #0004;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-discipline>span,
-body.lkm30-public.lkm-about-standalone .lkm-about-discipline>b{color:var(--lkm-about-gold-light)}
-body.lkm30-public.lkm-about-standalone .lkm-about-discipline h3{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline>span,
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline>b{color:var(--lkm-about-gold-light)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline h3{
   color:#fff;margin:25px 0 10px;font-size:clamp(18px,2vw,22px)
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-discipline p{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline p{
   color:var(--lkm-about-muted);line-height:1.65;
 }
 /* Final call-to-action and footer: same graphite/gold language as Home. */
-body.lkm30-public.lkm-about-standalone .lkm-about-cta-wrap{margin-bottom:clamp(35px,4vw,64px)}
-body.lkm30-public.lkm-about-standalone .lkm-about-cta{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-cta-wrap{margin-bottom:clamp(35px,4vw,64px)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-cta{
   padding:clamp(30px,4vw,55px);
   background:linear-gradient(115deg,rgba(64,53,38,.97),rgba(36,34,30,.96));
   border:1px solid #ac8c5e;border-radius:17px;color:#fff;
   box-shadow:0 16px 38px #0002;
 }
-body.lkm30-public.lkm-about-standalone .lkm-about-cta h2{color:#fff}
-body.lkm30-public.lkm-about-standalone .lkm-about-cta p:not(.lkm-about-kicker){color:var(--lkm-about-muted)}
-body.lkm30-public.lkm-about-standalone .footer{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-cta h2{color:#fff}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-cta p:not(.lkm-about-kicker){color:var(--lkm-about-muted)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .footer{
   background:#181817;color:#faf7f1;border-top:1px solid #71604c;
 }
-body.lkm30-public.lkm-about-standalone .footer .footer-inner{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .footer .footer-inner{
   padding-top:clamp(31px,4vw,53px);padding-bottom:clamp(31px,4vw,53px);
   border-bottom-color:#88715963;
 }
-body.lkm30-public.lkm-about-standalone .footer :is(h2,h3){color:#fff}
-body.lkm30-public.lkm-about-standalone .footer :is(p,.footer-columns a,.footer-bottom){color:var(--lkm-about-muted)}
-body.lkm30-public.lkm-about-standalone .footer :is(.footer-brand a,.footer-columns a:hover,.footer-bottom a){color:var(--lkm-about-gold-light)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .footer :is(h2,h3){color:#fff}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .footer :is(p,.footer-columns a,.footer-bottom){color:var(--lkm-about-muted)}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .footer :is(.footer-brand a,.footer-columns a:hover,.footer-bottom a){color:var(--lkm-about-gold-light)}
 /* Mobile menu is supplied by the existing global Phase 30 JS; avoid inline
    AboutUs.html navigation CSS overriding the shared 30.2 navigation. */
-body.lkm30-public.lkm-about-standalone .site-header{
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .site-header{
   position:sticky;top:0;z-index:99;background:rgba(255,255,255,.98);
 }
-body.lkm30-public.lkm-about-standalone .lkm30-header-content{min-height:64px;align-items:center}
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm30-header-content{min-height:64px;align-items:center}
 @media(max-width:900px){
-  body.lkm30-public.lkm-about-standalone .lkm-about-person{min-height:0}
-  body.lkm30-public.lkm-about-standalone .lkm-about-person-image{min-height:330px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person{min-height:0}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-image{min-height:330px}
 }
 @media(max-width:760px){
-  body.lkm30-public.lkm-about-standalone .lkm-about-hero-grid{
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-grid{
     padding-top:34px;padding-bottom:39px;gap:22px;
   }
-  body.lkm30-public.lkm-about-standalone .lkm-about-hero-stamp{
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-stamp{
     width:clamp(74px,16vw,96px);height:clamp(74px,16vw,96px);
   }
-  body.lkm30-public.lkm-about-standalone .lkm-about-story,
-  body.lkm30-public.lkm-about-standalone .lkm-about-disciplines{padding-block:49px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-team-section{padding-block:49px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-values{gap:10px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-person-body{padding:24px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-story,
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-disciplines{padding-block:49px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-team-section{padding-block:49px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-values{gap:10px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-body{padding:24px}
 }
 @media(max-width:480px){
-  body.lkm30-public.lkm-about-standalone .lkm-about-intro h1{font-size:clamp(36px,10vw,44px)}
-  body.lkm30-public.lkm-about-standalone .lkm-about-hero-art{min-height:300px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-hero-stamp{border-width:2px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-value{padding:18px 16px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-discipline{min-height:180px;padding:19px 17px 45px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-discipline h3{margin-top:16px}
-  body.lkm30-public.lkm-about-standalone .lkm-about-cta{padding:26px 21px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-intro h1{font-size:clamp(36px,10vw,44px)}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-art{min-height:300px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-stamp{border-width:2px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-value{padding:18px 16px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline{min-height:180px;padding:19px 17px 45px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline h3{margin-top:16px}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-cta{padding:26px 21px}
 }
 @media(prefers-reduced-motion:reduce){
-  body.lkm30-public.lkm-about-standalone .lkm-about-discipline,
-  body.lkm30-public.lkm-about-standalone .lkm-about-hero-photo img,
-  body.lkm30-public.lkm-about-standalone .lkm-about-person-image img {transition:none}
-  body.lkm30-public.lkm-about-standalone .lkm-about-discipline:hover {transform:none}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline,
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-hero-photo img,
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-person-image img {transition:none}
+  body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active) .lkm-about-discipline:hover {transform:none}
 }
 
 /* Quick, reversible scroll entrances. No hidden content unless JS opts in. */
-body.lkm30-public.lkm-about-standalone.lkm30-about-motion-ready :is(
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active).lkm30-about-motion-ready :is(
  .lkm-about-story .reveal,.lkm-about-team-section .reveal,
  .lkm-about-disciplines .reveal,.lkm-about-cta .reveal
 ){
  opacity:0;transform:translate3d(0,17px,0);
  transition:opacity .38s ease,transform .38s cubic-bezier(.2,.7,.2,1);
 }
-body.lkm30-public.lkm-about-standalone.lkm30-about-motion-ready :is(
+body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active).lkm30-about-motion-ready :is(
  .lkm-about-story .reveal,.lkm-about-team-section .reveal,
  .lkm-about-disciplines .reveal,.lkm-about-cta .reveal
 ).lkm30-about-visible{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
- body.lkm30-public.lkm-about-standalone.lkm30-about-motion-ready .reveal{opacity:1;transform:none;transition:none}
+ body.lkm30-public:is(.lkm-about-standalone,.lkm30-about-active).lkm30-about-motion-ready .reveal{opacity:1;transform:none;transition:none}
 }
+
+/* PHASE 30.4: Same About Us visual system on /#/about (SPA) and /AboutUs.html. */
+html body.lkm30-public.lkm30-about-active {
+ --lkm-about-gold:#f5ac42;--lkm-about-gold-light:#ffd08c;--lkm-about-muted:#e5ddd2;
+ color:#faf7f2;
+ background:
+  radial-gradient(ellipse 42% 24% at 8% 12%,rgba(241,165,66,.105),transparent 88%),
+  radial-gradient(ellipse 38% 25% at 93% 48%,rgba(224,141,46,.08),transparent 85%),
+  radial-gradient(ellipse 34% 25% at 14% 82%,rgba(248,186,97,.07),transparent 90%),
+  linear-gradient(150deg,#1c1c1b,#23211e 40%,#171717 72%,#24211d);
+}
+html body.lkm30-public.lkm30-about-active #main {
+ position:relative;background:transparent;color:#faf7f2;
+}
+html body.lkm30-public.lkm30-about-active #main :is(.lkm-about-hero,.lkm-about-team-section,.lkm-about-story,.lkm-about-disciplines,.lkm-about-cta-wrap){
+ background:transparent;color:#faf7f2;
+}
+html body.lkm30-public.lkm30-about-active .lkm-about-hero-stamp {background:#f5a623 url('/assets/lkm-v3/brand/logo-profile.png') center/cover no-repeat}
+html body.lkm30-public.lkm30-about-active .lkm-about-hero-stamp :is(span,small){display:none}
+html body.lkm30-public.lkm30-about-active .lkm-about-hero-stamp img{width:100%;height:100%;display:block;object-fit:cover}
+/* Guarantee correct nested text contrast in the SPA route. */
+html body.lkm30-public.lkm30-about-active #main :is(.lkm-about-team-heading h2,.lkm-about-story h2,.lkm-about-person-body h3,.lkm-about-disciplines-head h2,.lkm-about-discipline h3,.lkm-about-cta h2){color:#fff}
+html body.lkm30-public.lkm30-about-active #main :is(.lkm-about-person-body>p,.lkm-about-story-copy p,.lkm-about-team-heading>p,.lkm-about-discipline p,.lkm-about-value p,.lkm-about-disciplines-head>p){color:#e5ddd2}
+html body.lkm30-public.lkm30-about-active #main :is(.lkm-about-value,.lkm-about-person,.lkm-about-discipline){background:linear-gradient(145deg,#38332c,#292724);border-color:#86745b;color:#faf7f2}
+html body.lkm30-public.lkm30-about-active #main .lkm-about-cta{background:linear-gradient(112deg,#453827,#282622);border-color:#a58a60}
+html body.lkm30-public.lkm30-about-active #main :is(.lkm-about-person-label,.lkm-about-kicker,.lkm-about-discipline>span){color:#ffd08c}
+html body.lkm30-public.lkm30-about-active .footer{background:#181817;border-color:#79654e}
+@media(prefers-reduced-motion:reduce){html body.lkm30-public.lkm30-about-active .reveal{transition:none}}
+
+/* Kangaroo follows the SPA About Us scroll beneath the editorial cards. */
+html body.lkm30-public.lkm30-about-active #main{isolation:isolate}
+html body.lkm30-public.lkm30-about-active #main > .lkm30-about-spa-mark{
+ position:absolute;z-index:0;top:90px;left:59%;width:clamp(190px,30vw,440px);aspect-ratio:1;
+ opacity:.075;pointer-events:none;will-change:transform;transform:translate3d(0,0,0);
+}
+html body.lkm30-public.lkm30-about-active #main > .lkm30-about-spa-mark img{display:block;width:100%;height:100%;object-fit:contain}
+html body.lkm30-public.lkm30-about-active #main > section{position:relative;z-index:1}
+@media(max-width:700px){html body.lkm30-public.lkm30-about-active #main > .lkm30-about-spa-mark{left:41%;width:clamp(175px,55vw,290px);opacity:.055}}
+@media(prefers-reduced-motion:reduce){html body.lkm30-public.lkm30-about-active #main > .lkm30-about-spa-mark{will-change:auto;transform:none}}

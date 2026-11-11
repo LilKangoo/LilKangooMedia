@@ -1,33 +1,54 @@
-# LilKangooMedia — Phase 30.3 — About Us Matte Graphite & Gold
+# LilKangooMedia — Phase 30.4: About Us, naprawa SPA + Graphite & Gold
 
-## Co jest poprawione
-- Cała strona About Us: sekcja hero, Our Approach, Michael i Lilyanna, What We Do, CTA i stopka w jednolitym motywie Matte Graphite & Gold.
-- Białe nagłówki, jasne opisy, złote wyróżnienia i przyciski o właściwym kontraście.
-- Dawny okrąg z napisem „LKM” pokazuje prawdziwe logo LilKangooMedia z `/assets/lkm-v3/brand/logo-profile.png`. Podczas buildu Netlify skrypt dodatkowo podmienia stare znaczniki HTML na obrazek logo.
-- Zachowane oryginalne fotografie, treści, linki, galeria, nawigacja Phase 30, formularze i baner zgód.
-- Oryginalny animowany kangur z Phase 30 pozostaje pod sekcjami. Lekka animacja pojawiania się treści (również podczas przewijania w górę) jest ograniczona do About Us i respektuje preferencję ograniczenia ruchu.
+## Dlaczego poprzednia poprawka nie zadziałała?
 
-## Instrukcja instalacji
-1. Upewnij się, że Phase 30.2 (Portfolio Fix) działa i skrypt `scripts/phase30_apply_theme.py` jest już w repozytorium.
-2. Rozpakuj ZIP do katalogu projektu LilKangooMedia, zachowując strukturę folderów.
-3. Podmień dwa pliki i dodaj jeden nowy:
-   - `assets/lkm-v3/phase30-public.css`
-   - `scripts/phase30_apply_theme.py` (podmień)
-   - `assets/lkm-v3/phase30-about.js` (dodaj)
-4. Zrób Commit + Push origin w GitHub Desktop.
-5. Sprawdź w Netlify, czy deploy ma status **Published**.
-6. Otwórz `https://lilkangoomedia.com/AboutUs.html`, wykonaj Shift + Command + R i sprawdź na desktop i telefonie.
+Istnieją dwie wersje About Us: statyczna `/AboutUs.html` oraz widok aplikacji `/#/about` generowany w `assets/lkm-v3/site.js`. Poprzednia poprawka 30.3 stylowała głównie `body.lkm-about-standalone`, którego widok `/#/about` nie ma. Dlatego na zrzutach nadal pozostały jasne/miętowe karty, słabo widoczne nagłówki oraz napis „LKM”.
 
-Nie podmieniaj `site.css`, `phase30-public.js`, `AboutUs.html`, `About Us.html`, `index.html` ani `netlify.toml`. Zmiany w HTML wykonuje obecny skrypt buildu i dotyczy to wyłącznie okręgu logo.
+Phase 30.4 obsługuje oba widoki. Nie edytujemy `site.js`, danych biznesowych ani nawigacji.
 
-## Sprawdzenie po deploy
-- Hero i prawdziwe logo zamiast tekstu LKM.
-- Zespół i 4 karty usług bez zielonych/jasnych tłowych bloków.
-- Menu mobilne rozwija się prawidłowo.
-- CTA prowadzi do istniejących adresów, a formularz i polityka cookies działają.
-- Kangur pozostaje w tle na całej stronie i przy przewijaniu.
+## Instalacja — dokładne lokalizacje
 
-SQL: niepotrzebny. Nie zmieniano Supabase, cen, linków, klientów ani panelu admina.
+Rozpakuj ZIP i skopiuj **TRZY PLIKI** do repozytorium LilKangooMedia:
 
-## Cofnięcie
-Przywróć dwie kopie poprzednich plików Phase 30.2 i usuń `phase30-about.js`, wykonaj Commit/Push i redeploy.
+- `assets/lkm-v3/phase30-public.css` — **PODMIEŃ** istniejący.
+- `assets/lkm-v3/phase30-public.js` — **PODMIEŃ** istniejący.
+- `scripts/phase30_apply_theme.py` — **PODMIEŃ** istniejący.
+
+Zachowaj kopię bieżących plików. Nie musisz kopiować README do repo.
+
+Następnie GitHub Desktop → Changes (sprawdź wszystkie trzy ścieżki) → Commit → Push origin. Sprawdź Netlify → Deploys → status `Published`. Otwórz `https://lilkangoomedia.com/#/about` i odśwież przez Shift + Command + R.
+
+## Oczekiwany rezultat
+
+- Jednolity grafitowo-złoty motyw, bez starej jasnej/zielonej sekcji zespołu.
+- Nagłówki Michael/Lilyanna i usług białe, opisy jasne, złote wyróżnienia.
+- Karty wartości, osób i usług grafitowe z czytelnym kontrastem.
+- Ostatni panel CTA grafitowo-złoty (zamiast zielonego).
+- W okręgu w hero oryginalny `logo-profile.png` zamiast „LKM”.
+- Delikatny `logo-orange.png` przesuwa się w tle SPA podczas przewijania w dół i w górę.
+- Podstrona `/AboutUs.html` zachowuje poprawki 30.3; ten sam motyw obsługuje ją i aplikację `/#/about`.
+
+## Co sprawdzić po wdrożeniu
+
+1. `https://lilkangoomedia.com/#/about` — najważniejszy test. Sprawdź kolor zespołu, grafitowe karty i logo w kółku.
+2. Przewiń w dół i w górę; dekoracyjny kangur nie może zasłaniać tekstu.
+3. Kliknij Services, a następnie wróć na About Us: motyw About powinien być aktywny tylko na stronie About.
+4. Sprawdź również `https://lilkangoomedia.com/AboutUs.html` oraz widok mobilny.
+5. Jeśli nadal widzisz starą wersję, sprawdź w źródle opublikowanego `index.html`, że CSS i JS mają parametr `?v=30-4`. W logu Netlify musi wykonać się `scripts/phase30_apply_theme.py`.
+
+## Testy przygotowania
+
+- Parser CSS bez błędów; kontrola składni JS/Python.
+- Skrypt Netlify poprawnie aktualizuje adresy CSS i JS do `30-4`, nie dubluje wpisów i nie dotyka admina.
+- Testy Chromium odtworzonego widoku SPA: 320, 390, 768, 1024, 1440 px, bez poziomego przewijania, czytelne nagłówki, podmiana logo.
+- Test nawigacji między widokami: przy wyjściu z About znika klasa motywu About.
+- Test kangura: ruch w dół, powrót w górę, identyczna pozycja na początku.
+- Lokalna kontrola kontrastu próbek kolorów WCAG AA: zaliczona.
+
+Testy były wykonane na odtworzonym DOM ze stylami poprawki, a nie na zalogowanej/produkcyjnej stronie. Ostateczne potwierdzenie wymaga sprawdzenia opublikowanej witryny.
+
+## SQL i rollback
+
+SQL: NIEPOTRZEBNY. Supabase, płatności, formularze, ceny, SEO i treści pozostają bez zmian.
+
+W razie problemów przywróć trzy poprzednie pliki (Phase 30.3) i wykonaj Commit / Push. Nie trzeba odtwarzać bazy danych.
