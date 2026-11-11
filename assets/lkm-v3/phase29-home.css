@@ -1,0 +1,193 @@
+/* LilKangooMedia Phase 29.2 — approved continuous Navy & Gold homepage.
+   Cosmetic and layout layer only. Never affects the separate public reviews page,
+   admin interface, service-detail package selection or checkout flows. */
+:root{--lkm29-navy:#101d30;--lkm29-panel:#243b57;--lkm29-gold:#f5ac42;--lkm29-ivory:#f5f8fd;--lkm29-text:#d7e5f4}
+
+/* Main SPA navigation: original hrefs remain untouched; additive Home + submenu. */
+#siteHeader{background:rgba(255,255,255,.975);border-bottom:1px solid #e0e7ed}
+#siteHeader .header-inner{max-width:1360px;min-height:65px;padding:8px 25px;gap:12px}
+#siteHeader .identity{font-size:18px;letter-spacing:-.8px;gap:9px}
+#siteHeader .identity img{width:38px;height:38px}
+#siteHeader .desktop-nav{display:flex;align-items:center;gap:17px;font-size:12px;font-weight:750}
+#siteHeader .desktop-nav>a,#siteHeader .lkm29-service-group>a{position:relative;display:inline-flex;align-items:center;min-height:40px;color:#344354;white-space:nowrap}
+#siteHeader .desktop-nav a:hover{color:#a56518}
+#siteHeader .desktop-nav a.lkm29-current{color:#173958}
+#siteHeader .desktop-nav a.lkm29-current::after{content:"";position:absolute;left:0;right:0;bottom:1px;height:2px;background:#eda23d;border-radius:3px}
+#siteHeader .header-book{background:#182b42;color:#fff;border-radius:8px;min-height:40px;padding:10px 12px}
+#siteHeader .header-book:hover{background:#244561}
+#siteHeader .lkm29-service-group{display:inline-flex;position:relative;align-items:center;gap:4px}
+#siteHeader .lkm29-service-toggle{width:27px;height:30px;border:0;background:transparent;color:#2d4356;border-radius:6px;font-weight:800;line-height:1}
+#siteHeader .lkm29-service-toggle:hover,#siteHeader .lkm29-service-toggle:focus-visible{background:#e7ecf1}
+#siteHeader .lkm29-service-dropdown{display:none;position:absolute;z-index:100;top:100%;left:-12px;min-width:205px;border-radius:11px;background:#fff;border:1px solid #d8e1e9;box-shadow:0 15px 30px rgba(16,31,47,.18);padding:7px}
+#siteHeader .lkm29-service-group:hover .lkm29-service-dropdown,#siteHeader .lkm29-service-group:focus-within .lkm29-service-dropdown,#siteHeader .lkm29-service-group.lkm29-open .lkm29-service-dropdown{display:grid}
+#siteHeader .lkm29-service-dropdown a{display:block;border-radius:7px;padding:11px 13px;color:#273f56;font-size:12px;font-weight:750;white-space:nowrap;text-decoration:none}
+#siteHeader .lkm29-service-dropdown a:hover,#siteHeader .lkm29-service-dropdown a:focus-visible{background:#edf2f7;color:#0f2e49}
+#siteHeader .mobile-nav{background:#fff;border-top:1px solid #e3e9ef}
+#siteHeader .mobile-nav[hidden]{display:none}
+#siteHeader .mobile-nav:not([hidden]){display:grid;grid-template-columns:1fr}
+#siteHeader .mobile-nav a{color:#273d51;margin:0;min-height:43px;border-radius:7px}
+#siteHeader .mobile-nav a:hover{background:#edf2f8;color:#122f4a}
+#siteHeader .mobile-nav .lkm29-mobile-subnav{padding-left:24px;font-size:12px;color:#4c6379;background:#f6f8fb}
+#siteHeader a:focus-visible,#siteHeader button:focus-visible{outline:3px solid #e8a33a;outline-offset:2px}
+@media(max-width:1160px){
+ #siteHeader .desktop-nav{display:none}
+ #siteHeader .menu-toggle{display:block}
+ #siteHeader .header-inner{min-height:60px}
+}
+@media(max-width:760px){
+ #siteHeader .header-book{display:none}
+ #siteHeader .header-inner{padding:7px 18px}
+ #siteHeader .identity{font-size:16px}
+ #siteHeader .identity img{width:35px;height:35px}
+}
+
+/* Compact original hero. Keeps BOTH audience photos and existing navigation. */
+.lkm29-home .hero{background:radial-gradient(ellipse at 82% 12%,rgba(59,74,99,.32),transparent 56%),linear-gradient(130deg,#192433,#181c29 74%);color:#fff}
+.lkm29-home .hero:before{background:radial-gradient(ellipse at 82% 40%,rgba(235,165,70,.07),transparent 54%)}
+.lkm29-home .hero-inner{max-width:1310px;padding:27px 0 22px}
+.lkm29-home .hero-title{display:block;text-align:center;margin-bottom:21px}
+.lkm29-home .hero-title .label-kicker{display:block;color:#ffbf69;font-size:10px;letter-spacing:2.4px;text-align:center;margin-bottom:12px}
+.lkm29-home .hero-title h1{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:0 .15em;max-width:none;margin:0;font-size:clamp(32px,5.2vw,67px);line-height:1.13;letter-spacing:-.055em}
+.lkm29-home .hero-title h1 br{display:none}
+.lkm29-home .hero-title h1 em{color:#ffad33}
+.lkm29-home .hero-side{max-width:650px;color:#dae3ef;margin:10px auto 0;font-size:14px;line-height:1.55;text-align:center}
+.lkm29-home .audience-grid{gap:14px}
+.lkm29-home .audience-card{height:clamp(226px,25vw,310px);min-height:0;border-radius:15px;border-color:rgba(172,191,209,.48);padding:21px}
+.lkm29-home .audience-card:after{background:linear-gradient(0deg,rgba(5,14,25,.94),rgba(8,17,28,.24) 68%,rgba(9,13,23,.08))}
+.lkm29-home .audience-card strong{font-size:clamp(33px,4vw,57px)}
+.lkm29-home .audience-card p{color:#eff4fa;margin:9px 0 10px}
+.lkm29-home .audience-arrow{color:#ffce84}
+.lkm29-home .hero-tools{margin-top:16px}
+.lkm29-home .hero-tools span{color:#cbd5e1}
+.lkm29-home .hero-tools a{border-color:#687991;background:rgba(29,45,66,.25)}
+.lkm29-home .hero-tools a:hover{border-color:#f3b35c;color:#ffc67a}
+/* Preserve white benefits strip unchanged in layout and text. */
+.lkm29-home .proof-strip{background:#fff;border-bottom:1px solid #dce5ed}
+
+/* One UNBROKEN gradient spanning services, experience, portfolio, real reviews and CTA. */
+.lkm29-home .lkm29-stage{position:relative;isolation:isolate;overflow:clip;background:
+ radial-gradient(ellipse 76% 23% at 4% 3%,rgba(49,92,139,.52),transparent 100%),
+ radial-gradient(ellipse 67% 28% at 95% 47%,rgba(57,88,132,.42),transparent 100%),
+ radial-gradient(ellipse 62% 24% at 10% 89%,rgba(38,75,116,.45),transparent 100%),
+ linear-gradient(154deg,#152941 0%,#0e1b30 39%,#192e49 74%,#111e32 100%);
+ color:#f6f9ff}
+.lkm29-home .lkm29-stage .lkm29-bokeh{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.85;background-image:
+ radial-gradient(circle at 8% 10%,rgba(255,193,103,.20) 0 4px,transparent 12px),
+ radial-gradient(circle at 82% 21%,rgba(255,208,120,.16) 0 8px,transparent 27px),
+ radial-gradient(circle at 29% 42%,rgba(255,205,119,.12) 0 8px,transparent 23px),
+ radial-gradient(circle at 93% 72%,rgba(255,199,108,.18) 0 9px,transparent 29px),
+ radial-gradient(circle at 16% 88%,rgba(255,188,92,.13) 0 12px,transparent 34px)}
+.lkm29-home .lkm29-stage .lkm29-watermark{position:absolute;top:80px;right:-62px;width:clamp(220px,35vw,410px);aspect-ratio:1;z-index:0;opacity:.105;pointer-events:none;transform-origin:center;will-change:transform;contain:paint}
+.lkm29-home .lkm29-stage .lkm29-watermark img{width:100%;height:100%;object-fit:contain;display:block}
+.lkm29-home .lkm29-stage > section{position:relative;z-index:1;background:transparent;color:#f6f9ff}
+.lkm29-home .lkm29-stage > section.section{padding-top:clamp(30px,4vw,52px);padding-bottom:clamp(30px,4vw,52px)}
+.lkm29-home .lkm29-stage > section.section.small-top{padding-top:12px;padding-bottom:25px}
+.lkm29-home .lkm29-stage .section-head{margin-bottom:21px}
+.lkm29-home .lkm29-stage .section-head h2{color:#f7faff;font-size:clamp(29px,3.7vw,46px);letter-spacing:-.045em}
+.lkm29-home .lkm29-stage .section-head p{color:#dae7f4;line-height:1.64}
+.lkm29-home .lkm29-stage .label-kicker{color:#ffc37c}
+.lkm29-home .lkm29-stage .button-light{background:rgba(35,60,89,.77);border-color:#879fbb;color:#fff}
+.lkm29-home .lkm29-stage .button-light:hover{background:#314c6e}
+.lkm29-home .lkm29-stage .button-orange{background:#f5ac42;border-color:#f5ac42;color:#17243a}
+.lkm29-home .lkm29-stage .button-dark{background:#f5ac42;color:#17243a}
+.lkm29-home .lkm29-stage .button:focus-visible{outline:3px solid #ffca7b;outline-offset:2px}
+
+/* Phase 28.2 HOME cards only: photograph stays centered-left, fade turns navy. */
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-card{background:#10233a;border-color:#71849c;box-shadow:0 10px 28px rgba(0,7,22,.2)}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-photo{background:#10233a}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-photo::after{background:linear-gradient(90deg,rgba(15,33,54,0) 0%,rgba(15,33,54,.08) 33%,rgba(15,33,54,.45) 43%,rgba(15,33,54,.90) 52%,#10233a 64%,#10233a 100%)}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-badge{color:#203a53}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-body{color:#fff}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-body h3{color:#fff}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-body>p{color:#e0eaf7}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-price small{color:#d2e2f2}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-price strong{color:#ffcb79}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .lkm28-arrow{background:#ffbe65;color:#16253a}
+.lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-card:hover{border-color:#ffca80}
+
+/* Existing experience section: preserve photo and CTA, replace pale-green panel. */
+.lkm29-home .lkm29-stage .feature-wide{background:rgba(31,52,77,.78);border:1px solid #6e86a2;border-radius:18px;min-height:0}
+.lkm29-home .lkm29-stage .feature-wide>.wide-media{min-height:290px}
+.lkm29-home .lkm29-stage .wide-copy{padding:clamp(24px,4vw,48px)}
+.lkm29-home .lkm29-stage .wide-copy h2{color:#fff;font-size:clamp(29px,3.6vw,49px)}
+.lkm29-home .lkm29-stage .wide-copy p{color:#dbe8f4}
+.lkm29-home .lkm29-stage .portfolio-tile{border:1px solid rgba(151,176,203,.35)}
+
+/* Real published Home reviews — share the SAME continuous background. */
+.lkm29-home .lkm29-stage #lkmReviewsHome.lkm-reviews-section{background:transparent;color:#f6f9ff;padding:clamp(30px,4vw,50px) 0;overflow:hidden}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-heading{margin-bottom:21px}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-eyebrow{color:#ffbe68}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-heading h2{color:#f7f9ff;font-size:clamp(29px,3.7vw,44px);letter-spacing:-.04em}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-heading p:not(.lkm-review-eyebrow){color:#dbe6f4}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-rating{background:rgba(41,66,98,.86);color:#fff;border-color:#7893b1;box-shadow:none}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-rating-number{color:#fff}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-rating-number span{color:#dbe6f4}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-rating small{color:#d9e7f6}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-stars{color:#ffc579}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-reviews-carousel-controls>span{color:#d2dfef}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-reviews-nav button{background:#243d59;color:#fff;border-color:#7893b1}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-reviews-nav button:hover{background:#365675}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-card{background:rgba(37,59,87,.86);border-color:#6886a7;color:#fff;box-shadow:0 9px 26px rgba(0,9,22,.15)}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-quote{color:#f2f6fd}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-date{color:#d4e0ef}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-author strong{color:#fff}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-author small{color:#d5e2f0}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-avatar{color:#182d45;background:#d5e4f4}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-read{color:#ffd099}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-source{color:#d3e0ed}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-unavailable{color:#d3e3f4}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-actions .button-light{background:#263d58;color:#fff;border-color:#8ca4ba}
+.lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-actions .button-dark{background:#f5ac42;color:#16253b}
+
+/* Last CTA stays on the SAME backdrop; only a subtle divider. */
+.lkm29-home .lkm29-stage > section.dark-panel{background:transparent;border-top:1px solid rgba(153,181,211,.28);margin:0}
+.lkm29-home .lkm29-stage > section.dark-panel h2{color:#fff}
+.lkm29-home .lkm29-stage > section.dark-panel .section-head p{color:#dce7f5!important}
+.lkm29-home .lkm29-stage > section.dark-panel .label-kicker{color:#ffc37c}
+.lkm29-home .lkm29-stage > section.dark-panel .button-orange{background:#f5ac42;color:#172237}
+
+@media(max-width:1050px){
+ .lkm29-home .hero-title{display:block}
+ .lkm29-home .hero-title h1{font-size:clamp(32px,5.4vw,55px)}
+ .lkm29-home .audience-card{height:clamp(218px,29vw,290px)}
+}
+@media(max-width:760px){
+ .lkm29-home .hero-inner{padding:23px 0 17px}
+ .lkm29-home .hero-title{margin-bottom:16px}
+ .lkm29-home .hero-title .label-kicker{font-size:9px;letter-spacing:1.4px;line-height:1.5}
+ .lkm29-home .hero-title h1{font-size:clamp(30px,7.3vw,42px);letter-spacing:-.045em}
+ .lkm29-home .hero-side{font-size:12px;margin-top:8px}
+ .lkm29-home .audience-grid{gap:9px}
+ .lkm29-home .audience-card{height:clamp(200px,40vw,280px);padding:14px}
+ .lkm29-home .audience-card strong{font-size:clamp(29px,6vw,44px)}
+ .lkm29-home .audience-card p{font-size:12px}
+ .lkm29-home .hero-tools{margin-top:14px}
+ .lkm29-home .lkm29-stage > section.section{padding-top:33px;padding-bottom:33px}
+ .lkm29-home .lkm29-stage > section.section.small-top{padding-top:9px;padding-bottom:18px}
+ .lkm29-home .lkm29-stage .feature-wide>.wide-media{min-height:230px}
+ .lkm29-home .lkm29-stage .wide-copy{padding:28px}
+ .lkm29-home .lkm29-stage .lkm29-watermark{right:-56px;opacity:.08}
+}
+@media(max-width:460px){
+ .lkm29-home .hero-title h1{font-size:clamp(27px,8.1vw,37px);gap:0 .11em}
+ .lkm29-home .audience-card{height:215px;padding:12px}
+ .lkm29-home .audience-card strong{font-size:32px}
+ .lkm29-home .audience-card p{font-size:11px;line-height:1.36}
+ .lkm29-home .audience-card .label-kicker{font-size:8px;line-height:1.3}
+ .lkm29-home .audience-arrow{font-size:10px}
+ .lkm29-home .lkm29-stage .section-head h2{font-size:30px}
+ .lkm29-home .lkm29-stage #lkmReviewsHome .lkm-review-heading h2{font-size:30px}
+ .lkm29-home .lkm29-stage .feature-wide>.wide-media{min-height:180px}
+ .lkm29-home .lkm29-stage .lkm29-watermark{width:220px;right:-42px}
+}
+@media(prefers-reduced-motion:reduce){
+ .lkm29-home .lkm29-stage .lkm29-watermark{will-change:auto;transform:none!important}
+ .lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-card{transition:none}
+ .lkm29-home #main .lkm29-stage .lkm28-home > .service-grid .service-card:hover{transform:none}
+}
+/* Guard against min-content overflows on very narrow handsets. */
+@media(max-width:460px){
+ .lkm29-home .audience-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .lkm29-home .audience-card{min-width:0}
+ .lkm29-home .audience-card strong{font-size:clamp(23px,6.3vw,29px);overflow-wrap:anywhere}
+}

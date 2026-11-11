@@ -1,44 +1,58 @@
-# LilKangooMedia — Phase 28.2
-## Kafelki Home „Find exactly what you need.” w stylu Services 28.1
+# LilKangooMedia — Phase 29.2: Navy & Gold Homepage + Navigation
 
-Paczka jest **nakładką na Phase 28.1**. Nie zmienia danych w Supabase ani logiki usług i zapytań.
+Paczka jest przeznaczona do strony działającej już na Phase 28.2 (czyli takiej jak na zrzutach z 11 listopada 2026). **Nie podmieniaj innych plików.**
 
-### Co zostało zmienione
-- Wyłącznie kafelki sekcji **Find exactly what you need.** na stronie głównej (Home) korzystają z tego samego wyglądu co karty katalogu `#/services`.
-- Kompaktowa karta ma fotografię wycentrowaną w widocznej lewej części (`object-fit: cover; object-position: 50% 50%`), płynny **czarny** gradient i biały tytuł po prawej.
-- Zachowane zostały istniejące **krótkie opisy** z Home — zamiast trzech punktów z CMS wyświetlanych w katalogu Services.
-- Zachowane: istniejące ceny i sposoby ich prezentowania (w tym ceny miesięczne i wyceny indywidualne), kategorie, zdjęcia i linki do ofert.
-- Kliknięcie **całego kafelka** otwiera szczegóły danej usługi; nadmiarowe przyciski Quick enquiry / Build a quote / Explore nie zajmują miejsca na kartach.
-- Pozostałe sekcje Home (nagłówek, Personal/Business, portfolio, kontakt) pozostają nietknięte.
-- Katalog Services z poprzedniej wersji zachowuje gradient, krótkie korzyści, filtrowanie i wyszukiwarkę.
+## 1. Gdzie skopiować pliki
 
-### Instalacja na Macu — krok po kroku
-1. Upewnij się, że w projekcie jest już Phase 28.1.
-2. Przed podmianą zrób kopię zapasową tych trzech aktualnych plików.
-3. Rozpakuj ZIP. W paczce znajdziesz folder `assets/lkm-v3/`.
-4. W swoim lokalnym folderze repozytorium `LilKangooMedia/assets/lkm-v3/` podmień dokładnie **trzy pliki**:
-   - `assets/lkm-v3/phase28-catalog.css`
-   - `assets/lkm-v3/phase28-catalog.js`
-   - `assets/lkm-v3/service-detail-v14.js`
-5. Zrób **Commit / Push** na GitHub w używanej gałęzi produkcyjnej.
-6. Sprawdź, że Netlify zakończył wdrożenie ze statusem `Published`.
-7. Otwórz https://lilkangoomedia.com/ i odśwież stronę przez **Shift + Command + R**.
+W lokalnym repozytorium projektu `LilKangooMedia` przejdź do:
 
-### Sprawdź po wdrożeniu
-- Sekcja **Find exactly what you need.**: foto z lewej, czarny gradient i tekst z prawej, krótki opis pod ceną.
-- Wybór dowolnego z sześciu wyróżnionych kafelków prowadzi do tej konkretnej oferty.
-- W wersji mobilnej karty nie powodują poziomego przewijania.
-- https://lilkangoomedia.com/#/services?audience=business i https://lilkangoomedia.com/#/services?audience=personal — katalog powinien wyglądać i działać jak w 28.1.
-- W detalach usługi nadal można wybrać pakiet i przejść do formularza zapytania.
+`assets/lkm-v3/`
 
-### SQL
-**Niepotrzebny.** Nie uruchamiaj migracji ani skryptów Supabase.
+Skopiuj z ZIP dokładnie:
 
-### Testy wykonane przy przygotowaniu
-- 11 szerokości w Chromium (320, 360, 390, 420, 700, 760, 800, 1024, 1130, 1280, 1440 px): **PASS**.
-- Widok Home: sześć przykładowych kart, tekst opisu pozostaje niezmieniony, ceny i pełny obszar klikalny.
-- Regresja katalogu Services: zachowane korzyści i przełącznik, brak poziomego przewijania.
-- Zdjęcia i opisy w testach są przykładowe; **nie jest to test z rzeczywistą bazą produkcyjną**. Finalne zachowanie potwierdź po wdrożeniu.
+1. `assets/lkm-v3/phase28-catalog.js` — **PODMIEŃ** plik istniejący. Zachowuje wszystkie wcześniejsze zmiany Phase 28.2, dodaje tylko ładowanie nowego modułu Phase 29.2.
+2. `assets/lkm-v3/phase29-home.js` — **DODAJ** nowy plik.
+3. `assets/lkm-v3/phase29-home.css` — **DODAJ** nowy plik.
 
-### Cofnięcie zmian
-Przywróć kopie zapasowe trzech plików z wersji **Phase 28.1**, zrób Commit/Push i odśwież stronę. Cofanie bazy danych nie jest wymagane.
+**Nie zmieniaj:** `site.js`, `site.css`, `index.html`, `service-detail-v14.js`, plików administracyjnych ani `reviews-public.js`.
+
+## 2. Publikacja
+
+1. Zrób kopię istniejącego `phase28-catalog.js` przed podmianą.
+2. Skopiuj powyższe trzy pliki z zachowaniem folderów.
+3. W GitHub Desktop sprawdź tylko te trzy zmienione/dodane pliki, wykonaj Commit oraz Push.
+4. Poczekaj na status Published odpowiedniego wdrożenia Netlify.
+5. Otwórz `https://lilkangoomedia.com/#/` i odśwież w Chrome: Shift + Command + R.
+
+## 3. Co działa i co zostało zmienione
+
+- Zachowane: hero z dwoma kafelkami Personal/Business, 4 zalety w białym pasku, 6 usług z Supabase, aktualne ceny, krótkie opisy, portfolio, prawdziwe recenzje, końcowe CTA, formularze, płatności, SEO i osobne strony usług.
+- Hero: `CREATE. CAPTURE. GROW.` w zwięzłym układzie; podpis agencji na środku; mniejsze pionowe odstępy.
+- Poniżej białego paska jedna spójna, granatowa powierzchnia z delikatnym statycznym bokeh.
+- Kafelki Featured Services na Home: czarny fade zostaje zastąpiony granatowym. Katalog `#/services` pozostaje bez zmian.
+- Sekcje: Find exactly..., Real moments..., Our work..., Words that matter..., Ready to create... są na tym samym tle, bez oddzielnych pasów.
+- Logo: oryginalny plik **`/assets/lkm-v3/brand/logo-orange.png`** używany też w obecnej stopce; półprzezroczysty i przesuwany razem z przewijaniem w obie strony. Nie używamy „LK”. Przy `prefers-reduced-motion: reduce` animacja jest wyłączona.
+- Menu: istniejące odnośniki pozostają bez zmian, dodana jest pozycja Home i rozwijany podział Services -> Personal / Business także w menu mobilnym. Źródłowe adresy pozostałych stron nie są przepisywane.
+
+## 4. Kontrola po opublikowaniu
+
+1. Home, desktop i mobile: nagłówek, białe zalety, 6 kafelków, 5 projektów portfolio, opinie i CTA.
+2. Przewiń w dół i w górę: animowane **prawdziwe logo** pod treścią, płynny gradient bez nagłych pasów.
+3. Otwórz menu i sprawdź: Home, Services, Personal, Business, For Business, Our Work, Reviews, Articles, About Us, Contact.
+4. Kliknij usługę i wybierz pakiet — to wciąż istniejący proces z Phase 27/28, bez zmian.
+5. Sprawdź także `https://lilkangoomedia.com/#/services?audience=business` i `...audience=personal` — nie powinny być wizualnie zmienione przez tę poprawkę.
+6. Jeśli Chrome pokaże starszą wersję, użyj Shift + Command + R po zakończeniu publikacji.
+
+## 5. SQL
+
+**ŻADEN.** Nie zmieniamy Supabase ani baz danych. Nie uruchamiaj migracji SQL.
+
+## 6. Przywrócenie poprzedniego wyglądu
+
+Przywróć kopię `phase28-catalog.js` sprzed Phase 29.2, wykonaj Commit/Push. Nowe pliki `phase29-home.js` i `phase29-home.css` można pozostawić niewykorzystane lub skasować; bez ładowarki nie będą działać.
+
+## 7. Sprawdzenia wykonane lokalnie
+
+Testy w Chromium na **8 szerokościach**: 320, 375, 390, 430, 760, 1024, 1280, 1440 px. Obejmowały: strukturę i przenoszenie opóźnionego modułu opinii, brak odciętych pasów tła, gradient usług, niezmienione adresy nawigacji, podmenu desktop/mobile, zmianę transformacji logo podczas przewijania, brak JS pageerror i poziomego overflow w odtworzonym widoku.
+
+**Uwaga:** są to testy lokalnego odtworzenia DOM z istniejących selektorów projektu. Rzeczywisty serwis i Supabase wymagają potwierdzenia po wdrożeniu. Nie została wykonana publikacja na produkcji.
