@@ -1,5 +1,5 @@
-/* LilKangooMedia Phase 28.1 — compact black gradient catalogue.
- * Presentation-only enhancement on #/services. Original Supabase services,
+/* LilKangooMedia Phase 28.2 — shared compact black gradient for Services + Home featured cards.
+ * Presentation-only enhancement on #/services and Home featured services. Original Supabase services,
  * category/search, route handlers, quote and enquiry flows stay authoritative.
  */
 (()=>{
@@ -8,7 +8,7 @@
  window.__lkm28CatalogLoaded=true;
  const root=document.getElementById('main');
  if(!root)return;
- const path='/assets/lkm-v3/phase28-catalog.css?v=28-1';
+ const path='/assets/lkm-v3/phase28-catalog.css?v=28-2';
  if(!document.querySelector('link[data-lkm28-style]')){
   const css=document.createElement('link');css.rel='stylesheet';css.href=path;css.dataset.lkm28Style='1';document.head.append(css);
  }
@@ -21,6 +21,7 @@
   business:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 7h1m4 0h1M9 11h1m4 0h1M9 15h1m4 0h1M10 21v-4h4v4"/></svg>'
  };
  const route=()=>/^#\/services(?:\?|$)/.test(location.hash);
+ const homeRoute=()=>/^(?:|#|#\/)$/.test(location.hash);
  let records=new Map(),queued=false;
  const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
  const getSlug=link=>{
@@ -54,7 +55,7 @@
   const label=zone.querySelector('.lkm28-switch-caption');
   if(label)label.textContent='Currently viewing: '+(configs[current]?.context||'Services');
  }
- function enhanceCard(card){
+ function enhanceCard(card,mode='catalog'){
   const photo=card.querySelector('.service-photo[href]');
   const title=card.querySelector('.service-body h3');
   const body=card.querySelector('.service-body');
@@ -80,6 +81,13 @@
   card.classList.toggle('lkm28-price-has-from', /^from\s/i.test(price)&&/from/i.test(priceLabel));
   const primary=card.querySelector('.lkm28-full-card');
   if(primary){primary.setAttribute('aria-label','View '+clean(title.textContent)+(price?' — '+priceLabel+' '+price:''));}
+  // Home uses the original short service summary, not the catalogue's 3 CMS benefits.
+  // This preserves the exact text provided by the existing featured service card.
+  if(mode==='home'){
+   body.querySelector('.lkm28-benefits')?.remove();
+   card.classList.remove('lkm28-has-benefits');
+   return;
+  }
   const features=records.get(slug)?.features;
   const valid=Array.isArray(features)?[...new Set(features.filter(f=>typeof f==='string').map(clean).filter(Boolean))].slice(0,3):[];
   const sig=valid.join('\u001f');
@@ -95,12 +103,23 @@
   }
  }
  function enhance(){
-  if(!route())return;
-  const grid=root.querySelector('#catalogGrid');
-  const container=grid?.closest('.container');if(!grid||!container)return;
-  container.classList.add('lkm28-catalog');
-  enhanceSwitch(container);
-  grid.querySelectorAll('.service-card').forEach(enhanceCard);
+  if(route()){
+   const grid=root.querySelector('#catalogGrid');
+   const container=grid?.closest('.container');if(!grid||!container)return;
+   container.classList.add('lkm28-catalog');
+   enhanceSwitch(container);
+   grid.querySelectorAll('.service-card').forEach(card=>enhanceCard(card,'catalog'));
+   return;
+  }
+  if(homeRoute()){
+   // Verified Home markup: section.section.container > .service-grid under
+   // the "Find exactly what you need." heading. No other Home blocks are changed.
+   const grid=root.querySelector('section.section.container > .service-grid');
+   const section=grid?.closest('section.section.container');
+   if(!section||!section.querySelector('.section-head h2')||!grid)return;
+   section.classList.add('lkm28-home');
+   grid.querySelectorAll('.service-card').forEach(card=>enhanceCard(card,'home'));
+  }
  }
  function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;enhance()});}
  new MutationObserver(schedule).observe(root,{childList:true,subtree:true});
