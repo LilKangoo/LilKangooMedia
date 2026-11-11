@@ -1,4 +1,4 @@
-/* LilKangooMedia Phase 29.3 — homepage navy/gold presentation and navigation.
+/* LilKangooMedia Phase 29.4 — homepage navy/gold presentation and navigation.
  * Additive only. Moves existing HOME sections into one continuous stage; original
  * routes, service cards, Supabase pricing, review carousel and forms are preserved.
  */
@@ -204,9 +204,21 @@
     const mark = root.querySelector(':scope > .lkm29-global-watermark');
     if (!mark || !isHome()) return;
     if (reduced.matches) { mark.style.transform = 'none'; return; }
-    const maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    const progress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-    mark.style.transform = `translate3d(${((progress - .5) * 22).toFixed(1)}px, ${((progress - .5) * 110).toFixed(1)}px, 0) rotate(${((progress - .5) * 22).toFixed(2)}deg)`;
+    // Phase 29.4: map scroll from the very top of Home to the bottom of its
+    // actual footer (not a 110px decorative wobble). The fixed watermark moves
+    // vertically through the viewport, so the genuine kangaroo remains in view
+    // while passing behind the white benefits strip and eventually the footer.
+    const footer = document.querySelector('footer.footer');
+    const footerBottom = footer ? footer.getBoundingClientRect().bottom + scrollY : document.documentElement.scrollHeight;
+    const finalScrollY = Math.max(1, footerBottom - innerHeight);
+    const progress = Math.max(0, Math.min(1, window.scrollY / finalScrollY));
+    const logoHeight = mark.offsetHeight || mark.offsetWidth;
+    const upper = Math.max(52, innerHeight * 0.08);
+    const lower = Math.max(upper + 60, innerHeight - logoHeight - Math.max(16, innerHeight * 0.06));
+    const y = upper + progress * (lower - upper);
+    const x = (progress - .5) * Math.min(38, innerWidth * .07);
+    const angle = (progress - .5) * 15;
+    mark.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${angle.toFixed(2)}deg)`;
   }
   function scheduleScroll() {
     if (rafScroll) return;
