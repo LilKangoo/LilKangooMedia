@@ -1,88 +1,76 @@
-# LilKangooMedia — Phase 26: Dark Command Center / Portfolio Studio
+# LilKangooMedia — Phase 26.1: Command Center W GŁÓWNYM PANELU ADMIN
 
-**Wersja: 2026-11-11.** Nowy panel zarządzania zawartością portfolio, kolekcjami, projektami i Case Studies. Wygląd: ciemna zieleń/czerń z funkcjonalnymi neonowymi akcentami: zieleń — opublikowane/zapisane, złoto — wyróżnione/edycja, czerwień — ukrycie/ostrzeżenie. Interfejs pozostaje po angielsku.
+**Poprawka z 11 listopada 2026 r.** Użytkownik zgłosił, że ciemny Command Center działał tylko pod `/admin-studio.html`, natomiast `/admin.html` nadal otwierał stary panel. Ta aktualizacja **NAPRAWIA DOKŁADNIE TEN PROBLEM**.
 
-## Instalacja (ważna kolejność)
+## NOWY SQL: BRAK
 
-**0. Zrób kopię zapasową Supabase przed migracją** (według dostępnych opcji Twojego planu) lub przetestuj najpierw na kopii/staging. Nie uruchamiaj wcześniej wykonanych SQL ponownie.
+**Nie uruchamiaj żadnego SQL.** Wszystkie tabele i RPC Phase 26 z poprzedniej paczki pozostają bez zmian. Nie uruchamiaj ponownie wcześniejszych migracji ani plików Eléa Golf Club.
 
-1. W panelu Supabase właściwego projektu przejdź do **SQL Editor → New query**.
-2. Otwórz **TYLKO JEDEN NOWY SQL** `supabase/migrations/20261111_lkm_portfolio_studio.sql`. Skopiuj całość i kliknij **Run**. Plik korzysta z tabel stworzonych we wcześniejszych, już wdrożonych fazach CMS, Video i Case Studies. Jeżeli pojawi się błąd, **zatrzymaj wdrożenie i prześlij komunikat**. Transakcja ma `BEGIN` / `COMMIT` i powinna wycofać nieudane zmiany.
-3. Po sukcesie SQL rozpakuj tę paczkę i **wgraj jej zawartość do katalogu głównego repozytorium** `LilKangoo/LilKangooMedia` (zachowaj ścieżki, zastąp tylko pliki o tych samych nazwach). Niczego nie usuwaj. Wykonaj **Commit / Push** na gałąź powiązaną z Netlify.
-4. Po zakończonym deployu otwórz **https://lilkangoomedia.com/admin-studio.html** i zaloguj się **tym samym administratorem Supabase**, którego używasz w starym panelu.
-5. W starym `/admin.html` w nagłówku pojawi się przycisk **Command Center**. Stary panel pozostaje dostępny jako awaryjna droga powrotna.
+## Co teraz robią adresy?
 
-**Nowy SQL: 1 plik. Żadnych poprzednich migracji nie uruchamiamy ponownie.**
+- `https://lilkangoomedia.com/admin.html` — **GŁÓWNY** panel Command Center z ciemnym motywem, menu treści i narzędzi firmowych.
+- `https://lilkangoomedia.com/admin-studio.html` — przekierowuje do **głównego** `/admin.html`; istniejące zakładki/odsyłacze nadal działają.
+- `https://lilkangoomedia.com/admin-legacy.html` — zapasowy **klasyczny panel**, z nienaruszoną funkcjonalnością. Nie jest już domyślnym Admin.
 
-## Co działa w nowym panelu
+## Instalacja — potrzebujesz wyłącznie GitHub / Netlify
 
-- **Dashboard**: faktyczne liczby kanonicznych zasobów, projektów, kolekcji i opublikowanych Stories z Supabase (NIE wyświetla wymyślonych statystyk ruchu ani przychodów).
-- **Media Library**: wspólny indeks oryginalnych URL zdjęć i ID YouTube; filtry foto/wideo, wyszukiwarka, strony wyników, podgląd, tytuły, ALT, tagi i opisy.
-- **Browse website files**: wyszukiwarka istniejących zdjęć z `/api/media-catalog`. Dodanie do indeksu NIE wykonuje ponownego uploadu.
-- **Upload photos**: JPG/PNG/WebP do 8 MB każdy, do 15 w jednym wsadzie; fizyczny plik trafia do istniejącego publicznego bucketa `portfolio`, a wpis do kanonicznej biblioteki. Dopóki nie przypiszesz go jako publiczny, nie pojawi się na stronie portfolio.
-- **YouTube / Shorts**: wklejenie URL filmu lub Shorts, identyfikowany raz na podstawie 11-znakowego ID.
-- **Multi-assign**: zaznacz wiele zdjęć lub filmów → `Assign to…` → wybierz jednocześnie kilka projektów, kolekcji albo stron usług → `Apply assignments`. Te same źródła nie są fizycznie kopiowane.
-- **Usage / Inspector**: przy pojedynczym materiale lista miejsc użycia, niezależne `Publish / Hide`, zmiana kolejności, ustawienie zdjęcia jako okładki galerii.
-- **Projects & Stories**: tworzenie/edycja projektu i kolekcji, opis, powiązana usługa, status Review/Public/Private, niezależny checkbox `Show a gallery card in Portfolio` oraz redakcja/publikacja Case Study.
-- **Portfolio Collections**: foldery/tematyczne zbiory z własnymi kartami w Portfolio, niezależne od projektów-klientów.
-- **Nawigacja biznesowa**: skróty do poprzednich modułów: CRM, kalendarz rezerwacji, raporty, usługi — BEZ zmian w logice płatności i refundacji.
+1. Rozpakuj `LKM_26_1_Admin.zip`.
+2. Wgraj **wszystkie pliki z paczki** do **katalogu głównego** repozytorium `LilKangoo/LilKangooMedia`, zachowując ścieżki. Zamień pliki o identycznych nazwach. **Nie usuwaj** innych plików projektu.
+3. Zrób `Commit changes` na branchu, który Netlify wdraża jako produkcyjny.
+4. Sprawdź, czy Netlify pokazuje **Published** dla tego commita. Nie trzeba nic konfigurować w Supabase ani Stripe.
+5. Otwórz `https://lilkangoomedia.com/admin.html` (w pierwszej kolejności bez żadnych parametrów `?utm_source=...`).
+6. Jeśli nadal widać starą wersję, zrób twarde odświeżenie na Macu: **Shift + Command + R**, ewentualnie otwórz w prywatnym oknie. Sprawdź, czy Netlify naprawdę opublikował nowy `admin.html`.
 
-## Jak rozwiązać podwójną kartę Eléa Golf Club
+## Jak wygląda jeden Admin?
 
-1. Otwórz **Command Center → Projects & Stories → Eléa Golf Club**.
-2. W `Gallery access` pozostaw **Public** — umożliwia to otwarcie galerii po bezpośrednim adresie i wyświetlanie zdjęć w Story.
-3. Odznacz `Show a gallery card in Portfolio` (SQL ustawia to automatycznie dla opublikowanego istniejącego Eléa Case Study).
-4. W sekcji Story pozostaw `Publish the story` zaznaczone.
-5. Na `/portfolio.html` projekt Eléa pojawi się **jako Story**, ale nie jako osobna karta Visual Gallery.
-6. W **Media Library** możesz przypisać te same zdjęcia także do kolekcji `Sports & Hospitality` (jeśli ją utworzysz), bez ponownego przesyłania zdjęć.
+W jednym ciemnym menu masz:
 
-**UWAGA:** „Hide” ukrywa konkretną publikację/przypisanie, **nie usuwa oryginalnego pliku**. Oryginalne zdjęcia z `Web.zip` i materiały prywatne Mariusza/Agnieszki nie są przez ten skrypt kopiowane ani publikowane. Jeśli mają się pojawić publicznie, trzeba podjąć osobną decyzję o ich wykorzystaniu.
+- **Overview** — dashboard Command Center z prawdziwymi licznikami Supabase.
+- **Master Media Library** — zdjęcia, filmy, wyszukiwanie, przypisania do wielu kolekcji / projektów / usług.
+- **Projects & Stories** — projekty, historie współpracy oraz niezależna widoczność karty galerii i Case Study.
+- **Portfolio Collections** — tematyczne kolekcje fotografii i wideo.
+- **Articles & SEO**, **Customer Reviews**, **Links Library**.
+- **Services & Pricing**, **Enquiries & Bookings**, **Sales CRM**, **Quotes & Proposals**, **Availability Calendar**, **Sales Reports**.
 
-## Przykładowa procedura kontroli po deployu
+**Ważny szczegół techniczny:** zakładki Portfolio Studio są natywną częścią Command Center. Dla dotychczasowych, złożonych narzędzi biznesowych (CRM, wyceny, kalendarz, itp.) nowy panel wyświetla **ich istniejące strony w tej samej bezpiecznej ramce administracyjnej (same-origin iframe)**. Pozwala to mieć jedno menu i jeden adres Admin, zachowując ich sprawdzone funkcje, zamiast ryzykownie przepisywać płatności i formularze. Wygląd starszych formularzy może miejscami zachować elementy poprzedniego wzornictwa — otrzymują jednak ciemne tło oraz nowe otoczenie. To nie jest jeszcze całkowite przepisanie każdego modułu na identyczny system komponentów.
 
-1. W panelu zobacz realne liczniki z Supabase, nie dane poglądowe z mockupu.
-2. Przejdź do **Projects & Stories**: Eléa ma `Show a gallery card` wyłączone; Case Study pozostaje opublikowane.
-3. Sprawdź **https://lilkangoomedia.com/portfolio.html** — karta galerii Eléa nie powinna być zdublowana, ale Story powinno pozostać widoczne.
-4. Otwórz **https://lilkangoomedia.com/portfolio.html#/story/elea-golf-club** — sprawdź dwa filmy, galerię zdjęć i opis ponad 400 fotografii.
-5. W **Media Library** wybierz jedno istniejące zdjęcie; `Assign to…` → przypisz je do drugiej kolekcji w statusie `Review`; sprawdź w Inspectorze dwa przypisania.
-6. Przełącz jedno testowe przypisanie na `Public`, otwórz docelową galerię, potem przełącz na `Hide` i sprawdź, że inne przypisania pozostały.
-7. Nie wykonuj rzeczywistych płatności; CRM, kalendarz i Stripe działają według starych kodów.
-8. Na telefonie sprawdź poziomą nawigację, siatkę zdjęć, formularz projektu i dialog przypisania.
+W interfejsie: **zieleń** = publikacja/sukces, **złoto** = wyróżnienia, **czerwień** = ukrywanie/ostrzeżenia. Cały interfejs pozostaje **po angielsku**.
 
-## Architektura / bezpieczeństwo
+## Pliki w paczce
 
-- Tabele: `lkm_studio_assets` (jeden wpis na URL zdjęcia lub ID wideo), `lkm_studio_placements` (wiele powiązań), `lkm_studio_audit` (zapis wywołań przypisania).
-- Istniejące tabele `portfolio_images`, `media_videos` oraz `services.gallery_urls` pozostają źródłem dla publicznych ekranów. Administrator zapisuje powiązania transakcyjnie przez chronione RPC. Triggery aktualizują nowy indeks również wtedy, gdy materiały edytowane są w dotychczasowym CMS.
-- `portfolio_galleries.show_in_portfolio`: osobna kontrola karty galerii. `lkm_case_studies.is_published` nadal steruje widocznością historii; galeria Public nadal niezbędna do pokazania Story.
-- RLS na nowych tabelach: odczyt i zapis tylko dla administratora. RPC sprawdza `auth.uid()` i `lkm_is_admin()`.
-- Żadnych zmian w tabelach Stripe, płatnościach, zwrotach i prywatnym buckecie deliverables. **Zwroty nadal wyłącznie przez aplikację Stripe**.
-- **Ważne dotyczące prywatności**: bucket `portfolio` służy materiałom przeznaczonym do publikacji i jest publiczny. Nawet jeśli przypisanie ma `Review`, osoba mająca bezpośredni adres publicznego pliku może go otworzyć. Nigdy nie przesyłaj tu prywatnych plików klientów — używaj istniejącego prywatnego panelu dostarczania materiałów.
+```text
+admin.html                                  [ZMODYFIKOWANY — nowy GŁÓWNY Admin]
+admin-studio.html                           [ZMODYFIKOWANY — przekierowanie do Admin]
+admin-legacy.html                           [NOWY — zabezpieczenie / stary panel]
+assets/lkm-v3/studio.mjs                    [ZMODYFIKOWANY — wspólne menu i trasy]
+assets/lkm-v3/studio.css                    [ZMODYFIKOWANY — panel i ramki narzędzi]
+assets/lkm-v3/studio-embedded.css           [NOWY — ciemny wygląd starych narzędzi]
+README-START-TUTAJ-PL.md                    [INSTRUKCJA]
+```
 
-## Znane ograniczenia tej wersji
+**Nie zmieniono**: SQL, RLS, Storage, `store.js`, rezerwacji, Stripe, plików publicznej strony, danych CRM, plików klientów. Zwroty tylko w Stripe.
 
-- Kanoniczność oznacza **ten sam URL lub YouTube ID**; nie jest to pełne wykrywanie identycznych pikseli przy różnych nazwach plików.
-- Pola Title, ALT, Description i Tags w **Master Media Library** są metadanymi katalogu centralnego. Nie nadpisują automatycznie osobnych podpisów/ALT już przypisanych do istniejących galerii i filmów; te pozostają edytowalne w dotychczasowym panelu galerii.
-- Foldery-kolekcje są na tym etapie płaskie (nie wielopoziomowe). Jeden zasób można przypinać do dowolnej liczby kolekcji/projektów.
-- Na liście istniejącej galerii wyszukiwanie działa na aktualnej stronie wyników; dla wyszukiwania w całym indeksie użyj `All media`.
-- Supabase/PostgREST i funkcje SQL nie były uruchamiane na Twoim środowisku produkcyjnym. Przetestowano lokalne scenariusze UI z mockami oraz logikę źródeł, NIE rzeczywiste uprawnienia RLS, storage ani płatności.
-- Nowe **Command Center jest ciemne**; starsze specjalistyczne strony CRM, raportów, kalendarza i formularzy mogą nadal używać dotychczasowej kolorystyki. Ich głęboka przebudowa wizualna wymaga osobnej regresji, żeby nie uszkodzić funkcjonalności.
-- Wybór ukrycia z projektu nie usuwa oryginału z repozytorium lub Storage. To działanie jest celowo niedestrukcyjne.
+## Testy i co należy sprawdzić na produkcji
 
-## Testy lokalne
+**Testy lokalne na mockowanym Supabase:** 8 scenariuszy poprzedniego Studio + 6 nowych scenariuszy integracji Admin (wszystkie zaliczone); `node --check studio.mjs` PASS. Nie wykonano zapisu do produkcyjnego Supabase ani płatności.
 
-- `node --test tests/studio-model.test.mjs` — 6/6 PASS.
-- `python tests/test_studio_browser.py` — 8/8 scenariuszy PASS w mockowanym Chromium (desktop/mobile).
-- `python tests/test_phase26_static.py` — 4/4 PASS.
-- `node --check assets/lkm-v3/studio.mjs` — PASS.
+Test końcowy po deployu:
 
-### Strony i pliki
+1. `/admin.html` powinien wyświetlać ciemny **Command Center** zamiast starego menu.
+2. Kliknięcie **Services & Pricing** powinno pokazać dotychczasowe usługi *wewnątrz* nowej strony Admin.
+3. Kliknięcie **Media Library** powinno przywrócić natywny ciemny edytor zdjęć i filmów.
+4. **CRM → Quotes → Calendar** powinny otwierać istniejące narzędzia w tym samym Command Center; nie wykonuj prawdziwej płatności w teście.
+5. **Projects & Stories** powinno zachować Eléa Golf Club i ustawienie ukrywania drugiej karty galerii.
+6. `/admin-studio.html` powinien przenieść do `/admin.html`.
+7. W razie problemu wejdź na `/admin-legacy.html` i użyj oryginalnego panelu; niczego nie usuwamy z bazy.
 
-- `admin-studio.html` — nowy ciemny panel.
-- `admin.html` — tylko przycisk prowadzący do Command Center.
-- `portfolio.html` — podpięta obsługa kontroli widoczności kart.
-- `assets/lkm-v3/studio.{css,mjs}` — logika, projekt UI i panel.
-- `assets/lkm-v3/studio-model.mjs` — walidacja i niezależne funkcje.
-- `assets/lkm-v3/studio-portfolio-visibility.js` — niezależna widoczność kart.
-- `supabase/migrations/20261111_lkm_portfolio_studio.sql` — jedyna nowa migracja.
+**Dwa ograniczenia:** pierwsze wejście do starszej zakładki może na moment pokazać jej oryginalny wygląd przed nałożeniem ciemnego motywu; przy przejściu do innej zakładki niezapisany formularz w starszym narzędziu może zostać zamknięty — **zapisz przed zmianą zakładki**.
 
-**To jest aktualizacja inkrementalna; NIE usuwaj starych plików ani starych SQL.**
+## Co zrobić, jeśli nadal nie widać zmian?
+
+- Sprawdź w produkcyjnym repo, czy zawartość `admin.html` zawiera **`id="lkmStudio"`**. Jeśli nadal zawiera `id="adminRoot"`, to nowy plik nie został wdrożony.
+- Sprawdź, czy nowe pliki `assets/lkm-v3/studio.mjs` i `studio-embedded.css` znajdują się w repozytorium **w tym samym katalogu**, co `studio.css`.
+- Otwórz bezpośrednio `/admin.html`, nie stary link z cache; twardo odśwież.
+- Jeśli otwiera się czarny panel z błędem danych, sprawdź, czy wcześniejsza migracja Phase 26 została poprawnie wykonana. **Nie uruchamiaj jej ponownie bez analizy konkretnego komunikatu błędu.**
+
+**Stan po wygenerowaniu:** kod i testy lokalne gotowe; wdrożenie w GitHub/Netlify jest po stronie użytkownika. Nie twierdzimy, że produkcja została przetestowana end-to-end.

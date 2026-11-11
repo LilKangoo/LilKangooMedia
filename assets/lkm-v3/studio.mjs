@@ -7,7 +7,24 @@ import {uuidOK,slugOK,youtubeID,imageURL,clean,esc,safeSearch,tagsFromInput,pars
 const app=document.getElementById('lkmStudio'),store=window.LKMStore,cfg=window.LKM_CONFIG||{};
 const base=String(cfg.SUPABASE_URL||'').replace(/\/+$/,''),anon=String(cfg.SUPABASE_ANON_KEY||'');
 const PAGE=36;
-const state={tab:'dashboard',ready:false,busy:false,error:'',toast:'',galleries:[],services:[],stories:[],audit:[],
+// One true admin entry point: /admin.html. Specialist editors retain their original code
+// in an authenticated, same-origin workspace embedded inside this Command Center.
+// Never interpolate URL input into iframe sources; only this constant allowlist is used.
+const TOOL_PANELS=Object.freeze({
+ services:{title:'Services & Pricing',desc:'Manage services, pricing models, packages and service descriptions.',url:'/admin-legacy.html?embedded=1#services'},
+ inquiries:{title:'Enquiries & Bookings',desc:'Review incoming requests and booking enquiries.',url:'/admin-legacy.html?embedded=1#leads'},
+ crm:{title:'Sales CRM',desc:'Manage your contacts, pipeline and follow-ups.',url:'/admin-crm.html'},
+ quotes:{title:'Quotes & Proposals',desc:'Build quotes using the existing approved workflow.',url:'/admin-quotes.html'},
+ calendar:{title:'Availability Calendar',desc:'Manage time slots and availability in your existing calendar.',url:'/admin-calendar.html'},
+ reports:{title:'Sales Reports',desc:'View the existing reporting and conversion dashboards.',url:'/admin-reports.html'},
+ articles:{title:'Articles & SEO',desc:'Edit blog articles, categories and publishing information.',url:'/admin-legacy.html?embedded=1#articles'},
+ reviews:{title:'Customer Reviews',desc:'Moderate and manage approved customer reviews.',url:'/admin-reviews.html'},
+ links:{title:'Links Library',desc:'Manage your collection of approved website links.',url:'/admin-links.html'},
+});
+const CORE_TABS=Object.freeze(['dashboard','media','projects','collections']);
+const ALLOWED_TABS=new Set([...CORE_TABS,...Object.keys(TOOL_PANELS)]);
+function tabFromLocation(){const val=String(location.hash||'').replace(/^#\/?/,'');return ALLOWED_TABS.has(val)?val:'dashboard'}
+const state={tab:tabFromLocation(),ready:false,busy:false,error:'',toast:'',galleries:[],services:[],stories:[],audit:[],
  assets:[],assetCount:0,assetPage:0,mediaType:'all',search:'',folder:'',assetById:new Map(),selected:new Set(),activeAsset:'',placements:[],
  projectId:'',newProject:null,studioCatalog:null,catalogSearch:'',catalogCount:0,uploadStatus:''};
 
@@ -37,19 +54,29 @@ function countTitle(v){return Number(v||0).toLocaleString('en-GB')}
 function navButton(tab,icon,label,count){return `<button type="button" data-action="nav" data-tab="${tab}" class="${state.tab===tab?'active':''}"><span class="nav-icon">${icon}</span><span>${label}</span>${count!=null?`<span class="nav-count">${count}</span>`:''}</button>`}
 function navHref(href,icon,label){return `<a href="${href}"><span class="nav-icon">${icon}</span><span>${label}</span></a>`}
 function shell(){app.innerHTML=`<div class="studio-shell">
- <aside class="studio-sidebar"><a class="studio-brand" href="/admin-studio.html"><img src="/assets/lkm-v3/brand/logo-profile.png" alt="LilKangooMedia"><span><strong>LilKangooMedia</strong><small>Command Center</small></span></a>
-  <div class="studio-nav-group">Workspace</div><nav class="studio-nav" aria-label="Command Center">
-  ${navButton('dashboard','⌂','Overview')}${navButton('media','▧','Media Library')}${navButton('projects','▱','Projects & Stories',state.galleries.length)}${navButton('collections','▣','Collections')}
-  </nav><div class="studio-nav-group">Business operations</div><nav class="studio-nav" aria-label="Business administration">
-   ${navHref('/admin.html','⚙','Services & Main Admin')}${navHref('/admin-crm.html','◈','CRM & Enquiries')}${navHref('/admin-calendar.html','◷','Booking Calendar')}${navHref('/admin-reports.html','▤','Sales & Reports')}
-  </nav><div class="studio-nav-group">Public website</div><nav class="studio-nav" aria-label="Public links">
+ <aside class="studio-sidebar"><a class="studio-brand" href="/admin.html"><img src="/assets/lkm-v3/brand/logo-profile.png" alt="LilKangooMedia"><span><strong>LilKangooMedia</strong><small>Admin · Command Center</small></span></a>
+  <div class="studio-nav-group">Overview & Content</div><nav class="studio-nav" aria-label="Command Center">
+  ${navButton('dashboard','⌂','Overview')}${navButton('media','▧','Master Media Library')}${navButton('projects','▱','Projects & Stories',state.galleries.length)}${navButton('collections','▣','Portfolio Collections')}${navButton('articles','▤','Articles & SEO')}${navButton('reviews','★','Customer Reviews')}${navButton('links','↗','Links Library')}
+  </nav><div class="studio-nav-group">Sales & Business</div><nav class="studio-nav" aria-label="Business administration">
+   ${navButton('services','⚙','Services & Pricing')}${navButton('inquiries','✉','Enquiries & Bookings')}${navButton('crm','◈','Sales CRM')}${navButton('quotes','◇','Quotes & Proposals')}${navButton('calendar','◷','Availability Calendar')}${navButton('reports','▤','Sales Reports')}
+  </nav><div class="studio-nav-group">Public Website</div><nav class="studio-nav" aria-label="Public links">
    ${navHref('/portfolio.html','↗','Portfolio')}${navHref('/portfolio.html#/stories','↗','Project Stories')}${navHref('/','↗','View Website')}
-  </nav><div class="studio-sidebar-footer">Protected by Supabase Auth &amp; admin RLS.<br>Gold: priority · Green: live · Red: hidden/error<br><strong>Phase 26</strong> · no client files or Stripe refunds</div>
+  </nav><div class="studio-sidebar-footer">Protected by Supabase Auth &amp; admin RLS.<br><span style="color:var(--gold)">● Gold</span> priority · <span style="color:var(--green)">● Green</span> published · <span style="color:var(--red)">● Red</span> alerts<br>All tools inside your main Admin.</div>
  </aside>
- <div class="studio-main"><header class="studio-topbar"><div><div class="studio-breadcrumb">LilKangooMedia / <b>Command Center</b></div><h1>${h(({dashboard:'Dashboard',media:'Media Library',projects:'Projects & Stories',collections:'Portfolio Collections'})[state.tab])}</h1></div><div class="studio-top-actions"><a class="studio-btn ghost" href="/admin.html">Legacy admin ↗</a><a class="studio-btn ghost" href="/portfolio.html" target="_blank" rel="noopener noreferrer">Live website ↗</a><button class="studio-btn ghost" data-action="refresh">↻ Refresh</button><span class="studio-avatar" aria-label="Administrator">LKM</span><button class="studio-btn ghost" data-action="logout">Sign out</button></div></header>
+ <div class="studio-main"><header class="studio-topbar"><div><div class="studio-breadcrumb">LilKangooMedia / <b>Admin Command Center</b></div><h1>${h(TOOL_PANELS[state.tab]?.title||({dashboard:'Dashboard',media:'Media Library',projects:'Projects & Stories',collections:'Portfolio Collections'})[state.tab]||'Admin')}</h1></div><div class="studio-top-actions"><a class="studio-btn ghost" href="/admin-legacy.html" target="_blank" rel="noopener noreferrer" title="Emergency classic administrator">Classic backup ↗</a><a class="studio-btn ghost" href="/portfolio.html" target="_blank" rel="noopener noreferrer">Live website ↗</a><button class="studio-btn ghost" data-action="refresh">↻ Refresh</button><span class="studio-avatar" aria-label="Administrator">LKM</span><button class="studio-btn ghost" data-action="logout">Sign out</button></div></header>
  <main class="studio-content" id="studioContent">${content()}</main></div></div><div id="studioToast" class="studio-toast" role="status" hidden></div>
  <dialog id="studioDialog" class="studio-dialog"></dialog>`}
-function content(){if(state.error)return `<div class="studio-alert error"><strong>Command Center could not load.</strong><p>${h(state.error)}</p><p>Run the one Phase 26 SQL migration in Supabase before opening the Studio. Your existing admin stays available at <a href="/admin.html" style="color:var(--gold)">Legacy Admin ↗</a>.</p><button class="studio-btn" data-action="refresh">Retry connection</button></div>`;
+function embeddedTool(tab){
+ const tool=TOOL_PANELS[tab];if(!tool)return '';
+ // Constant same-origin path from trusted allowlist, never from a user-supplied string.
+ return `<section class="studio-tool-workspace" aria-label="${h(tool.title)} workspace">
+  <header class="studio-tool-heading"><div><p class="studio-eyebrow">BUSINESS MANAGEMENT · INSIDE ADMIN</p><h2>${h(tool.title)}</h2><p>${h(tool.desc)}</p></div><a class="studio-btn ghost" href="${tool.url}" target="_blank" rel="noopener noreferrer">Open full screen ↗</a></header>
+  <iframe class="studio-tool-frame" id="studioToolFrame" title="${h(tool.title)}" src="${tool.url}" loading="eager" referrerpolicy="same-origin"></iframe>
+  <p class="studio-help studio-tool-footnote">This is your existing protected tool inside Command Center. Edits use the original Supabase permissions and business logic. Save changes before switching to another section.</p>
+ </section>`;
+}
+function content(){if(TOOL_PANELS[state.tab])return embeddedTool(state.tab);
+ if(state.error)return `<div class="studio-alert error"><strong>Command Center content could not load.</strong><p>${h(state.error)}</p><p>Your original tools are preserved at <a href="/admin-legacy.html" style="color:var(--gold)">Classic Admin ↗</a>. If this error persists, check the Phase 26 SQL migration.</p><button class="studio-btn" data-action="refresh">Retry connection</button></div>`;
  return state.tab==='dashboard'?dashboard():state.tab==='media'?mediaView():projectView(state.tab==='collections');}
 function head(eyebrow,title,description,buttons=''){return `<div class="studio-head"><div><p class="studio-eyebrow">${eyebrow}</p><h1>${title}</h1><p>${description}</p></div><div class="studio-buttons">${buttons}</div></div>`}
 function stat(title,val,icon,note){return `<section class="studio-kpi"><div class="kpi-icon">${icon}</div><small>${title}</small><strong>${countTitle(val)}</strong><em>${note}</em></section>`}
@@ -178,7 +205,7 @@ function showLogin(message=''){
  app.innerHTML=`<div class="studio-auth"><div class="studio-auth-card"><img src="/assets/lkm-v3/brand/logo-profile.png" alt="LilKangooMedia"><p class="studio-eyebrow">PROTECTED COMMAND CENTER</p><h1>Welcome back.</h1><p>Sign in with your existing LilKangooMedia administrator account to manage portfolio assets, projects and stories.</p>
  ${message?`<div class="studio-alert error">${h(message)}</div>`:''}
  <form id="studioLogin"><label class="studio-field">Email<input name="email" type="email" autocomplete="username" class="studio-input" required></label><label class="studio-field">Password<input name="password" type="password" autocomplete="current-password" class="studio-input" required></label><button type="submit" class="studio-btn primary">Sign in to Command Center →</button></form>
- <p class="studio-help" style="margin-top:18px">Your credentials are verified by the existing Supabase Auth system. No passwords are stored in this page.</p><a class="studio-btn ghost" href="/admin.html">← Existing Admin</a></div></div>`;
+ <p class="studio-help" style="margin-top:18px">Your credentials are verified by the existing Supabase Auth system. No passwords are stored in this page.</p><a class="studio-btn ghost" href="/admin-legacy.html">Open classic backup ↗</a></div></div>`;
 }
 function openDialog(html){const d=document.getElementById('studioDialog');if(!d)return;d.innerHTML=html;d.showModal();}
 function closeDialog(){document.getElementById('studioDialog')?.close()}
@@ -205,9 +232,22 @@ function renderCatalogGrid(){const target=document.getElementById('studioCatalog
  return `<article class="studio-asset"><button type="button" class="studio-asset-button" data-action="import-site-asset" data-url="${h(valid)}" data-title="${h(clean(x.file||x.path,180))}"><img loading="lazy" src="${h(valid)}" alt=""><span class="asset-name">${h(x.file||x.path)}</span><span class="asset-meta">Use existing file ↗</span></button></article>`;}).join('');
 }
 async function loadWebsiteCatalog(){try{const r=await fetch('/api/media-catalog',{headers:{Accept:'application/json'}});const json=await r.json();if(!r.ok||!Array.isArray(json.images))throw Error(json.error||'Catalog not accessible');state.studioCatalog=json.images;renderCatalogGrid()}catch(e){state.studioCatalog=[];const x=document.getElementById('studioCatalogStatus');if(x)x.textContent='Website media catalog unavailable: '+safeError(e)}}
-async function refreshSection(){try{state.error='';await loadBase();await loadAssets();shell()}catch(e){state.error=safeError(e);shell();toast('Reload failed: '+safeError(e),true)}}
-async function changeTab(next){if(!['dashboard','media','projects','collections'].includes(next))return;state.tab=next;state.newProject=null;
- if(next==='media')await loadAssets();shell()}
+async function refreshSection(){
+ if(TOOL_PANELS[state.tab]){const frame=app.querySelector('#studioToolFrame');if(frame){frame.src=TOOL_PANELS[state.tab].url;toast('Current tool refreshed.');}return;}
+ try{state.error='';await loadBase();await loadAssets();shell()}catch(e){state.error=safeError(e);shell();toast('Reload failed: '+safeError(e),true)}
+}
+async function changeTab(next,{updateHash=true}={}){
+ if(!ALLOWED_TABS.has(next))return;
+ // Only navigate after a confirmed selection, keeping a single /admin.html address.
+ state.tab=next;state.newProject=null;
+ if(next==='media'&&!state.error)await loadAssets();
+ shell();
+ if(updateHash&&location.hash!=='#'+next)location.hash='#'+next;
+}
+window.addEventListener('hashchange',()=>{
+ const next=tabFromLocation();
+ if(next!==state.tab)void changeTab(next,{updateHash:false}).catch(e=>toast(safeError(e),true));
+});
 async function registerAsset(kind,source,title){const mtype=kind==='youtube'?'youtube':'image';const src=mtype==='youtube'?youtubeID(source):imageURL(source);
  if(!src)throw Error(mtype==='youtube'?'Enter a valid YouTube video or Shorts URL.':'Use an HTTPS photo URL or a /assets/... image path.');
  return await rpcValue('lkm_studio_register_asset',{p_media_type:mtype,p_source:src,p_title:clean(title,180)});
@@ -365,6 +405,42 @@ async function handleForm(form){
   }catch(e){toast(safeError(e),true)}finally{setBusy(false)}return;
  }
 }
+// Keep all specialist tools visually inside the dark admin. This is a same-origin
+// enhancement only; it never touches forms or business data, and falls back cleanly.
+app.addEventListener('load',event=>{
+ const frame=event.target;
+ if(!frame||frame.id!=='studioToolFrame'||frame.tagName!=='IFRAME')return;
+ try{
+  const doc=frame.contentDocument;
+  if(!doc||doc.location.origin!==location.origin||!doc.head)return;
+  doc.documentElement.classList.add('lkm-unified-embedded');
+  if(!doc.querySelector('link[data-lkm-unified-theme]')){
+   const link=doc.createElement('link');link.rel='stylesheet';
+   link.href='/assets/lkm-v3/studio-embedded.css';link.dataset.lkmUnifiedTheme='1';
+   doc.head.append(link);
+  }
+  // Keep links BETWEEN management tools within one sidebar: no nested admin pages.
+  if(!doc.documentElement.dataset.lkmFrameLinks){
+   doc.documentElement.dataset.lkmFrameLinks='1';
+   doc.addEventListener('click',e=>{
+    const a=e.target?.closest?.('a[href]');
+    if(!a||e.defaultPrevented||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||a.hasAttribute('download')||a.target==='_blank')return;
+    let url;try{url=new URL(a.href,location.href)}catch{return}
+    if(url.origin!==location.origin)return;
+    const paths={'/admin-crm.html':'crm','/admin-quotes.html':'quotes','/admin-calendar.html':'calendar',
+      '/admin-reports.html':'reports','/admin-reviews.html':'reviews','/admin-links.html':'links',
+      '/admin-case-studies.html':'projects'};
+    let target=paths[url.pathname]||'';
+    if(url.pathname==='/admin.html'||url.pathname==='/admin-legacy.html'||url.pathname==='/admin-studio.html'){
+      const key=url.hash.replace(/^#/,'');
+      target=({leads:'inquiries',services:'services',articles:'articles',galleries:'collections',media:'media'})[key]||tabFromLocation();
+    }
+    if(!ALLOWED_TABS.has(target))return;
+    e.preventDefault();void changeTab(target).catch(err=>toast(safeError(err),true));
+   },true);
+  }
+ }catch(_e){/* Frame navigated away; never access a foreign-origin document. */}
+},true);
 let searchTimer;
 app.addEventListener('click',event=>{
  const btn=event.target.closest('[data-action]');if(!btn)return;
@@ -396,8 +472,10 @@ app.addEventListener('input',event=>{
 });
 async function boot(){
  if(!store?.configured||!base.startsWith('https://')||!anon){showLogin('Supabase is not configured for production. Check /lkm-config.js.');return}
- try{if(store.getSession()&&await store.isAdmin()){await refreshAll();return}}
- catch(e){if(/lkm_studio_/.test(String(e?.message||'')))state.error=safeError(e);}
+ try{if(store.getSession()&&await store.isAdmin()){
+  try{await refreshAll()}catch(e){state.error=safeError(e);state.ready=true;shell()}
+  return;
+ }}catch(e){if(/lkm_studio_/.test(String(e?.message||'')))state.error=safeError(e);}
  showLogin();
 }
 void boot();

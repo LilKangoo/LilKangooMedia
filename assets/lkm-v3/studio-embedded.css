@@ -1,0 +1,35 @@
+/* Visual compatibility only. Loaded by admin-legacy.html, activated exclusively in iframe. */
+html.lkm-legacy-embed,html.lkm-legacy-embed body{background:#0d1715!important;color:#e0f0e6!important;color-scheme:dark;min-height:100%}
+html.lkm-legacy-embed .site-header,html.lkm-legacy-embed .admin-sidebar{display:none!important}
+html.lkm-legacy-embed #adminRoot,html.lkm-legacy-embed #cmsRoot{background:#0d1715!important;color:#e0f0e6!important;min-height:100%;width:100%!important;max-width:none!important}
+html.lkm-legacy-embed .admin-shell{display:block!important;max-width:none!important;width:100%!important;margin:0!important;padding:0!important}
+html.lkm-legacy-embed .admin-main{max-width:none!important;min-width:0!important;width:100%!important;margin:0!important;padding:15px!important;background:#0d1715!important}
+html.lkm-legacy-embed .cms-root[data-embedded="1"]{padding:12px!important}
+html.lkm-legacy-embed .admin-main h1,html.lkm-legacy-embed .admin-main h2,html.lkm-legacy-embed .admin-main h3,html.lkm-legacy-embed .cms-root h1,html.lkm-legacy-embed .cms-root h2,html.lkm-legacy-embed .cms-root h3{color:#ebf7ed!important}
+html.lkm-legacy-embed .admin-editor,html.lkm-legacy-embed .admin-card,html.lkm-legacy-embed .lkm-service-row-wrap,html.lkm-legacy-embed .lkm-service-expanded,html.lkm-legacy-embed .cms-panel,html.lkm-legacy-embed .cms-item,html.lkm-legacy-embed .cms-root .cms-list{background:#172721!important;color:#e0f3e5!important;border-color:#305143!important;box-shadow:none!important}
+html.lkm-legacy-embed .lkm-service-row,html.lkm-legacy-embed .lkm-price-row,html.lkm-legacy-embed .lkm-price-addon,html.lkm-legacy-embed .lkm-feature-editor{background:#1b2b24!important;color:#e4f4e6!important;border-color:#3b5445!important}
+html.lkm-legacy-embed .cms-root .cms-muted,html.lkm-legacy-embed .admin-main .hint,html.lkm-legacy-embed .admin-main small{color:#a3bbad!important}
+html.lkm-legacy-embed .cms-field label,html.lkm-legacy-embed .cms-root label,html.lkm-legacy-embed .admin-main label{color:#c6e4ce!important}
+html.lkm-legacy-embed input:not([type=checkbox]):not([type=radio]),html.lkm-legacy-embed textarea,html.lkm-legacy-embed select{color:#edf8ef!important;background:#0e1d17!important;border:1px solid #3a624a!important;border-radius:7px!important}
+html.lkm-legacy-embed input::placeholder,html.lkm-legacy-embed textarea::placeholder{color:#7c9c86!important}
+html.lkm-legacy-embed .button-light,html.lkm-legacy-embed .cms-btn.secondary{background:#1f3529!important;color:#d6f7df!important;border-color:#477253!important}
+html.lkm-legacy-embed .button-dark,html.lkm-legacy-embed .cms-btn:not(.secondary){background:#296943!important;color:#f0fff2!important}
+html.lkm-legacy-embed .cms-item[aria-current=true]{outline:1px solid #d9b95e!important}
+html.lkm-legacy-embed .notice,html.lkm-legacy-embed .cms-note{background:#223629!important;color:#f7d78e!important;border-color:#705b35!important}
+html.lkm-legacy-embed a:focus-visible,html.lkm-legacy-embed button:focus-visible{outline:2px solid #eccc72!important}
+
+/* Other original admin modules remain functional, with restrained dark surfaces.
+   Screen-only to preserve the untouched quotation PDF/print layout. */
+@media screen {
+ html.lkm-unified-embedded,html.lkm-unified-embedded body{color-scheme:dark;background:#0d1715!important;color:#edf7ec!important}
+ html.lkm-unified-embedded .site-header,html.lkm-unified-embedded .lkm24-top-nav,html.lkm-unified-embedded .lkm24-footer{display:none!important}
+ html.lkm-unified-embedded :is(.lkm23-shell,.lkm23-quotes-shell,.lkm24-shell,.lkmcal-container,.lkm-reviews-admin-main){max-width:none!important;width:100%!important;margin:0!important;padding:17px 16px 40px!important;color:#e7f5ea!important;background:#0d1715!important}
+ html.lkm-unified-embedded :is(.lkm23-top,.lkm23q-head,.lkm24-top,.lkmcal-heading) h1{color:#eaffed!important}
+ html.lkm-unified-embedded :is(.lkm23-shell,.lkm24-shell,.lkmcal-container,.lkm23-quotes-shell) :is(h1,h2,h3){color:#eff7ed!important}
+ html.lkm-unified-embedded :is(.lkm23-crm-page,.lkm23-quote-page,.lkm24-page){background:#0d1715!important;color:#e3eee8!important}
+ html.lkm-unified-embedded :is(.lkm23-panel,.lkm23q-panel,.lkm24-panel,.lkmcal-panel,.lkm-review-card,.lkm-review-admin-stats){background:#182c23!important;color:#e3eee8!important;border-color:#315142!important}
+ html.lkm-unified-embedded :is(input:not([type=checkbox]):not([type=radio]),textarea,select){color:#ecf8ef!important;background:#14271e!important;border-color:#40604b!important}
+ html.lkm-unified-embedded :is(input,textarea)::placeholder{color:#91ab9b!important}
+ html.lkm-unified-embedded :is(.button-light,.cms-btn.secondary){background:#203d2c!important;border-color:#527b5b!important;color:#e3fce7!important}
+ html.lkm-unified-embedded :is(a,button,input,textarea,select):focus-visible{outline:2px solid #f0cc71!important;outline-offset:2px}
+}
