@@ -10,7 +10,7 @@ import argparse
 import re
 from pathlib import Path
 
-STYLE='/assets/lkm-v3/phase30-public.css?v=30-0'
+STYLE='/assets/lkm-v3/phase30-public.css?v=30-2'
 SCRIPT='/assets/lkm-v3/phase30-public.js?v=30-0'
 CSS_TAG=f'<link rel="stylesheet" href="{STYLE}" data-lkm30="theme">'
 JS_TAG=f'<script defer src="{SCRIPT}" data-lkm30="navigation"></script>'
@@ -41,6 +41,9 @@ def add_class(match:re.Match[str])->str:
 
 def patch(source:str)->str:
     changed=source
+    if 'data-lkm30="theme"' in changed:
+        # Update a checked-in older version of the theme instead of caching v=30-0.
+        changed=re.sub(r'/assets/lkm-v3/phase30-public\.css(?:\?v=[\w.-]+)?',STYLE,changed,count=1)
     if 'data-lkm30="theme"' not in changed:
         changed=re.sub(r'</head\s*>',CSS_TAG+'\n</head>',changed,count=1,flags=re.I)
     if 'data-lkm30="navigation"' not in changed:

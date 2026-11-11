@@ -236,3 +236,169 @@ body.lkm30-public.lkm-case-public-page :is(.lkm-case-gallery-link,.lkm-case-kick
 body.lkm30-public #reviewsMain .lkm-review-response{border-color:#746656}
 body.lkm30-public #reviewsMain .lkm-review-response summary{color:#ffca82}
 body.lkm30-public .lkm25-hub h2{color:#fff}
+
+
+/* --------------------------------------------------------------------------
+   Phase 30.2 — Portfolio Stories: Graphite & Gold consistency hotfix
+   Scoped to /portfolio.html. Legacy portfolio-stories.css has more specific
+   ID selectors than the shared Phase 30 theme; these fix its green remnants.
+   All cards/links, public CMS rendering, routes and story reader remain intact.
+   -------------------------------------------------------------------------- */
+body.lkm30-public[data-cms-page="portfolio"] {
+  --lkm30-portfolio-card:#302d28;
+  --lkm30-portfolio-raised:#38342e;
+  --lkm30-portfolio-line:#897761;
+  --lkm30-portfolio-text:#faf7f1;
+  --lkm30-portfolio-muted:#e2d8ca;
+  --lkm30-portfolio-gold:#ffc97a;
+}
+/* Galleries / Stories switcher */
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav {
+  background:rgba(44,41,37,.95);border-color:var(--lkm30-portfolio-line);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav-link {
+  color:var(--lkm30-portfolio-text);border-color:transparent;
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav-link:hover,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav-link.is-current {
+  background:var(--lkm30-portfolio-raised);border-color:var(--lkm30-portfolio-line);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav-icon {
+  background:#4a4032;color:var(--lkm30-portfolio-gold);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav-link.is-current .lkm-ps-nav-icon {
+  background:#f5ac42;color:#252019;
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav-copy small {
+  color:var(--lkm30-portfolio-gold);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-nav-copy strong {
+  color:var(--lkm30-portfolio-text);
+}
+/* Stories heading, section lead, and main CTA */
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-stories {
+  border-top-color:var(--lkm30-portfolio-line);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-kicker,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-kicker {
+  color:var(--lkm30-portfolio-gold);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-section-head h2 {
+  color:var(--lkm30-portfolio-text);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-intro {
+  color:var(--lkm30-portfolio-muted);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-view-all,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-gallery-story-cta {
+  color:#241b10;background:#f5ac42;border-color:#f5ac42;
+  text-decoration:none;
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-view-all:hover,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-gallery-story-cta:hover {
+  color:#201912;background:#ffd18e;border-color:#ffd18e;
+}
+/* Project story cards and gallery-to-story callout */
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card {
+  background:var(--lkm30-portfolio-card);color:var(--lkm30-portfolio-text);
+  border-color:var(--lkm30-portfolio-line);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card:hover {
+  border-color:#f5ac42;box-shadow:0 14px 28px #0005;
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card-visual {
+  background:linear-gradient(140deg,#3e382d,#211f1c);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card-no-image {
+  color:var(--lkm30-portfolio-muted);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card-badge {
+  background:#f9f5eb;color:#302419;
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card-category,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card-foot strong {
+  color:var(--lkm30-portfolio-gold);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card h3,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-gallery-story strong {
+  color:var(--lkm30-portfolio-text);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card p,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card-foot,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-gallery-story p {
+  color:var(--lkm30-portfolio-muted);
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card-foot {
+  border-top-color:#716450;
+}
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-empty,
+body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-gallery-story {
+  background:var(--lkm30-portfolio-card);color:var(--lkm30-portfolio-muted);
+  border-color:var(--lkm30-portfolio-line);
+}
+/* Single story reader (#/story/:slug), not just the catalogue listing */
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader {
+  background:transparent;color:var(--lkm30-portfolio-text);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-breadcrumb {
+  color:var(--lkm30-portfolio-muted);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-breadcrumb a,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-gallery-link {
+  color:var(--lkm30-portfolio-gold);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-story-hero .lkm-case-wrap {
+  background:linear-gradient(135deg,#3a342a,#292725 75%);
+  border:1px solid var(--lkm30-portfolio-line);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-story-hero h1,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-story-media h2,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-prose h2,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-deliverables h2,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-reader-empty h1 {
+  color:var(--lkm30-portfolio-text);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-story-client,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-prose p,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-reader-empty p,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-loading {
+  color:var(--lkm30-portfolio-muted);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-story-meta span {
+  background:#4a4033;color:#fff2db;border:1px solid #887459;
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-story-cover {
+  background:#2c2925;
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader :is(.lkm-case-prose,.lkm-case-deliverables,.lkm-ps-film-card,.lkm-ps-photo-card) {
+  background:var(--lkm30-portfolio-card);color:var(--lkm30-portfolio-text);
+  border-color:var(--lkm30-portfolio-line);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-deliverables li {
+  background:#423a30;color:#f8f5ed;border-color:#786956;
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-film-poster,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-film-player {
+  background:#171716;color:#fff;
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-play-icon {
+  background:#f5ac42;color:#201810;
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-film-description,
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-photo-card {
+  color:var(--lkm30-portfolio-text);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-ps-film-description a {
+  color:var(--lkm30-portfolio-gold);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-cta {
+  background:#342e27;border:1px solid var(--lkm30-portfolio-line);
+  color:var(--lkm30-portfolio-text);
+}
+body.lkm30-public[data-cms-page="portfolio"] .lkm-ps-reader .lkm-case-cta :is(h2,p){color:var(--lkm30-portfolio-text)}
+body.lkm30-public[data-cms-page="portfolio"] :is(#cmsPublic,.lkm-ps-reader) :is(a,button):focus-visible {
+  outline:3px solid #ffc97a;outline-offset:3px;
+}
+@media(prefers-reduced-motion:reduce){
+  body.lkm30-public[data-cms-page="portfolio"] #cmsPublic .lkm-ps-card:hover {transform:none}
+}
