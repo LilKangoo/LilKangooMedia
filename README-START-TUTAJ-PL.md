@@ -1,52 +1,62 @@
-# LilKangooMedia — Phase 26.4: Admin Contrast Hotfix
+# LilKangooMedia — Phase 26.5: Service Video & Admin Modal Contrast
 
-**Poprawka uzupełniająca do LKM 26.3.** Dotyczy błędów widocznych na dwóch zrzutach z 11 listopada 2026, bez zmian w bazie danych, formularzach ani logice aplikacji.
+## Punkt wyjścia
 
-## Co naprawia
+Jest to **poprawka uzupełniająca do zainstalowanej wersji 26.4** (nie pełna paczka projektu).
+Sprawdzono plik `assets/lkm-v3/studio-embedded.css` w repozytorium GitHub
+`LilKangoo/LilKangooMedia` przed przygotowaniem ZIP-a: jego Git blob SHA
+`1426ee0be8277f3392aac725b6a4056be2e00253` był zgodny z paczką LKM 26.4.
 
-1. **Sales CRM → Client portal access:** biały prostokąt, niewidoczne opisy, teksty stanu, adres e-mail, linki i etykiety. Teraz karta jest ciemnozielona i czytelna.
-2. **Sales CRM → Project & delivery tracking:** biały panel z jasnymi nagłówkami/opisami. Poprawiono także podrzędne pola, stany, notatki i komunikaty.
-3. **Sales CRM → Files & deliverables:** profilaktyczna poprawka analogicznych jasnych kart w module dostarczania plików.
-4. **Articles & SEO:** dotychczasowa poprawka stylowała `.cms-item`, ale prawdziwe wiersze artykułów to `.lkm-blog-item`. Poprawiono tła, tytuły, ścieżki, statusy Published/Review/Draft/Archived, hover, wybór i focus. Wewnętrzne okna edytora zachowują ciemny motyw.
+## Co poprawia
 
-**Dlaczego pozostały błędy po 26.3:** pliki źródłowe `article-admin.css`, `phase24-admin-portal.css`, `phase24-admin-projects.css` i `phase24-deliverables-admin.css` mają własne, jasne domyślne style. Poprzedni arkusz tematu nie obejmował wszystkich ich klas.
+1. **Services & Pricing → Videos for this service:** biały panel i nieczytelne jasne opisy. Teraz ciemna karta, czytelny nagłówek, opisy, liczba filmów, przyciski, karty przypiętych filmów i komunikaty.
+2. **Okno Choose videos from library:** okno, filtry, pola formularzy, listy filmów, zaznaczenia, statusy, przyciski, tooltipy/napisy i focus klawiatury.
+3. **Video Library:** ujednolicenie jasnego dotąd okna zarządzania filmami, wewnętrznych formularzy, wierszy i przycisków.
+4. **Synchronize YouTube videos:** ciemne okno synchronizacji, czytelne tytuły, opisy, wyniki, formularze, statusy i ostrzeżenia.
+5. **Okno wyboru zdjęcia i podgląd artykułu:** dodatkowa poprawka: `cms.js` tworzy okna poza `#cmsRoot`, więc wcześniejsze selektory nie obejmowały ich we wszystkich przypadkach.
+6. **Usługowy photo picker:** powiązany panel „Choose a video instead” również otrzymuje właściwy kontrast.
 
-## Wdrożenie — tylko JEDEN plik
+Plik źródłowy `video-admin.js` wstrzykuje CSS dopiero w trakcie działania strony. Dlatego sama wcześniejsza poprawka ogólnego motywu była niewystarczająca. Nowe selektory celują wyłącznie w iframe administracyjny; NIE zmieniają stron publicznych ani wydruku ofert.
 
-1. **Warunek:** najpierw musi być zainstalowana wersja **LKM 26.3**. Ta paczka jest poprawką do niej, a nie kompletnym projektem.
-2. Rozpakuj ZIP **LKM_26_4_Admin_Contrast_Hotfix.zip**.
-3. Otwórz swój katalog projektu / repozytorium **LilKangoo/LilKangooMedia** i przejdź do folderu:
+## Instalacja — JEDEN plik, BEZ SQL
 
-   `assets/lkm-v3/`
-
-4. Dla bezpieczeństwa zrób lokalną kopię dotychczasowego `studio-embedded.css`.
-5. Z ZIP skopiuj **TYLKO**:
+1. Upewnij się, że korzystasz już z wersji **LKM 26.4**.
+2. Pobierz i rozpakuj plik `LKM_26_5_Service_Video_Admin_Contrast.zip`.
+3. Otwórz lokalny folder/repozytorium **LilKangooMedia**.
+4. Zrób kopię zapasową pliku `assets/lkm-v3/studio-embedded.css`.
+5. Z rozpakowanego ZIP-a skopiuj:
 
    `assets/lkm-v3/studio-embedded.css`
 
-   **Podmień** dokładnie plik o tej samej nazwie we wskazanym folderze. Nie twórz dodatkowego podfolderu `assets` wewnątrz `assets/lkm-v3`.
-6. Zapisz zmianę w GitHub (**Commit / Push**), następnie sprawdź w **Netlify → Deploys**, czy nowa wersja ma status **Published**.
-7. W Chrome na Macu otwórz:
-   - `https://lilkangoomedia.com/admin#crm` — sprawdź prawy panel „Client portal access”, „Project & delivery tracking” i „Files & deliverables”.
-   - `https://lilkangoomedia.com/admin#articles` — sprawdź listę artykułów, statusy, zaznaczenie i wyszukiwanie.
+   do dokładnie tego samego miejsca w folderze projektu, zastępując stary plik.
+   **Nie twórz dodatkowego folderu `assets` w `assets/lkm-v3`.**
+6. Zrób **Commit + Push** do odpowiedniej gałęzi GitHub, z której wdrażany jest serwis.
+7. Sprawdź w **Netlify → Deploys**, czy wdrożenie ma status **Published**.
+8. W Chrome na Macu wykonaj twarde odświeżenie strony: **Shift + Command + R**.
 
-   Po każdej stronie odśwież `Shift + Command + R` (hard refresh). Jeśli nadal widać stare style, otwórz stronę w oknie incognito, aby wykluczyć cache przeglądarki.
+## Co sprawdzić po wdrożeniu
 
-## Ważne — czego NIE robić
+- `https://lilkangoomedia.com/admin#services` — otwórz usługę i przewiń do **Videos for this service**. Opisy, przyciski i karty powinny być czytelne na ciemnym tle.
+- Kliknij **Choose videos from library** — sprawdź filtry, zaznaczenie, przyciski, pustą listę i komunikaty; nie musisz nic zapisywać.
+- W panelu/backupie otwórz **Video Library** oraz **Synchronize YouTube videos**, sprawdź opisy i formularze.
+- `https://lilkangoomedia.com/admin#articles` — otwórz wybór zdjęcia i podgląd artykułu.
+- `https://lilkangoomedia.com/admin#crm` — upewnij się, że poprawki 26.4 nadal działają.
+- Sprawdź przy szerokim i wąskim oknie. Nie musisz zmieniać danych ani cen.
 
-- **SQL: NIE JEST POTRZEBNY.** Nie otwieraj SQL Editora. Nie uruchamiaj ponownie migracji z LKM 26.3.
-- **Nie podmieniaj** `studio.mjs`, `studio.css`, `admin.html`, `admin-crm.html`, `cms.js` ani plików `phase24-*` — nie były zmieniane.
-- **Nie zmieniaj** ustawień Supabase, RLS, Stripe, cen, treści artykułów ani bazy danych.
-- ZIP zawiera tylko zmieniony arkusz CSS i tę instrukcję. Rozpakowanie ZIP-a **nie wdraża** aktualizacji automatycznie.
+## SQL / inne pliki
 
-## Kontrola i zakres testów
+**SQL: NIE JEST POTRZEBNY.** Nie uruchamiaj migracji Supabase i nie zmieniaj RLS.
+**Nie podmieniaj:** `studio.mjs`, `studio.css`, `video-admin.js`, `video.css`, `admin.html`, `admin-legacy.html`, `cms.js`, `phase24-*` ani żadnych innych plików. Nie zmieniamy logiki zapisów, filmów, galerii ani cennika.
 
-- Porównano pliki wersji 26.3 z repozytorium LilKangoo/LilKangooMedia (zgodne SHA).
-- Potwierdzono rzeczywiste nazwy klas w kodzie repozytorium i kolejność podłączanych arkuszy.
-- CSS przeszedł kontrolę składni.
-- Lokalny test przeglądarkowy Chromium na makietach **odtwarzających rzeczywiste klasy i istotne reguły CSS**: szerokości 1400, 390 i 320 px. Zmierzony kontrast 15 reprezentatywnych elementów: **minimum 7,79:1**, czyli powyżej 4,5:1.
-- **Nie testowano zalogowanej produkcyjnej aplikacji na prawdziwych danych Supabase.** Potwierdź rezultat na wskazanych ekranach po publikacji Netlify.
+## Weryfikacja przed wydaniem
 
-## Cofnięcie
+- Plik bazowy jest zgodny z GitHub i wersją LKM 26.4.
+- Audyt selektorów w aktualnych źródłach: `video-admin.js`, `video.css`, `cms.js`, `article-admin.css`, `studio-embedded.css` i istniejące moduły CRM.
+- Test CSS: brak błędów składni na poziomie reguł.
+- Lokalny Chromium: **29 reprezentatywnych elementów × 3 szerokości (1400, 390, 320 px)**, minimalny zmierzony kontrast **6,96:1**. Użyto testowej strony odtwarzającej odpowiednie źródłowe klasy i deklaracje CSS, włącznie z CSS dołączanym dynamicznie.
+- Poza osadzonym panelem administracyjnym sprawdzono, że nowe reguły nie zmieniają wyglądu publicznego/nieosadzonego komponentu.
+- **Nie wykonano pełnego testu zalogowanego panelu z produkcyjnym Supabase.** Po wdrożeniu sprawdź rzeczywiste ekrany. Lokalny przegląd selektorów nie gwarantuje wykrycia wszystkich możliwych stanów danych.
 
-Jeżeli zobaczysz nieoczekiwane zachowanie wizualne, przywróć kopię poprzedniego `assets/lkm-v3/studio-embedded.css` (z wersji 26.3), wykonaj Commit / Push i sprawdź Netlify Published. Brak migracji do cofania.
+## Jak cofnąć
+
+Przywróć skopiowany przed instalacją plik `assets/lkm-v3/studio-embedded.css` z 26.4, zrób Commit + Push i sprawdź publikację w Netlify. Żadnego SQL nie trzeba cofać.

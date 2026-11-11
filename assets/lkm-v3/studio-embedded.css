@@ -458,3 +458,201 @@ html.lkm-legacy-embed a:focus-visible,html.lkm-legacy-embed button:focus-visible
     }
   }
 }
+
+/* Phase 26.5 — video services and overlooked admin dialogs.
+   Source inspection: video-admin.js injects .lkm-sv-* CSS dynamically after the
+   original stylesheet. All overrides here are explicit, iframe-only, screen-only.
+   No public service/catalog styles and no print/quotation layout are changed. */
+@media screen {
+  /* Inline Service Editor: the white "Videos for this service" panel from the
+     dynamically injected stylesheet was missed by phases 26.3 and 26.4. */
+  html.lkm-legacy-embed .lkm-sv-section {
+    background:#1a3025!important;color:#ebf7ee!important;
+    border-color:#496a52!important;box-shadow:none!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-section h3,
+  html.lkm-legacy-embed .lkm-sv-section .lkm-sv-card strong {
+    color:#f0faf2!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-section :is(.lkm-sv-muted,.lkm-sv-card small) {
+    color:#c0d8c8!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-sv-card,.lkm-sv-select-card) {
+    background:#223c2d!important;color:#edf8f0!important;
+    border-color:#54765b!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-card-body {color:#edf8f0!important}
+  html.lkm-legacy-embed .lkm-sv-card :is(strong,small){color:#dcefe1!important}
+  html.lkm-legacy-embed .lkm-sv-section :is(.lkm-sv-secondary,.lkm-sv-buttons button:not(.lkm-sv-remove)),
+  html.lkm-legacy-embed .lkm-sv-dialog .lkm-sv-secondary {
+    background:#284a35!important;color:#f0faf1!important;
+    border:1px solid #689271!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-section .lkm-sv-remove {
+    background:#442a2a!important;color:#ffc5c9!important;
+    border:1px solid #905358!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-sv-section,.lkm-sv-dialog) .lkm-sv-action {
+    background:#27633e!important;color:#f4fff5!important;
+    border:1px solid #69a77b!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-sv-section,.lkm-sv-dialog) .lkm-sv-action:hover,
+  html.lkm-legacy-embed :is(.lkm-sv-section,.lkm-sv-dialog) .lkm-sv-secondary:hover {
+    background:#356b45!important;color:#ffffff!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-section .lkm-sv-status:not(.is-error),
+  html.lkm-legacy-embed .lkm-sv-dialog .lkm-sv-status:not(.is-error) {
+    background:#1e4830!important;color:#bdf8cc!important;
+    border:1px solid #527d5c!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-sv-section,.lkm-sv-dialog) .lkm-sv-status.is-error {
+    background:#482a2b!important;color:#ffcbcd!important;
+    border:1px solid #92565c!important;
+  }
+
+  /* Service video picker is appended to document.body, NOT .admin-main. */
+  html.lkm-legacy-embed .lkm-sv-dialog {
+    background:#162920!important;color:#edf8f0!important;
+    border:1px solid #4b6c54!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog .lkm-sv-head,
+  html.lkm-legacy-embed .lkm-sv-dialog :is(.lkm-sv-bottom,.lkm-sv-manual) {
+    background:#1c3528!important;border-color:#496b52!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog :is(h2,h3,strong,.lkm-sv-select-name) {
+    color:#f0faf2!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog :is(.lkm-sv-head p,.lkm-sv-select-card small,.lkm-sv-count) {
+    color:#c1dac9!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog :is(.lkm-sv-filter label,.lkm-sv-manual label) {
+    color:#d5e9db!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog :is(.lkm-sv-filter,.lkm-sv-list) {
+    background:#162920!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog :is(input:not([type=checkbox]),select,textarea) {
+    background:#10251b!important;color:#f0faf2!important;
+    border:1px solid #587a60!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog input::placeholder {
+    color:#accbb5!important;opacity:1;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog .lkm-sv-close {
+    background:#294936!important;color:#f3fbf5!important;
+    border:1px solid #688d70!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog .lkm-sv-select-card:has(input:checked) {
+    background:#294d37!important;outline:2px solid #eed17e!important;
+    outline-offset:1px;
+  }
+  html.lkm-legacy-embed .lkm-sv-dialog .lkm-sv-select-card[data-added="1"] {
+    opacity:.82!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-photo-bridge {
+    background:#254331!important;color:#e4f3e7!important;
+    border-color:#588367!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-photo-bridge p {
+    color:#cde8d4!important;
+  }
+  html.lkm-legacy-embed .lkm-sv-photo-bridge .lkm-sv-secondary {
+    background:#28523a!important;color:#f1fff3!important;border:1px solid #6b9e7b!important;
+  }
+
+  /* Global Video Library pop-up (video.css). The public video player/lightbox
+     remains unchanged; this targets only administrative dialogs. */
+  html.lkm-legacy-embed .lkm-videos-dialog,
+  html.lkm-legacy-embed .lkm-youtube-sync-panel {
+    background:#172b21!important;color:#eef8f0!important;
+    border:1px solid #486b51!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-dialog,.lkm-youtube-sync-panel) :is(h2,h3,strong,label) {
+    color:#f0faf2!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-heading,.lkm-youtube-sync-head,.lkm-youtube-sync-bottom) {
+    border-color:#47674e!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-heading p,.lkm-videos-help,.lkm-videos-info small,
+    .lkm-youtube-sync-head p,.lkm-youtube-sync-source,.lkm-youtube-sync-choice small,
+    .lkm-youtube-sync-bottom>span,.lkm-youtube-sync-destination,.lkm-youtube-sync-empty) {
+    color:#c1d9c8!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-form,.lkm-videos-card,.lkm-youtube-sync-item) {
+    background:#213a2c!important;color:#eaf7ed!important;
+    border-color:#4d7056!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-dialog,.lkm-youtube-sync-panel) :is(input:not([type=checkbox]),select,textarea) {
+    background:#10281d!important;color:#f1faf2!important;
+    border:1px solid #56765e!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-dialog,.lkm-youtube-sync-panel) :is(input,textarea)::placeholder {
+    color:#adc9b6!important;opacity:1;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-actions button,.lkm-videos-buttons button+button,
+    .lkm-youtube-sync-toolbar button:not(:first-child)) {
+    background:#294a35!important;color:#effaf1!important;
+    border:1px solid #61866b!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-buttons button:not(:disabled),.lkm-youtube-sync-toolbar button:first-child:not(:disabled),
+    .lkm-youtube-sync-publish:not(:disabled)) {
+    background:#286742!important;color:#f4fff5!important;border-color:#73a67f!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-videos-heading button,.lkm-youtube-sync-head button) {
+    color:#f4fbf5!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-youtube-sync-destination select,.lkm-youtube-sync-item input) {
+    color:#f1faf2!important;
+  }
+  html.lkm-legacy-embed .lkm-youtube-sync-info {
+    background:#48381f!important;color:#ffe6b3!important;
+    border:1px solid #947444!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-youtube-sync-status,.lkm-videos-status):not(.is-error) {
+    background:#1d4930!important;color:#c1fad1!important;
+  }
+  html.lkm-legacy-embed :is(.lkm-youtube-sync-status,.lkm-videos-status).is-error {
+    background:#482a2b!important;color:#ffc8cb!important;
+  }
+  html.lkm-legacy-embed .lkm-youtube-sync-choice small a,
+  html.lkm-legacy-embed .lkm-youtube-sync-bottom>a {
+    color:#ffe1a2!important;text-decoration:underline;
+  }
+
+  /* Article preview and photograph picker are inserted outside #cmsRoot; the
+     previous .cms-root descendant selector did not affect those windows. */
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm-blog-preview-modal,.lkm-blog-photo-modal) {
+    background:#172c21!important;color:#edf8ef!important;
+    border:1px solid #476c52!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm-blog-preview-modal,.lkm-blog-photo-modal) :is(h2,h3,strong,label) {
+    color:#f0faf1!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm-blog-preview-modal>button,.lkm-blog-modal-head button,
+    .lkm-blog-photo-grid button) {
+    background:#244532!important;color:#f0faf2!important;border:1px solid #5d8567!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-photo-modal>input {
+    background:#11291d!important;color:#f1faf2!important;border:1px solid #5c8165!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-photo-modal>input::placeholder {
+    color:#b9d1bf!important;opacity:1;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) .lkm-blog-photo-grid button:hover {
+    background:#315840!important;border-color:#eed17e!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm-sv-dialog,.lkm-videos-dialog,.lkm-youtube-sync-panel,
+    .lkm-blog-preview-modal,.lkm-blog-photo-modal) :is(button,input,select,textarea,a):focus-visible,
+  html.lkm-legacy-embed .lkm-sv-section button:focus-visible {
+    outline:2px solid #f1d27b!important;outline-offset:2px!important;
+  }
+  html:is(.lkm-legacy-embed,.lkm-unified-embedded) :is(.lkm-sv-dialog,.lkm-videos-dialog,.lkm-youtube-sync-panel,
+    .lkm-blog-preview-modal,.lkm-blog-photo-modal) button:disabled {
+    opacity:.77!important;
+  }
+  @media(max-width:720px){
+    html.lkm-legacy-embed .lkm-sv-section{padding:14px!important;max-width:100%!important;overflow-wrap:anywhere}
+    html.lkm-legacy-embed .lkm-sv-dialog{max-height:99vh!important;width:100%!important}
+    html.lkm-legacy-embed :is(.lkm-sv-select-card,.lkm-sv-card,.lkm-videos-card,.lkm-youtube-sync-item){min-width:0!important;overflow-wrap:anywhere}
+  }
+}
