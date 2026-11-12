@@ -32,7 +32,7 @@ body.lkm30-public .lkm30-watermark {
 body.lkm30-public .lkm30-watermark img {width:100%;height:100%;display:block;object-fit:contain}
 /* The page watermark lives beneath text and card layers. */
 body.lkm30-public:not(.lkm29-home) {position:relative;isolation:isolate}
-body.lkm30-public:not(.lkm29-home)>:not(.lkm30-watermark):not(script):not(.lkm30-decor):not(header) {position:relative;z-index:1}
+body.lkm30-public:not(.lkm29-home)>:not(.lkm30-watermark):not(script):not(.lkm30-decor):not(header):not(.lkm31-lightbox):not(.cms-lightbox):not([role="dialog"]):not([aria-modal="true"]):not([class*="lightbox"]):not([class*="modal"]) {position:relative;z-index:1}
 body.lkm30-public:not(.lkm29-home) :is(main,.public-cms-page,.lkm25-hero,.lkm25-hub) {background-color:transparent}
 /* Header: identical on SPA, CMS, Business, Reviews, SEO guides, articles. */
 body.lkm30-public :is(.site-header,.lkm25-header,.lkm-review-page-header,.topbar) {
@@ -673,3 +673,13 @@ html body.lkm30-public.lkm30-about-active #main > .lkm30-about-spa-mark img{disp
 html body.lkm30-public.lkm30-about-active #main > section{position:relative;z-index:1}
 @media(max-width:700px){html body.lkm30-public.lkm30-about-active #main > .lkm30-about-spa-mark{left:41%;width:clamp(175px,55vw,290px);opacity:.055}}
 @media(prefers-reduced-motion:reduce){html body.lkm30-public.lkm30-about-active #main > .lkm30-about-spa-mark{will-change:auto;transform:none}}
+
+/* Phase 31.4: gallery dialogs belong to the viewport, not document watermark layering.
+   Phase 30's direct-child rule previously turned fixed lightboxes into relative content,
+   so the backdrop remained while the image/video and controls were off-screen. */
+body.lkm30-public > .lkm31-lightbox,
+body.lkm30-public > .cms-lightbox {
+  position: fixed !important;
+  inset: 0;
+  z-index: 2147483000 !important;
+}
