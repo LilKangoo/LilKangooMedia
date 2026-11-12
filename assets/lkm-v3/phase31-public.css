@@ -25,3 +25,54 @@
 @media(max-width:850px){.lkm31-case-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.lkm31-home-top{align-items:flex-start;flex-direction:column}.lkm31-case{grid-template-columns:1fr}.lkm31-case-image{min-height:190px;height:210px}.lkm31-case-image img{max-height:none;object-position:center}.lkm31-case-copy{padding:16px}.lkm31-home-stories{padding:16px}}
 @media(prefers-reduced-motion:reduce){.lkm31-case{transition:none}.lkm31-case:hover{transform:none}}
+
+/* Phase 31.3: project story service cards, matching the Services photo-left,
+   matte-graphite fade-right design. All values are sourced from active services. */
+.lkm-ps-reader .lkm31-story-services{margin:34px 0 0;padding:clamp(16px,2.7vw,28px);background:linear-gradient(145deg,rgba(39,36,31,.94),rgba(19,19,18,.93));border:1px solid #67523d;border-radius:17px;color:#faf7ef}
+.lkm-ps-reader .lkm31-story-services .lkm31-label{color:#ffc073!important;font-size:11px;letter-spacing:1.55px;font-weight:850}
+.lkm-ps-reader .lkm31-story-services h2{color:#fff!important;font-size:clamp(23px,3.1vw,32px);line-height:1.15;letter-spacing:-.03em;margin:8px 0 7px}
+.lkm-ps-reader .lkm31-services-lead{color:#e4d9c9!important;font-size:13px;line-height:1.6;margin:0 0 21px}
+.lkm-ps-reader .lkm31-service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.lkm-ps-reader .lkm31-service-card{position:relative;isolation:isolate;display:block;min-width:0;height:232px;overflow:hidden;border:1px solid #70604b;border-radius:13px;background:#20201e;color:#fff!important;text-decoration:none!important;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.lkm-ps-reader .lkm31-service-card:hover{transform:translateY(-3px);border-color:#edb36b;box-shadow:0 11px 27px #0006}
+.lkm-ps-reader .lkm31-service-card:focus-visible{outline:3px solid #ffca7d;outline-offset:3px}
+.lkm-ps-reader .lkm31-service-visual{position:absolute;z-index:-2;inset:0;overflow:hidden;background:radial-gradient(circle at 20% 25%,#55472e,#24231f 80%)}
+.lkm-ps-reader .lkm31-service-visual img{display:block;width:67%;height:100%;object-fit:cover;object-position:center;transition:transform .25s ease}
+.lkm-ps-reader .lkm31-service-card:hover .lkm31-service-visual img{transform:scale(1.035)}
+.lkm-ps-reader .lkm31-service-card::before{content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 0%,#1e1e1b1c 25%,#20201eb3 42%,#1c1b19f2 57%,#1c1b19 72%,#1c1b19 100%)}
+.lkm-ps-reader .lkm31-service-category{position:absolute;top:11px;left:11px;max-width:45%;padding:5px 9px;border-radius:30px;background:#fbf7ed;color:#26211a;font-size:10px;font-weight:800;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;box-shadow:0 1px 8px #0002}
+.lkm-ps-reader .lkm31-service-info{position:absolute;top:0;right:0;width:53%;height:100%;padding:16px 13px 12px 5px;display:flex;flex-direction:column;min-width:0;gap:0}
+.lkm-ps-reader .lkm31-service-info h3{font-size:clamp(14px,1.6vw,18px);font-weight:850;line-height:1.2;color:#fff!important;letter-spacing:-.03em;margin:0 0 8px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.lkm-ps-reader .lkm31-service-price-label{font-size:10px;font-weight:600;color:#decdb8!important;line-height:1.3}
+.lkm-ps-reader .lkm31-service-price{font-size:clamp(17px,1.9vw,23px);line-height:1.16;color:#ffc574!important;letter-spacing:-.02em;overflow-wrap:anywhere;margin:2px 0 6px;font-weight:900}
+.lkm-ps-reader .lkm31-service-summary{font-size:11px;line-height:1.4;color:#f2eadf!important;margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lkm-ps-reader .lkm31-service-benefits{padding:0;margin:0;display:grid;gap:3px;list-style:none;min-width:0}
+.lkm-ps-reader .lkm31-service-benefits li{position:relative;padding-left:12px;min-width:0;color:#f2eadf;font-size:10.5px;line-height:1.36;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.lkm-ps-reader .lkm31-service-benefits li::before{content:'✓';position:absolute;left:0;top:0;color:#ffbd5e;font-weight:900}
+.lkm-ps-reader .lkm31-service-cta{margin-top:auto;padding-top:8px;align-self:flex-end;display:flex;align-items:center;gap:8px;color:#fff;font-size:11px;font-weight:800;white-space:nowrap}
+.lkm-ps-reader .lkm31-service-arrow{display:grid;place-items:center;flex:none;width:29px;height:29px;border-radius:50%;background:#ffbb62;color:#211c17;font-size:18px;font-weight:900}
+
+/* Phase 31.3: click to enlarge photos or play videos WITHOUT changing page. */
+.lkm-ps-reader .lkm-ps-photo-card,.lkm-ps-reader .lkm-ps-story-cover{cursor:zoom-in}
+.lkm-ps-reader .lkm-ps-photo-card:focus-visible,.lkm-ps-reader .lkm-ps-story-cover:focus-visible{outline:3px solid #ffc16e;outline-offset:3px}
+.lkm31-lightbox{position:fixed;z-index:2147483000;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(8px,2vw,24px);background:rgba(7,7,7,.96);backdrop-filter:blur(12px);color:#faf8f4}
+.lkm31-lightbox-window{position:relative;width:min(1440px,100%);height:min(94dvh,100%);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:42px 44px 17px;min-height:0}
+.lkm31-lightbox-stage{display:flex;align-items:center;justify-content:center;flex:1;min-height:0;width:100%;overflow:hidden}
+.lkm31-lightbox-photo{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:4px;box-shadow:0 15px 55px #000a}
+.lkm31-lightbox-video{display:block;position:relative;width:min(100%,1150px);max-height:100%;aspect-ratio:16/9;background:#000;border:1px solid #403629;border-radius:7px;overflow:hidden}
+.lkm31-lightbox-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lkm31-lightbox-close,.lkm31-lightbox-prev,.lkm31-lightbox-next{position:absolute;z-index:5;display:grid;place-items:center;border:1px solid #b39c79;background:#27231de8;color:#fff;border-radius:50%;cursor:pointer;transition:background .15s ease}
+.lkm31-lightbox-close:hover,.lkm31-lightbox-prev:hover,.lkm31-lightbox-next:hover{background:#bd8437;color:#191612}
+.lkm31-lightbox-close:focus-visible,.lkm31-lightbox-prev:focus-visible,.lkm31-lightbox-next:focus-visible{outline:3px solid #ffcd7e;outline-offset:3px}
+.lkm31-lightbox-close{top:0;right:0;width:43px;height:43px;font-size:31px;line-height:1}
+.lkm31-lightbox-prev,.lkm31-lightbox-next{top:50%;transform:translateY(-50%);width:46px;height:46px;font-size:37px;line-height:1}
+.lkm31-lightbox-prev{left:-6px}.lkm31-lightbox-next{right:-6px}
+.lkm31-lightbox-foot{display:flex;gap:22px;align-items:center;justify-content:space-between;width:100%;padding:13px 0 0;color:#f4e9d9;font-size:13px;line-height:1.4}
+.lkm31-lightbox-caption{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lkm31-lightbox-count{color:#ffca7b;font-weight:850;white-space:nowrap}
+@media(min-width:1060px){.lkm-ps-reader .lkm31-service-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.lkm-ps-reader .lkm31-service-grid{grid-template-columns:1fr;gap:12px}.lkm-ps-reader .lkm31-service-card{height:220px}.lkm-ps-reader .lkm31-service-info{width:55%;padding:15px 12px 12px 3px}.lkm-ps-reader .lkm31-service-price{font-size:21px}.lkm31-lightbox-window{height:100%;padding:48px 12px 44px}.lkm31-lightbox-prev,.lkm31-lightbox-next{width:38px;height:38px;font-size:30px}.lkm31-lightbox-prev{left:0}.lkm31-lightbox-next{right:0}.lkm31-lightbox-foot{font-size:11px;padding:9px 3px}.lkm31-lightbox-photo{max-width:100%}.lkm31-lightbox-video{width:100%}}
+@media(max-width:380px){.lkm-ps-reader .lkm31-service-card{height:233px}.lkm-ps-reader .lkm31-service-info h3{font-size:15px}.lkm-ps-reader .lkm31-service-benefits li{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.lkm-ps-reader .lkm31-service-card,.lkm-ps-reader .lkm31-service-visual img,.lkm31-lightbox-close,.lkm31-lightbox-prev,.lkm31-lightbox-next{transition:none!important}.lkm-ps-reader .lkm31-service-card:hover,.lkm-ps-reader .lkm31-service-card:hover .lkm31-service-visual img{transform:none}}
+
+.lkm31-lightbox button[hidden]{display:none!important}

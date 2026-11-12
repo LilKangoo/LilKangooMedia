@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 
 STYLE='/assets/lkm-v3/phase30-public.css?v=30-4'
-SCRIPT='/assets/lkm-v3/phase30-public.js?v=31-2'
+SCRIPT='/assets/lkm-v3/phase30-public.js?v=31-3'
 CSS_TAG=f'<link rel="stylesheet" href="{STYLE}" data-lkm30="theme">'
 JS_TAG=f'<script defer src="{SCRIPT}" data-lkm30="navigation"></script>'
 EXCLUDE_NAMES={'cms.html','client.html','proposal.html','shop.html','admin-legacy.html','admin.html','admin-crm.html','admin-quotes.html','admin-calendar.html','admin-reviews.html','admin-reports.html','admin-case-studies.html'}

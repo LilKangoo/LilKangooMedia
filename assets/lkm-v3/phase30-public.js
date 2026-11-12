@@ -201,8 +201,8 @@
    if(!/^\/(?:index\.html)?$/.test(path)&&!/^\/portfolio(?:\.html)?\/?$/i.test(path))return;
    if(document.querySelector('[data-lkm31="runtime"]'))return;
    const css=document.createElement('link');css.rel='stylesheet';
-   css.href='/assets/lkm-v3/phase31-public.css?v=31-1';css.setAttribute('data-lkm31','styles');
-   const script=document.createElement('script');script.src='/assets/lkm-v3/phase31-public.js?v=31-2';
+   css.href='/assets/lkm-v3/phase31-public.css?v=31-3';css.setAttribute('data-lkm31','styles');
+   const script=document.createElement('script');script.src='/assets/lkm-v3/phase31-public.js?v=31-3';
    script.defer=true;script.setAttribute('data-lkm31','runtime');
    document.head.append(css,script);
  }
