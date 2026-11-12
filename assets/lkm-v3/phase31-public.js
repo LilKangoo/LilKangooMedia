@@ -170,7 +170,16 @@
       const list=make('div','lkm31-service-links');
       for(const s of services){const a=make('a','',text(s.title,100)+' ↗');a.href='/#/service/'+encodeURIComponent(s.slug);list.append(a);}
       box.append(list);
-      const cta=body.querySelector('.lkm-case-cta');if(cta)cta.before(box);else body.append(box);
+      // Put the services near the START of the story, before long prose,
+      // outcome metrics and the photography/video gallery. This is a presentation
+      // change only: the links still come from existing published Supabase data.
+      const narrative=body.querySelector('.lkm-case-narrative');
+      const outcomes=body.querySelector('.lkm-case-outcome');
+      const media=body.querySelector('.lkm-ps-story-media');
+      const cta=body.querySelector('.lkm-case-cta');
+      const anchor=narrative||outcomes||media||cta;
+      if(anchor)anchor.before(box);
+      else body.prepend(box);
     }).catch(()=>{});
   }
   let scheduled=false;
