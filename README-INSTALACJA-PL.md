@@ -1,54 +1,34 @@
-# LilKangooMedia — Phase 30.4: About Us, naprawa SPA + Graphite & Gold
+# LilKangooMedia — Phase 30.5: Service Details Graphite & Gold
 
-## Dlaczego poprzednia poprawka nie zadziałała?
+## Zakres
+Jeden wspólny arkusz dla wszystkich stron szczegółów usług w aplikacji (`/#/service/...`) korzystających z szablonu Phase 27. Poprawiono kolory, kontrast, tła, granice i przyciski w: hero, opisie, galerii, „What you get”, pakietach, zaznaczeniu oferty, panelu ceny, mobilnym dolnym pasku, „How it works”, projektach, opiniach i krótkim oknie zapytania.
 
-Istnieją dwie wersje About Us: statyczna `/AboutUs.html` oraz widok aplikacji `/#/about` generowany w `assets/lkm-v3/site.js`. Poprzednia poprawka 30.3 stylowała głównie `body.lkm-about-standalone`, którego widok `/#/about` nie ma. Dlatego na zrzutach nadal pozostały jasne/miętowe karty, słabo widoczne nagłówki oraz napis „LKM”.
+Nie zmieniono żadnych cen, danych, zapytań Supabase, routingu, menu, logiki pakietów ani formularzy. Nie jest potrzebny SQL.
 
-Phase 30.4 obsługuje oba widoki. Nie edytujemy `site.js`, danych biznesowych ani nawigacji.
+## Instalacja
+1. Rozpakuj ZIP. Struktura folderów jest taka sama jak w repozytorium.
+2. W folderze lokalnym projektu znajdź `assets/lkm-v3/phase27-service.css` i zachowaj jego kopię (lub użyj później opcji Revert w GitHub Desktop).
+3. Skopiuj plik z ZIP **`assets/lkm-v3/phase27-service.css`** w to samo miejsce w projekcie, potwierdzając podmianę.
+4. W GitHub Desktop sprawdź, że zmienił się **tylko** `assets/lkm-v3/phase27-service.css`.
+5. Wykonaj Commit i Push origin.
+6. Sprawdź status `Published` w Netlify.
+7. Otwórz https://lilkangoomedia.com/#/service/commercial-video-reels i odśwież twardo `Shift + Command + R` (Chrome/macOS). Jeśli przeglądarka pokazuje stary motyw, sprawdź jeszcze w trybie incognito po nowym wdrożeniu.
 
-## Instalacja — dokładne lokalizacje
+**Nie edytuj** `netlify.toml`, `scripts/phase30_apply_theme.py`, `site.js`, `service-detail-v14.js` ani bazy danych.
 
-Rozpakuj ZIP i skopiuj **TRZY PLIKI** do repozytorium LilKangooMedia:
+## Checklista po wdrożeniu
+- Tytuł „Commercial Video & Reels” jest jasny na grafitowym tle.
+- Opis usługi jest czytelny, a główny przycisk złoty.
+- „What you get” to ciemna karta z jasnymi punktami.
+- Pakiety mają grafitowe tła, złote ceny i wyraźne zaznaczenie wybranego pakietu.
+- Panel z ceną i przyciskiem Continue jest grafitowo-złoty.
+- Na telefonie pasek Continue nie zasłania formularza i odpowiada na wybór pakietu.
+- „How it works”, projekty, opinie i dolne CTA są zgodne z paletą Graphite & Gold.
+- Sprawdź dodatkowo co najmniej jedną usługę Personal i inny pakiet Business (np. fotograficzny).
+- Przejdź cały proces wyboru pakietu i otwarcia zapytania (bez finalizowania zamówienia testowego).
 
-- `assets/lkm-v3/phase30-public.css` — **PODMIEŃ** istniejący.
-- `assets/lkm-v3/phase30-public.js` — **PODMIEŃ** istniejący.
-- `scripts/phase30_apply_theme.py` — **PODMIEŃ** istniejący.
+## Testy lokalne
+Testowany był **odtworzony szablon** z aktualnym arkuszem Phase 27 i motywem Phase 30 na szerokościach 320, 390, 560, 760, 1024 i 1440 px. Bez poziomego scrolla i z właściwymi obliczonymi kolorami pierwszego ekranu, pakietów, opinii oraz mobilnego paska. Kontrast przykładowych kombinacji: 16.6:1 (tytuł/grafit), 13.1:1 (tekst/karta), 9.0:1 (złoto/karta), 9.1:1 (tekst/złoty CTA). Wdrożenie produkcyjne wymaga potwierdzenia; test lokalny nie obejmuje prawdziwych danych klienta ani wysyłania zapytań.
 
-Zachowaj kopię bieżących plików. Nie musisz kopiować README do repo.
-
-Następnie GitHub Desktop → Changes (sprawdź wszystkie trzy ścieżki) → Commit → Push origin. Sprawdź Netlify → Deploys → status `Published`. Otwórz `https://lilkangoomedia.com/#/about` i odśwież przez Shift + Command + R.
-
-## Oczekiwany rezultat
-
-- Jednolity grafitowo-złoty motyw, bez starej jasnej/zielonej sekcji zespołu.
-- Nagłówki Michael/Lilyanna i usług białe, opisy jasne, złote wyróżnienia.
-- Karty wartości, osób i usług grafitowe z czytelnym kontrastem.
-- Ostatni panel CTA grafitowo-złoty (zamiast zielonego).
-- W okręgu w hero oryginalny `logo-profile.png` zamiast „LKM”.
-- Delikatny `logo-orange.png` przesuwa się w tle SPA podczas przewijania w dół i w górę.
-- Podstrona `/AboutUs.html` zachowuje poprawki 30.3; ten sam motyw obsługuje ją i aplikację `/#/about`.
-
-## Co sprawdzić po wdrożeniu
-
-1. `https://lilkangoomedia.com/#/about` — najważniejszy test. Sprawdź kolor zespołu, grafitowe karty i logo w kółku.
-2. Przewiń w dół i w górę; dekoracyjny kangur nie może zasłaniać tekstu.
-3. Kliknij Services, a następnie wróć na About Us: motyw About powinien być aktywny tylko na stronie About.
-4. Sprawdź również `https://lilkangoomedia.com/AboutUs.html` oraz widok mobilny.
-5. Jeśli nadal widzisz starą wersję, sprawdź w źródle opublikowanego `index.html`, że CSS i JS mają parametr `?v=30-4`. W logu Netlify musi wykonać się `scripts/phase30_apply_theme.py`.
-
-## Testy przygotowania
-
-- Parser CSS bez błędów; kontrola składni JS/Python.
-- Skrypt Netlify poprawnie aktualizuje adresy CSS i JS do `30-4`, nie dubluje wpisów i nie dotyka admina.
-- Testy Chromium odtworzonego widoku SPA: 320, 390, 768, 1024, 1440 px, bez poziomego przewijania, czytelne nagłówki, podmiana logo.
-- Test nawigacji między widokami: przy wyjściu z About znika klasa motywu About.
-- Test kangura: ruch w dół, powrót w górę, identyczna pozycja na początku.
-- Lokalna kontrola kontrastu próbek kolorów WCAG AA: zaliczona.
-
-Testy były wykonane na odtworzonym DOM ze stylami poprawki, a nie na zalogowanej/produkcyjnej stronie. Ostateczne potwierdzenie wymaga sprawdzenia opublikowanej witryny.
-
-## SQL i rollback
-
-SQL: NIEPOTRZEBNY. Supabase, płatności, formularze, ceny, SEO i treści pozostają bez zmian.
-
-W razie problemów przywróć trzy poprzednie pliki (Phase 30.3) i wykonaj Commit / Push. Nie trzeba odtwarzać bazy danych.
+## Cofnięcie
+Przywróć poprzednią wersję `assets/lkm-v3/phase27-service.css` z kopii lub w GitHub Desktop użyj Revert commit, a następnie Push.

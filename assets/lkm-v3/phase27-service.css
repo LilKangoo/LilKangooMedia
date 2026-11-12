@@ -185,3 +185,233 @@
  .lkm-v27 .lkm-v14-title{font-size:34px}
 }
 @media(prefers-reduced-motion:reduce){.lkm-v27 .lkm-v14-package{transition:none}}
+
+/* ================================================================
+   LKM Phase 30.5 — Service Details: Matte Graphite & Kangoo Gold
+   Theme-only: public #/service/... pages using the shared Phase 27
+   template. No pricing, routing, CMS, forms or booking changes.
+   Exact existing Phase 27 CSS retained above this block.
+   ================================================================ */
+body.lkm30-public.lkm27-detail #main .lkm-v27 {
+  --lkm27-ink:#f9f6f0;
+  --lkm27-muted:#ded5c8;
+  --lkm27-leaf:#f5ac42;
+  --lkm27-line:rgba(224,189,133,.28);
+  --lkm27-gold:#ffc46c;
+  --v14-ink:#f9f6f0;
+  --v14-line:rgba(224,189,133,.28);
+  --lkm305-surface:#2b2926;
+  --lkm305-raised:#35312b;
+  --lkm305-gold:#f5ac42;
+  --lkm305-white:#f9f6ef;
+  --lkm305-muted:#ded5c8;
+  color:var(--lkm305-white);
+  background:
+    radial-gradient(ellipse 62% 20% at 6% 1%,rgba(247,177,78,.11),transparent 80%),
+    radial-gradient(ellipse 49% 24% at 94% 39%,rgba(213,147,59,.08),transparent 85%),
+    radial-gradient(ellipse 56% 19% at 8% 81%,rgba(215,162,81,.06),transparent 87%);
+}
+/* Every heading or paragraph that was still dark green on charcoal. */
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(
+  .lkm-v14-title,.lkm-v14-about h2,.lkm-v15-highlights h2,
+  .lkm-v14-section-head h2,.lkm-v14-process h2,.lkm22-head h2,
+  .lkm222-head h2,.lkm-v16-booking-intro h2
+){color:#fffaf3}
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(
+  .lkm-v14-lead,.lkm-v16-about-text,.lkm-v14-muted,.lkm22-muted,
+  .lkm222-lede,.lkm222-disclaimer,.lkm-v14-note
+){color:#e0d7ca}
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(
+  .lkm-v14-eyebrow,.lkm22-eyebrow,.lkm222-eyebrow,
+  .lkm-v14-plan-number,.lkm22-type
+){color:#ffbd60}
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(
+  a:not(.lkm-v14-cta):not(.lkm22-card):not(.lkm222-cta):not(.lkm222-google):not(.lkm-v27-view-work),
+  .lkm222-read,.lkm222-all,.lkm22-browse,.lkm22-view
+){text-decoration-color:rgba(255,196,108,.65)}
+body.lkm30-public.lkm27-detail #main .crumbs {color:#e6ddce}
+body.lkm30-public.lkm27-detail #main .crumbs a {color:#ffcb7a}
+body.lkm30-public.lkm27-detail #main .lkm-v27-hero {
+  border-bottom:1px solid var(--lkm27-line);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-media .gallery-main {
+  background:#201e1b;
+  border:1px solid rgba(218,179,113,.29);
+  box-shadow:0 16px 40px rgba(0,0,0,.25);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .thumbnail-row button {
+  border:1px solid rgba(220,183,127,.45);
+  background:#2a2722;
+  color:var(--lkm305-white);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .thumbnail-row button:is(:hover,:focus-visible),
+body.lkm30-public.lkm27-detail #main .lkm-v27 .thumbnail-row button[aria-current=true] {
+  border-color:#f5ac42;outline-color:#f5ac42;
+}
+/* Gallery video tags, controls and imagery retain their actual source content. */
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(
+  .lkm-service-video-poster,.lkm-service-main-open
+){background-color:#211e1a;color:#fff}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm203-detail-jump [data-lkm203-action=jump],
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm203-detail-jump .lkm-v27-view-work {
+  background:#f5ac42;border:1px solid #f5ac42;color:#241c13;
+  border-radius:10px;box-shadow:none;text-decoration:none;font-weight:850;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm203-detail-jump .lkm-v27-view-work {
+  background:rgba(52,48,42,.95);border-color:#9a8260;color:#fff4e3;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm203-detail-jump :is(button,a):hover {
+  filter:brightness(1.07);
+}
+/* About the service / What you get */
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-about {
+  color:#f4ede3;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v15-highlights,
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-about-details {
+  background:linear-gradient(140deg,rgba(53,49,43,.97),rgba(40,38,35,.97));
+  border:1px solid rgba(234,187,119,.34);
+  color:#faf7f1;
+  box-shadow:0 10px 26px rgba(0,0,0,.09);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(
+  .lkm-v15-feature-grid li,.lkm-v15-package-features li,
+  .lkm-v14-about-details>p,.lkm-v14-package-details>p
+){color:#eee4d6}
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(
+  .lkm-v15-feature-grid li:before,.lkm-v15-package-features li:before
+){color:#ffc26c}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-about-details>summary{color:#fffaf3}
+/* Packages are interactive controls; keep radio/selection states unmistakable. */
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package {
+  background:#2e2b27;border:1px solid #74644f;color:#faf6ee;
+  box-shadow:0 6px 21px rgba(0,0,0,.13);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package:hover {
+  background:#383229;border-color:#d8a054;box-shadow:0 8px 21px rgba(0,0,0,.19);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package.is-selected {
+  background:linear-gradient(140deg,#423429,#352c23);
+  border:2px solid #f5ac42;
+  box-shadow:0 0 0 1px rgba(245,172,66,.19),0 12px 27px #0002;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package button.package-choice {
+  background:transparent;border:0;box-shadow:none;color:#faf5eb;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package button.package-choice :is(strong,small){color:#faf6ef}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package button.package-choice small{color:#dfd2c1}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package button.package-choice .package-cost {
+  color:#ffc46b;font-weight:850;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-radio{border-color:#baa789}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .is-selected .lkm-v27-radio{border-color:#ffc16e}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .is-selected .lkm-v27-radio:after{background:#f5ac42}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package .lkm-v15-package-features,
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package-details {
+  border-color:rgba(230,190,123,.24);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package-details>summary{color:#ffc46d}
+/* Price summary and Continue button. */
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-checkout.lkm-v27-summary {
+  background:linear-gradient(140deg,#423124,#2a2520 72%,#242220);
+  border:1px solid #a17c48;
+  color:#fff8ed;
+  box-shadow:0 17px 35px rgba(0,0,0,.23);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-summary :is(.lkm-v14-chosen-name,.lkm-v14-price){color:#fff8ed}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-summary .lkm-v14-price{color:#ffcc7b}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-summary .lkm-v14-selected-label{color:#ffd091}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-summary .lkm-v14-note{color:#e8d8c5}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-summary .lkm-v14-cta {
+  background:#f5ac42;border:1px solid #f5ac42;color:#20180e;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-summary .lkm-v14-cta:hover{background:#ffc16c}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v27-summary .lkm20-detail-ask {
+  background:rgba(0,0,0,.11);color:#fff2e0;border:1px solid #bca079;
+}
+/* Compact three-step process. */
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-process {
+  background:rgba(52,48,43,.93);border:1px solid #7a6750;color:#fff7eb;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-process-list li{color:#faf3e9}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-process-list li:not(:last-child):after{color:#ffc26e}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-process-list .lkm-v14-step {
+  background:#52412d;border:1px solid #be965b;color:#ffca77;
+}
+/* Related projects and real client feedback. */
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm22-projects,
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-reviews{
+  border-color:rgba(229,183,113,.27);
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(.lkm22-browse,.lkm222-all,.lkm222-read,.lkm22-view){color:#ffcb7d}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm22-card {
+  background:#302c27;border:1px solid #78674f;color:#f8f2e8!important;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm22-card:hover{border-color:#f5ac42}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm22-info :is(h3,p),
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm22-client{color:#f4ede3}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm22-info p,
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm22-client{color:#e1d5c5}
+body.lkm30-public.lkm27-detail #main .lkm-v27-project-cta,
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-next,
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-fallback {
+  background:#38322a;border:1px solid #806b4e;color:#fff8ee;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27-project-cta :is(strong,p),
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-next :is(strong,p){color:#f4eadb}
+body.lkm30-public.lkm27-detail #main .lkm-v27-project-cta a,
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-cta{
+  background:#f5ac42;color:#261e14;border:1px solid #f5ac42;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-google {
+  color:#fff1dd;background:#39342c;border:1px solid #a48b66;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-card {
+  background:#302d29;border:1px solid #796955;color:#fff8ee;
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-card :is(.lkm222-quote,.lkm222-author strong){color:#f9f3e9}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-card :is(.lkm222-date,.lkm222-author small){color:#e0d5c6}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-stars {color:#ffbd67}
+body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm222-avatar {background:#544431;color:#ffe0ae}
+/* Optional enquiry modal: graphite shell with light controls for legibility. */
+body.lkm30-public.lkm27-detail .lkm20-dialog {
+  background:#292722;border:1px solid #9d845e;color:#f9f5ec;
+}
+body.lkm30-public.lkm27-detail .lkm20-dialog :is(h2,label,.lkm20-service){color:#fff6e9}
+body.lkm30-public.lkm27-detail .lkm20-dialog .lkm20-service{background:#40362a}
+body.lkm30-public.lkm27-detail .lkm20-dialog .lkm20-footnote{color:#e4d9ca}
+body.lkm30-public.lkm27-detail .lkm20-dialog .lkm20-close {color:#fff5e8;background:#3c342b;border-color:#997d54}
+body.lkm30-public.lkm27-detail .lkm20-dialog :is(input:not([type=checkbox]),textarea){
+  background:#fffaf4;color:#29241e;border:1px solid #a59886;
+}
+body.lkm30-public.lkm27-detail .lkm20-dialog input[type=checkbox]{accent-color:#efaa46}
+body.lkm30-public.lkm27-detail .lkm20-dialog .lkm20-submit{background:#f5ac42;color:#231b13;border:0}
+/* Mobile purchase bar: same colors as desktop, always readable on 320px. */
+@media(max-width:760px){
+  body.lkm30-public.lkm27-detail .lkm-v27-mobile-bar {
+    background:#24221f;border-top:1px solid #a48a63;
+    box-shadow:0 -9px 28px #0005;
+    color:#fff8ed;
+  }
+  body.lkm30-public.lkm27-detail .lkm-v27-mobile-bar-copy :is(span,strong){color:#efe5d7}
+  body.lkm30-public.lkm27-detail .lkm-v27-mobile-bar-copy b{color:#ffc877}
+  body.lkm30-public.lkm27-detail .lkm-v27-mobile-continue {
+    background:#f5ac42;color:#20180e;border:1px solid #f5ac42;
+    min-width:116px;text-align:center;
+  }
+  body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package button.package-choice .package-cost{color:#ffcc7f}
+}
+@media(max-width:390px){
+  body.lkm30-public.lkm27-detail .lkm-v27-mobile-bar{gap:8px;padding-inline:10px}
+  body.lkm30-public.lkm27-detail .lkm-v27-mobile-continue{padding:10px 12px;font-size:11px;min-width:108px}
+  body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package button.package-choice{align-items:start}
+  body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package button.package-choice strong{overflow-wrap:anywhere}
+}
+body.lkm30-public.lkm27-detail #main .lkm-v27 :is(a,button,summary):focus-visible,
+body.lkm30-public.lkm27-detail .lkm20-dialog :is(button,input,textarea):focus-visible,
+body.lkm30-public.lkm27-detail .lkm-v27-mobile-bar a:focus-visible {
+  outline:3px solid #ffc875;outline-offset:3px;
+}
+@media(prefers-reduced-motion:reduce){
+  body.lkm30-public.lkm27-detail #main .lkm-v27 .lkm-v14-package{transition:none}
+}
