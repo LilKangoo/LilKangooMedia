@@ -52,3 +52,16 @@
 .studio-placement{flex-wrap:wrap;align-items:flex-start}
 .studio-placement>div:first-child{flex:1 1 100%!important;min-width:0}
 .studio-placement-actions{width:100%;justify-content:flex-end;padding-top:8px;border-top:1px solid #2b4a37}
+
+/* Phase 31.1: multiple related-service choices in the existing Project editor. */
+.studio-related-services{min-width:0;margin:0;border:1px solid #355345;background:#14281f;border-radius:12px;padding:12px 14px 14px;color:#eaf4eb}
+.studio-related-services legend{padding:0 7px;color:#f8b650;font-size:.88rem;font-weight:800}
+.studio-related-services p{font-size:.78rem;line-height:1.55;margin:0 0 12px;color:#c9dbd0}
+.studio-related-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:8px;max-height:220px;overflow:auto}
+.studio-related-choice{display:flex;align-items:center;gap:9px;cursor:pointer;min-height:40px;padding:8px 9px;background:#0b1d17;border:1px solid #355445;border-radius:8px;font-size:.79rem;font-weight:650;color:#e9f4ea}
+.studio-related-choice:hover{border-color:#d2a455;background:#223b2c}
+.studio-related-choice:has(input:checked){border-color:#e4af55;background:#3b321e}
+.studio-related-choice input{width:16px;height:16px;flex:none;accent-color:#f7b54f}
+.studio-related-choice:focus-within{outline:2px solid #f8b650;outline-offset:2px}
+@media(max-width:680px){.studio-related-options{grid-template-columns:1fr 1fr}.studio-related-choice{font-size:.76rem}}
+@media(max-width:390px){.studio-related-options{grid-template-columns:1fr}}

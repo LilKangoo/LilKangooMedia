@@ -141,7 +141,7 @@ function projectEditor(g,story){const fresh=!g.id,kind=galleryKind(g.portfolio_k
   <label class="studio-field">Category<input name="category" class="studio-input" value="${h(g.category||'Photography')}" maxlength="90"></label></div>
   <label class="studio-field">Description<textarea name="description" class="studio-textarea" maxlength="3500">${h(g.description||'')}</textarea></label>
   <div class="studio-form-grid"><label class="studio-field">Client name<input name="client_name" class="studio-input" value="${h(g.client_name||'')}" maxlength="140"></label>
-  <label class="studio-field">Related service<select name="related_service_slug" class="studio-select"><option value="">No service</option>${state.services.map(s=>`<option value="${h(s.slug)}" ${s.slug===g.related_service_slug?'selected':''}>${h(s.title)}</option>`).join('')}</select></label></div>
+  <fieldset class="studio-related-services" aria-describedby="studioServiceLinkHelp"><legend>Related services (choose multiple)</legend><p id="studioServiceLinkHelp">Select every service delivered in this project. The project will appear in <em>See this service in action</em> for each selected service. Save using <strong>Save project settings</strong>.</p><div class="studio-related-options">${state.services.map(s=>`<label class="studio-related-choice"><input type="checkbox" name="related_service_slugs" value="${h(s.slug)}" ${(Array.isArray(g.related_service_slugs)?g.related_service_slugs:[]).includes(s.slug)||g.related_service_slug===s.slug?'checked':''}><span>${h(s.title)}${s.active===false?' (inactive)':''}</span></label>`).join('')}</div></fieldset></div>
   <div class="studio-form-grid"><label class="studio-field">Gallery access<select name="visibility" class="studio-select"><option value="review" ${g.visibility==='review'?'selected':''}>Review / draft</option><option value="public" ${g.visibility==='public'?'selected':''}>Public</option><option value="private" ${g.visibility==='private'?'selected':''}>Private</option></select></label><label class="studio-field">Gallery sort order<input type="number" name="display_order" class="studio-input" value="${Number(g.display_order||100)}" min="0" max="100000"></label></div>
   <div class="studio-toggle-line"><div><label><input type="checkbox" name="show_in_portfolio" ${g.show_in_portfolio!==false?'checked':''}> Show a gallery card in Portfolio</label><p>Turn off for a project that already appears in Stories, preventing a duplicate card. Its direct gallery link still works.</p></div>${pill(g.show_in_portfolio!==false?'Visible card':'No card')}</div>
   <div class="studio-form-actions"><button type="submit" class="studio-btn primary" data-busy-lock>${fresh?'Create folder':'Save project settings'}</button>${!fresh?`<button type="button" class="studio-btn" data-action="open-folder-media" data-id="${g.id}">▧ Manage media</button><a class="studio-btn ghost" href="/portfolio.html#/gallery/${encodeURIComponent(g.slug)}" target="_blank" rel="noopener noreferrer">Preview gallery ↗</a>`:''}</div></form>
@@ -416,9 +416,11 @@ async function handleForm(form){
  }
  if(form.getAttribute('id')==='studioProjectForm'){
   const f=new FormData(form),id=String(f.get('id'));
+  const allowedSlugs=new Set(state.services.map(s=>s.slug));
+  const linkedSlugs=[...new Set(f.getAll('related_service_slugs').map(x=>String(x)).filter(x=>slugOK(x)&&allowedSlugs.has(x)))].slice(0,100);
   const payload={title:clean(f.get('title'),180),slug:clean(f.get('slug'),90),description:clean(f.get('description'),3500),
    category:clean(f.get('category'),90)||'Photography',client_name:clean(f.get('client_name'),140)||null,
-   related_service_slug:clean(f.get('related_service_slug'),90)||null,portfolio_kind:galleryKind(f.get('portfolio_kind')),
+   related_service_slug:linkedSlugs[0]||null,related_service_slugs:linkedSlugs,portfolio_kind:galleryKind(f.get('portfolio_kind')),
    visibility:String(f.get('visibility')),show_in_portfolio:f.has('show_in_portfolio'),
    display_order:Math.max(0,Math.min(100000,Number(f.get('display_order'))||100))};
   if(!payload.title||!slugOK(payload.slug)){toast('Enter a title and a URL slug using lowercase letters, numbers or dashes.',true);return}
