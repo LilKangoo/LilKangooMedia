@@ -1,6 +1,6 @@
 # LilKangooMedia Phase 32.1: crawlable OG share links, explicit function rewrites.
 [build]
-  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py && python3 scripts/phase30_apply_theme.py && python3 scripts/build_share_pages.py"
+  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py && python3 scripts/phase30_apply_theme.py && python3 scripts/build_share_pages.py && python3 scripts/phase33_prepare_seo.py && python3 scripts/phase33_seo_audit.py"
   publish = "."
   functions = "netlify/functions"
 
@@ -40,5 +40,43 @@
 [[redirects]]
   from = "/share/social/:slug"
   to = "/.netlify/functions/link-preview?kind=social&slug=:slug"
+  status = 200
+  force = false
+
+# Phase 33: Google/AEO public HTML routes; public CMS data only.
+# Static SEO service guides and generated article HTML win where a file exists.
+[[redirects]]
+  from = "/sitemap-live.xml"
+  to = "/.netlify/functions/seo-sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/work/:slug"
+  to = "/.netlify/functions/seo-entry?kind=story&slug=:slug"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/work/:slug/"
+  to = "/.netlify/functions/seo-entry?kind=story&slug=:slug"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/services/:slug/"
+  to = "/.netlify/functions/seo-entry?kind=service&slug=:slug"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/articles/:slug"
+  to = "/.netlify/functions/seo-entry?kind=article&slug=:slug"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/articles/:slug/"
+  to = "/.netlify/functions/seo-entry?kind=article&slug=:slug"
   status = 200
   force = false
