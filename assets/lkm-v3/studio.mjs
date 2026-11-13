@@ -122,6 +122,65 @@ function inspector(a){if(!a)return `<p class="studio-eyebrow">INSPECTOR</p><h2>S
  return `<div class="studio-placement"><div style="flex:1;min-width:0"><strong>${h(dest||p.service_slug||'Gallery')}</strong><small>${p.gallery_id?'Gallery / Project':'Service'} · ${h(p.visibility)}</small><div class="studio-place-tools"><label>Order <input class="studio-place-order" data-place-order="${p.id}" type="number" value="${Number(p.display_order||100)}" min="0" max="100000"></label><button type="button" class="studio-btn ghost" data-action="save-order" data-asset="${a.id}" data-place-id="${p.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${h(p.visibility)}">Save</button>${a.media_type==='image'&&p.gallery_id&&p.legacy_photo_id&&p.visibility==='public'?`<button type="button" class="studio-btn gold" data-action="set-cover" data-gallery="${p.gallery_id}" data-photo="${p.legacy_photo_id}">Set cover</button>`:''}</div></div><div class="studio-placement-actions"><button type="button" class="studio-btn ${p.visibility==='public'?'danger':'primary'}" data-action="toggle-place" data-asset="${a.id}" data-gallery="${p.gallery_id||''}" data-service="${h(p.service_slug||'')}" data-next="${p.visibility==='public'?'hidden':'public'}" data-order="${p.display_order||100}">${p.visibility==='public'?'Hide':'Publish'}</button><button type="button" class="studio-btn danger studio-unassign-btn" data-action="remove-place" data-place-id="${p.id}" data-asset="${a.id}" aria-label="Remove assignment from ${h(dest||p.service_slug||'gallery')}">× Remove</button></div></div>`}).join(''):'<p class="studio-help">No assignments yet. Add this asset to a collection, project or service.</p>'}
  <p class="studio-help">Hide keeps an assignment for later. Remove disconnects it from this destination (and its public gallery or service) but never deletes the original file, YouTube video or other assignments. Cover photos must be replaced before removal.</p>`;
 }
+// Home selection is independent from gallery-card visibility and the Stories archive.
+// Only public, published Case Studies are eligible; drafts cannot leak onto Home.
+function homepageEditor(){
+ const published=new Set(state.stories.filter(st=>st.is_published===true).map(st=>st.gallery_id));
+ const eligible=state.galleries.filter(g=>g.visibility==='public' && galleryKind(g.portfolio_kind)==='project' && published.has(g.id));
+ eligible.sort((a,b)=>{
+  if(!!a.show_on_home!==!!b.show_on_home)return a.show_on_home?-1:1;
+  return (Number(a.home_sort_order)||100)-(Number(b.home_sort_order)||100)||a.title.localeCompare(b.title);
+ });
+ const selected=eligible.filter(g=>g.show_on_home).length;
+ return `<section class="studio-panel studio-home-manager" id="studioHomeManager" aria-labelledby="studioHomeManagerTitle">
+ <div class="studio-home-heading"><div><p class="studio-eyebrow">HOMEPAGE · FEATURED CASE STUDIES</p><h2 id="studioHomeManagerTitle">Choose projects for Home</h2><p class="studio-home-hint">Tick the projects you want on <strong>Real projects. Real results.</strong> Drag to reorder, or use the arrows on mobile. Only selected projects appear on Home. All published stories stay in Portfolio.</p></div><a class="studio-btn ghost" href="/" target="_blank" rel="noopener noreferrer">Preview Home ↗</a></div>
+ <div class="studio-home-toolbar"><span class="studio-home-counter" id="studioHomeCounter">${selected} of ${eligible.length} selected</span><span class="studio-home-unsaved" id="studioHomeUnsaved" aria-live="polite">Saved order</span></div>
+ <div id="studioHomeSort" class="studio-home-sort" aria-label="Reorder featured project stories">
+ ${eligible.map((g,index)=>`<div class="studio-home-row ${g.show_on_home?'is-selected':''}" draggable="true" data-home-id="${h(g.id)}">
+  <span class="studio-home-grip" aria-hidden="true" title="Drag to reorder">⠿</span>
+  <span class="studio-home-rank">${g.show_on_home?eligible.slice(0,index+1).filter(x=>x.show_on_home).length:'·'}</span>
+  <label class="studio-home-select"><input type="checkbox" class="studio-home-check" data-home-choice="${h(g.id)}" ${g.show_on_home?'checked':''}><span class="studio-home-copy"><strong>${h(g.title)}</strong><small>${h(state.stories.find(st=>st.gallery_id===g.id)?.headline||g.category||'Published case study')}</small></span></label>
+  <div class="studio-home-move"><button class="studio-home-arrow" type="button" data-action="home-up" data-id="${h(g.id)}" aria-label="Move ${h(g.title)} up" ${index===0?'disabled':''}>↑</button><button class="studio-home-arrow" type="button" data-action="home-down" data-id="${h(g.id)}" aria-label="Move ${h(g.title)} down" ${index===eligible.length-1?'disabled':''}>↓</button></div>
+ </div>`).join('')||'<p class="studio-home-empty">No public Case Studies yet. Publish a project in Projects & Stories first.</p>'}</div>
+ <div class="studio-home-actions"><p>New projects are hidden from Home until you select them here. This does not change project URLs, media, SEO or Portfolio visibility.</p><button type="button" class="studio-btn gold" data-action="save-home-layout" data-busy-lock ${eligible.length?'':'disabled'}>Save homepage layout</button></div>
+ </section>`;
+}
+function homeRows(){return [...app.querySelectorAll('#studioHomeSort .studio-home-row')];}
+function homeReorderUI(){
+ const rows=homeRows();let featuredRank=0;rows.forEach((row,i)=>{
+  const check=row.querySelector('.studio-home-check');
+  const rank=row.querySelector('.studio-home-rank');if(rank)rank.textContent=check?.checked?String(++featuredRank):'·';
+  row.classList.toggle('is-selected',!!check?.checked);
+  const up=row.querySelector('[data-action="home-up"]'),down=row.querySelector('[data-action="home-down"]');
+  if(up)up.disabled=i===0;if(down)down.disabled=i===rows.length-1;
+ });
+ const selected=rows.filter(row=>row.querySelector('.studio-home-check')?.checked).length;
+ const counter=app.querySelector('#studioHomeCounter');if(counter)counter.textContent=`${selected} of ${rows.length} selected`;
+ const dirty=app.querySelector('#studioHomeUnsaved');if(dirty){dirty.textContent='Unsaved changes';dirty.classList.add('is-unsaved');}
+}
+async function saveHomepageLayout(){
+ const rows=homeRows();if(!rows.length)return;
+ const changes=rows.map((row,index)=>{
+  const id=row.dataset.homeId,checked=!!row.querySelector('.studio-home-check')?.checked;
+  const current=state.galleries.find(g=>g.id===id);
+  if(!uuidOK(id)||!current||current.visibility!=='public')throw Error('Invalid project selection. Refresh and retry.');
+  return {id,show_on_home:checked,home_sort_order:(index+1)*10};
+ }).filter(next=>{
+  const g=state.galleries.find(g=>g.id===next.id);
+  return !!g.show_on_home!==next.show_on_home||Number(g.home_sort_order)!==next.home_sort_order;
+ });
+ if(!changes.length){toast('Homepage layout is already saved.');return;}
+ setBusy(true);
+ try{
+  // Protected RLS writes. Only changed records are updated. No gallery/story content changes.
+  for(const item of changes){
+   await api('portfolio_galleries?id=eq.'+item.id,{method:'PATCH',data:{show_on_home:item.show_on_home,home_sort_order:item.home_sort_order}});
+  }
+  await loadBase();shell();toast('Homepage projects saved. Open Home in a fresh tab to see the new selection.');
+ }catch(e){
+  await loadBase().catch(()=>{});shell();toast('Homepage update incomplete: '+safeError(e)+'. Refresh and retry.',true);
+ }finally{setBusy(false)}
+}
 function projectView(collectionsOnly=false){
  const list=state.galleries.filter(g=>collectionsOnly?galleryKind(g.portfolio_kind)==='collection':true);
  const g=state.newProject||list.find(x=>x.id===state.projectId)||list[0];
@@ -129,6 +188,7 @@ function projectView(collectionsOnly=false){
  const buttons=`<button type="button" class="studio-btn primary" data-action="new-project" data-kind="project">+ New Project</button><button type="button" class="studio-btn gold" data-action="new-project" data-kind="collection">+ New Collection</button>`;
  return head(collectionsOnly?'CURATED PORTFOLIO FOLDERS':'PROJECT HUB · CASE STUDIES',collectionsOnly?'Collections & Folders':'Projects & Stories',
  'Keep the story, gallery and media assignments together. A project story can be public while its separate portfolio gallery card stays hidden.',buttons)+
+ (collectionsOnly?'':homepageEditor())+
  `<div class="studio-editor-layout"><section class="studio-panel studio-project-list"><div class="studio-card-head"><h3>${collectionsOnly?'Collections':'All projects & galleries'}</h3>${badge(`${list.length} total`)}</div>
  ${list.map(p=>`<button type="button" class="studio-project-choice ${!state.newProject&&g?.id===p.id?'active':''}" data-action="open-project" data-id="${p.id}"><strong>${h(p.title)}</strong><small>${h(galleryKind(p.portfolio_kind))} · ${h(p.slug)} · ${h(p.visibility)} ${p.show_in_portfolio===false?' · Card hidden':''}</small></button>`).join('')||'<p class="studio-help">No collections yet. Create one to group images from several projects.</p>'}</section>
  <section class="studio-panel studio-project-form">${g?projectEditor(g,story):'<div class="studio-empty">Select a project or create a collection.</div>'}</section></div>`;
@@ -312,6 +372,13 @@ async function handleAction(action,element){if(state.busy&&action!=='close-dialo
  if(action==='refresh'){await refreshSection();toast('Command Center refreshed.');return}
  if(action==='logout'){store.logout();showLogin();return}
  if(action==='new-project'){state.newProject={title:'',slug:'',category:'Photography',description:'',portfolio_kind:element.dataset.kind==='collection'?'collection':'project',visibility:'review',show_in_portfolio:element.dataset.kind==='collection',display_order:100};state.tab=element.dataset.kind==='collection'?'collections':'projects';shell();return}
+ if(action==='home-up'||action==='home-down'){
+  const row=element.closest('.studio-home-row'),other=action==='home-up'?row?.previousElementSibling:row?.nextElementSibling;
+  if(!row||!other||!other.matches('.studio-home-row'))return;
+  if(action==='home-up')other.before(row);else other.after(row);
+  homeReorderUI();return;
+ }
+ if(action==='save-home-layout'){await saveHomepageLayout();return}
  if(action==='open-project'){if(!uuidOK(element.dataset.id))return;state.newProject=null;state.projectId=element.dataset.id;state.tab='projects';shell();return}
  if(action==='open-folder-media'){state.folder=element.dataset.id;state.assetPage=0;state.tab='media';await loadAssets();shell();return}
  if(action==='folder'){state.folder=element.dataset.id||'';state.assetPage=0;await loadAssets();shell();return}
@@ -538,6 +605,42 @@ app.addEventListener('click',event=>{
 app.addEventListener('submit',event=>{
  if(!event.target?.getAttribute?.('id')?.startsWith('studio'))return;
  event.preventDefault();void handleForm(event.target).catch(e=>toast(safeError(e),true));
+});
+// Reorder selected case studies with native drag/drop. Up/down buttons remain
+// available on touch devices and for keyboard-only administration.
+let homeDragging='';
+app.addEventListener('dragstart',event=>{
+ const row=event.target.closest?.('#studioHomeSort .studio-home-row');
+ if(!row)return;
+ homeDragging=row.dataset.homeId||'';row.classList.add('is-dragging');
+ if(event.dataTransfer){event.dataTransfer.effectAllowed='move';event.dataTransfer.setData('text/plain',homeDragging);}
+});
+app.addEventListener('dragover',event=>{
+ const row=event.target.closest?.('#studioHomeSort .studio-home-row');
+ if(!row||!homeDragging||row.dataset.homeId===homeDragging)return;
+ event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect='move';
+ app.querySelectorAll('.studio-home-drop-before,.studio-home-drop-after').forEach(el=>el.classList.remove('studio-home-drop-before','studio-home-drop-after'));
+ row.classList.add(event.clientY<row.getBoundingClientRect().top+row.getBoundingClientRect().height/2?'studio-home-drop-before':'studio-home-drop-after');
+});
+app.addEventListener('drop',event=>{
+ const row=event.target.closest?.('#studioHomeSort .studio-home-row');
+ if(!row||!homeDragging)return;
+ event.preventDefault();event.stopPropagation();
+ const source=homeRows().find(x=>x.dataset.homeId===homeDragging);
+ if(source&&source!==row){
+  const before=event.clientY<row.getBoundingClientRect().top+row.getBoundingClientRect().height/2;
+  if(before)row.before(source);else row.after(source);
+  homeReorderUI();
+ }
+ app.querySelectorAll('.studio-home-row').forEach(x=>x.classList.remove('is-dragging','studio-home-drop-before','studio-home-drop-after'));
+ homeDragging='';
+});
+app.addEventListener('dragend',event=>{
+ if(!event.target.closest?.('#studioHomeSort .studio-home-row'))return;
+ homeDragging='';app.querySelectorAll('.studio-home-row').forEach(x=>x.classList.remove('is-dragging','studio-home-drop-before','studio-home-drop-after'));
+});
+app.addEventListener('change',event=>{
+ if(event.target.matches?.('#studioHomeSort .studio-home-check'))homeReorderUI();
 });
 app.addEventListener('change',event=>{
  const select=event.target.closest('[data-media-select]');if(select){

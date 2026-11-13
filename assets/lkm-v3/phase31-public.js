@@ -38,19 +38,24 @@
       alt:cover?text(cover.alt_text,200)||g.title:video?text(video.title,200)||g.title:g.title};
   }
   async function fetchHome(){
-    const [cases,galleries]=await Promise.all([
-      q('lkm_case_studies?select=gallery_id,headline,objective,project_location,project_year,is_published,updated_at&is_published=eq.true&order=updated_at.desc&limit=20'),
-      q('portfolio_galleries?select=id,slug,title,category,visibility,cover_image_id&visibility=eq.public&limit=300')
+    // Only explicitly selected, public Case Studies. Portfolio visibility is independent.
+    const galleries=await q('portfolio_galleries?select=id,slug,title,category,visibility,cover_image_id,show_on_home,home_sort_order&visibility=eq.public&portfolio_kind=eq.project&show_on_home=eq.true&order=home_sort_order.asc,slug.asc&limit=300');
+    const eligible=galleries.filter(g=>uuidOK(g.id)&&slugOK(g.slug)&&g.show_on_home===true);
+    if(!eligible.length)return [];
+    const ids=eligible.map(g=>g.id).join(',');
+    const cases=await q(`lkm_case_studies?select=gallery_id,headline,objective,project_location,project_year,is_published&gallery_id=in.(${ids})&is_published=eq.true&limit=300`);
+    const byGallery=new Map(cases.filter(st=>st.is_published===true).map(st=>[st.gallery_id,st]));
+    const items=eligible.filter(g=>byGallery.has(g.id));
+    if(!items.length)return [];
+    const actualIds=items.map(g=>g.id).join(',');
+    const coverIds=[...new Set(items.map(g=>g.cover_image_id).filter(uuidOK))];
+    const [covers,photos,videos]=await Promise.all([
+      coverIds.length?q(`portfolio_images?select=id,gallery_id,image_url,alt_text,display_order,visibility&id=in.(${coverIds.join(',')})&visibility=eq.public&limit=300`).catch(()=>[]):Promise.resolve([]),
+      q(`portfolio_images?select=id,gallery_id,image_url,alt_text,display_order,visibility&gallery_id=in.(${actualIds})&visibility=eq.public&order=display_order.asc&limit=900`).catch(()=>[]),
+      q(`media_videos?select=gallery_id,youtube_id,title,display_order,visibility&gallery_id=in.(${actualIds})&visibility=eq.public&order=display_order.asc&limit=300`).catch(()=>[])
     ]);
-    const galleriesById=new Map(galleries.filter(g=>uuidOK(g.id)&&slugOK(g.slug)).map(g=>[g.id,g]));
-    const actual=cases.filter(st=>st.is_published===true&&galleriesById.has(st.gallery_id)).slice(0,3);
-    if(!actual.length)return [];
-    const ids=actual.map(st=>st.gallery_id).join(',');
-    const [photos,videos]=await Promise.all([
-      q(`portfolio_images?select=id,gallery_id,image_url,alt_text,display_order,visibility&gallery_id=in.(${ids})&visibility=eq.public&order=display_order.asc&limit=120`).catch(()=>[]),
-      q(`media_videos?select=gallery_id,youtube_id,title,display_order,visibility&gallery_id=in.(${ids})&visibility=eq.public&order=display_order.asc&limit=60`).catch(()=>[])
-    ]);
-    return actual.map(st=>({story:st,gallery:galleriesById.get(st.gallery_id),media:mediaFor(galleriesById.get(st.gallery_id),photos,videos)}));
+    const uniquePhotos=new Map([...photos,...covers].map(img=>[img.id,img]));
+    return items.map(g=>({story:byGallery.get(g.id),gallery:g,media:mediaFor(g,[...uniquePhotos.values()],videos)}));
   }
   function buildHomeCards(items){
     const section=make('section','lkm31-home-stories');section.id='lkm31-home-stories';
@@ -73,13 +78,15 @@
       body.append(make('strong','lkm31-case-link','Read the project story ↗'));
       card.append(body);grid.append(card);
     }
-    section.append(grid);return section;
+    if(items.length)section.append(grid);
+    else section.append(make('p','lkm31-empty','Discover all published projects and their stories in our Portfolio.'));
+    return section;
   }
   function showHome(){
     if(!isSpa||!homeVisible())return;
     const root=document.getElementById('main');const work=root?.querySelector('.portfolio-grid');
     if(!work||root.querySelector('#lkm31-home-stories'))return;
-    if(homeData){if(homeData.length)work.after(buildHomeCards(homeData));return;}
+    if(homeData){work.after(buildHomeCards(homeData));return;}
     if(homeLoading)return;
     homeLoading=true;
     void fetchHome().then(rows=>{homeData=rows;homeLoading=false;showHome();}).catch(()=>{homeLoading=false;});
