@@ -1,4 +1,4 @@
-/* LilKangooMedia Phase 32: one crawlable OpenGraph share URL for every
+/* LilKangooMedia Phase 32.1: one crawlable OpenGraph share URL for every
  * first-party link in Links Library. Read-only public Supabase queries.
  * Every project with a published Case Study opens its STORY, not its gallery.
  * No payment, admin, upload or booking actions in this function.
@@ -30,7 +30,7 @@ const response = (statusCode, body, headers = {}) => ({
   headers: {
     'Content-Type': 'text/html; charset=utf-8',
     'X-Content-Type-Options': 'nosniff',
-    'Cache-Control': 'public, max-age=60, s-maxage=180',
+    'Cache-Control': 'public, max-age=30, s-maxage=120',
     ...headers
   }, body
 });
@@ -42,7 +42,7 @@ const KEY = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLISHABLE_KE
 async function rows(path) {
   const result = await fetch(API + '/rest/v1/' + path, {
     headers: {apikey: KEY, 'Content-Type': 'application/json'},
-    signal: AbortSignal.timeout(7000)
+    signal: AbortSignal.timeout(4300)
   });
   if (!result.ok) throw Error('Public catalogue HTTP ' + result.status);
   return result.json();
@@ -91,7 +91,7 @@ async function lookupArticle(slug) {
   try { post = (await rows(path))[0]; } catch { /* Use public build manifest below. */ }
   if (!post) {
     try {
-      const res = await fetch(SITE + '/assets/lkm-v3/articles-index.json', {signal: AbortSignal.timeout(5500)});
+      const res = await fetch(SITE + '/assets/lkm-v3/articles-index.json', {signal: AbortSignal.timeout(4300)});
       if (res.ok) {
         const index = await res.json();
         post = (Array.isArray(index.posts) ? index.posts : []).find(p => p.slug === slug && p.status !== 'draft');
@@ -122,31 +122,40 @@ async function details(kind, slug) {
   if (kind === 'gallery' || kind === 'story') {
     const g = (await rows('portfolio_galleries?select=id,slug,title,description,category,cover_image_id&visibility=eq.public&slug=eq.' + encodeURIComponent(slug) + '&limit=1'))[0];
     if (!g) return null;
-    const studies = await rows('lkm_case_studies?select=gallery_id,headline,objective,is_published&gallery_id=eq.' + encodeURIComponent(g.id) + '&is_published=eq.true&limit=1');
-    const story = studies?.[0] || null;
+    // Fetch story and public cover concurrently. This keeps the crawler response
+    // fast and prevents one optional lookup from blocking the other.
+    const [studyResult, imageResult] = await Promise.allSettled([
+      rows('lkm_case_studies?select=gallery_id,headline,objective,is_published&gallery_id=eq.' + encodeURIComponent(g.id) + '&is_published=eq.true&limit=1'),
+      mediaCover(g)
+    ]);
+    // A story must be verified as published; never expose a draft as a story.
+    const story = studyResult.status === 'fulfilled' ? studyResult.value?.[0] || null : null;
     if (kind === 'story' && !story) return null;
     const direct = story ? SITE + '/portfolio.html#/story/' + encodeURIComponent(slug) : SITE + '/portfolio.html#/gallery/' + encodeURIComponent(slug);
     const headline = story ? clean(story.headline) : clean(g.title);
-    return {title:headline + ' | LilKangooMedia',description:story ? (story.objective || g.description) : (g.description || 'Discover creative work by LilKangooMedia.'),image:await mediaCover(g),direct,type:story?'article':'website'};
+    return {title:headline + ' | LilKangooMedia',description:story ? (story.objective || g.description) : (g.description || 'Discover creative work by LilKangooMedia.'),image:imageResult.status === 'fulfilled' ? imageResult.value : FALLBACK_IMAGE,direct,type:story?'article':'website'};
   }
   return null;
 }
-function renderPage({kind,slug,info}) {
+function renderPage({kind,slug,info,userAgent=''}) {
   const share = SITE + '/share/' + kind + '/' + encodeURIComponent(slug);
   const title = brief(info.title, 180) || 'LilKangooMedia';
   const description = brief(info.description, 235) || 'Photography, filmmaking and creative services across Cyprus.';
   const image = safeImage(info.image) || FALLBACK_IMAGE;
   const direct = info.direct;
   const scriptDestination = JSON.stringify(direct).replace(/</g, '\\u003c');
+  // Messenger crawlers do not run JavaScript. They must receive readable OG
+  // tags directly from the server, without a redirect or a noindex tag.
+  const isCrawler = /whatsapp|facebookexternalhit|facebot|twitterbot|linkedinbot|telegrambot|discordbot|slackbot|pinterest|skypeuripreview|applebot|viber|line\/|embedly|iframely|bot|crawler|spider/i.test(userAgent);
+  const nav = isCrawler ? '' : '<script>window.location.replace(' + scriptDestination + ');</script>';
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="noindex,follow">
-<link rel="canonical" href="${escapeHtml(direct)}">
-<meta property="og:type" content="${info.type === 'article' ? 'article' : 'website'}"><meta property="og:site_name" content="LilKangooMedia">
+<title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}">
+<meta property="og:type" content="${info.type === 'article' ? 'article' : 'website'}"><meta property="og:site_name" content="LilKangooMedia"><meta property="og:locale" content="en_GB">
 <meta property="og:url" content="${escapeHtml(share)}"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:image" content="${escapeHtml(image)}"><meta property="og:image:secure_url" content="${escapeHtml(image)}"><meta property="og:image:alt" content="${escapeHtml(title)}">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeHtml(title)}"><meta name="twitter:description" content="${escapeHtml(description)}"><meta name="twitter:image" content="${escapeHtml(image)}">
-<script>window.location.replace(${scriptDestination});</script></head><body><p>Opening <a href="${escapeHtml(direct)}">${escapeHtml(title)}</a>…</p></body></html>`;
-  return response(200, html);
+</head><body><main><h1>${escapeHtml(title)}</h1><p>${escapeHtml(description)}</p><p><a href="${escapeHtml(direct)}">Open project / page</a></p></main>${nav}</body></html>`;
+  return response(200, html, {'Vary':'User-Agent'});
 }
 export const handler = async function(event) {
   const kind = event.queryStringParameters?.kind;
@@ -154,7 +163,7 @@ export const handler = async function(event) {
   if (!['service','gallery','story','article','page','social'].includes(kind) || !safeSlug(slug)) return fail(400,'Invalid share link.');
   try {
     const info = await details(kind, slug);
-    return info ? renderPage({kind,slug,info}) : fail(404,'This public page is not available.');
+    return info ? renderPage({kind,slug,info,userAgent:event.headers?.['user-agent'] || event.headers?.['User-Agent'] || ''}) : fail(404,'This public page is not available.');
   } catch (err) {
     console.error('LilKangooMedia share preview lookup failed:', err);
     return fail(503,'Preview temporarily unavailable. Please try again.');
