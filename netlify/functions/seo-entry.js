@@ -1,8 +1,8 @@
 'use strict';
 // Read-only indexable HTML for PUBLIC case studies, future services, and new CMS articles.
 // Existing SPA, bookings, Stripe and admin are not modified.
-const d=require('../lib/seo-data');
-const staticSEO=require('./seo-static-urls.json');
+import * as d from '../lib/seo-data.js';
+import staticSEO from './seo-static-urls.json' with { type: 'json' };
 const {SITE,IMG,e,plain,compact,image,validSlug,storyPublished,serviceIndexable,articlePublished,one,result,missing}=d;
 function p(v){const lines=String(v||'').replace(/<\s*\/(?:p|h[1-6]|li|div|blockquote|section)\s*>/gi,'\n\n').replace(/<\s*br\b[^>]*>/gi,'\n').replace(/<(?:script|style|iframe|object)\b[^>]*>[\s\S]*?<\/\s*(?:script|style|iframe|object)\s*>/gi,' ').replace(/<[^>]+>/g,' ').split(/\n\s*\n/g).map(x=>plain(x)).filter(Boolean);return lines.map(x=>`<p>${e(x)}</p>`).join('');}
 function jsonld(data){return JSON.stringify(data).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026');}
@@ -48,9 +48,9 @@ async function article(slug){
  const structured={'@type':'BlogPosting','@id':url+'#article',headline:plain(a.title),description:compact(a.seo_description||a.excerpt),mainEntityOfPage:url,datePublished:a.published_at,dateModified:a.updated_at,author:{'@id':SITE+'/#organization'},publisher:{'@id':SITE+'/#organization'},image:image(a.cover_url)||IMG};
  return result(200,webDocument({kind:'article',url,title:title+' | LilKangooMedia',description:a.seo_description||a.excerpt||body,cover:a.cover_url,coverAlt:a.cover_alt,lead:a.excerpt,body:`<h2>${e(plain(a.title))}</h2>${p(body)}`,structured,breadcrumbs:[['Home',SITE+'/'],['Articles',SITE+'/blog.html'],[plain(a.title),url]],mainLink:SITE+'/blog.html'}));
 }
-exports.handler=async event=>{
+export const handler=async event=>{
  const kind=String(event.queryStringParameters?.kind||'');const slug=String(event.queryStringParameters?.slug||'');if(!validSlug(slug)||!['story','service','article'].includes(kind))return missing();
  try{if(kind==='story')return await story(slug);if(kind==='service')return await service(slug);return await article(slug);}
  catch(err){console.error('SEO public page unavailable',String(err));return result(503,'Public page temporarily unavailable','text/plain; charset=utf-8',{'Cache-Control':'no-store','Retry-After':'180'});}
 };
-exports._test={story,service,article,webDocument,p};
+export const _test={story,service,article,webDocument,p};

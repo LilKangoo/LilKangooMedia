@@ -1,7 +1,7 @@
 'use strict';
 // Dynamic, optional child of the sitemap index. Unavailable data => 503, never a fake empty sitemap.
-const {SITE,e,validSlug,articlePublished,storyPublished,serviceIndexable,canonicalArticle,apiRows,result,date}=require('../lib/seo-data');
-const staticManifest=require('./seo-static-urls.json');
+import { SITE,e,validSlug,articlePublished,storyPublished,serviceIndexable,canonicalArticle,apiRows,result,date } from '../lib/seo-data.js';
+import staticManifest from './seo-static-urls.json' with { type: 'json' };
 const xns='http://www.sitemaps.org/schemas/sitemap/0.9';
 function dynamicUrls({services=[],galleries=[],stories=[],posts=[]}){
  const staticSet=new Set(staticManifest.urls||[]);
@@ -19,7 +19,7 @@ function dynamicUrls({services=[],galleries=[],stories=[],posts=[]}){
 }
 const plainBody=v=>String(v||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
 function render(urls){const parts=urls.map(([url,lastmod])=>`  <url><loc>${e(url)}</loc>${lastmod?`<lastmod>${lastmod}</lastmod>`:''}</url>`).join('\n');return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="${xns}">\n${parts}\n</urlset>\n`;}
-exports.handler=async()=>{try{
+export const handler=async()=>{try{
  const [services,galleries,stories,posts]=await Promise.all([
    apiRows('services',{active:'eq.true'}),
    apiRows('portfolio_galleries',{visibility:'eq.public'}),
@@ -28,4 +28,4 @@ exports.handler=async()=>{try{
  ]);
  return result(200,render(dynamicUrls({services,galleries,stories,posts})),'application/xml; charset=utf-8',{'Cache-Control':'public,max-age=180,s-maxage=300'});
 }catch(err){console.error('SEO live sitemap unavailable',String(err));return result(503,'Temporary sitemap data issue','text/plain; charset=utf-8',{'Cache-Control':'no-store','Retry-After':'300'});}};
-exports._test={render,dynamicUrls};
+export const _test={render,dynamicUrls};

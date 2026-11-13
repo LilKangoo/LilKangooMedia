@@ -34,4 +34,4 @@ async function apiRows(table, params={}){
 async function one(table, filters){const a=await apiRows(table,filters);return a[0]||null;}
 function result(statusCode,body,type='text/html; charset=utf-8',more={}){return {statusCode,headers:{'Content-Type':type,'X-Content-Type-Options':'nosniff','Cache-Control':'public,max-age=120,s-maxage=300',...more},body};}
 function missing(message='Page not found'){return result(404,`<!doctype html><html lang="en"><head><meta name="robots" content="noindex"><title>Page unavailable</title></head><body><h1>${e(message)}</h1><a href="/">Home</a></body></html>`,'text/html; charset=utf-8',{'Cache-Control':'no-store'});}
-module.exports={SITE,IMG,e,plain,compact,image,date,validSlug,articlePublished,storyPublished,serviceIndexable,canonicalArticle,apiRows,one,result,missing};
+export {SITE,IMG,e,plain,compact,image,date,validSlug,articlePublished,storyPublished,serviceIndexable,canonicalArticle,apiRows,one,result,missing};
