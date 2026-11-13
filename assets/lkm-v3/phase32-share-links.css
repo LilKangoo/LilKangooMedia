@@ -1,0 +1,15 @@
+/* Phase 32: readable single-action link library cards; scoped to admin only. */
+#lkmLinksAdmin a.lkm32-project-link {
+  display:flex;gap:12px;align-items:flex-start;padding:12px 12px 8px;min-width:0;
+  text-decoration:none;color:inherit;cursor:pointer;
+}
+#lkmLinksAdmin a.lkm32-project-link:hover h3,
+#lkmLinksAdmin a.lkm32-project-link:focus-visible h3{color:#ffbb62!important}
+#lkmLinksAdmin a.lkm32-project-link:focus-visible{outline:2px solid #f7bb65;outline-offset:-3px;border-radius:9px}
+#lkmLinksAdmin .lkm-link-card[data-lkm32-ready] .lkm-link-actions{padding:0 12px 12px}
+#lkmLinksAdmin .lkm-link-card[data-lkm32-ready] .lkm-link-actions>.button{width:100%;min-height:37px;justify-content:center}
+#lkmLinksAdmin .lkm-link-card[data-lkm32-ready] .lkm-link-path{color:#ddbf89;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#lkmLinksAdmin a.lkm32-project-link .lkm-link-info h3{color:#f5f3ed}
+#lkmLinksAdmin a.lkm32-project-link .lkm-link-desc{color:#d5dfd5}
+#lkmLinksAdmin .lkm-link-card[data-lkm32-ready] .lkm-link-details summary{color:#c2cbbf}
+@media(max-width:360px){#lkmLinksAdmin a.lkm32-project-link{gap:9px}}
