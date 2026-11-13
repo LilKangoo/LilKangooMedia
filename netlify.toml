@@ -1,6 +1,6 @@
 # LilKangooMedia Phase 32.1: crawlable OG share links, explicit function rewrites.
 [build]
-  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py && python3 scripts/phase30_apply_theme.py"
+  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py && python3 scripts/phase30_apply_theme.py && python3 scripts/build_share_pages.py"
   publish = "."
   functions = "netlify/functions"
 
@@ -11,34 +11,34 @@
   from = "/share/service/:slug"
   to = "/.netlify/functions/link-preview?kind=service&slug=:slug"
   status = 200
-  force = true
+  force = false
 
 [[redirects]]
   from = "/share/gallery/:slug"
   to = "/.netlify/functions/link-preview?kind=gallery&slug=:slug"
   status = 200
-  force = true
+  force = false
 
 [[redirects]]
   from = "/share/story/:slug"
   to = "/.netlify/functions/link-preview?kind=story&slug=:slug"
   status = 200
-  force = true
+  force = false
 
 [[redirects]]
   from = "/share/article/:slug"
   to = "/.netlify/functions/link-preview?kind=article&slug=:slug"
   status = 200
-  force = true
+  force = false
 
 [[redirects]]
   from = "/share/page/:slug"
   to = "/.netlify/functions/link-preview?kind=page&slug=:slug"
   status = 200
-  force = true
+  force = false
 
 [[redirects]]
   from = "/share/social/:slug"
   to = "/.netlify/functions/link-preview?kind=social&slug=:slug"
   status = 200
-  force = true
+  force = false

@@ -24,7 +24,7 @@
     'g.page': 'leave-google-review',
     'www.google.com': 'google-reviews'
   });
-  const make = (kind, slug) => SITE + '/share/' + kind + '/' + encodeURIComponent(slug);
+  const make = (kind, slug) => SITE + '/share/v2/' + kind + '/' + encodeURIComponent(slug) + '/';
   function fromPage(original) {
     let parsed;
     try { parsed = new URL(original, SITE); } catch { return ''; }
@@ -44,19 +44,34 @@
     const slug = pages[parsed.pathname];
     return slug ? make('page',slug) : '';
   }
+  let hashes = Object.create(null);
+  let manifestReady = false;
+  const manifestPromise = fetch('/assets/lkm-v3/share-manifest.json', {cache:'no-store'})
+    .then(r => r.ok ? r.json() : null)
+    .then(data => { if (data?.hashes && typeof data.hashes === 'object') hashes = data.hashes; })
+    .catch(() => {});
+  function versioned(link, kind, slug) {
+    const hash = hashes[kind + ':' + slug];
+    return link + '?v=' + (typeof hash === 'string' && /^[a-f0-9]{12}$/.test(hash) ? hash : '32-2');
+  }
   function linkFor(card) {
     const id = card.dataset.linkId || '';
     const separator = id.indexOf(':');
     const kind = separator > 0 ? id.slice(0, separator) : '';
     const identifier = separator > 0 ? id.slice(separator + 1) : '';
     const previous = card.querySelector('.lkm-link-open')?.getAttribute('href') || '';
-    if (['service','gallery','article'].includes(kind) && safeSlug(identifier)) return make(kind,identifier);
-    if (kind === 'page') return fromPage(identifier) || previous;
+    if (['service','gallery','article'].includes(kind) && safeSlug(identifier)) return versioned(make(kind,identifier),kind,identifier);
+    if (kind === 'page') {
+      const mapped = fromPage(identifier);
+      if (!mapped) return previous;
+      const id = mapped.match(/\/page\/([a-z-]+)\/$/)?.[1];
+      return id ? versioned(mapped,'page',id) : mapped;
+    }
     if (kind === 'external') {
       try {
         const url = new URL(previous);
         const slug = socials[url.hostname.toLowerCase()];
-        return slug ? make('social',slug) : previous;
+        return slug ? versioned(make('social',slug),'social',slug) : previous;
       } catch { return previous; }
     }
     return previous;
@@ -104,7 +119,7 @@
     root.querySelectorAll('.lkm-link-card:not([data-lkm32-ready])').forEach(patch);
   }
   function schedule() {
-    if (pending) return;
+    if (!manifestReady || pending) return;
     pending = true;
     queueMicrotask(update);
   }
@@ -145,5 +160,5 @@
     event.stopImmediatePropagation();
     void copyLink(card.dataset.lkm32Share);
   }, true);
-  schedule();
+  manifestPromise.finally(() => { manifestReady = true; schedule(); });
 })();
