@@ -368,6 +368,57 @@
       }
     });
   }
+  // Phase 34.1: Portfolio Stories use the very same curated order saved in Admin.
+  // Only the Home checkbox controls Home visibility; every published story remains in Portfolio.
+  if(isPortfolio){
+    let portfolioOrder=null;
+    let orderTick=false;
+    const portfolioRoot=document.getElementById('cmsPublic');
+    const sortValue=x=>Number.isFinite(Number(x))?Number(x):100;
+    const slugFromCard=card=>{
+      const href=card.getAttribute('href')||'';
+      const match=href.match(/#\/story\/([a-z0-9-]+)/i);
+      return match?match[1].toLowerCase():'';
+    };
+    function applyPortfolioOrder(){
+      if(location.hash!=='#/stories'||!portfolioOrder)return;
+      const grid=portfolioRoot?.querySelector('#lkmPortfolioStories.is-full .lkm-ps-cards');
+      if(!grid)return;
+      const cards=Array.from(grid.children).filter(el=>el.matches('a.lkm-ps-card'));
+      if(cards.length<2)return;
+      const ranked=cards.slice().sort((a,b)=>
+        (portfolioOrder.get(slugFromCard(a))??Number.MAX_SAFE_INTEGER)-
+        (portfolioOrder.get(slugFromCard(b))??Number.MAX_SAFE_INTEGER)
+      );
+      // Only mutate the DOM when the order changes, avoiding observer loops.
+      if(ranked.some((el,i)=>el!==cards[i]))grid.append(...ranked);
+    }
+    function schedulePortfolioOrder(){
+      if(orderTick)return;
+      orderTick=true;
+      requestAnimationFrame(()=>{orderTick=false;applyPortfolioOrder();});
+    }
+    async function loadPortfolioOrder(){
+      try{
+        const rows=await q('portfolio_galleries?select=slug,title,visibility,show_on_home,home_sort_order&visibility=eq.public&limit=1000');
+        rows.sort((a,b)=>
+          Number(b.show_on_home===true)-Number(a.show_on_home===true)||
+          sortValue(a.home_sort_order)-sortValue(b.home_sort_order)||
+          text(a.title,160).localeCompare(text(b.title,160),'en')||
+          text(a.slug,100).localeCompare(text(b.slug,100),'en')
+        );
+        portfolioOrder=new Map(rows.filter(g=>slugOK(g.slug)).map((g,i)=>[g.slug,i]));
+        schedulePortfolioOrder();
+      }catch(err){
+        // Retain the original published stories if optional order data is unavailable.
+        console.warn('Portfolio story order unavailable; keeping published stories visible.',err);
+      }
+    }
+    if(portfolioRoot)new MutationObserver(schedulePortfolioOrder).observe(portfolioRoot,{childList:true,subtree:true});
+    window.addEventListener('hashchange',schedulePortfolioOrder);
+    window.addEventListener('pageshow',schedulePortfolioOrder);
+    void loadPortfolioOrder();
+  }
   let scheduled=false;
   function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{
     scheduled=false;if(isSpa){showHome();enhanceService();}if(isPortfolio)enhancePortfolioStory();
