@@ -1,0 +1,29 @@
+LILKANGOOMEDIA PHASE 32.3
+CASE STUDY / PROJECT SHOWCASE COPY
+
+Co poprawia:
+Dawne "THE IMAGES / Selected photography" jest zastapione przez:
+PROJECT SHOWCASE
+A closer look at what we created
+A selection of photography, films, graphics, design and digital materials from this project.
+
+Gdy sa i zdjecia, i filmy, sekcje maja podpisy:
+Films & videos
+Photos, graphics & visuals
+
+Dziala dla obecnych i przyszlych Stories behind the work. Nie zmienia metadanych,
+obrazow, odtwarzania filmow, lightbox, przypisanych uslug ani danych Supabase.
+
+INSTALACJA COPY & PASTE
+1. Rozpakuj ZIP.
+2. Otworz folder SKOPIUJ_DO_GLOWNEGO_FOLDERU_LILKANGOOMEDIA.
+3. Skopiuj jego folder assets do glownego folderu repo LilKangooMedia.
+4. Zatwierdz podmiane dwoch plikow w assets/lkm-v3/:
+   phase31-public.js
+   phase31-public.css
+5. GitHub Desktop: Commit, Push origin.
+6. Netlify: sprawdz status Published.
+7. Otworz /portfolio.html#/story/cypruseye-tourism-saas-platform
+   i wykonaj Cmd+Shift+R.
+
+SQL: NIEPOTRZEBNY

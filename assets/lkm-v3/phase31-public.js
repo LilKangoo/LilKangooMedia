@@ -194,6 +194,33 @@
     info.append(cta);a.append(info);return a;
   }
   const linkedStoryDone=new WeakSet();
+  // Phase 32.3: one clear showcase for all project media types.
+  // Leaves existing media, links and lightbox handlers untouched.
+  function enhanceShowcaseCopy(body){
+    const media=body?.querySelector('.lkm-ps-story-media');
+    if(!media||media.dataset.lkm31ShowcaseCopy==='yes')return;
+    media.dataset.lkm31ShowcaseCopy='yes';
+    media.setAttribute('aria-label','Selected work and project materials');
+    const intro=make('div','lkm31-showcase-intro');
+    intro.append(
+      make('p','lkm-ps-kicker','PROJECT SHOWCASE'),
+      make('h2','','A closer look at what we created'),
+      make('p','lkm31-showcase-description',
+        'A selection of photography, films, graphics, design and digital materials from this project.')
+    );
+    media.prepend(intro);
+    const film=media.querySelector('.lkm-ps-film-section');
+    const photo=media.querySelector('.lkm-ps-photo-section');
+    // A single media type needs no extra subsection heading.
+    for(const [section,label] of [[film,'Films & videos'],[photo,'Photos, graphics & visuals']]){
+      if(!section)continue;
+      section.querySelector('.lkm-ps-kicker')?.remove();
+      const heading=section.querySelector('h2');
+      if(!heading)continue;
+      if(film&&photo)heading.replaceWith(make('h3','lkm31-showcase-subtitle',label));
+      else heading.remove();
+    }
+  }
   function enhancePortfolioStory(){
     if(!isPortfolio)return;
     const m=String(location.hash).match(/^#\/story\/([^?#]+)/);if(!m)return;
@@ -201,7 +228,9 @@
     if(!slugOK(slug))return;
     const reader=document.getElementById('lkmPortfolioStoryView');
     const body=reader?.querySelector('.lkm-ps-story-body');
-    if(!body||linkedStoryDone.has(body))return;
+    if(!body)return;
+    enhanceShowcaseCopy(body);
+    if(linkedStoryDone.has(body))return;
     linkedStoryDone.add(body);
     const cover=reader.querySelector('.lkm-ps-story-cover');
     if(cover){cover.tabIndex=0;cover.setAttribute('role','button');cover.setAttribute('aria-label','Enlarge project cover photo');}

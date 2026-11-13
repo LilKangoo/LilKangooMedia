@@ -76,3 +76,24 @@
 @media(prefers-reduced-motion:reduce){.lkm-ps-reader .lkm31-service-card,.lkm-ps-reader .lkm31-service-visual img,.lkm31-lightbox-close,.lkm31-lightbox-prev,.lkm31-lightbox-next{transition:none!important}.lkm-ps-reader .lkm31-service-card:hover,.lkm-ps-reader .lkm31-service-card:hover .lkm31-service-visual img{transform:none}}
 
 .lkm31-lightbox button[hidden]{display:none!important}
+
+
+/* Phase 32.3: project showcase text, works for film, photography and design. */
+.lkm-ps-reader .lkm31-showcase-intro{margin:0 0 22px}
+.lkm-ps-reader .lkm31-showcase-intro .lkm-ps-kicker{color:#ffc176!important;margin:0 0 11px}
+.lkm-ps-reader .lkm-ps-story-media .lkm31-showcase-intro h2{
+  color:#faf7f1!important;font-size:clamp(26px,3.2vw,40px);line-height:1.13;
+  letter-spacing:-.035em;margin:0 0 10px
+}
+.lkm-ps-reader .lkm31-showcase-description{
+  color:#ded4c6!important;font-size:clamp(13px,1.15vw,16px);
+  line-height:1.65;max-width:760px;margin:0 0 7px
+}
+.lkm-ps-reader .lkm31-showcase-subtitle{
+  color:#f8f3eb!important;font-size:clamp(19px,2vw,25px);
+  line-height:1.22;letter-spacing:-.015em;margin:0 0 17px
+}
+@media(max-width:600px){
+  .lkm-ps-reader .lkm31-showcase-intro{margin-bottom:18px}
+  .lkm-ps-reader .lkm31-showcase-description{font-size:13px}
+}
