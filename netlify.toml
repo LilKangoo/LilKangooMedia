@@ -1,11 +1,16 @@
-# LilKangooMedia Phase 32.1: crawlable OG share links, explicit function rewrites.
+# LilKangooMedia Phase 35.1: Netlify Image CDN, original files retained.
 [build]
-  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py && python3 scripts/phase30_apply_theme.py && python3 scripts/build_share_pages.py && python3 scripts/phase33_prepare_seo.py && python3 scripts/phase33_seo_audit.py"
+  command = "python3 scripts/build_articles.py && python3 scripts/build_service_pages.py && python3 scripts/phase20_rebuild_sitemap.py && python3 scripts/phase30_apply_theme.py && python3 scripts/build_share_pages.py && python3 scripts/phase33_prepare_seo.py && python3 scripts/phase33_seo_audit.py && python3 scripts/phase35_adaptive_images.py"
   publish = "."
   functions = "netlify/functions"
 
 [build.environment]
   PYTHON_VERSION = "3.12"
+
+# The LOCAL /assets/... sources require no allowlist. Supabase remote images
+# are PUBLIC in our existing `portfolio` bucket only. Nothing private is proxied.
+[images]
+  remote_images = ["^https://nvronzbkvwyyllbuidhw\\.supabase\\.co/storage/v1/object/public/portfolio/.*$"]
 
 [[redirects]]
   from = "/share/service/:slug"
